@@ -6,12 +6,13 @@
             <form role="form">
                 <div class="form-content">
                     <div class="form-group">
-                        <input type="text" [(ngModel)]="user.userName" name="userName" class="form-control input-underline input-lg" id="" placeholder="Email">
+                        <input type="text" [(ngModel)]="user.userName" name="user.userName" class="form-control input-underline input-lg" id="" placeholder="User Name"required>
                     </div>
 
                     <div class="form-group">
-                        <input type="password" name="password" [(ngModel)]="user.password" class="form-control input-underline input-lg" id="" placeholder="Password" >
+                        <input type="password" name="user.password" [(ngModel)]="user.password" class="form-control input-underline input-lg" id="" placeholder="Password" required>
                     </div>
+
                 </div>
                 <a class="btn rounded-btn"  (click)="onLoggedin()"> Log in </a>
                 &nbsp;
