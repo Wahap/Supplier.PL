@@ -4,7 +4,7 @@ import { routerTransition } from '../router.animations';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { IConfig, ConfigService } from '../app.config';
 import { LoginServiceService } from './login.services';
-
+import { User } from '../shared/DTOs/user';
 
 @Component({
     selector: 'app-login',
@@ -18,16 +18,19 @@ export class LoginComponent implements OnInit {
     userDetail: any;
     config: IConfig;
     errorMessage: string;
-    user: any;
+    user: User;
+    isRemembered : boolean;
 
-    constructor(private loginService: LoginServiceService, private configService: ConfigService, public router: Router,public toastr: ToastsManager, vcr: ViewContainerRef) {
+    constructor(private loginService: LoginServiceService, private configService: ConfigService, public router: Router, public toastr: ToastsManager, vcr: ViewContainerRef) {
         //  this.user = { userName: "vahap", Password: "demir" };
-        this.user = {};
+         this.user =new User;
         this.toastr.setRootViewContainerRef(vcr);
+        this.isRemembered = false;
     }
 
     ngOnInit() {
         this.config = this.configService.getAppConfig();
+
         if (localStorage.getItem('userAuth')) {
             this.user = JSON.parse(localStorage.getItem('userAuth'));
         }
@@ -36,17 +39,20 @@ export class LoginComponent implements OnInit {
     onLoggedin() {
         this.loginService.login(this.config.logInUrl, this.user)
             .subscribe(items => {
-                if (items != null&&items.length!=0) {
+                if (items != null && items.length != 0) {
                     localStorage.setItem('isLoggedin', 'true');
                     //Remember me Conan..
-                    localStorage.setItem('userAuth',JSON.stringify( this.user));
+                    this.rememberMe();
                     this.router.navigate(['/dashboard']);
                 }
-                this.toastr.error('You are awesome!', 'Error!') 
+                this.toastr.error('Lutfen Sifre yada Kullanici Adinizi Kontrol Ediniz', 'Error!')
             },
-            error =>  this.toastr.error('You are awesome!', 'Success!') 
+            error =>   this.toastr.error('Lutfen Sifre yada Kullanici Adinizi Kontrol Ediniz', 'Error!')
             );
-          
+
+    }
+    rememberMe() {
+        this.isRemembered == true ? localStorage.setItem('userAuth', JSON.stringify(this.user)) :"";
     }
 
 }
