@@ -2,7 +2,7 @@ export class User {
     //  userID;
     
       password:string;
-        userName:string;
+        name:string;
       // isValid
       // uID;
   }

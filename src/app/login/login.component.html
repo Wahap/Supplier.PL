@@ -6,11 +6,11 @@
             <form role="form">
                 <div class="form-content">
                     <div class="form-group">
-                        <input type="text" [(ngModel)]="user.userName" name="user.userName" class="form-control input-underline input-lg" id="" placeholder="User Name"required>
+                        <input type="text" [(ngModel)]="user.name"  name="loginName" class="form-control input-underline input-lg" placeholder="User Name"required>
                     </div>
 
                     <div class="form-group">
-                        <input type="password" name="user.password" [(ngModel)]="user.password" class="form-control input-underline input-lg" id="" placeholder="Password" required>
+                        <input type="password"  [(ngModel)]="user.password" name="loginPassword" class="form-control input-underline input-lg" placeholder="Password" required>
                     </div>
                     <div class="checkbox" style="float: left">
                             <label>

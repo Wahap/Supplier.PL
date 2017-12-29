@@ -41,6 +41,7 @@ export class LoginComponent implements OnInit {
             .subscribe(items => {
                 if (items != null && items.length != 0) {
                     localStorage.setItem('isLoggedin', 'true');
+                    localStorage.setItem('userToken', items.token);
                     //Remember me Conan..
                     this.rememberMe();
                     this.router.navigate(['/dashboard']);

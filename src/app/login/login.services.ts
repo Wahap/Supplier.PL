@@ -25,7 +25,6 @@ export class LoginServiceService {
 
   private extractDetailData(res: Response) {
     let body = res.json();
-    console.log("asd"+body)
     return body || [];
   }
 }

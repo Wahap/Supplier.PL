@@ -12,6 +12,7 @@ import { ToastModule } from 'ng2-toastr/ng2-toastr';
 import { Http, Response, RequestOptions, Headers, HttpModule } from '@angular/http';
 import { ConfigService } from './app.config';
 import { LoginServiceService } from './login/login.services';
+import { BlankPageService } from './layout/blank-page/blank-page.service';
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
     // for development
@@ -36,7 +37,8 @@ export function createTranslateLoader(http: HttpClient) {
         AppRoutingModule
     ],
     declarations: [AppComponent],
-    providers: [AuthGuard, LoginServiceService, ConfigService],
+    providers: [AuthGuard, LoginServiceService, ConfigService,
+        BlankPageService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
