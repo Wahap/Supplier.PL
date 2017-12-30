@@ -13,6 +13,7 @@ import { Http, Response, RequestOptions, Headers, HttpModule } from '@angular/ht
 import { ConfigService } from './app.config';
 import { LoginServiceService } from './login/login.services';
 import { BlankPageService } from './layout/blank-page/blank-page.service';
+import { ProductsService } from './layout/products/products.service';
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
     // for development
@@ -26,7 +27,7 @@ export function createTranslateLoader(http: HttpClient) {
         ToastModule.forRoot(),
         BrowserAnimationsModule,
         HttpClientModule,
-        HttpModule, 
+        HttpModule,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
@@ -34,11 +35,11 @@ export function createTranslateLoader(http: HttpClient) {
                 deps: [HttpClient]
             }
         }),
-        AppRoutingModule
+        AppRoutingModule,
     ],
     declarations: [AppComponent],
     providers: [AuthGuard, LoginServiceService, ConfigService,
-        BlankPageService],
+        BlankPageService, ProductsService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
