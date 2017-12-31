@@ -3,6 +3,10 @@ export interface IConfig {
 	getUsers: string;
 	calculate: string;
 	getProductsUrl: string;
+	getCategoriesUrl: string;
+	getAllUnitsUrl: string;
+	getAllBrandsUrl: string;
+	getAllCitiesUrl: string;
 
 
 };
@@ -25,12 +29,20 @@ export class ConfigService {
 		let getLogOutURl = (debug ? serverLoginPathDebug + "authentication/logout" : serverLoginPath + "authentication/logout");
 		let calculate = (debug ? serverLoginPathDebug + "Operation" : serverLoginPath + "Operation");
 		let getProductsUrl = (debug ? serverLoginPathDebug + "Product/getallproducts" : serverLoginPath + "Product/getallproducts");
+		let getCategoriesUrl = (debug ? serverLoginPathDebug + "Common/getallcategories" : serverLoginPath + "Common/getallcategories");
+		let getAllUnitsUrl = (debug ? serverLoginPathDebug + "Common/getallunits" : serverLoginPath + "Common/getallunits");
+		let getAllBrandsUrl = (debug ? serverLoginPathDebug + "Common/getallbrands" : serverLoginPath + "Common/getallbrands");
+		let getAllCitiesUrl = (debug ? serverLoginPathDebug + "Common/getallcities" : serverLoginPath + "Common/getallcities");
 
 		return {
 			logInUrl: logInUrl,
 			getUsers: getUsers,
 			calculate: calculate,
-			getProductsUrl: getProductsUrl
+			getProductsUrl: getProductsUrl,
+			getCategoriesUrl: getCategoriesUrl,
+			getAllUnitsUrl: getAllUnitsUrl,
+			getAllBrandsUrl: getAllBrandsUrl,
+			getAllCitiesUrl: getAllCitiesUrl
 
 		}
 	}

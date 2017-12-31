@@ -14,6 +14,7 @@ import { ConfigService } from './app.config';
 import { LoginServiceService } from './login/login.services';
 import { BlankPageService } from './layout/blank-page/blank-page.service';
 import { ProductsService } from './layout/products/products.service';
+import { CommonService } from './shared/common.service';
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
     // for development
@@ -39,7 +40,8 @@ export function createTranslateLoader(http: HttpClient) {
     ],
     declarations: [AppComponent],
     providers: [AuthGuard, LoginServiceService, ConfigService,
-        BlankPageService, ProductsService],
+        BlankPageService, ProductsService, CommonService
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

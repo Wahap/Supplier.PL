@@ -14,7 +14,6 @@ export class ProductsService {
     this.options = new RequestOptions({ headers: headers });
    }
    getProducts(url: string, userState: any): any {
-
     return this.http.post(url, userState, this.options)
       .map((response: Response) => response.json());
   }

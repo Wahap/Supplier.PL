@@ -1,32 +1,34 @@
-
-
-
-<p-dataTable [value]="products"  [rows]="10" [paginator]="false" selectionMode="single" [(selection)]="selectedProduct" (onRowSelect)="onRowSelect($event)" [paginator]="true" rows="15" [responsive]="true">
+<p-dataTable [value]="products" [(selection)]="selectedProduct" (onRowSelect)="onRowSelect($event)"  [loading]="loading"s scrollable="true" scrollHeight="530px"  [rows]="10" [paginator]="false" selectionMode="single" [(selection)]="selectedProduct" (onRowSelect)="onRowSelect($event)" [paginator]="true" rows="15" [responsive]="true">
   <p-header>Urunler
-    <div class="ui-helper-clearfix" style="width:100%"><button type="button" pButton icon="fa-plus" style="float:left" (click)="showDialogToAdd()" label="Add"></button></div>
+    <div class="ui-helper-clearfix" style="width:100%"><button type="button" pButton icon="fa-plus" style="float:left" (click)="showDialogToAdd()" label="Yeni Urun Ekle"></button></div>
   </p-header>
   <p-column field="barcodeOfProduct" header="Barkod" [filter]="true" filterPlaceholder="Barkod Ara" [sortable]="true"></p-column>
-  <p-column field="orderNumber" header="Sira No" [filter]="true" filterPlaceholder="Siparis No Ara" [sortable]="true"></p-column>
+  <p-column field="orderNumber" header="Siparis No" [filter]="true" filterPlaceholder="Siparis No Ara" [sortable]="true"></p-column>
   <p-column field="name" header="Isim" [filter]="true" filterPlaceholder="Isim Ara" [sortable]="true"></p-column>
   <p-column field="purchasePrice" header="Alis Fiyati"  [sortable]="true"></p-column>
   <p-column field="netSalePrice" header="Net Satis Fiyati"  [sortable]="true"></p-column>
 </p-dataTable>
-<!-- 
-<p-dialog header="Urun Detayi"   [(visible)]="displayDialog" [responsive]="true"     [modal]="true" showEffect="fade" >
-  <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="[product]">
-      <div class="ui-grid-row">
-          <div class="ui-grid-col-4"><label for="name1">Isim</label></div>
-          <div class="ui-grid-col-8"><input pInputText id="name1" [(ngModel)]="product.name" /></div>
-      </div>
-      <div class="ui-grid-row">
-          <div class="ui-grid-col-4"><label for="imageUrl">Resim Url</label></div>
-          <div class="ui-grid-col-8"><input pInputText id="imageUrl" [(ngModel)]="product.imageUrl" /></div>
-      </div>
-  </div>
-  <p-footer>
-      <div class="ui-dialog-buttonpane ui-helper-clearfix">
-          <button type="button" pButton icon="fa-close" (click)="delete()" label="Delete"></button>
-          <button type="button" pButton icon="fa-check" (click)="save()" label="Save"></button>
-      </div>
-  </p-footer>
-</p-dialog> -->
+
+<p-dialog header="Urun Detayi" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true">
+    <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="product">
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="barcodeOfProduct">Barkod</label></div>
+            <div class="ui-grid-col-8"><input pInputText id="barcodeOfProduct" [(ngModel)]="product.barcodeOfProduct" /></div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="orderNumber">Siparis No </label></div>
+            <div class="ui-grid-col-8"><input pInputText id="orderNumber" [(ngModel)]="product.orderNumber" /></div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="name">Isim </label></div>
+            <div class="ui-grid-col-8"><input pInputText id="name" [(ngModel)]="product.name" /></div>
+        </div>
+       
+    </div>
+    <p-footer>
+        <div class="ui-dialog-buttonpane ui-helper-clearfix">
+            <button type="button" pButton icon="fa-close" (click)="delete()" label="Delete"></button>
+            <button type="button" pButton icon="fa-check" (click)="save()" label="Save"></button>
+        </div>
+    </p-footer>
+</p-dialog>
