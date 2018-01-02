@@ -59,17 +59,17 @@ export class ProductsComponent implements OnInit {
   }
   onRowSelect(event) {
     this.newProduct = false;
-    this.product = this.cloneProduct(event.data);
+    this.product = Object.assign({}, event.data); ;
     this.displayDialog = true;
   }
 
-  cloneProduct(p: product): product {
-    let pro = new product();
-    for (let prop in p) {
-      product[prop] = p[prop];
-    }
-    return pro;
-  }
+  // cloneProduct(p: product): product {
+  //   let pro = new product();
+  //   for (let prop in p) {
+  //     product[prop] = p[prop];
+  //   }
+  //   return pro;
+  // }
 
   findSelectedCarIndex(): number {
     return this.products.indexOf(this.selectedProduct);
