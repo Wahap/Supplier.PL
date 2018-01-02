@@ -7,6 +7,7 @@ export interface IConfig {
 	getAllUnitsUrl: string;
 	getAllBrandsUrl: string;
 	getAllCitiesUrl: string;
+	getSuppliersUrl:string;
 
 
 };
@@ -33,6 +34,7 @@ export class ConfigService {
 		let getAllUnitsUrl = (debug ? serverLoginPathDebug + "Common/getallunits" : serverLoginPath + "Common/getallunits");
 		let getAllBrandsUrl = (debug ? serverLoginPathDebug + "Common/getallbrands" : serverLoginPath + "Common/getallbrands");
 		let getAllCitiesUrl = (debug ? serverLoginPathDebug + "Common/getallcities" : serverLoginPath + "Common/getallcities");
+		let getSuppliersUrl = (debug ? serverLoginPathDebug + "Common/getallsupplier" : serverLoginPath + "Common/getallsupplier");
 
 		return {
 			logInUrl: logInUrl,
@@ -42,7 +44,8 @@ export class ConfigService {
 			getCategoriesUrl: getCategoriesUrl,
 			getAllUnitsUrl: getAllUnitsUrl,
 			getAllBrandsUrl: getAllBrandsUrl,
-			getAllCitiesUrl: getAllCitiesUrl
+			getAllCitiesUrl: getAllCitiesUrl,
+			getSuppliersUrl:getSuppliersUrl
 
 		}
 	}

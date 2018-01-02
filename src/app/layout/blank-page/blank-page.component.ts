@@ -4,6 +4,8 @@ import { BlankPageService } from './blank-page.service';
 import { ConfigService, IConfig } from '../../app.config';
 import { User } from '../../shared/DTOs/user';
 import { CommonService } from '../../shared/common.service';
+import { brand } from '../../shared/DTOs/brand';
+import { category } from '../../shared/DTOs/category';
 
 //This component and its service have been created for testing porpuse.
 @Component({
@@ -13,13 +15,20 @@ import { CommonService } from '../../shared/common.service';
 })
 export class BlankPageComponent implements OnInit {
     config: IConfig;
-    user:User;
-    constructor(private commonServices:CommonService,private blankPageServices: BlankPageService, private configService: ConfigService, public toastr: ToastsManager, vcr: ViewContainerRef) {
+    user: User;
+    brands: brand[];
+    selectedBrand: any;
+    categories: category[];
+    selectedCategory: category;
+
+    constructor(private commonServices: CommonService, private blankPageServices: BlankPageService, private configService: ConfigService, public toastr: ToastsManager, vcr: ViewContainerRef) {
         this.toastr.setRootViewContainerRef(vcr);
 
     }
     ngOnInit() {
         this.config = this.configService.getAppConfig();
+        this.getCategories();
+     
     }
     showSuccess() {
         this.toastr.success('Conan 20 lira ver senin icin adam picakliyim', 'Success!');
@@ -28,52 +37,52 @@ export class BlankPageComponent implements OnInit {
         this.blankPageServices.getProducts(this.config.getProductsUrl, this.user)
             .subscribe(items => {
                 if (items != null && items.length != 0) {
-                var data=items;
+                    var data = items;
                 }
             },
             error => this.toastr.error('Urunler getirilirken hata ile karsilasildi.', 'Error!')
             );
     }
-    getCategories () {
+    getCategories() {
         this.commonServices.getCategories(this.config.getCategoriesUrl, this.user)
             .subscribe(items => {
                 if (items != null && items.length != 0) {
-                var data=items;
+                    this.categories = items;
                 }
             },
             error => this.toastr.error('Kategoriler getirilirken hata ile karsilasildi.', 'Error!')
             );
     }
-    getAllUnits () {
+    getAllUnits() {
         this.commonServices.getAllUnits(this.config.getAllUnitsUrl, this.user)
             .subscribe(items => {
                 if (items != null && items.length != 0) {
-                var data=items;
+                    this.brands = items;
                 }
             },
             error => this.toastr.error('Tum Unitler getirilirken hata ile karsilasildi.', 'Error!')
             );
     }
-    getAllBrands () {
+    getAllBrands() {
         this.commonServices.getAllBrands(this.config.getAllBrandsUrl, this.user)
             .subscribe(items => {
                 if (items != null && items.length != 0) {
-                var data=items;
+                    this.brands = items;
                 }
             },
             error => this.toastr.error('Tum Unitler getirilirken hata ile karsilasildi.', 'Error!')
             );
     }
-    getAllCities () {
+    getAllCities() {
         this.commonServices.getAllCities(this.config.getAllCitiesUrl, this.user)
             .subscribe(items => {
                 if (items != null && items.length != 0) {
-                var data=items;
+                    var data = items;
                 }
             },
             error => this.toastr.error('Tum Unitler getirilirken hata ile karsilasildi.', 'Error!')
             );
     }
-    
+
 
 }

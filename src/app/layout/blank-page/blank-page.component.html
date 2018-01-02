@@ -5,3 +5,8 @@
 <button class="btn btn-default" (click)="getAllUnits()">Get All Units</button>
 <button class="btn btn-default" (click)="getAllBrands()">Get All Brands</button>
 <button class="btn btn-default" (click)="getAllCities()">Get All Cities</button>
+<p-dropdown [options]="brands" [(ngModel)]="selectedBrand" placeholder="Select a brand" optionLabel="name"></p-dropdown>
+{{selectedBrand}}
+<div>
+    <p-dropdown [options]="categories" [(ngModel)]="selectedCategory" placeholder="Select a Category" optionLabel="name"></p-dropdown>
+</div>
