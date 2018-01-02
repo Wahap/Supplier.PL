@@ -13,8 +13,12 @@ export class ProductsService {
     headers.append('Authorization', token)
     this.options = new RequestOptions({ headers: headers });
    }
-   getProducts(url: string, userState: any): any {
-    return this.http.post(url, userState, this.options)
+   getProducts(url: string, input: any): any {
+    return this.http.post(url, input, this.options)
+      .map((response: Response) => response.json());
+  }
+  saveProducts(url: string, input: any): any {
+    return this.http.post(url, input, this.options)
       .map((response: Response) => response.json());
   }
 }

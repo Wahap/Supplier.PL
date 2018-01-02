@@ -12,11 +12,11 @@ import { supplier } from '../../shared/DTOs/supplier';
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
-  styleUrls: ['./products.component.scss']
+  styleUrls: ['./products.component.css']
 })
 export class ProductsComponent implements OnInit {
   units: unit[];
-  selectedUnit = unit;
+  selectedUnit: unit;
   config: IConfig;
   products: product[];
   selectedProduct: product;
@@ -25,51 +25,81 @@ export class ProductsComponent implements OnInit {
   loading: boolean;
   displayDialog: boolean;
   brands: brand[];
-  selectedBrand: any;
+  selectedBrand: brand;
   categories: category[];
   selectedCategory: category;
   suppliers: supplier[];
-  selectedSupplier: supplier;
+  selectedSupplier: supplier; 
+  deleteButtonText:string
 
   constructor(private commonServices: CommonService, private productsService: ProductsService, private configService: ConfigService, public toastr: ToastsManager, vcr: ViewContainerRef) {
     this.toastr.setRootViewContainerRef(vcr);
+    this.product =new product()
+    this.deleteButtonText='Pasif Et';
+    this.loading=false;
+  
   }
 
   showDialogToAdd() {
     this.newProduct = true;
+    this.selectedBrand = new brand;
+    this.selectedCategory = new category;
+    this.selectedUnit = new unit;
+    this.selectedSupplier = new supplier;
     this.product = new product();
     this.displayDialog = true;
   }
   delete() {
-    let index = this.findSelectedCarIndex();
-    this.products = this.products.filter((val, i) => i != index);
-    this.product = null;
-    this.displayDialog = false;
+    this.product.isActive=!this.product.isActive;
+    this.save();
   }
   save() {
     let products = [...this.products];
-    if (this.newProduct)
-      products.push(this.product);
-    else
-      products[this.findSelectedCarIndex()] = this.product;
+    this.product.brandId = this.selectedBrand.id;
+    this.product.categoryId = this.selectedCategory.id;
+    this.product.unitId = this.selectedUnit.id;
+    this.product.supplierId = this.selectedSupplier.id;
+ 
+    this.productsService.saveProducts(this.config.saveProductsUrl, this.product)
+      .subscribe(items => {
+        if (items == true) {
+          if (this.newProduct) {
+            this.getProducts();
+          }
+          else {
+            products[this.findSelectedCarIndex()] = this.product;
+            this.products = products;
+            this.product = null;
+          }
+          this.toastr.success('Urun Basariyla Kaydedildi.', 'Basarili!');
+        }
+      },
+      error => this.toastr.error('Urun kaydedilirken hata ile karsilasildi.', 'Error!'),
+      () => {
+        //finally bloke ..!
+        // No errors, route to new page
+       
+        this.displayDialog = false;
+      });
 
-    this.products = products;
-    this.product = null;
-    this.displayDialog = false;
+
+
+
   }
   onRowSelect(event) {
     this.newProduct = false;
-    this.product = Object.assign({}, event.data); ;
+    this.product = Object.assign({}, event.data);
     this.displayDialog = true;
+
+    //set selected dropdowns values
+    this.selectedBrand = this.brands.filter(x => x.id == this.product.brandId)[0];
+    this.selectedCategory = this.categories.filter(x => x.id == this.product.categoryId)[0];
+    this.selectedUnit = this.units.filter(x => x.id == this.product.unitId)[0];
+    this.selectedSupplier = this.suppliers.filter(x => x.id == this.product.supplierId)[0];
+    this.deleteButtonText=this.product.isActive!=false?'Pasif Et':'Aktif Et';
+
   }
 
-  // cloneProduct(p: product): product {
-  //   let pro = new product();
-  //   for (let prop in p) {
-  //     product[prop] = p[prop];
-  //   }
-  //   return pro;
-  // }
 
   findSelectedCarIndex(): number {
     return this.products.indexOf(this.selectedProduct);
@@ -82,6 +112,23 @@ export class ProductsComponent implements OnInit {
     this.getCategories();
     this.getSuppliers();
 
+  }
+
+  getProducts() {
+    this.loading = true;
+    this.productsService.getProducts(this.config.getProductsUrl, this.products)
+      .subscribe(items => {
+        if (items != null && items.length != 0) {
+          this.products = items;
+          this.loading = false;
+        }
+      },
+      error => this.toastr.error('Urunler getirilirken hata ile karsilasildi.', 'Error!'),
+      () => {
+        //finally bloke ..!
+        // No errors, route to new page
+      }
+      );
   }
 
   //Bindings
@@ -125,17 +172,8 @@ export class ProductsComponent implements OnInit {
       error => this.toastr.error('Tum Unitler getirilirken hata ile karsilasildi.', 'Error!')
       );
   }
-  getProducts() {
-    this.loading = true;
-    this.productsService.getProducts(this.config.getProductsUrl, this.products)
-      .subscribe(items => {
-        if (items != null && items.length != 0) {
-          this.products = items;
-          this.loading = false;
-        }
-      },
-      error => this.toastr.error('Urunler getirilirken hata ile karsilasildi.', 'Error!')
-      );
-  }
+  customize(rowData, rowIndex): string {
+    return  rowData.isActive?"": "disabled-product-row";
+}
 
 }
