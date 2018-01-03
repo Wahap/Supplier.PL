@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { NgForm }    from '@angular/forms';
 import { ConfigService, IConfig } from '../../app.config';
 import { ProductsService } from './products.service';
 import { product } from '../../shared/DTOs/product';
@@ -37,16 +38,20 @@ export class ProductsComponent implements OnInit {
     this.product =new product()
     this.deleteButtonText='Pasif Et';
     this.loading=false;
-  
+    this.selectedBrand = new brand();
+    this.selectedCategory = new category();
+    this.selectedUnit = new unit();
+    this.selectedSupplier = new supplier();
+    this.product = new product();
   }
 
   showDialogToAdd() {
     this.newProduct = true;
-    this.selectedBrand = new brand;
-    this.selectedCategory = new category;
-    this.selectedUnit = new unit;
-    this.selectedSupplier = new supplier;
-    this.product = new product();
+    this.selectedBrand = new brand();
+    this.selectedCategory = new category();
+    this.selectedUnit = new unit();
+    this.selectedSupplier = new supplier();
+     this.product = new product();
     this.displayDialog = true;
   }
   delete() {

@@ -6,7 +6,7 @@ import { User } from '../../shared/DTOs/user';
 import { CommonService } from '../../shared/common.service';
 import { brand } from '../../shared/DTOs/brand';
 import { category } from '../../shared/DTOs/category';
-
+import { NgForm }    from '@angular/forms';
 //This component and its service have been created for testing porpuse.
 @Component({
     selector: 'app-blank-page',
@@ -20,10 +20,10 @@ export class BlankPageComponent implements OnInit {
     selectedBrand: any;
     categories: category[];
     selectedCategory: category;
-
+    model: any=[];
     constructor(private commonServices: CommonService, private blankPageServices: BlankPageService, private configService: ConfigService, public toastr: ToastsManager, vcr: ViewContainerRef) {
         this.toastr.setRootViewContainerRef(vcr);
-
+        this.model = { username: '', password: '' };
     }
     ngOnInit() {
         this.config = this.configService.getAppConfig();
