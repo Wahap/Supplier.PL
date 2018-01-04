@@ -15,142 +15,136 @@
 <div>
 
     <p-dialog header="Urun Detayi" [(visible)]="displayDialog" [responsive]="true" [width]="400" s showEffect="fade" [modal]="true">
-
-
-                <div>
-                    <form class="form-signin" (ngSubmit)="onSubmit()" #loginForm="ngForm">
-                        <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="product">
-                            <div class="ui-grid-row">
-                                <div class="ui-grid-col-4">
-                                    <label for="barcodeOfPackage">Paket Barkod</label>
-                                </div>
-                                <div class="ui-grid-col-8">
-                                    <input pInputText id="barcodeOfPackage" #barcodeOfPackage="ngModel" name="barcodeOfPackage" [(ngModel)]="product.barcodeOfPackage"
-                                    />
-                                </div>
-                            </div>
-                            <div class="ui-grid-row">
-                                <div class="ui-grid-col-4">
-                                    <label for="barcodeOfProduct">Urun Barkod</label>
-                                </div>
-                                <div class="ui-grid-col-8">
-                                    <input pInputText id="barcodeOfProduct" name="barcodeOfProduct" [(ngModel)]="product.barcodeOfProduct" #barcodeOfProduct="ngModel"
-                                        required />
-                                </div>
-                            </div>
-                            <div class="ui-grid-row">
-                                <div class="ui-grid-col-4">
-                                    <label for="brands"> Marka</label>
-                                </div>
-                                <div class="ui-grid-col-8">
-                                    <p-dropdown [options]="brands" [(ngModel)]="selectedBrand" name="brands" placeholder="Marka sec" optionLabel="name" [style]="{'width':'100%'}"
-                                        styleClass="ui-column-filter"></p-dropdown>
-                                </div>
-                            </div>
-                            <div class="ui-grid-row">
-                                <div class="ui-grid-col-4">
-                                    <label for="brands"> Category</label>
-                                </div>
-                                <div class="ui-grid-col-8">
-                                    <p-dropdown [options]="categories" [(ngModel)]="selectedCategory" name="categories" placeholder="Kategori" optionLabel="name"
-                                        [style]="{'width':'100%'}" styleClass="ui-column-filter"></p-dropdown>
-                                </div>
-                            </div>
-                            <div class="ui-grid-row">
-                                <div class="ui-grid-col-4">
-                                    <label for="descripton">Aciklama </label>
-                                </div>
-                                <div class="ui-grid-col-8">
-                                    <input pInputText id="descripton" name="descripton" [(ngModel)]="product.descripton" />
-                                </div>
-                            </div>
-                            <div class="ui-grid-row">
-                                <div class="ui-grid-col-4">
-                                    <label for="orderNumber">Siparis No </label>
-                                </div>
-                                <div class="ui-grid-col-8">
-                                    <input pInputText id="orderNumber" name="orderNumber" [(ngModel)]="product.orderNumber" required />
-                                </div>
-                            </div>
-                            <div class="ui-grid-row">
-                                <div class="ui-grid-col-4">
-                                    <label for="name">Urun Adi </label>
-                                </div>
-                                <div class="ui-grid-col-8">
-                                    <input pInputText id="productName" name="productName" [(ngModel)]="product.productName" required/>
-                                </div>
-                            </div>
-
-                            <div class="ui-grid-row">
-                                <div class="ui-grid-col-4">
-                                    <label for="name">Net Satis Fiyati </label>
-                                </div>
-                                <div class="ui-grid-col-8">
-                                    <input pInputText id="netSalePrice" name="netSalePrice" [(ngModel)]="product.netSalePrice" />
-                                </div>
-                            </div>
-                            <div class="ui-grid-row">
-                                <div class="ui-grid-col-4">
-                                    <label for="name">Alis Fiyati </label>
-                                </div>
-                                <div class="ui-grid-col-8">
-                                    <input pInputText id="purchasePrice" name="purchasePrice" [(ngModel)]="product.purchasePrice" />
-                                </div>
-                            </div>
-                            <div class="ui-grid-row">
-                                <div class="ui-grid-col-4">
-                                    <label for="quantity">Adet </label>
-                                </div>
-                                <div class="ui-grid-col-8">
-                                    <input pInputText id="quantity" name="quantity" [(ngModel)]="product.quantity" />
-                                </div>
-                            </div>
-
-
-                            <div class="ui-grid-row">
-                                <div class="ui-grid-col-4">
-                                    <label for="units">Unite</label>
-                                </div>
-                                <div class="ui-grid-col-8">
-                                    <p-dropdown [options]="units" name="units" [(ngModel)]="selectedUnit" placeholder="Unite Sec" optionLabel="name" [style]="{'width':'100%'}"
-                                        styleClass="ui-column-filter"></p-dropdown>
-                                </div>
-                            </div>
-                            <div class="ui-grid-row">
-                                <div class="ui-grid-col-4">
-                                    <label for="unitsInPackage">Adet </label>
-                                </div>
-                                <div class="ui-grid-col-8">
-                                    <input pInputText id="unitsInPackage" name="unitsInPackage" [(ngModel)]="product.unitsInPackage" />
-                                </div>
-                            </div>
-                            <div class="ui-grid-row">
-                                <div class="ui-grid-col-4">
-                                    <label for="suppliers">Tedarikci</label>
-                                </div>
-                                <div class="ui-grid-col-8">
-                                    <p-dropdown [options]="suppliers" name="suppliers" [(ngModel)]="selectedSupplier" placeholder="Tedarikci Sec" optionLabel="name"
-                                        [style]="{'width':'100%'}" styleClass="ui-column-filter"></p-dropdown>
-                                </div>
-                            </div>
-                            <div class="ui-grid-row">
-                                <div class="ui-grid-col-4">
-                                    <label for="tax">Vergi </label>
-                                </div>
-                                <div class="ui-grid-col-8">
-                                    <input pInputText id="tax" name="tax" [(ngModel)]="product.tax" />
-                                </div>
-                            </div>
-
+        <div>
+            <form class="form-signin" (ngSubmit)="onSubmit()" #loginForm="ngForm">
+                <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="product">
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-4">
+                            <label for="barcodeOfPackage">Paket Barkod</label>
                         </div>
-                    </form>
+                        <div class="ui-grid-col-8">
+                            <input pInputText id="barcodeOfPackage" #barcodeOfPackage="ngModel" name="barcodeOfPackage" [(ngModel)]="product.barcodeOfPackage"
+                            />
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-4">
+                            <label for="barcodeOfProduct">Urun Barkod</label>
+                        </div>
+                        <div class="ui-grid-col-8">
+                            <input pInputText id="barcodeOfProduct" name="barcodeOfProduct" [(ngModel)]="product.barcodeOfProduct" #barcodeOfProduct="ngModel"
+                                required />
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-4">
+                            <label for="brands"> Marka</label>
+                        </div>
+                        <div class="ui-grid-col-8">
+                            <p-dropdown [options]="brands" [(ngModel)]="selectedBrand" name="brands" placeholder="Marka sec" optionLabel="name" [style]="{'width':'100%'}"
+                                styleClass="ui-column-filter"></p-dropdown>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-4">
+                            <label for="brands"> Kategori</label>
+                        </div>
+                        <div class="ui-grid-col-8">
+                            <p-dropdown [options]="categories" [(ngModel)]="selectedCategory" name="categories" placeholder="Kategori" optionLabel="name"
+                                [style]="{'width':'100%'}" styleClass="ui-column-filter"></p-dropdown>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-4">
+                            <label for="orderNumber">Siparis No </label>
+                        </div>
+                        <div class="ui-grid-col-8">
+                            <input pInputText id="orderNumber" name="orderNumber" [(ngModel)]="product.orderNumber" required />
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-4">
+                            <label for="name">Urun Adi </label>
+                        </div>
+                        <div class="ui-grid-col-8">
+                            <input pInputText id="productName" name="productName" [(ngModel)]="product.productName" required/>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-4">
+                            <label for="tax">Vergi</label>
+                        </div>
+                        <div class="ui-grid-col-8">
+                            <p-dropdown [options]="taxNumbers" name="taxNumbers" [(ngModel)]="selectedTax" placeholder="Vergi Sec" optionLabel="data"
+                                [style]="{'width':'100%'}" styleClass="ui-column-filter"></p-dropdown>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-4">
+                            <label for="suppliers">Tedarikci</label>
+                        </div>
+                        <div class="ui-grid-col-8">
+                            <p-dropdown [options]="suppliers" name="suppliers" [(ngModel)]="selectedSupplier" placeholder="Tedarikci Sec" optionLabel="name"
+                                [style]="{'width':'100%'}" styleClass="ui-column-filter"></p-dropdown>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-4">
+                            <label for="units">Unite</label>
+                        </div>
+                        <div class="ui-grid-col-8">
+                            <p-dropdown [options]="units" name="units" [(ngModel)]="selectedUnit" placeholder="Unite Sec" optionLabel="name" [style]="{'width':'100%'}"
+                                styleClass="ui-column-filter"></p-dropdown>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-4">
+                            <label for="name">Net Satis Fiyati </label>
+                        </div>
+                        <div class="ui-grid-col-8">
+                            <input pInputText id="netSalePrice" name="netSalePrice" [(ngModel)]="product.netSalePrice" />
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-4">
+                            <label for="name">Alis Fiyati </label>
+                        </div>
+                        <div class="ui-grid-col-8">
+                            <input pInputText id="purchasePrice" name="purchasePrice" [(ngModel)]="product.purchasePrice" />
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-4">
+                            <label for="quantity">Adet </label>
+                        </div>
+                        <div class="ui-grid-col-8">
+                            <input pInputText id="quantity" name="quantity" [(ngModel)]="product.quantity" />
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-4">
+                            <label for="unitsInPackage">Paketteki Adet </label>
+                        </div>
+                        <div class="ui-grid-col-8">
+                            <input pInputText id="unitsInPackage" name="unitsInPackage" [(ngModel)]="product.unitsInPackage" />
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-4">
+                            <label for="descripton">Aciklama </label>
+                        </div>
+                        <div class="ui-grid-col-8">
+                            <input pInputText id="descripton" name="descripton" [(ngModel)]="product.descripton" />
+                        </div>
+                    </div>
                 </div>
-
+            </form>
+        </div>
         <p-footer>
             <div class="ui-dialog-buttonpane ui-helper-clearfix">
                 <button type="button" class="ui-button-danger" pButton icon="fa-close" (click)="delete()" label="{{deleteButtonText}}"></button>
-                <button type="button" class="ui-button-success" [disabled]="!loginForm.form.valid ||selectedSupplier.name==null  || selectedUnit.name==null || selectedBrand.name==null ||selectedCategory.name==null"
-                    pButton icon="fa-check" (click)="save()" label="Kaydet"></button>
+                <button type="button" class="ui-button-success" [disabled]="!loginForm.form.valid    ||selectedCategory.name==null" pButton
+                    icon="fa-check" (click)="save()" label="Kaydet"></button>
             </div>
         </p-footer>
     </p-dialog>

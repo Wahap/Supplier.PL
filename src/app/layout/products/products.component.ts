@@ -33,6 +33,9 @@ export class ProductsComponent implements OnInit {
   selectedSupplier: supplier; 
   deleteButtonText:string
 
+  taxNumbers:Array<any> = [];
+  selectedTax:any;
+
   constructor(private commonServices: CommonService, private productsService: ProductsService, private configService: ConfigService, public toastr: ToastsManager, vcr: ViewContainerRef) {
     this.toastr.setRootViewContainerRef(vcr);
     this.product =new product()
@@ -43,6 +46,9 @@ export class ProductsComponent implements OnInit {
     this.selectedUnit = new unit();
     this.selectedSupplier = new supplier();
     this.product = new product();
+    this.taxNumbers=[{"data":"7"},{"data":"19"},{"data":"0"}];
+    this.selectedTax=this.taxNumbers[0];
+
   }
 
   showDialogToAdd() {
@@ -52,6 +58,7 @@ export class ProductsComponent implements OnInit {
     this.selectedUnit = new unit();
     this.selectedSupplier = new supplier();
      this.product = new product();
+     this.selectedTax=this.taxNumbers[0];
     this.displayDialog = true;
   }
   delete() {
@@ -64,6 +71,7 @@ export class ProductsComponent implements OnInit {
     this.product.categoryId = this.selectedCategory.id;
     this.product.unitId = this.selectedUnit.id;
     this.product.supplierId = this.selectedSupplier.id;
+    this.product.tax=this.selectedTax.data;
  
     this.productsService.saveProducts(this.config.saveProductsUrl, this.product)
       .subscribe(items => {
@@ -101,6 +109,7 @@ export class ProductsComponent implements OnInit {
     this.selectedCategory = this.categories.filter(x => x.id == this.product.categoryId)[0];
     this.selectedUnit = this.units.filter(x => x.id == this.product.unitId)[0];
     this.selectedSupplier = this.suppliers.filter(x => x.id == this.product.supplierId)[0];
+    this.selectedTax = this.taxNumbers.filter(x => x.data == this.product.tax)[0];
     this.deleteButtonText=this.product.isActive!=false?'Pasif Et':'Aktif Et';
 
   }
