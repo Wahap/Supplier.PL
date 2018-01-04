@@ -32,7 +32,6 @@ export class ProductsComponent implements OnInit {
   suppliers: supplier[];
   selectedSupplier: supplier; 
   deleteButtonText:string
-
   taxNumbers:Array<any> = [];
   selectedTax:any;
 
@@ -57,8 +56,8 @@ export class ProductsComponent implements OnInit {
     this.selectedCategory = new category();
     this.selectedUnit = new unit();
     this.selectedSupplier = new supplier();
-     this.product = new product();
-     this.selectedTax=this.taxNumbers[0];
+    this.product = new product();
+    this.selectedTax=this.taxNumbers[0];
     this.displayDialog = true;
   }
   delete() {
@@ -145,7 +144,7 @@ export class ProductsComponent implements OnInit {
       );
   }
 
-  //Bindings
+  //#region Bindings
   getCategories() {
     this.commonServices.getCategories(this.config.getCategoriesUrl, this.categories)
       .subscribe(items => {
@@ -189,5 +188,6 @@ export class ProductsComponent implements OnInit {
   customize(rowData, rowIndex): string {
     return  rowData.isActive?"": "disabled-product-row";
 }
+ //#endregion
 
 }

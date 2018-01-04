@@ -4,7 +4,13 @@
             <i class="fa fa-fw fa-dashboard"></i>&nbsp;{{ 'Dashboard' | translate }}
         </a>
         <a [routerLink]="['/products']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;{{ 'Ürünler' | translate }}
+        </a>
+        <!-- <a [routerLink]="['/products']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;{{ 'Products' | translate }}
+        </a> -->
+        <a [routerLink]="['/customers']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;{{ 'Müşteriler' | translate }}
         </a>
         <a [routerLink]="['/charts']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;{{ 'Charts' | translate }}
@@ -48,5 +54,5 @@
         <a class="list-group-item more-themes" href="http://www.strapui.com/" >
             {{ 'More Theme' | translate }}
         </a>
-    </div>
+    </div>  
 </nav>

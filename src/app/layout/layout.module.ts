@@ -9,6 +9,7 @@ import { LayoutComponent } from './layout.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HeaderComponent } from './components/header/header.component';
 import { ProductsComponent } from './products/products.component';
+import { CustomersComponent } from './customers/customers.component';
 
 
 
@@ -22,6 +23,6 @@ import { ProductsComponent } from './products/products.component';
         FormsModule,
         InputTextModule, DataTableModule, SharedModule,ButtonModule,DialogModule,DropdownModule
     ],
-    declarations: [LayoutComponent, SidebarComponent, HeaderComponent, ProductsComponent]
+    declarations: [LayoutComponent, SidebarComponent, HeaderComponent, ProductsComponent, CustomersComponent]
 })
 export class LayoutModule {}
