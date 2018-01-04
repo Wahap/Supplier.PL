@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Http, Response, RequestOptions, Headers } from '@angular/http';
 import 'rxjs';
 import { Observable } from 'rxjs/Observable';
-import { cachingDictionary } from './DTOs/cachingData';
 
 @Injectable()
 export class CommonService {
