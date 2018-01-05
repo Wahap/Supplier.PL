@@ -9,6 +9,7 @@ export interface IConfig {
 	getAllBrandsUrl: string;
 	getAllCitiesUrl: string;
 	getSuppliersUrl:string;
+	getCustomersUrl:string;
 
 
 };
@@ -23,7 +24,7 @@ export class ConfigService {
 		let serverLoginPath = 'https://supplier.azurewebsites.net/api/', serverLoginPathDebug = 'http://localhost:4315/api/';
 
 		let serverUserNotificationPath = '';
-		let debug = false;
+		let debug = true;
 
 		let getUsers = (debug ? serverLoginPathDebug + "authentication/login" : serverLoginPath + "userCont/getusers");
 		//let logInUrl = (debug ? serverLoginPathDebug + "userCont/login" : serverLoginPath + "userCont/login");
@@ -37,7 +38,7 @@ export class ConfigService {
 		let getAllBrandsUrl = (debug ? serverLoginPathDebug + "Common/getallbrands" : serverLoginPath + "Common/getallbrands");
 		let getAllCitiesUrl = (debug ? serverLoginPathDebug + "Common/getallcities" : serverLoginPath + "Common/getallcities");
 		let getSuppliersUrl = (debug ? serverLoginPathDebug + "Common/getallsupplier" : serverLoginPath + "Common/getallsupplier");
-
+		let getCustomersUrl = (debug ? serverLoginPathDebug + "Customer/getallcustomers" : serverLoginPath + "Common/getallcustomers");
 		return {
 			logInUrl: logInUrl,
 			getUsers: getUsers,
@@ -48,7 +49,8 @@ export class ConfigService {
 			getAllBrandsUrl: getAllBrandsUrl,
 			getAllCitiesUrl: getAllCitiesUrl,
 			getSuppliersUrl:getSuppliersUrl,
-			saveProductsUrl:saveProductsUrl
+			saveProductsUrl:saveProductsUrl,
+			getCustomersUrl:getCustomersUrl
 
 		}
 	}
