@@ -4,7 +4,6 @@
 @import "utils";
 @import "rtl";
 @import "responsive";
-.disabled-product-row {
-    /* TODO: first try this without '!important', but you might need it */
+.inactive-row {
     background: red !important;
 }

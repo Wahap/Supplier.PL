@@ -1,35 +1,98 @@
-<p-dataTable [value]="cars" selectionMode="single" [(selection)]="selectedCar" (onRowSelect)="onRowSelect($event)" [paginator]="true" rows="15" [responsive]="true">
-  <p-header>CRUD for Cars</p-header>
-  <p-column field="vin" header="Vin" [sortable]="true"></p-column>
-  <p-column field="year" header="Year" [sortable]="true"></p-column>
-  <p-column field="brand" header="Brand" [sortable]="true"></p-column>
-  <p-column field="color" header="Color" [sortable]="true"></p-column>
-  <p-footer><div class="ui-helper-clearfix" style="width:100%"><button type="button" pButton icon="fa-plus" style="float:left" (click)="showDialogToAdd()" label="Add"></button></div></p-footer>
+<p-dataTable [value]="customers" [rowStyleClass]="customize" [(selection)]="selectedCustomer" (onRowSelect)="onRowSelect($event)"
+    [loading]="loading" scrollable="true" [rows]="10" [paginator]="false" selectionMode="single" [(selection)]="selectedCustomer"
+    (onRowSelect)="onRowSelect($event)" [paginator]="true" rows="15" [responsive]="true">
+    <p-header>Müşteriler
+        <div class="ui-helper-clearfix" style="width:100%">
+            <button type="button" pButton icon="fa-plus" style="float:left" (click)="showDialogToAdd()" label="Yeni Müşteri Ekle"></button>
+        </div>
+    </p-header>
+    <p-column field="companyName" header="Firma Adi" [filter]="true" filterPlaceholder="Müşteri  Ara" [sortable]="true"></p-column>
+    <p-column field="customerName" header="Müşteri Adi" [filter]="true" filterPlaceholder="Müşteri  Ara" [sortable]="true"></p-column>
+    <p-column field="lastname" header="Soyisim" [filter]="true" filterPlaceholder="Soyisim Ara" [sortable]="true"></p-column>
+    <p-column field="eMail" header="E-Mail" [filter]="true" filterPlaceholder="E-Mail Ara" [sortable]="true"></p-column>
+    
+    <p-column field="phone" header="Telefon" filterPlaceholder="Telefon"[filter]="true" [sortable]="true"></p-column>
+    <p-column field="userName" header="Kullanici Adi" [filter]="true" filterPlaceholder="Kullanici Ara" [sortable]="true"></p-column>
 </p-dataTable>
 
-<p-dialog header="Car Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true">
-  <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="car">
-      <div class="ui-grid-row">
-          <div class="ui-grid-col-4"><label for="vin">Vin</label></div>
-          <div class="ui-grid-col-8"><input pInputText id="vin" [(ngModel)]="car.vin" /></div>
-      </div>
-      <div class="ui-grid-row">
-          <div class="ui-grid-col-4"><label for="year">Year</label></div>
-          <div class="ui-grid-col-8"><input pInputText id="year" [(ngModel)]="car.year" /></div>
-      </div>
-      <div class="ui-grid-row">
-          <div class="ui-grid-col-4"><label for="brand">Brand</label></div>
-          <div class="ui-grid-col-8"><input pInputText id="brand" [(ngModel)]="car.brand" /></div>
-      </div>
-      <div class="ui-grid-row">
-          <div class="ui-grid-col-4"><label for="color">Color</label></div>
-          <div class="ui-grid-col-8"><input pInputText id="color" [(ngModel)]="car.color" /></div>
-      </div>
-  </div>
-  <p-footer>
-      <div class="ui-dialog-buttonpane ui-helper-clearfix">
-          <button type="button" pButton icon="fa-close" (click)="delete()" label="Delete"></button>
-          <button type="button" pButton icon="fa-check" (click)="save()" label="Save"></button>
-      </div>
-  </p-footer>
+<p-dialog header="Müşteri Detayi" [(visible)]="displayDialog" [responsive]="true" [width]="400" showEffect="fade" [modal]="true">
+    <div>
+        <form class=""  #customerForm="ngForm">
+            <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="customer">
+                    <div class="ui-grid-row">
+                            <div class="ui-grid-col-4">
+                                <label for="companyName">Firma Adi </label>
+                            </div>
+                            <div class="ui-grid-col-8">
+                                <input pInputText id="companyName" #companyName="ngModel" name="companyName" [(ngModel)]="customer.companyName" required
+                                />
+                            </div>
+                        </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">
+                        <label for="customerName">Müşteri Adi </label>
+                    </div>
+                    <div class="ui-grid-col-8">
+                        <input pInputText id="customerName" #customerName="ngModel" name="customerName" [(ngModel)]="customer.customerName" required
+                        />
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">
+                        <label for="lastname">Soyisim</label>
+                    </div>
+                    <div class="ui-grid-col-8">
+                        <input pInputText id="lastname" #lastname="ngModel" name="lastname" [(ngModel)]="customer.lastname"
+                        />
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">
+                        <label for="eMail">E-Mail</label>
+                    </div>
+                    <div class="ui-grid-col-8">
+                        <input pInputText id="eMail" #eMail="ngModel" name="eMail" [(ngModel)]="customer.eMail"
+                        />
+                    </div>
+                </div>
+
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">
+                        <label for="phone">Telefon </label>
+                    </div>
+                    <div class="ui-grid-col-8">
+                        <input pInputText id="phone" #phone="ngModel" name="phone" [(ngModel)]="customer.phone"
+                        />
+                    </div>
+                </div>
+
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">
+                        <label for="userName">Kullanici Adi</label>
+                    </div>
+                    <div class="ui-grid-col-8">
+                        <input pInputText id="userName" #userName="ngModel" name="userName" [(ngModel)]="customer.userName"
+                        />
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">
+                        <label for="password">Pasaport</label>
+                    </div>
+                    <div class="ui-grid-col-8">
+                        <input pInputText id="password" #password="ngModel" name="password" [(ngModel)]="customer.password"
+                        />
+                    </div>
+                </div>
+               
+            </div>
+        </form>
+    </div>
+    <p-footer>
+        <div class="ui-dialog-buttonpane ui-helper-clearfix">
+            <button type="button" class="ui-button-danger" pButton icon="fa-close" (click)="delete()" label="{{activeButtonText}}"></button>
+            <button type="button" class="ui-button-success" [disabled]="!customerForm.form.valid " pButton
+                icon="fa-check" (click)="save()" label="Kaydet"></button>
+        </div>
+    </p-footer>
 </p-dialog>

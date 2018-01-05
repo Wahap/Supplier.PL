@@ -10,6 +10,7 @@ export interface IConfig {
 	getAllCitiesUrl: string;
 	getSuppliersUrl:string;
 	getCustomersUrl:string;
+	saveCustomerUrl:string;
 
 
 };
@@ -38,7 +39,9 @@ export class ConfigService {
 		let getAllBrandsUrl = (debug ? serverLoginPathDebug + "Common/getallbrands" : serverLoginPath + "Common/getallbrands");
 		let getAllCitiesUrl = (debug ? serverLoginPathDebug + "Common/getallcities" : serverLoginPath + "Common/getallcities");
 		let getSuppliersUrl = (debug ? serverLoginPathDebug + "Common/getallsupplier" : serverLoginPath + "Common/getallsupplier");
-		let getCustomersUrl = (debug ? serverLoginPathDebug + "Customer/getallcustomers" : serverLoginPath + "Common/getallcustomers");
+		let getCustomersUrl = (debug ? serverLoginPathDebug + "Customer/getallcustomers" : serverLoginPath + "Customer/getallcustomers");
+		let saveCustomerUrl = (debug ? serverLoginPathDebug + "Customer/savecustomer" : serverLoginPath + "Customer/savecustomer")
+		
 		return {
 			logInUrl: logInUrl,
 			getUsers: getUsers,
@@ -50,7 +53,8 @@ export class ConfigService {
 			getAllCitiesUrl: getAllCitiesUrl,
 			getSuppliersUrl:getSuppliersUrl,
 			saveProductsUrl:saveProductsUrl,
-			getCustomersUrl:getCustomersUrl
+			getCustomersUrl:getCustomersUrl,
+			saveCustomerUrl:saveCustomerUrl
 
 		}
 	}

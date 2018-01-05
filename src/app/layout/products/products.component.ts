@@ -79,11 +79,11 @@ export class ProductsComponent implements OnInit {
             this.getProducts();
           }
           else {
-            products[this.findSelectedCarIndex()] = this.product;
+            products[this.findSelectedIndex()] = this.product;
             this.products = products;
             this.product = null;
           }
-          this.toastr.success('Urun Basariyla Kaydedildi.', 'Basarili!');
+          this.toastr.success('Urun Basariyla Kaydedildi.', 'Basarili !');
         }
       },
       error => this.toastr.error('Urun kaydedilirken hata ile karsilasildi.', 'Error!'),
@@ -114,7 +114,7 @@ export class ProductsComponent implements OnInit {
   }
 
 
-  findSelectedCarIndex(): number {
+  findSelectedIndex(): number {
     return this.products.indexOf(this.selectedProduct);
   }
   ngOnInit() {
@@ -186,7 +186,7 @@ export class ProductsComponent implements OnInit {
       );
   }
   customize(rowData, rowIndex): string {
-    return  rowData.isActive?"": "disabled-product-row";
+    return  rowData.isActive?"": "inactive-row";
 }
  //#endregion
 
