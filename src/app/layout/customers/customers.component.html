@@ -13,9 +13,18 @@
 
     <p-column field="phone" header="Telefon" filterPlaceholder="Telefon" [filter]="true" [sortable]="true"></p-column>
     <p-column field="userName" header="Kullanici Adi" [filter]="true" filterPlaceholder="Kullanici Ara" [sortable]="true"></p-column>
+    <p-column styleClass="col-button">
+        <ng-template pTemplate="header">
+            <label  >Adres</label>
+        </ng-template>
+        <ng-template let-customer="rowData" pTemplate="body">
+            <button type="button" pButton (click)="selectAddress(customer)" icon="fa fa-map-marker"></button>
+        </ng-template>
+    </p-column>
+
 </p-dataTable>
 
-<p-dialog header="Müşteri Detayi" [(visible)]="displayDialog" [responsive]="true" [width]="400" showEffect="fade" [modal]="true">
+<p-dialog header="Müşteri Detayi" [(visible)]="displayCustomerDialog" [responsive]="true" [width]="400" showEffect="fade" [modal]="true">
     <p-steps [model]="items" [(activeIndex)]="activeIndex" [readonly]="false"></p-steps>
     <div>
         <form class="" [hidden]="activeIndex!=0" #customerForm="ngForm">
@@ -115,7 +124,7 @@
                         <label for="cities"> Sehir</label>
                     </div>
                     <div class="ui-grid-col-8">
-                        <p-dropdown [options]="cities" [(ngModel)]="selectedCity" name="cities" placeholder="Sehir Sec" optionLabel="name" [style]="{'width':'100%'}"
+                        <p-dropdown [options]="cities" [(ngModel)]="selectedCity"  appendTo="body" name="cities" placeholder="Sehir Sec" optionLabel="name" [style]="{'width':'100%'}"
                             styleClass="ui-column-filter"></p-dropdown>
                     </div>
                 </div>

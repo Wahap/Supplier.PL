@@ -23,7 +23,7 @@ export class CustomersComponent implements OnInit {
   customer: customer;
   customerAddress: address;
   newCustomer: boolean;
-  displayDialog: boolean;
+  displayCustomerDialog: boolean;
   activeButtonText: string;
   activeIndex: number;
   items: any = [];
@@ -70,7 +70,7 @@ export class CustomersComponent implements OnInit {
         //finally bloke ..!
         // No errors, route to new page
 
-        this.displayDialog = false;
+        this.displayCustomerDialog = false;
       });
   }
 
@@ -85,7 +85,7 @@ export class CustomersComponent implements OnInit {
       this.customerAddress=new address();
     }
     this.customerAddress.cityId!=null?this.selectedCity=this.cities.filter(x => x.id == this.customerAddress.cityId)[0]:"";
-    this.displayDialog = true;
+    this.displayCustomerDialog = true;
    
     //set selected dropdowns values
     this.activeButtonText = this.customer.isActive != false ? 'Pasif Et' : 'Aktif Et';
@@ -116,7 +116,7 @@ export class CustomersComponent implements OnInit {
     this.customer = new customer();
     this.customerAddress=new address();
     this.selectedCity=new city();
-    this.displayDialog = true;
+    this.displayCustomerDialog = true;
   }
 
   delete() {
