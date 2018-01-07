@@ -22,4 +22,10 @@ export class CustomersService {
       .map((response: Response) => response.json());
   }
 
+
+getCities(url: string, input: any): any {
+  return this.http.post(url, input, this.options)
+    .map((response: Response) => response.json());
+}
+ //#endregion
 }

@@ -21,6 +21,7 @@ export class BlankPageComponent implements OnInit {
     categories: category[];
     selectedCategory: category;
     model: any=[];
+    items=[];
     constructor(private commonServices: CommonService, private blankPageServices: BlankPageService, private configService: ConfigService, public toastr: ToastsManager, vcr: ViewContainerRef) {
         this.toastr.setRootViewContainerRef(vcr);
         this.model = { username: '', password: '' };
@@ -28,6 +29,11 @@ export class BlankPageComponent implements OnInit {
     ngOnInit() {
         this.config = this.configService.getAppConfig();
         this.getCategories();
+        this.items = [
+            {label: 'Step 1'},
+            {label: 'Step 2'},
+            {label: 'Step 3'}
+        ];
      
     }
     showSuccess() {

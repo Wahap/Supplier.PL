@@ -53,5 +53,9 @@ export class CommonService {
     return this.http.post(url, supplier, this.options)
       .map((response: Response) => response.json());
   }
+  getCities(url: string, supplier: any): any {
+    return this.http.post(url, supplier, this.options)
+      .map((response: Response) => response.json());
+  }
 
 }

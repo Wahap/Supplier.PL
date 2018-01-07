@@ -10,24 +10,25 @@
     <p-column field="customerName" header="Müşteri Adi" [filter]="true" filterPlaceholder="Müşteri  Ara" [sortable]="true"></p-column>
     <p-column field="lastname" header="Soyisim" [filter]="true" filterPlaceholder="Soyisim Ara" [sortable]="true"></p-column>
     <p-column field="eMail" header="E-Mail" [filter]="true" filterPlaceholder="E-Mail Ara" [sortable]="true"></p-column>
-    
-    <p-column field="phone" header="Telefon" filterPlaceholder="Telefon"[filter]="true" [sortable]="true"></p-column>
+
+    <p-column field="phone" header="Telefon" filterPlaceholder="Telefon" [filter]="true" [sortable]="true"></p-column>
     <p-column field="userName" header="Kullanici Adi" [filter]="true" filterPlaceholder="Kullanici Ara" [sortable]="true"></p-column>
 </p-dataTable>
 
 <p-dialog header="Müşteri Detayi" [(visible)]="displayDialog" [responsive]="true" [width]="400" showEffect="fade" [modal]="true">
+    <p-steps [model]="items" [(activeIndex)]="activeIndex" [readonly]="false"></p-steps>
     <div>
-        <form class=""  #customerForm="ngForm">
+        <form class="" [hidden]="activeIndex!=0" #customerForm="ngForm">
             <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="customer">
-                    <div class="ui-grid-row">
-                            <div class="ui-grid-col-4">
-                                <label for="companyName">Firma Adi </label>
-                            </div>
-                            <div class="ui-grid-col-8">
-                                <input pInputText id="companyName" #companyName="ngModel" name="companyName" [(ngModel)]="customer.companyName" required
-                                />
-                            </div>
-                        </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">
+                        <label for="companyName">Firma Adi </label>
+                    </div>
+                    <div class="ui-grid-col-8">
+                        <input pInputText id="companyName" #companyName="ngModel" name="companyName" [(ngModel)]="customer.companyName" required
+                        />
+                    </div>
+                </div>
                 <div class="ui-grid-row">
                     <div class="ui-grid-col-4">
                         <label for="customerName">Müşteri Adi </label>
@@ -42,8 +43,7 @@
                         <label for="lastname">Soyisim</label>
                     </div>
                     <div class="ui-grid-col-8">
-                        <input pInputText id="lastname" #lastname="ngModel" name="lastname" [(ngModel)]="customer.lastname"
-                        />
+                        <input pInputText id="lastname" #lastname="ngModel" name="lastname" [(ngModel)]="customer.lastname" />
                     </div>
                 </div>
                 <div class="ui-grid-row">
@@ -51,8 +51,7 @@
                         <label for="eMail">E-Mail</label>
                     </div>
                     <div class="ui-grid-col-8">
-                        <input pInputText id="eMail" #eMail="ngModel" name="eMail" [(ngModel)]="customer.eMail"
-                        />
+                        <input pInputText id="eMail" #eMail="ngModel" name="eMail" [(ngModel)]="customer.eMail" />
                     </div>
                 </div>
 
@@ -61,8 +60,7 @@
                         <label for="phone">Telefon </label>
                     </div>
                     <div class="ui-grid-col-8">
-                        <input pInputText id="phone" #phone="ngModel" name="phone" [(ngModel)]="customer.phone"
-                        />
+                        <input pInputText id="phone" #phone="ngModel" name="phone" [(ngModel)]="customer.phone" />
                     </div>
                 </div>
 
@@ -71,8 +69,7 @@
                         <label for="userName">Kullanici Adi</label>
                     </div>
                     <div class="ui-grid-col-8">
-                        <input pInputText id="userName" #userName="ngModel" name="userName" [(ngModel)]="customer.userName"
-                        />
+                        <input pInputText id="userName" #userName="ngModel" name="userName" [(ngModel)]="customer.userName" />
                     </div>
                 </div>
                 <div class="ui-grid-row">
@@ -80,19 +77,60 @@
                         <label for="password">Pasaport</label>
                     </div>
                     <div class="ui-grid-col-8">
-                        <input pInputText id="password" #password="ngModel" name="password" [(ngModel)]="customer.password"
-                        />
+                        <input pInputText id="password" #password="ngModel" name="password" [(ngModel)]="customer.password" />
                     </div>
                 </div>
-               
+
             </div>
         </form>
+        <form class="" [hidden]="activeIndex!=1" #addressForm="ngForm">
+            <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="customerAddress">
+
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">
+                        <label for="branchName">Sube Adi </label>
+                    </div>
+                    <div class="ui-grid-col-8">
+                        <input pInputText id="branchName" #branchName="ngModel" name="branchName" [(ngModel)]="customerAddress.branchName" />
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">
+                        <label for="street">Cadde Adi </label>
+                    </div>
+                    <div class="ui-grid-col-8">
+                        <input pInputText id="street" #street="ngModel" name="street" [(ngModel)]="customerAddress.street" />
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">
+                        <label for="street">Posta Kodu </label>
+                    </div>
+                    <div class="ui-grid-col-8">
+                        <input pInputText id="postCode" #postCode="ngModel" name="postCode" [(ngModel)]="customerAddress.postCode" />
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">
+                        <label for="cities"> Sehir</label>
+                    </div>
+                    <div class="ui-grid-col-8">
+                        <p-dropdown [options]="cities" [(ngModel)]="selectedCity" name="cities" placeholder="Sehir Sec" optionLabel="name" [style]="{'width':'100%'}"
+                            styleClass="ui-column-filter"></p-dropdown>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </form>
+
     </div>
     <p-footer>
         <div class="ui-dialog-buttonpane ui-helper-clearfix">
             <button type="button" class="ui-button-danger" pButton icon="fa-close" (click)="delete()" label="{{activeButtonText}}"></button>
-            <button type="button" class="ui-button-success" [disabled]="!customerForm.form.valid " pButton
-                icon="fa-check" (click)="save()" label="Kaydet"></button>
+            <button type="button" class="ui-button-success" [disabled]="!customerForm.form.valid " pButton icon="fa-check" (click)="save()"
+                label="Kaydet"></button>
         </div>
     </p-footer>
 </p-dialog>
