@@ -81,8 +81,10 @@ export class CustomersComponent implements OnInit {
             customers[this.findSelectedIndex()] = this.selectedCustomer;
             this.customers = customers;
             this.selectedCustomer = null;
+            this.getCustomers();
           }
           this.toastr.success('Musteri Basariyla Kaydedildi.', 'Basarili !');
+
         } else
           this.toastr.error(result, 'Hata!');
       },
