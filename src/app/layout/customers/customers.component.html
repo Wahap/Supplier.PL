@@ -1,3 +1,4 @@
+<!-->Customer Grid -->
 <p-dataTable [value]="customers" [rowStyleClass]="customize" [(selection)]="selectedCustomer" (onRowSelect)="onRowSelect($event)"
     [loading]="loading" scrollable="true" [rows]="10" [paginator]="false" selectionMode="single" [(selection)]="selectedCustomer"
     (onRowSelect)="onRowSelect($event)" [paginator]="true" rows="15" [responsive]="true">
@@ -15,7 +16,7 @@
     <p-column field="userName" header="Kullanici Adi" [filter]="true" filterPlaceholder="Kullanici Ara" [sortable]="true"></p-column>
     <p-column styleClass="col-button">
         <ng-template pTemplate="header">
-            <label  >Adres</label>
+            <label>Adres</label>
         </ng-template>
         <ng-template let-customer="rowData" pTemplate="body">
             <button type="button" pButton (click)="selectAddress(customer)" icon="fa fa-map-marker"></button>
@@ -23,8 +24,10 @@
     </p-column>
 
 </p-dataTable>
-
-<p-dialog header="Müşteri Detayi" [(visible)]="displayCustomerDialog" [responsive]="true" [width]="400" showEffect="fade" [modal]="true">
+<!--< Customer Grid -->
+<!-->Customer Details Dialog -->
+<p-dialog header="Müşteri Detayi" [(visible)]="displayCustomerDialog" [responsive]="true" [width]="400" showEffect="fade"
+    [modal]="true">
     <p-steps [model]="items" [(activeIndex)]="activeIndex" [readonly]="false"></p-steps>
     <div>
         <form class="" [hidden]="activeIndex!=0" #customerForm="ngForm">
@@ -113,7 +116,7 @@
                 </div>
                 <div class="ui-grid-row">
                     <div class="ui-grid-col-4">
-                        <label for="street">Posta Kodu </label>
+                        <label for="postCode">Posta Kodu </label>
                     </div>
                     <div class="ui-grid-col-8">
                         <input pInputText id="postCode" #postCode="ngModel" name="postCode" [(ngModel)]="customerAddress.postCode" />
@@ -124,8 +127,8 @@
                         <label for="cities"> Sehir</label>
                     </div>
                     <div class="ui-grid-col-8">
-                        <p-dropdown [options]="cities" [(ngModel)]="selectedCity"  appendTo="body" name="cities" placeholder="Sehir Sec" optionLabel="name" [style]="{'width':'100%'}"
-                            styleClass="ui-column-filter"></p-dropdown>
+                        <p-dropdown [options]="cities" [(ngModel)]="selectedCity" appendTo="body" name="cities" placeholder="Sehir Sec" optionLabel="name"
+                            [style]="{'width':'100%'}" styleClass="ui-column-filter"></p-dropdown>
                     </div>
                 </div>
 
@@ -143,3 +146,41 @@
         </div>
     </p-footer>
 </p-dialog>
+<!--< Customer Details Dialog -->
+`
+<!--> Customer Address -->
+<p-dialog header="Müşteri Adresleri" [(visible)]="displayCustomersAddressDialog" [responsive]="true" [width]="800" showEffect="fade"
+    [modal]="true">
+    <div>
+        <p-dataTable [value]="addresses" 
+        [loading]="loading"  [rows]="10" [paginator]="true" [editable]="true" [responsive]="true">
+        <p-header>
+            <!-- <div class="ui-helper-clearfix" style="width:100%">
+                <button type="button" pButton icon="fa-plus" style="float:left" (click)="showDialogToAdd()" label="Yeni Müşteri Ekle"></button>
+            </div> -->
+        </p-header>
+        <p-column field="branchName" header="Sube Adi"   [editable]="true"></p-column>
+        <p-column field="street" header="Cadde"  [editable]="true"></p-column>
+        <p-column field="postCode" header="Posta Kodu"  [editable]="true"></p-column>
+        <!-- <p-column field="city" header="Sehir" [editable]="true">
+            <ng-template let-col let-address="rowData" pTemplate="editor">
+                <p-dropdown [(ngModel)]="selectedCity[col.field]" [options]="cities" [autoWidth]="false" [style]="{'width':'100%'}"   appendTo="body"></p-dropdown>
+            </ng-template>
+        </p-column> -->
+        <p-column styleClass="col-button">
+            <ng-template pTemplate="header">
+                <label>Kaydet</label>
+            </ng-template>
+            <ng-template let-address="rowData" pTemplate="body">
+                    <button type="button" class="ui-button-success" (click)="saveAdress(address)" [disabled]="!customerForm.form.valid " pButton icon="fa-check" (click)="save()"
+                    label="Kaydet"></button>
+            
+            </ng-template>
+        </p-column>
+    
+    </p-dataTable>
+
+    </div>
+
+</p-dialog>
+<!--< Customer Address -->

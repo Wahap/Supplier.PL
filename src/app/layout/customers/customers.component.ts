@@ -22,8 +22,11 @@ export class CustomersComponent implements OnInit {
   selectedCustomer: customer;
   customer: customer;
   customerAddress: address;
+  addresses:address[];
+
   newCustomer: boolean;
   displayCustomerDialog: boolean;
+  displayCustomersAddressDialog:boolean;
   activeButtonText: string;
   activeIndex: number;
   items: any = [];
@@ -123,7 +126,17 @@ export class CustomersComponent implements OnInit {
     this.customer.isActive = !this.customer.isActive;
     this.save();
   }
-
+//#region Customer address
+selectAddress(customer)
+{
+  this.addresses=customer.addresses;
+this.displayCustomersAddressDialog=true;
+}
+saveAdress(adres)
+{
+  var ad=adres;
+}
+//#endregion 
   //#region Binding
   getCustomers(): any {
     this.loading = true;
