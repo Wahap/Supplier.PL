@@ -7,7 +7,7 @@
             <button type="button" pButton icon="fa-plus" style="float:left" (click)="showDialogToAdd()" label="Yeni Müşteri Ekle"></button>
         </div>
     </p-header>
-    <p-column field="companyName" header="Firma Adi" [filter]="true" filterPlaceholder="Müşteri  Ara" [sortable]="true"></p-column>
+    <p-column field="companyName" header="Firma Adi" [filter]="true" filterPlaceholder="Firma  Ara" [sortable]="true"></p-column>
     <p-column field="customerName" header="Müşteri Adi" [filter]="true" filterPlaceholder="Müşteri  Ara" [sortable]="true"></p-column>
     <p-column field="lastname" header="Soyisim" [filter]="true" filterPlaceholder="Soyisim Ara" [sortable]="true"></p-column>
     <p-column field="eMail" header="E-Mail" [filter]="true" filterPlaceholder="E-Mail Ara" [sortable]="true"></p-column>
@@ -31,13 +31,13 @@
     <p-steps [model]="items" [(activeIndex)]="activeIndex" [readonly]="false"></p-steps>
     <div>
         <form class="" [hidden]="activeIndex!=0" #customerForm="ngForm">
-            <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="customer">
+            <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="selectedCustomer">
                 <div class="ui-grid-row">
                     <div class="ui-grid-col-4">
                         <label for="companyName">Firma Adi </label>
                     </div>
                     <div class="ui-grid-col-8">
-                        <input pInputText id="companyName" #companyName="ngModel" name="companyName" [(ngModel)]="customer.companyName" required
+                        <input pInputText id="companyName" #companyName="ngModel" name="companyName" [(ngModel)]="selectedCustomer.companyName" required
                         />
                     </div>
                 </div>
@@ -46,7 +46,7 @@
                         <label for="customerName">Müşteri Adi </label>
                     </div>
                     <div class="ui-grid-col-8">
-                        <input pInputText id="customerName" #customerName="ngModel" name="customerName" [(ngModel)]="customer.customerName" required
+                        <input pInputText id="customerName" #customerName="ngModel" name="customerName" [(ngModel)]="selectedCustomer.customerName" required
                         />
                     </div>
                 </div>
@@ -55,7 +55,7 @@
                         <label for="lastname">Soyisim</label>
                     </div>
                     <div class="ui-grid-col-8">
-                        <input pInputText id="lastname" #lastname="ngModel" name="lastname" [(ngModel)]="customer.lastname" />
+                        <input pInputText id="lastname" #lastname="ngModel" name="lastname" [(ngModel)]="selectedCustomer.lastname" />
                     </div>
                 </div>
                 <div class="ui-grid-row">
@@ -63,7 +63,7 @@
                         <label for="eMail">E-Mail</label>
                     </div>
                     <div class="ui-grid-col-8">
-                        <input pInputText id="eMail" #eMail="ngModel" name="eMail" [(ngModel)]="customer.eMail" />
+                        <input pInputText id="eMail" #eMail="ngModel" name="eMail" [(ngModel)]="selectedCustomer.eMail" />
                     </div>
                 </div>
 
@@ -72,7 +72,7 @@
                         <label for="phone">Telefon </label>
                     </div>
                     <div class="ui-grid-col-8">
-                        <input pInputText id="phone" #phone="ngModel" name="phone" [(ngModel)]="customer.phone" />
+                        <input pInputText id="phone" #phone="ngModel" name="phone" [(ngModel)]="selectedCustomer.phone" />
                     </div>
                 </div>
 
@@ -81,7 +81,7 @@
                         <label for="userName">Kullanici Adi</label>
                     </div>
                     <div class="ui-grid-col-8">
-                        <input pInputText id="userName" #userName="ngModel" name="userName" [(ngModel)]="customer.userName" />
+                        <input pInputText id="userName" #userName="ngModel" name="userName" [(ngModel)]="selectedCustomer.userName" />
                     </div>
                 </div>
                 <div class="ui-grid-row">
@@ -89,7 +89,7 @@
                         <label for="password">Pasaport</label>
                     </div>
                     <div class="ui-grid-col-8">
-                        <input pInputText id="password" #password="ngModel" name="password" [(ngModel)]="customer.password" />
+                        <input pInputText id="password" #password="ngModel" name="password" [(ngModel)]="selectedCustomer.password" />
                     </div>
                 </div>
 
@@ -148,39 +148,103 @@
 </p-dialog>
 <!--< Customer Details Dialog -->
 `
-<!--> Customer Address -->
+<!-->Customer Address -->
 <p-dialog header="Müşteri Adresleri" [(visible)]="displayCustomersAddressDialog" [responsive]="true" [width]="800" showEffect="fade"
     [modal]="true">
     <div>
-        <p-dataTable [value]="addresses" 
-        [loading]="loading"  [rows]="10" [paginator]="true" [editable]="true" [responsive]="true">
-        <p-header>
-            <!-- <div class="ui-helper-clearfix" style="width:100%">
-                <button type="button" pButton icon="fa-plus" style="float:left" (click)="showDialogToAdd()" label="Yeni Müşteri Ekle"></button>
-            </div> -->
-        </p-header>
-        <p-column field="branchName" header="Sube Adi"   [editable]="true"></p-column>
-        <p-column field="street" header="Cadde"  [editable]="true"></p-column>
-        <p-column field="postCode" header="Posta Kodu"  [editable]="true"></p-column>
-        <!-- <p-column field="city" header="Sehir" [editable]="true">
-            <ng-template let-col let-address="rowData" pTemplate="editor">
-                <p-dropdown [(ngModel)]="selectedCity[col.field]" [options]="cities" [autoWidth]="false" [style]="{'width':'100%'}"   appendTo="body"></p-dropdown>
-            </ng-template>
-        </p-column> -->
-        <p-column styleClass="col-button">
-            <ng-template pTemplate="header">
-                <label>Kaydet</label>
-            </ng-template>
-            <ng-template let-address="rowData" pTemplate="body">
-                    <button type="button" class="ui-button-success" (click)="saveAdress(address)" [disabled]="!customerForm.form.valid " pButton icon="fa-check" (click)="save()"
-                    label="Kaydet"></button>
-            
-            </ng-template>
-        </p-column>
-    
-    </p-dataTable>
+        <p-dataTable [value]="selectedAddresses" [loading]="loading" [rows]="10" [paginator]="true" [editable]="true" [responsive]="true">
+            <p-header>
+                <div class="ui-helper-clearfix" style="width:100%">
+                    <button type="button" pButton icon="fa-plus" style="float:left" (click)="showDialogToAddAddress()" label="Yeni Adres Ekle"></button>
+                </div>
+            </p-header>
+            <p-column field="branchName" header="Sube Adi" [style]="{'width':'18%'}" [editable]="true"></p-column>
+            <p-column field="street" header="Cadde" [editable]="true" [style]="{'width':'18%'}"></p-column>
+            <p-column field="postCode" header="Posta Kodu" [editable]="true"></p-column>
 
+            <p-column field="city.name" header="Sehir" [editable]="true" [style]="{'width':'18%'}">
+                <ng-template let-col let-address="rowData" pTemplate="editor">
+                    <p-dropdown [options]="cities" [(ngModel)]="address[col.field]" [filter]="true" (onChange)="changeSelectedCity(address,address[col.field])"
+                        appendTo="body" name="cities" placeholder="Sehir Sec" optionLabel="name" [style]="{'width':'100%'}" styleClass="ui-column-filter"></p-dropdown>
+                </ng-template>
+            </p-column>
+
+            <p-column styleClass="col-button" [style]="{'width':'15%'}">
+                <ng-template pTemplate="header">
+                    <label>Kaydet</label>
+                </ng-template>
+                <ng-template let-address="rowData" pTemplate="body">
+                    <button type="button" class="ui-button-success" (click)="saveOrDeleteAdress(address,'saveaddress')" pButton icon="fa-floppy-o"
+                        label="Kaydet"></button>
+                </ng-template>
+            </p-column>
+            <p-column styleClass="col-button" [style]="{'width':'11%'}">
+                <ng-template pTemplate="header">
+                    <label>Sil</label>
+                </ng-template>
+                <ng-template let-address="rowData" pTemplate="body">
+                    <button type="button" class="ui-button-danger" (click)="saveOrDeleteAdress(address,'deleteaddress')" pButton icon="fa-trash-o"
+                        label="Sil"></button>
+                </ng-template>
+            </p-column>
+        </p-dataTable>
     </div>
 
 </p-dialog>
 <!--< Customer Address -->
+
+<!-->New Address Dialog -->
+<p-dialog header="Yeni Adres" [(visible)]="displayNewAddressDialog" [responsive]="true" [width]="400" showEffect="fade"
+    [modal]="true">
+    <div>
+       
+        <form class="" #newAddressForm="ngForm">
+            <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="customerAddress">
+
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">
+                        <label for="branchName">Sube Adi </label>
+                    </div>
+                    <div class="ui-grid-col-8">
+                        <input pInputText id="branchName" #branchName="ngModel" required name="branchName" [(ngModel)]="customerAddress.branchName" />
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">
+                        <label for="street">Cadde Adi </label>
+                    </div>
+                    <div class="ui-grid-col-8">
+                        <input pInputText id="street" #street="ngModel" name="street" [(ngModel)]="customerAddress.street" />
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">
+                        <label for="postCode">Posta Kodu </label>
+                    </div>
+                    <div class="ui-grid-col-8">
+                        <input pInputText id="postCode" #postCode="ngModel" name="postCode" [(ngModel)]="customerAddress.postCode" />
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">
+                        <label for="cities"> Sehir</label>
+                    </div>
+                    <div class="ui-grid-col-8">
+                        <p-dropdown [options]="cities" [(ngModel)]="selectedCity" appendTo="body" name="cities" placeholder="Sehir Sec" optionLabel="name"
+                            [style]="{'width':'100%'}" styleClass="ui-column-filter"></p-dropdown>
+                    </div>
+                </div>
+
+
+            </div>
+        </form>
+
+    </div>
+    <p-footer>
+        <div class="ui-dialog-buttonpane ui-helper-clearfix">
+            <button type="button" class="ui-button-success" [disabled]="!newAddressForm.form.valid " pButton icon="fa-check" (click)="saveOrDeleteAdress(customerAddress,'saveaddress')"
+                label="Kaydet"></button>
+        </div>
+    </p-footer>
+</p-dialog>
+<!--< New Address Dialog -->
