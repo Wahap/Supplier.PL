@@ -1,0 +1,35 @@
+        <p-dataTable [value]="this.receivedOrders" scrollable="true" scrollHeight="200px" [loading]="loading">
+            <p-header>Önceki Siparişleriniz</p-header>
+            <p-column field="id" header="Sipariş No">
+                <ng-template let-col pTemplate="body" let-order="rowData">
+                    {{order.id}}
+                </ng-template>
+            </p-column>
+
+            <p-column field="address" header="Adres">
+                <ng-template let-col pTemplate="body" let-order="rowData">
+                    {{order.address.street + ',' + order.address.postCode + ','+order.address.city.name}}
+                </ng-template>
+            </p-column>
+            <p-column field="isConfirmed" header="Durum">
+                <ng-template let-col pTemplate="body" let-order="rowData">
+                   {{order.isConfirmed?'Onaylandı':'Beklemede'}}
+                </ng-template>
+            </p-column>
+
+            <p-column field="orderDate" header="Tarih">
+                <ng-template let-col pTemplate="body" let-order="rowData">
+                   {{order.orderDate | date}}
+                </ng-template>
+            </p-column>
+            <p-column field="" header="Detay">
+                <ng-template let-col pTemplate="body" let-order="rowData">
+                    <button mat-raised-button color="primary" (click)="showOrderDetails(order)">Detay</button>
+                </ng-template>
+            </p-column>
+            <p-column field="" header="Tekrarla">
+                <ng-template let-col pTemplate="body" let-order="rowData">
+                    <button mat-raised-button color="primary">Siparişi Tekrarla</button>
+                </ng-template>
+            </p-column>
+        </p-dataTable>

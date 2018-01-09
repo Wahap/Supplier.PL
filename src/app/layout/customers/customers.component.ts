@@ -84,7 +84,6 @@ export class CustomersComponent implements OnInit {
             this.getCustomers();
           }
           this.toastr.success('Musteri Basariyla Kaydedildi.', 'Basarili !');
-
         } else
           this.toastr.error(result, 'Hata!');
       },
