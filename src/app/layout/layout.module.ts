@@ -11,6 +11,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HeaderComponent } from './components/header/header.component';
 import { ProductsComponent } from './products/products.component';
 import { CustomersComponent } from './customers/customers.component';
+import { OrderComponent } from './order/order.component';
 
 
 
@@ -25,6 +26,6 @@ import { CustomersComponent } from './customers/customers.component';
         InputTextModule, DataTableModule, SharedModule,ButtonModule,DialogModule,
         StepsModule ,DropdownModule
     ],
-    declarations: [LayoutComponent, SidebarComponent, HeaderComponent, ProductsComponent, CustomersComponent]
+    declarations: [LayoutComponent, SidebarComponent, HeaderComponent, ProductsComponent, CustomersComponent, OrderComponent]
 })
 export class LayoutModule {}

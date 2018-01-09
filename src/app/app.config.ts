@@ -12,6 +12,7 @@ export interface IConfig {
 	getCustomersUrl:string;
 	saveCustomerUrl:string;
 	saveOrDeleteAddress:string;
+	getAllOrderByStatusUrl:string;
 
 
 };
@@ -26,7 +27,7 @@ export class ConfigService {
 		let serverLoginPath = 'https://supplier.azurewebsites.net/api/', serverLoginPathDebug = 'http://localhost:4315/api/';
 
 		let serverUserNotificationPath = '';
-		let debug = false;
+		let debug = true;
 
 		let getUsers = (debug ? serverLoginPathDebug + "authentication/login" : serverLoginPath + "userCont/getusers");
 		//let logInUrl = (debug ? serverLoginPathDebug + "userCont/login" : serverLoginPath + "userCont/login");
@@ -41,8 +42,10 @@ export class ConfigService {
 		let getAllCitiesUrl = (debug ? serverLoginPathDebug + "Common/getallcities" : serverLoginPath + "Common/getallcities");
 		let getSuppliersUrl = (debug ? serverLoginPathDebug + "Common/getallsupplier" : serverLoginPath + "Common/getallsupplier");
 		let getCustomersUrl = (debug ? serverLoginPathDebug + "Customer/getallcustomers" : serverLoginPath + "Customer/getallcustomers");
-		let saveCustomerUrl = (debug ? serverLoginPathDebug + "Customer/savecustomer" : serverLoginPath + "Customer/savecustomer")
-		let saveOrDeleteAddress = (debug ? serverLoginPathDebug + "Customer/" : serverLoginPath + "Customer/")
+		let saveCustomerUrl = (debug ? serverLoginPathDebug + "Customer/savecustomer" : serverLoginPath + "Customer/savecustomer");
+		let saveOrDeleteAddress = (debug ? serverLoginPathDebug + "Customer/" : serverLoginPath + "Customer/");
+		let getAllOrderByStatusUrl = (debug ? serverLoginPathDebug + "order/getCustomerReceivedOrders" : serverLoginPath + "order/getCustomerReceivedOrders");
+		
 		
 		return {
 			logInUrl: logInUrl,
@@ -57,7 +60,8 @@ export class ConfigService {
 			saveProductsUrl:saveProductsUrl,
 			getCustomersUrl:getCustomersUrl,
 			saveCustomerUrl:saveCustomerUrl,
-			saveOrDeleteAddress:saveOrDeleteAddress
+			saveOrDeleteAddress:saveOrDeleteAddress,
+			getAllOrderByStatusUrl:getAllOrderByStatusUrl
 
 		}
 	}
