@@ -4,6 +4,7 @@ import { customer } from '../../shared/DTOs/customer';
 import { OrderService } from './order.service';
 import { ConfigService, IConfig } from '../../app.config';
 import { ToastsManager } from 'ng2-toastr';
+import { orderStatus } from './orderStatus';
 
 
 
@@ -16,6 +17,7 @@ import { ToastsManager } from 'ng2-toastr';
 export class OrderComponent implements OnInit {
   config: IConfig;
   receivedOrders: receivedOrder[];
+  receivedOrder:receivedOrder;
   currentCustomerOrders: receivedOrder;
   currentCustomer: customer;
   loading: boolean = true;
@@ -26,20 +28,15 @@ export class OrderComponent implements OnInit {
 
   constructor(private orderService: OrderService, private configService: ConfigService, public toastr: ToastsManager, vcr: ViewContainerRef) {
     this.toastr.setRootViewContainerRef(vcr);
+    this.receivedOrder=new receivedOrder();
    // this.orderstatus=orderStatus;
   }
   ngOnInit() {
     this.config = this.configService.getAppConfig();
-    let receivedOrder: any;
 
-    receivedOrder.status = orderStatus.Waiting;
-    this.getAllOrderByStatus(receivedOrder)
-    // this.orderService.getAllOrders(this.currentCustomer).subscribe(response=>{
-    //   this.currentCustomerOrders=response.json();
-    //   this.isLoading=false;
-    //   this.loading=false;
-    //   console.log(this.currentCustomerOrders);
-    // });
+    this.receivedOrder.status= orderStatus.Waiting;
+    this.getAllOrderByStatus(this.receivedOrder)
+
   }
 
   getAllOrderByStatus(receivedOrder): any {

@@ -44,7 +44,7 @@ export class ConfigService {
 		let getCustomersUrl = (debug ? serverLoginPathDebug + "Customer/getallcustomers" : serverLoginPath + "Customer/getallcustomers");
 		let saveCustomerUrl = (debug ? serverLoginPathDebug + "Customer/savecustomer" : serverLoginPath + "Customer/savecustomer");
 		let saveOrDeleteAddress = (debug ? serverLoginPathDebug + "Customer/" : serverLoginPath + "Customer/");
-		let getAllOrderByStatusUrl = (debug ? serverLoginPathDebug + "order/getCustomerReceivedOrders" : serverLoginPath + "order/getCustomerReceivedOrders");
+		let getAllOrderByStatusUrl = (debug ? serverLoginPathDebug + "order/getReceivedOrderProductsByStatus" : serverLoginPath + "order/getReceivedOrderProductsByStatus");
 		
 		
 		return {
