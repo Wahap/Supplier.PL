@@ -6,16 +6,20 @@ import { User } from '../../shared/DTOs/user';
 import { CommonService } from '../../shared/common.service';
 import { brand } from '../../shared/DTOs/brand';
 import { category } from '../../shared/DTOs/category';
-import { NgForm }    from '@angular/forms';
-import * as jsPDF from 'jspdf'
+import { NgForm } from '@angular/forms';
+import { rootRenderNodes } from '@angular/core/src/view/util';
+declare var jsPDF: any; // Important 
+
 //This component and its service have been created for testing porpuse.
 @Component({
     selector: 'app-blank-page',
     templateUrl: './blank-page.component.html',
     styleUrls: ['./blank-page.component.scss'],
     providers: [
-        { provide: 'Window',  useValue: window }
-      ]
+        { provide: 'Window', useValue: window }
+    ],
+ 
+
 })
 export class BlankPageComponent implements OnInit {
     config: IConfig;
@@ -24,34 +28,71 @@ export class BlankPageComponent implements OnInit {
     selectedBrand: any;
     categories: category[];
     selectedCategory: category;
-    model: any=[];
-    items=[];
-    constructor( @Inject('Window') private window: Window,private commonServices: CommonService, private blankPageServices: BlankPageService, private configService: ConfigService, public toastr: ToastsManager, vcr: ViewContainerRef) {
+    model: any = [];
+    items = [];
+  
+    constructor( @Inject('Window') private window: Window, private commonServices: CommonService, private blankPageServices: BlankPageService, private configService: ConfigService, public toastr: ToastsManager, vcr: ViewContainerRef) {
         this.toastr.setRootViewContainerRef(vcr);
         this.model = { username: '', password: '' };
     }
 
-    
-  download() {
 
-    var doc = new jsPDF();
-    doc.text(20, 20, 'Hello Kenan Gardas!');
-    doc.text(20, 30, '20 lira ver senin icin adam picakliyim');
-    doc.addPage();
-    doc.text(20, 20, 'test');
+    download() {
 
-    // Save the PDF
-    doc.save('ConanLtdSiparisler.pdf');
-}
+        var item = [{
+            "Name" : "XYZ",
+            "Age" : "22",
+            "Gender" : "Male"},
+            {
+            "Name" : "AA",
+            "Age" : "11",
+            "Gender" : "WOMEN"   }
+        ];
+          var columns = ["Name","Age","Gender"];
+
+          var doc = new jsPDF();
+          var col = ["Details", "Values"];
+          var rows = [];
+        //  var temprow={ item[columns[0]]};
+        var dd="Name";
+    //    var temprow=[item[0][columns[0]],item[0][columns[1]],item[0][columns[2]]];
+      //  temprow.push(item[1][columns[0]],item[1][columns[1]]);
+         // rows.push()
+        //   for(var key in item){
+        //       var temp = [key, item[key]];
+        //       rows.push(temp);
+        //   }
+        for(let i=0;i<item.length; i++){
+       // for(var key in item[i]){
+            var temp = [ item[i]['Name'],item[i]['Age'],item[i]['Gender']];
+            rows.push(temp);
+        //}
+    }
+          doc.autoTable(columns, rows);
+      
+          doc.save('Test.pdf');
+
+
+
+
+        // var doc = new jsPDF();
+        // doc.text(20, 20, 'Hello Kenan Gardas!');
+        // doc.text(20, 30, '20 lira ver senin icin adam picakliyim');
+        // doc.addPage();
+        // doc.text(20, 20, 'test');
+
+        // Save the PDF
+        // doc.save('ConanLtdSiparisler.pdf');
+    }
     ngOnInit() {
         this.config = this.configService.getAppConfig();
         this.getCategories();
         this.items = [
-            {label: 'Step 1'},
-            {label: 'Step 2'},
-            {label: 'Step 3'}
+            { label: 'Step 1' },
+            { label: 'Step 2' },
+            { label: 'Step 3' }
         ];
-     
+
     }
     showSuccess() {
         this.toastr.success('Conan 20 lira ver senin icin adam picakliyim', 'Success!');

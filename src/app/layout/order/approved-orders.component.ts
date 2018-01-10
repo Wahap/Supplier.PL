@@ -13,6 +13,7 @@ import { receivedOrderProduct } from '../../shared/DTOs/receivedOrderProduct';
   styleUrls: ['./approved-orders.component.scss']
 })
 export class ApprovedOrdersComponent implements OnInit {
+  initialCount: number = 10;
   config: IConfig;
   approvedOrders: receivedOrder[];
   approvedOrder:receivedOrder;

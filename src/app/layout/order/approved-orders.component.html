@@ -1,5 +1,8 @@
+
 <p-dataTable [value]="this.approvedOrders" scrollable="true"   [rows]="14" [paginator]="true" [loading]="loading">
   <p-header>Onaylanan Siparişler</p-header>
+ <div> <pdf-exporter [jsonData]="this.approvedOrders"></pdf-exporter>
+ </div>
   <p-column field="id" header="Sipariş No">
       <ng-template let-col pTemplate="body" let-order="rowData">
           {{order.id}}
@@ -32,6 +35,8 @@
 <!-->Order Details -->
 <p-dialog header="Siparis Detayi" [(visible)]="displayOrderDetails" [responsive]="true" [width]="800" showEffect="fade" [modal]="true">
     <div>
+            <div> <pdf-exporter [jsonData]="orderDetails"></pdf-exporter>
+            </div>
         <p-dataTable [value]="orderDetails" [loading]="loading" [rows]="15" [paginator]="true" [editable]="true" [responsive]="true">
             <p-column field="barcodeOfProduct" header="Barkod">
                 <ng-template let-col pTemplate="body" let-order="rowData">
@@ -52,7 +57,10 @@
             <p-column field="numberOfPackage" header="Sipariş Edilen(Koli)">
                 <ng-template let-col pTemplate="body" let-order="rowData">
                     {{order.numberOfPackage}} ({{order.product.quantity + '/' + order.product.unit.name}})
+               
+                      
                 </ng-template>
             </p-column>
         </p-dataTable>
 <!--< Order Details -->
+
