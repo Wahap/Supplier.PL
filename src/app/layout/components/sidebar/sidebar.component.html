@@ -12,9 +12,29 @@
         <a [routerLink]="['/customers']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;{{ 'Müşteriler' | translate }}
         </a>
-        <a [routerLink]="['/orders']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;{{ 'Siparişler' | translate }}
-        </a>
+       
+        <div class="nested-menu">
+            <a class="list-group-item" (click)="addExpandClass('pages')">
+                <span><i class="fa fa-plus"></i>&nbsp; {{ 'Siparişler' | translate }}</span>
+            </a>
+            <li class="nested" [class.expand]="showMenu === 'pages'">
+                <ul class="submenu">
+                    <li>
+                        <a [routerLink]="['/receivedOrders']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                            <i class="fa fa-fw fa-shopping-basket"></i>&nbsp;{{ 'Bekleyen' | translate }}
+                        </a>
+                    </li>
+                    <li>
+
+                        <a [routerLink]="['/approvedOrders']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                            <i class="fa fa-fw fa-list-alt "></i>&nbsp;{{ 'Onaylanmiş' | translate }}
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </div>
+
+
         <a [routerLink]="['/charts']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;{{ 'Charts' | translate }}
         </a>

@@ -3,7 +3,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { LayoutComponent } from './layout.component';
 import { ProductsComponent } from './products/products.component';
 import { CustomersComponent } from './customers/customers.component';
-import { OrderComponent } from './order/order.component';
+import { ReceivedOrderComponent } from './order/receivedorder..component';
+import { ApprovedOrdersComponent } from './order/approved-orders.component';
+
 
 const routes: Routes = [
     {
@@ -14,7 +16,8 @@ const routes: Routes = [
             { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' },
             { path: 'products',component:ProductsComponent },
             { path: 'customers',component:CustomersComponent },
-            { path: 'orders',component:OrderComponent },
+            { path: 'receivedOrders',component:ReceivedOrderComponent },
+            { path: 'approvedOrders',component:ApprovedOrdersComponent },
             { path: 'charts', loadChildren: './charts/charts.module#ChartsModule' },
             { path: 'tables', loadChildren: './tables/tables.module#TablesModule' },
             { path: 'forms', loadChildren: './form/form.module#FormModule' },

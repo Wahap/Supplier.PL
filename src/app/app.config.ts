@@ -13,6 +13,7 @@ export interface IConfig {
 	saveCustomerUrl:string;
 	saveOrDeleteAddress:string;
 	getAllOrderByStatusUrl:string;
+	getOrderDetails:string;
 
 
 };
@@ -45,6 +46,7 @@ export class ConfigService {
 		let saveCustomerUrl = (debug ? serverLoginPathDebug + "Customer/savecustomer" : serverLoginPath + "Customer/savecustomer");
 		let saveOrDeleteAddress = (debug ? serverLoginPathDebug + "Customer/" : serverLoginPath + "Customer/");
 		let getAllOrderByStatusUrl = (debug ? serverLoginPathDebug + "order/getReceivedOrderProductsByStatus" : serverLoginPath + "order/getReceivedOrderProductsByStatus");
+		let getOrderDetails = (debug ? serverLoginPathDebug + "order/getReceivedOrderProducts" : serverLoginPath + "order/getReceivedOrderProducts");
 		
 		
 		return {
@@ -61,7 +63,8 @@ export class ConfigService {
 			getCustomersUrl:getCustomersUrl,
 			saveCustomerUrl:saveCustomerUrl,
 			saveOrDeleteAddress:saveOrDeleteAddress,
-			getAllOrderByStatusUrl:getAllOrderByStatusUrl
+			getAllOrderByStatusUrl:getAllOrderByStatusUrl,
+			getOrderDetails:getOrderDetails
 
 		}
 	}

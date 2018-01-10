@@ -8,7 +8,7 @@ export class receivedOrder
 
     addressId:number;
 
-    status:number;
+    orderStatus:number;
 
   
     orderDate:Date;

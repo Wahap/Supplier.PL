@@ -11,7 +11,9 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HeaderComponent } from './components/header/header.component';
 import { ProductsComponent } from './products/products.component';
 import { CustomersComponent } from './customers/customers.component';
-import { OrderComponent } from './order/order.component';
+import { ReceivedOrderComponent } from './order/receivedorder..component';
+import { ApprovedOrdersComponent } from './order/approved-orders.component';
+
 
 
 
@@ -26,6 +28,6 @@ import { OrderComponent } from './order/order.component';
         InputTextModule, DataTableModule, SharedModule,ButtonModule,DialogModule,
         StepsModule ,DropdownModule
     ],
-    declarations: [LayoutComponent, SidebarComponent, HeaderComponent, ProductsComponent, CustomersComponent, OrderComponent]
+    declarations: [LayoutComponent, SidebarComponent, HeaderComponent, ProductsComponent, CustomersComponent, ReceivedOrderComponent, ApprovedOrdersComponent]
 })
 export class LayoutModule {}
