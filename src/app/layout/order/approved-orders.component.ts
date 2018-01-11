@@ -61,9 +61,10 @@ export class ApprovedOrdersComponent implements OnInit {
     this.loading = true;
     this.displayOrderDetails = true;
     this.orderService.getAllOrderDetails(this.config.getOrderDetails, orderDetail)
-      .subscribe(items => {
+    .subscribe(items => {
         this.orderDetails = items;
         this.loading = false;
+        return this.orderDetails;
       },
       error => this.toastr.error('Siparisler getirilirken hata ile karsilasildi.', 'Error!'),
       () => {

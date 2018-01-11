@@ -1,42 +1,40 @@
+<p-dataTable [value]="this.approvedOrders" scrollable="true" [rows]="14" [paginator]="true" [loading]="loading">
+    <p-header>Onaylanan Siparişler</p-header>
 
-<p-dataTable [value]="this.approvedOrders" scrollable="true"   [rows]="14" [paginator]="true" [loading]="loading">
-  <p-header>Onaylanan Siparişler</p-header>
- <div> <pdf-exporter [jsonData]="this.approvedOrders"></pdf-exporter>
- </div>
-  <p-column field="id" header="Sipariş No">
-      <ng-template let-col pTemplate="body" let-order="rowData">
-          {{order.id}}
-      </ng-template>
-  </p-column>
+    <p-column field="id" header="Sipariş No">
+        <ng-template let-col pTemplate="body" let-order="rowData">
+            {{order.id}}
+        </ng-template>
+    </p-column>
 
-  <p-column field="address" header="Adres">
-      <ng-template let-col pTemplate="body" let-order="rowData">
-          {{order.address.street + ',' + order.address.postCode + ','+order.address.city.name}}
-      </ng-template>
-  </p-column>
-  <p-column field="orderStatus" header="Durum">
-      <ng-template let-col pTemplate="body" let-order="rowData">
-         <!-- {{order.orderStatus==2?'Onaylandı':'Beklemede'}} -->
-         Onaylandı
-      </ng-template>
-  </p-column>
+    <p-column field="address" header="Adres">
+        <ng-template let-col pTemplate="body" let-order="rowData">
+            {{order.address.street + ',' + order.address.postCode + ','+order.address.city.name}}
+        </ng-template>
+    </p-column>
+    <p-column field="orderStatus" header="Durum">
+        <ng-template let-col pTemplate="body" let-order="rowData">
+            <!-- {{order.orderStatus==2?'Onaylandı':'Beklemede'}} -->
+            Onaylandı
+        </ng-template>
+    </p-column>
 
-  <p-column field="orderDate" header="Tarih">
-      <ng-template let-col pTemplate="body" let-order="rowData">
-         {{order.orderDate | date}}
-      </ng-template>
-  </p-column>
-  <p-column field="" header="Detay">
-      <ng-template let-col pTemplate="body" let-order="rowData">
-          <button mat-raised-button color="primary" (click)="showOrderDetails(order)">Detay</button>
-      </ng-template>
-  </p-column>
+    <p-column field="orderDate" header="Tarih">
+        <ng-template let-col pTemplate="body" let-order="rowData">
+            {{order.orderDate | date}}
+        </ng-template>
+    </p-column>
+    <p-column field="" header="Detay" [style]="{'width':'10%' }">
+        <ng-template let-col pTemplate="body" let-order="rowData">
+            <button mat-raised-button color="primary" style="float: left; margin-right:5px " (click)="showOrderDetails(order)">Detay</button>
+            <pdf-exporter [orderData]="order"></pdf-exporter>
+        </ng-template>
+    </p-column>
 </p-dataTable>
 <!-->Order Details -->
 <p-dialog header="Siparis Detayi" [(visible)]="displayOrderDetails" [responsive]="true" [width]="800" showEffect="fade" [modal]="true">
     <div>
-            <div> <pdf-exporter [jsonData]="orderDetails"></pdf-exporter>
-            </div>
+
         <p-dataTable [value]="orderDetails" [loading]="loading" [rows]="15" [paginator]="true" [editable]="true" [responsive]="true">
             <p-column field="barcodeOfProduct" header="Barkod">
                 <ng-template let-col pTemplate="body" let-order="rowData">
@@ -57,10 +55,9 @@
             <p-column field="numberOfPackage" header="Sipariş Edilen(Koli)">
                 <ng-template let-col pTemplate="body" let-order="rowData">
                     {{order.numberOfPackage}} ({{order.product.quantity + '/' + order.product.unit.name}})
-               
-                      
+
+
                 </ng-template>
             </p-column>
         </p-dataTable>
-<!--< Order Details -->
-
+        <!--< Order Details -->
