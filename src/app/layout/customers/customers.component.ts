@@ -145,11 +145,11 @@ export class CustomersComponent implements OnInit {
     //save address
     this.loading = true;
     address.customerId = this.selectedCustomer.id;
-    if (address.cityId == null) {
+    if (this.selectedCity.id) {
       address.cityId = this.selectedCity.id;
     }
     this.customersService.getCustomers(this.config.saveOrDeleteAddress + saveOrDelete, address)
-      .subscribe(items => {
+      .subscribe(items => { 
         this.loading = false;
         if (saveOrDelete == "saveaddress") {
           this.toastr.success('Adres Basariyla Kaydedildi.', 'Basarili !');

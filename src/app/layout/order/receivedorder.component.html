@@ -23,7 +23,7 @@
             {{order.orderDate | date}}
         </ng-template>
     </p-column>
-    <p-column field="" header="Detay" [style]="{'width':'10%' }">
+    <p-column field="" header="Detay" [style]="{'width':'15%' }">
         <ng-template let-col pTemplate="body" let-order="rowData">
             <button mat-raised-button color="primary" style="float: left; margin-right:5px " (click)="showOrderDetails(order)">Detay</button>
             <pdf-exporter [orderData]="order"></pdf-exporter>

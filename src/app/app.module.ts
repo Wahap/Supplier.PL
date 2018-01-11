@@ -18,6 +18,16 @@ import { CommonService } from './shared/common.service';
 import { CustomersService } from './layout/customers/customers.service';
 import { OrderService } from './layout/order/order.service';
 // AoT requires an exported function for factories
+// custom-option.ts
+import {ToastOptions} from 'ng2-toastr';
+
+export class CustomOption extends ToastOptions {
+  animate = 'flyRight'; // you can override any options available
+  newestOnTop = false;
+  showCloseButton = true;
+  positionClass='toast-top-center';
+  dismiss:'click'
+}
 export function createTranslateLoader(http: HttpClient) {
     // for development
     // return new TranslateHttpLoader(http, '/start-angular/SB-Admin-BS4-Angular-5/master/dist/assets/i18n/', '.json');
@@ -42,7 +52,7 @@ export function createTranslateLoader(http: HttpClient) {
     ],
     declarations: [AppComponent],
     providers: [AuthGuard, LoginServiceService, ConfigService,
-        BlankPageService, ProductsService, CommonService,CustomersService,OrderService
+        BlankPageService, ProductsService, CommonService, CustomersService, OrderService, {provide: ToastOptions, useClass: CustomOption},
     ],
     bootstrap: [AppComponent]
 })
