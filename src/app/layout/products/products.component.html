@@ -14,9 +14,9 @@
 </p-dataTable>
 <div>
 
-    <p-dialog header="Urun Detayi" [(visible)]="displayDialog" [responsive]="true" [width]="400"  showEffect="fade" [modal]="true">
+    <p-dialog header="Urun Detayi" [(visible)]="displayDialog" [responsive]="true" [width]="400" showEffect="fade" [modal]="true">
         <div>
-            <form class=""  #productForm="ngForm">
+            <form class="" #productForm="ngForm">
                 <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="product">
                     <div class="ui-grid-row">
                         <div class="ui-grid-col-4">
@@ -41,8 +41,8 @@
                             <label for="brands"> Marka</label>
                         </div>
                         <div class="ui-grid-col-8">
-                            <p-dropdown [options]="brands" [(ngModel)]="selectedBrand" name="brands" placeholder="Marka sec" optionLabel="name" [style]="{'width':'100%'}"
-                                styleClass="ui-column-filter"></p-dropdown>
+                            <p-dropdown [options]="brands" [(ngModel)]="selectedBrand" name="brands" [filter]="true" appendTo="body" placeholder="Marka sec"
+                                optionLabel="name" [style]="{'width':'100%'}" styleClass="ui-column-filter"></p-dropdown>
                         </div>
                     </div>
                     <div class="ui-grid-row">
@@ -50,8 +50,8 @@
                             <label for="brands"> Kategori</label>
                         </div>
                         <div class="ui-grid-col-8">
-                            <p-dropdown [options]="categories" [(ngModel)]="selectedCategory" name="categories" placeholder="Kategori" optionLabel="name"
-                                [style]="{'width':'100%'}" styleClass="ui-column-filter"></p-dropdown>
+                            <p-dropdown [options]="categories" [filter]="true" appendTo="body" [(ngModel)]="selectedCategory" name="categories" placeholder="Kategori"
+                                optionLabel="name" [style]="{'width':'100%'}" styleClass="ui-column-filter"></p-dropdown>
                         </div>
                     </div>
                     <div class="ui-grid-row">
@@ -75,7 +75,7 @@
                             <label for="tax">Vergi</label>
                         </div>
                         <div class="ui-grid-col-8">
-                            <p-dropdown [options]="taxNumbers" name="taxNumbers" [(ngModel)]="selectedTax" placeholder="Vergi Sec" optionLabel="data"
+                            <p-dropdown [options]="taxNumbers" [filter]="true"   appendTo="body"  name="taxNumbers" [(ngModel)]="selectedTax" placeholder="Vergi Sec" optionLabel="data"
                                 [style]="{'width':'100%'}" styleClass="ui-column-filter"></p-dropdown>
                         </div>
                     </div>
@@ -84,16 +84,16 @@
                             <label for="suppliers">Tedarikci</label>
                         </div>
                         <div class="ui-grid-col-8">
-                            <p-dropdown [options]="suppliers" name="suppliers" [(ngModel)]="selectedSupplier" placeholder="Tedarikci Sec" optionLabel="name"
+                            <p-dropdown [options]="suppliers" [filter]="true"   appendTo="body" name="suppliers" [(ngModel)]="selectedSupplier" placeholder="Tedarikci Sec" optionLabel="name"
                                 [style]="{'width':'100%'}" styleClass="ui-column-filter"></p-dropdown>
                         </div>
                     </div>
                     <div class="ui-grid-row">
                         <div class="ui-grid-col-4">
-                            <label for="units">Unite</label>
+                            <label for="units">Birim</label>
                         </div>
                         <div class="ui-grid-col-8">
-                            <p-dropdown [options]="units" name="units" [(ngModel)]="selectedUnit" placeholder="Unite Sec" optionLabel="name" [style]="{'width':'100%'}"
+                            <p-dropdown [options]="units" name="units" [filter]="true"   appendTo="body" [(ngModel)]="selectedUnit" placeholder="Birim Sec" optionLabel="name" [style]="{'width':'100%'}"
                                 styleClass="ui-column-filter"></p-dropdown>
                         </div>
                     </div>
