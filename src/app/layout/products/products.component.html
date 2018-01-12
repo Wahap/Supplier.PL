@@ -1,19 +1,29 @@
-<p-dataTable [value]="products" [rowStyleClass]="customize" [(selection)]="selectedProduct" (onRowSelect)="onRowSelect($event)"
-    [loading]="loading" scrollable="true" [rows]="10" [paginator]="false" selectionMode="single" [(selection)]="selectedProduct"
-    (onRowSelect)="onRowSelect($event)" [paginator]="true" rows="15" [responsive]="true">
-    <p-header>Urunler
-        <div class="ui-helper-clearfix" style="width:100%">
-            <button type="button" pButton icon="fa-plus" style="float:left" (click)="showDialogToAdd()" label="Yeni Urun Ekle"></button>
-        </div>
-    </p-header>
-    <p-column field="barcodeOfProduct" header="Barkod" [filter]="true" filterPlaceholder="Barkod Ara" [sortable]="true"></p-column>
-    <p-column field="orderNumber" header="Siparis No" [filter]="true" filterPlaceholder="Siparis No Ara" [sortable]="true"></p-column>
-    <p-column field="productName" header="Urun Adi" [filter]="true" filterPlaceholder="Urun Ara" [sortable]="true"></p-column>
-    <p-column field="purchasePrice" header="Alis Fiyati" [sortable]="true"></p-column>
-    <p-column field="netSalePrice" header="Net Satis Fiyati" [sortable]="true"></p-column>
-</p-dataTable>
-<div>
 
+
+
+    <div class='main'>
+        <div class='content full'>
+            <div class='row' style="margin:0px;">
+                <div class='col-md-12 '>
+                    <p-dataTable [value]="products" [rowStyleClass]="customize" [(selection)]="selectedProduct" (onRowSelect)="onRowSelect($event)"
+                    [loading]="loading" scrollable="true" scrollHeight="{{windowsHeight()}}"  [paginator]="false" selectionMode="single" [(selection)]="selectedProduct"
+                    (onRowSelect)="onRowSelect($event)" [responsive]="true">
+                    <p-header>Urunler
+                        <div class="ui-helper-clearfix" style="width:100%">
+                            <button type="button" pButton icon="fa-plus" style="float:left" (click)="showDialogToAdd()" label="Yeni Urun Ekle"></button>
+                        </div>
+                    </p-header>
+                    <p-column field="barcodeOfProduct" header="Barkod" [filter]="true" filterPlaceholder="Barkod Ara" [sortable]="true"></p-column>
+                    <p-column field="orderNumber" header="Siparis No" [filter]="true" filterPlaceholder="Siparis No Ara" [sortable]="true"></p-column>
+                    <p-column field="productName" header="Urun Adi" [filter]="true" filterPlaceholder="Urun Ara" [sortable]="true"></p-column>
+                    <p-column field="purchasePrice" header="Alis Fiyati" [sortable]="true"></p-column>
+                    <p-column field="netSalePrice" header="Net Satis Fiyati" [sortable]="true"></p-column>
+                </p-dataTable>
+                <div>
+            </div>
+        </div>
+    </div>
+    
     <p-dialog header="Urun Detayi" [(visible)]="displayDialog" [responsive]="true" [width]="400" showEffect="fade" [modal]="true">
         <div>
             <form class="" #productForm="ngForm">

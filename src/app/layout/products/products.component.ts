@@ -143,7 +143,9 @@ export class ProductsComponent implements OnInit {
       }
       );
   }
-
+  windowsHeight(){
+    return (window.screen.height*0.80-120) + "px";
+  }
   //#region Bindings
   getCategories() {
     this.commonServices.getCategories(this.config.getCategoriesUrl, this.categories)
