@@ -142,7 +142,7 @@
         </div>
         <p-footer>
             <div class="ui-dialog-buttonpane ui-helper-clearfix">
-                <button type="button" class="ui-button-danger" pButton icon="fa-close" (click)="delete()" label="{{deleteButtonText}}"></button>
+                <button type="button" class="ui-button-danger" [disabled]="newProduct" pButton icon="fa-close" (click)="delete()" label="{{deleteButtonText}}"></button>
                 <button type="button" class="ui-button-success" [disabled]="!productForm.form.valid    ||selectedCategory.name==null" pButton
                     icon="fa-check" (click)="save()" label="Kaydet"></button>
             </div>

@@ -140,7 +140,7 @@
     </div>
     <p-footer>
         <div class="ui-dialog-buttonpane ui-helper-clearfix">
-            <button type="button" class="ui-button-danger" pButton icon="fa-close" (click)="delete()" label="{{activeButtonText}}"></button>
+            <button type="button" class="ui-button-danger" [disabled]="newCustomer"  pButton icon="fa-close" (click)="delete()" label="{{activeButtonText}}"></button>
             <button type="button" class="ui-button-success" [disabled]="!customerForm.form.valid " pButton icon="fa-check" (click)="save()"
                 label="Kaydet"></button>
         </div>
