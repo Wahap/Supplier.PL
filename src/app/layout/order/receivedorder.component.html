@@ -1,20 +1,31 @@
+<span class="label label-info">Info Label</span>
 <p-dataTable [value]="this.receivedOrders" scrollable="true" [rows]="14" [paginator]="true" [loading]="loading">
     <p-header>Onay Bekleyen Siparişler</p-header>
-    <p-column field="id" header="Sipariş No">
+    <p-column field="id" header="Sipariş No" [style]="{'width':'5%' }">
         <ng-template let-col pTemplate="body" let-order="rowData">
             {{order.id}}
         </ng-template>
     </p-column>
+    <p-column field="companyName" header="Firma Adi">
+        <ng-template let-col pTemplate="body" let-order="rowData">
+            {{order.customer.companyName}}
+        </ng-template>
+    </p-column>
 
-    <p-column field="address" header="Adres">
+    <p-column field="address" header="Adres" [style]="{'width':'25%' }">
         <ng-template let-col pTemplate="body" let-order="rowData">
             {{order.address.street + ',' + order.address.postCode + ','+order.address.city.name}}
         </ng-template>
     </p-column>
-    <p-column field="orderStatus" header="Durum">
+    <p-column field="orderStatus" header="Durum" >
         <ng-template let-col pTemplate="body" let-order="rowData">
             <!-- {{order.orderStatus==2?'Onaylandı':'Beklemede'}} -->
-            Beklemede
+         
+      
+            <label  style="margin-right: 10px; background-color: #f0ad4e !important; border-color: #f0ad4e !important ;color:white"  for="barcodeOfPackage">Beklemede</label>
+                <button type="button" class="ui-button-success" pButton icon="fa-check" (click)="approveOrder(order)" label="Onayla"></button>
+        
+         
         </ng-template>
     </p-column>
 

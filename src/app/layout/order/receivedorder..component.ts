@@ -48,7 +48,7 @@ export class ReceivedOrderComponent implements OnInit {
 
     this.orderService.getAllOrders(this.config.getAllOrderByStatusUrl, receivedOrder)
       .subscribe(items => {
-        this.receivedOrders = items;
+         this.receivedOrders = items;
         this.loading = false;
       },
       error => this.toastr.error('Siparisler getirilirken hata ile karsilasildi.', 'Error!'),
@@ -58,7 +58,25 @@ export class ReceivedOrderComponent implements OnInit {
       }
       );
   }
+  approveOrder(order){
+    //OrderStatus=2  Approved
+    order.orderStatus= orderStatus.Approved;
+    this.loading = true; 
 
+    this.orderService.getAllOrders(this.config.saveReceivedOrder, order)
+      .subscribe(items => { 
+        this.loading = false;
+        let order = new receivedOrder();
+        order.orderStatus = orderStatus.Waiting;
+        this.getAllOrderByStatus( this.receivedOrder);
+      },
+      error => this.toastr.error('Siparis Onaylanirken hata ile karsilasildi.', 'Error!'),
+      () => {
+        //finally bloke ..!
+        // No errors, route to new page
+      }
+      );
+  }
   showOrderDetails(orderDetail: receivedOrder) {
     // Show order details using PrimeNG
     this.loading = true;

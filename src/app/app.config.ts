@@ -14,6 +14,7 @@ export interface IConfig {
 	saveOrDeleteAddress:string;
 	getAllOrderByStatusUrl:string;
 	getOrderDetails:string;
+	saveReceivedOrder:string;
 
 
 };
@@ -28,7 +29,7 @@ export class ConfigService {
 		let serverLoginPath = 'https://supplier.azurewebsites.net/api/', serverLoginPathDebug = 'http://localhost:4315/api/';
 
 		let serverUserNotificationPath = '';
-		let debug = true;
+		let debug = false;
 
 		let getUsers = (debug ? serverLoginPathDebug + "authentication/login" : serverLoginPath + "userCont/getusers");
 		//let logInUrl = (debug ? serverLoginPathDebug + "userCont/login" : serverLoginPath + "userCont/login");
@@ -47,6 +48,7 @@ export class ConfigService {
 		let saveOrDeleteAddress = (debug ? serverLoginPathDebug + "Customer/" : serverLoginPath + "Customer/");
 		let getAllOrderByStatusUrl = (debug ? serverLoginPathDebug + "order/getReceivedOrderProductsByStatus" : serverLoginPath + "order/getReceivedOrderProductsByStatus");
 		let getOrderDetails = (debug ? serverLoginPathDebug + "order/getReceivedOrderProducts" : serverLoginPath + "order/getReceivedOrderProducts");
+		let saveReceivedOrder = (debug ? serverLoginPathDebug + "order/updatereceivedorder" : serverLoginPath + "order/updatereceivedorder");
 		
 		
 		return {
@@ -64,7 +66,8 @@ export class ConfigService {
 			saveCustomerUrl:saveCustomerUrl,
 			saveOrDeleteAddress:saveOrDeleteAddress,
 			getAllOrderByStatusUrl:getAllOrderByStatusUrl,
-			getOrderDetails:getOrderDetails
+			getOrderDetails:getOrderDetails,
+			saveReceivedOrder:saveReceivedOrder,
 
 		}
 	}

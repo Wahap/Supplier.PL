@@ -18,7 +18,6 @@ import { PdfExporterComponent } from '../pdf-exporter/pdf-exporter.component';
 
 
 
-
 @NgModule({
     imports: [
         CommonModule,
@@ -29,6 +28,7 @@ import { PdfExporterComponent } from '../pdf-exporter/pdf-exporter.component';
         InputTextModule, DataTableModule, SharedModule,ButtonModule,DialogModule,
         StepsModule ,DropdownModule
     ],
-    declarations: [PdfExporterComponent,LayoutComponent, SidebarComponent, HeaderComponent, ProductsComponent, CustomersComponent, ReceivedOrderComponent, ApprovedOrdersComponent]
+    declarations: [PdfExporterComponent,LayoutComponent, SidebarComponent, HeaderComponent, ProductsComponent, CustomersComponent, ReceivedOrderComponent,
+         ApprovedOrdersComponent]
 })
 export class LayoutModule {}
