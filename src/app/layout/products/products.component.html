@@ -6,7 +6,7 @@
             <div class='row' style="margin:0px;">
                 <div class='col-md-12 '>
                     <p-dataTable [value]="products" [rowStyleClass]="customize" [(selection)]="selectedProduct" (onRowSelect)="onRowSelect($event)"
-                    [loading]="loading" scrollable="true" scrollHeight="{{windowsHeight()}}"  [paginator]="false" selectionMode="single" [(selection)]="selectedProduct"
+                    [loading]="loading" scrollable="true" scrollHeight="{{windowsHeight()}}" resizableColumns="true" [paginator]="false" selectionMode="single" [(selection)]="selectedProduct"
                     (onRowSelect)="onRowSelect($event)" [responsive]="true">
                     <p-header>Urunler
                         <div class="ui-helper-clearfix" style="width:100%">

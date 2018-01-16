@@ -214,5 +214,8 @@ export class CustomersComponent implements OnInit {
   customize(rowData, rowIndex): string {
     return rowData.isActive ? "" : "inactive-row";
   }
+  windowsHeight(){
+    return (window.screen.height*0.80-120) + "px";
+  }
 
 }

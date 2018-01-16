@@ -1,6 +1,6 @@
 <!-->Customer Grid -->
 <p-dataTable [value]="customers" [rowStyleClass]="customize" [(selection)]="selectedCustomer" (onRowSelect)="onRowSelect($event)"
-    [loading]="loading" scrollable="true" [rows]="10" [paginator]="false" selectionMode="single" [(selection)]="selectedCustomer"
+    [loading]="loading" scrollable="true" scrollHeight="{{windowsHeight()}}" resizableColumns="true"  [rows]="10" [paginator]="false" selectionMode="single" [(selection)]="selectedCustomer"
     (onRowSelect)="onRowSelect($event)" [paginator]="true" rows="15" [responsive]="true">
     <p-header>Müşteriler
         <div class="ui-helper-clearfix" style="width:100%">

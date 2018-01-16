@@ -7,6 +7,12 @@
 .inactive-row {
     background: red !important;
 }
+.ui-datatable-data> tr> td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
+  }
 .ui-steps .ui-steps-item {
     width: 50%;
 }
