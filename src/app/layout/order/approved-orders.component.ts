@@ -44,10 +44,10 @@ export class ApprovedOrdersComponent implements OnInit {
 
     this.orderService.getAllOrders(this.config.getAllOrderByStatusUrl, receivedOrder)
       .subscribe(items => {
-        if (items != null && items.length != 0) {
+    //    if (items != null && items.length != 0) {
           this.approvedOrders = items;
           this.loading = false;
-        }
+    //    }
       },
       error => this.toastr.error('Siparisler getirilirken hata ile karsilasildi.', 'Error!'),
       () => {

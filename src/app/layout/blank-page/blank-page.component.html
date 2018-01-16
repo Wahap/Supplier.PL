@@ -12,8 +12,8 @@
 </div>
 <div class="col-md-4 col-md-offset-4">
         <div class="card card-container">
-          <div [hidden]="submitted">
-            <form class="form-signin"  (ngSubmit)="onSubmit()" #loginForm="ngForm">
+          <div [hidden]="">
+            <form class="form-signin"   #loginForm="ngForm">
                 <input type="email" class="form-control margin5bottom" required [(ngModel)]="model.username" placeholder="Email address" name="username" #username="ngModel">
                 <div [hidden]="username.valid || username.pristine" class="alert alert-danger">Name is required</div>
                 <input type="password" required class="form-control margin5bottom" placeholder="Password" [(ngModel)]="model.password" name="password">

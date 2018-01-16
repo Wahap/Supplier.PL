@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
                     localStorage.setItem('userToken', items.token);
                     //Remember me Conan..
                     this.rememberMe();
-                    this.router.navigate(['/dashboard']);
+                    this.router.navigate(['/products']);
                 }
                 this.toastr.error('Lutfen Sifre yada Kullanici Adinizi Kontrol Ediniz', 'Error!')
             },

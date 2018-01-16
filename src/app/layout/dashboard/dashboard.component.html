@@ -1,5 +1,5 @@
 <div [@routerTransition]>
-    <h2 class="text-muted">Dashboard <small>Statistics Overview</small></h2>
+    <h2 class="text-muted">Dashboard <small></small></h2>
     <div class="row">
         <div class="col-md-12">
             <ngb-carousel>
@@ -16,20 +16,20 @@
     <hr>
     <div class="row">
         <div class="col-xl-3 col-lg-6">
-            <app-stat [bgClass]="'primary'" [icon]="'fa-comments'" [count]="26" [label]="'New Comments!'" ></app-stat>
+            <app-stat [bgClass]="'primary'" [icon]="'fa-comments'"  [count]="26" [label]="'Musteri Sayisi!'" ></app-stat>
         </div>
         <div class="col-xl-3 col-lg-6">
-            <app-stat [bgClass]="'warning'" [icon]="'fa-tasks'" [count]="12" [label]="'New task!'" ></app-stat>
+            <app-stat [bgClass]="'warning'" [icon]="'fa-tasks'" [count]="12" [label]="'Yeni Gorevler!'" ></app-stat>
         </div>
         <div class="col-xl-3 col-lg-6">
-            <app-stat [bgClass]="'success'" [icon]="'fa-shopping-cart'" [count]="124" [label]="'New Orders!'" ></app-stat>
+            <app-stat [bgClass]="'success'" [icon]="'fa-shopping-cart'" [count]="124" [label]="'Yeni Siparisler'" ></app-stat>
         </div>
         <div class="col-xl-3 col-lg-6">
             <app-stat [bgClass]="'danger'" [icon]="'fa-support'" [count]="13" [label]="'New Tickets!'"></app-stat>
         </div>
     </div>
     <hr />
-    <ngb-alert [type]="alert.type" (close)="closeAlert(alert)" *ngFor="let alert of alerts">{{ alert.message }}</ngb-alert>
+    <!-- <ngb-alert [type]="alert.type" (close)="closeAlert(alert)" *ngFor="let alert of alerts">{{ alert.message }}</ngb-alert> -->
     <hr />
     <div class="row">
         <div class="col-lg-8">
@@ -38,7 +38,7 @@
                     <i class="fa fa-clock-o fa-fw"></i> Responsive Timeline
                 </div>
                 <!-- /.card-header -->
-                <app-timeline></app-timeline>
+                <!-- <app-timeline></app-timeline> -->
                 <!-- /.card-body -->
             </div>
             <!-- /.card -->
@@ -50,12 +50,12 @@
                     <i class="fa fa-bell fa-fw"></i> Notifications card
                 </div>
                 <!-- /.card-header -->
-                <app-notification></app-notification>
+                <!-- <app-notification></app-notification> -->
                 <!-- /.card-body -->
             </div>
             <!-- /.card -->
 
-            <app-chat></app-chat>
+            <!-- <app-chat></app-chat> -->
             <!-- /.card .chat-card -->
         </div>
         <!-- /.col-lg-4 -->

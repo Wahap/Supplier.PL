@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
@@ -53,6 +53,7 @@ export function createTranslateLoader(http: HttpClient) {
     declarations: [AppComponent],
     providers: [AuthGuard, LoginServiceService, ConfigService,
         BlankPageService, ProductsService, CommonService, CustomersService, OrderService, {provide: ToastOptions, useClass: CustomOption},
+        [{provide: LocationStrategy, useClass: HashLocationStrategy}]
     ],
     bootstrap: [AppComponent]
 })
