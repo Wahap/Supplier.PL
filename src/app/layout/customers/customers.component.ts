@@ -145,7 +145,7 @@ export class CustomersComponent implements OnInit {
     //save address
     this.loading = true;
     address.customerId = this.selectedCustomer.id;
-    if (this.selectedCity.id) {
+    if (this.selectedCity!=null) {
       address.cityId = this.selectedCity.id;
     }
     this.customersService.getCustomers(this.config.saveOrDeleteAddress + saveOrDelete, address)
