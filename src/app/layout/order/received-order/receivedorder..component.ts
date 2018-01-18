@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
-import { receivedOrder } from '../../shared/DTOs/receivedOrder';
-import { customer } from '../../shared/DTOs/customer';
-import { OrderService } from './order.service';
-import { ConfigService, IConfig } from '../../app.config';
 import { ToastsManager } from 'ng2-toastr';
-import { orderStatus } from './orderStatus';
-import { receivedOrderProduct } from '../../shared/DTOs/receivedOrderProduct';
+import { IConfig, ConfigService } from '../../../app.config';
+import { receivedOrder } from '../../../shared/DTOs/receivedOrder';
+import { customer } from '../../../shared/DTOs/customer';
+import { receivedOrderProduct } from '../../../shared/DTOs/receivedOrderProduct';
+import { orderStatus } from '../orderStatus';
+import { OrderService } from '../order.service';
 
 
 

@@ -3,8 +3,10 @@ import { Routes, RouterModule } from '@angular/router';
 import { LayoutComponent } from './layout.component';
 import { ProductsComponent } from './products/products.component';
 import { CustomersComponent } from './customers/customers.component';
-import { ReceivedOrderComponent } from './order/receivedorder..component';
-import { ApprovedOrdersComponent } from './order/approved-orders.component';
+import { ReceivedOrderComponent } from './order/received-order/receivedorder..component';
+import { ApprovedOrdersComponent } from './order/approved-order/approved-orders.component';
+import { CancelledOrderComponent } from './order/cancelled-order/cancelled-order.component';
+
 
 
 const routes: Routes = [
@@ -18,6 +20,7 @@ const routes: Routes = [
             { path: 'customers',component:CustomersComponent },
             { path: 'receivedOrders',component:ReceivedOrderComponent },
             { path: 'approvedOrders',component:ApprovedOrdersComponent },
+            { path: 'cancelledOrders',component:CancelledOrderComponent },
             { path: 'charts', loadChildren: './charts/charts.module#ChartsModule' },
             { path: 'tables', loadChildren: './tables/tables.module#TablesModule' },
             { path: 'forms', loadChildren: './form/form.module#FormModule' },

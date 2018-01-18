@@ -11,9 +11,11 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HeaderComponent } from './components/header/header.component';
 import { ProductsComponent } from './products/products.component';
 import { CustomersComponent } from './customers/customers.component';
-import { ReceivedOrderComponent } from './order/receivedorder..component';
-import { ApprovedOrdersComponent } from './order/approved-orders.component';
+
 import { PdfExporterComponent } from '../pdf-exporter/pdf-exporter.component';
+import { CancelledOrderComponent } from './order/cancelled-order/cancelled-order.component';
+import { ApprovedOrdersComponent } from './order/approved-order/approved-orders.component';
+import { ReceivedOrderComponent } from './order/received-order/receivedorder..component';
 
 
 
@@ -29,6 +31,7 @@ import { PdfExporterComponent } from '../pdf-exporter/pdf-exporter.component';
         StepsModule ,DropdownModule
     ],
     declarations: [PdfExporterComponent,LayoutComponent, SidebarComponent, HeaderComponent, ProductsComponent, CustomersComponent, ReceivedOrderComponent,
-         ApprovedOrdersComponent]
+         ApprovedOrdersComponent,
+         CancelledOrderComponent]
 })
 export class LayoutModule {}

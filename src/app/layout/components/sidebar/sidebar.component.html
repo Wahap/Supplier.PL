@@ -30,6 +30,12 @@
                             <i class="fa fa-fw fa-list-alt "></i>&nbsp;{{ 'Onaylanmiş' | translate }}
                         </a>
                     </li>
+                    <li>
+
+                        <a [routerLink]="['/cancelledOrders']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                            <i class="fa fa-fw fa-list-alt "></i>&nbsp;{{ 'Iptal Edilmis' | translate }}
+                        </a>
+                    </li>
                 </ul>
             </li>
         </div>
