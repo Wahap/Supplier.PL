@@ -67,6 +67,7 @@ export class ReceivedOrderComponent implements OnInit {
       .subscribe(items => { 
         this.loading = false;
         let order = new receivedOrder();
+        this.toastr.success('Siparis Onaylanmistir.', 'Basarili!')
         order.orderStatus = orderStatus.Waiting;
         this.getAllOrderByStatus( this.receivedOrder);
       },
