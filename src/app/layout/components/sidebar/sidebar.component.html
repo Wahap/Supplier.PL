@@ -14,10 +14,10 @@
         </a>
        
         <div class="nested-menu">
-            <a class="list-group-item" (click)="addExpandClass('pages')">
+            <a class="list-group-item" (click)="addExpandClass('siparis')">
                 <span><i class="fa fa-shopping-cart"></i>&nbsp; {{ 'Siparişler' | translate }}</span>
             </a>
-            <li class="nested" [class.expand]="showMenu === 'pages'">
+            <li class="nested" [class.expand]="showMenu === 'siparis'">
                 <ul class="submenu">
                     <li>
                         <a [routerLink]="['/receivedOrders']" [routerLinkActive]="['router-link-active']" class="list-group-item">
@@ -34,6 +34,27 @@
             </li>
         </div>
 
+        <div class="nested-menu">
+            <a class="list-group-item" (click)="addExpandClass('irsaliye')">
+                <span><i class="fa fa-shopping-cart"></i>&nbsp; {{ 'irsaliyeler' | translate }}</span>
+            </a>
+            <li class="nested" [class.expand]="showMenu === 'irsaliye'">
+                <ul class="submenu">
+                    <li>
+                        <a [routerLink]="['/waybills']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                            <i class="fa fa-fw fa-shopping-basket"></i>&nbsp;{{ 'irsaliye Listesi' | translate }}
+                        </a>
+                    </li>
+                    <li>
+
+                        <a [routerLink]="['/newWaybill']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                            <i class="fa fa-fw fa-list-alt "></i>&nbsp;{{ 'Yeni irsaliye' | translate }}
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </div>
+      
 
         <!-- <a [routerLink]="['/charts']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;{{ 'Charts' | translate }}

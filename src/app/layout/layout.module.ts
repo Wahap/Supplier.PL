@@ -14,6 +14,8 @@ import { CustomersComponent } from './customers/customers.component';
 import { ReceivedOrderComponent } from './order/receivedorder..component';
 import { ApprovedOrdersComponent } from './order/approved-orders.component';
 import { PdfExporterComponent } from '../pdf-exporter/pdf-exporter.component';
+import { NewWaybillComponent } from './waybills/new-waybill/new-waybill.component';
+import { WaybillsListComponent } from './waybills/waybills-list/waybills-list.component';
 
 
 
@@ -29,6 +31,8 @@ import { PdfExporterComponent } from '../pdf-exporter/pdf-exporter.component';
         StepsModule ,DropdownModule
     ],
     declarations: [PdfExporterComponent,LayoutComponent, SidebarComponent, HeaderComponent, ProductsComponent, CustomersComponent, ReceivedOrderComponent,
-         ApprovedOrdersComponent]
+         ApprovedOrdersComponent,
+         NewWaybillComponent,
+         WaybillsListComponent]
 })
 export class LayoutModule {}

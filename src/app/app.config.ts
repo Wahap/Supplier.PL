@@ -2,8 +2,11 @@ export interface IConfig {
 	logInUrl: string;
 	getUsers: string;
 	calculate: string;
+
 	getProductsUrl: string;
 	saveProductsUrl:string;
+	getProductsWithRelationalEntitiesUrl:string;
+
 	getCategoriesUrl: string;
 	getAllUnitsUrl: string;
 	getAllBrandsUrl: string;
@@ -38,8 +41,12 @@ export class ConfigService {
 		let logInUrl = (debug ? serverLoginPathDebug + "User/login" : serverLoginPath + "User/login");
 		let getLogOutURl = (debug ? serverLoginPathDebug + "authentication/logout" : serverLoginPath + "authentication/logout");
 		let calculate = (debug ? serverLoginPathDebug + "Operation" : serverLoginPath + "Operation");
+		//ProductController 
 		let getProductsUrl = (debug ? serverLoginPathDebug + "Product/getallproducts" : serverLoginPath + "Product/getallproducts");
+		let getProductsWithRelationalEntities = (debug ? serverLoginPathDebug + "Product/getallproductswithrelationalentities" : serverLoginPath + "Product/getallproductswithrelationalentities");
 		let saveProductsUrl = (debug ? serverLoginPathDebug + "Product/saveproduct" : serverLoginPath + "Product/saveproduct");
+		
+		
 		let getCategoriesUrl = (debug ? serverLoginPathDebug + "Common/getallcategories" : serverLoginPath + "Common/getallcategories");
 		let getAllUnitsUrl = (debug ? serverLoginPathDebug + "Common/getallunits" : serverLoginPath + "Common/getallunits");
 		let getAllBrandsUrl = (debug ? serverLoginPathDebug + "Common/getallbrands" : serverLoginPath + "Common/getallbrands");
@@ -59,6 +66,7 @@ export class ConfigService {
 			calculate: calculate,
 			getProductsUrl: getProductsUrl,
 			getCategoriesUrl: getCategoriesUrl,
+			getProductsWithRelationalEntitiesUrl:getProductsWithRelationalEntities,
 			getAllUnitsUrl: getAllUnitsUrl,
 			getAllBrandsUrl: getAllBrandsUrl,
 			getAllCitiesUrl: getAllCitiesUrl,
