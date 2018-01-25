@@ -19,6 +19,8 @@ export interface IConfig {
 	getOrderDetails:string;
 	saveReceivedOrder:string;
 
+	getLastWaybillUrl:string;
+
 
 };
 import { Injectable } from '@angular/core';
@@ -58,6 +60,8 @@ export class ConfigService {
 		let getAllOrderByStatusUrl = (debug ? serverLoginPathDebug + "order/getReceivedOrderProductsByStatus" : serverLoginPath + "order/getReceivedOrderProductsByStatus");
 		let getOrderDetails = (debug ? serverLoginPathDebug + "order/getReceivedOrderProducts" : serverLoginPath + "order/getReceivedOrderProducts");
 		let saveReceivedOrder = (debug ? serverLoginPathDebug + "order/updatereceivedorder" : serverLoginPath + "order/updatereceivedorder");
+
+		let getLastWaybillUrl = (debug ? serverLoginPathDebug + "waybill/getlastwaybill" : serverLoginPath + "waybill/getlastwaybill");
 		
 		
 		return {
@@ -78,6 +82,7 @@ export class ConfigService {
 			getAllOrderByStatusUrl:getAllOrderByStatusUrl,
 			getOrderDetails:getOrderDetails,
 			saveReceivedOrder:saveReceivedOrder,
+			getLastWaybillUrl:getLastWaybillUrl
 
 		}
 	}

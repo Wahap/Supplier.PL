@@ -5,6 +5,10 @@ import { IConfig, ConfigService } from '../../../app.config';
 import { WaybillProduct } from '../../../shared/DTOs/waybillProduct';
 import { retry } from 'rxjs/operator/retry';
 import { Waybill } from '../../../shared/DTOs/wayBill';
+import { customer } from '../../../shared/DTOs/customer';
+import { CustomersService } from '../../customers/customers.service';
+import { address } from '../../../shared/DTOs/address';
+import { WaybillService } from '../waybill.service';
 
 @Component({
   selector: 'app-new-waybill',
@@ -15,12 +19,44 @@ export class NewWaybillComponent implements OnInit {
   config: IConfig;
   basketProducts:BasketProduct[]=[];
   currentWaybill:BasketProduct[]=[];
-  constructor(private productsService:ProductsService,private configService: ConfigService) { }
+  customers:customer[]=[];
+  selectedCustomer:customer=new customer();
+  selectedAddress:address=new address();
+  lastWayBill:Waybill;
+  selectedDate:Date;
+  total:number=0;
+  constructor(private customerService:CustomersService, private waybillService:WaybillService, private productsService:ProductsService,private configService: ConfigService) { }
 
   ngOnInit() {
     this.config = this.configService.getAppConfig();
     this.fillBasketProducts();
     this.fillCurrentWaybill();
+    this.fillCustomers();
+    this.waybillService.getLastWaybill(this.config.getLastWaybillUrl,null).subscribe(result=>{
+      this.lastWayBill=result;
+    });
+  }
+  onCustomerSelect(event)
+  {
+    this.selectedCustomer=event.value;
+    
+    console.log(event);
+  }
+
+  onAddressSelect(event)
+  {
+    this.selectedAddress=event.value;
+    
+    console.log(event);
+  }
+  fillCustomers()
+  {
+    this.customerService.getCustomers(this.config.getCustomersUrl,null).subscribe(result=>
+      {
+
+        this.customers=result;
+        console.log(result);
+      });
   }
   increase(basketProduct:BasketProduct)
   {
@@ -52,7 +88,9 @@ export class NewWaybillComponent implements OnInit {
   fillCurrentWaybill() 
   {
     this.currentWaybill=JSON.parse(localStorage.getItem("currentWaybill")) || [];
+  
   }
+
 
   removeCurrentWaybill()
   {
