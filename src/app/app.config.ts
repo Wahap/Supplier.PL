@@ -20,6 +20,7 @@ export interface IConfig {
 	saveReceivedOrder:string;
 
 	getLastWaybillUrl:string;
+	createWaybillUrl:string;
 
 
 };
@@ -62,6 +63,7 @@ export class ConfigService {
 		let saveReceivedOrder = (debug ? serverLoginPathDebug + "order/updatereceivedorder" : serverLoginPath + "order/updatereceivedorder");
 
 		let getLastWaybillUrl = (debug ? serverLoginPathDebug + "waybill/getlastwaybill" : serverLoginPath + "waybill/getlastwaybill");
+		let createWaybillUrl = (debug ? serverLoginPathDebug + "waybill/create" : serverLoginPath + "waybill/create");
 		
 		
 		return {
@@ -82,7 +84,8 @@ export class ConfigService {
 			getAllOrderByStatusUrl:getAllOrderByStatusUrl,
 			getOrderDetails:getOrderDetails,
 			saveReceivedOrder:saveReceivedOrder,
-			getLastWaybillUrl:getLastWaybillUrl
+			getLastWaybillUrl:getLastWaybillUrl,
+			createWaybillUrl:createWaybillUrl
 
 		}
 	}

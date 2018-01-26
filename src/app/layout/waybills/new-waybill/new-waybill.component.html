@@ -22,13 +22,16 @@
             <p-column field="basketProducts.package" header="Koli" [style]="{'width':'20%'}">
                 <ng-template pTemplate="body" let-product="rowData">
                     <div class="ui-inputgroup">
-                        <button pButton type="button" (click)="decrease(product)">
+                            <button class="btnDecrease" (click)="decrease(product)">-</button>
+                            <input type="text" class="waybill-product-package" [(ngModel)]="product.package" />
+                             <button class="btnIncrease" (click)="increase(product)">+</button>
+                        <!-- <button pButton type="button" (click)="decrease(product)">
                             <i class="fa fa-2x fa-minus-circle"></i>
                         </button>
                         <input class="numberOfPackage ui-inputtext ui-corner-all ui-state-default ui-widget" type="number" pInputText [(ngModel)]="product.package">
                         <button pButton type="button" (click)="increase(product)">
                             <i class="fa fa-2x fa-plus-circle"></i>
-                        </button>
+                        </button> -->
                     </div>
 
                 </ng-template>
@@ -40,21 +43,11 @@
         <div id="waybillContainer">
 
             <div id="waybill-customer-selection">
-                <mat-form-field>
-                    <mat-select placeholder="Müşteri" (selectionChange)="onCustomerSelect($event)">
-                        <mat-option *ngFor="let cust of customers" [value]="cust">
-                            {{ cust.companyName }}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-
-                <mat-form-field>
-                    <mat-select placeholder="Adres" (selectionChange)="onAddressSelect($event)">
-                        <mat-option *ngFor="let address of selectedCustomer?.addresses" [value]="address">
-                            {{address.street}}, {{ address.city.name }}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
+                    <p-dropdown [options]="customers" [style]="{'width':'40%'}" [(ngModel)]="selectedCustomer" placeholder="Müşteri" optionLabel="companyName" filter="true"></p-dropdown>
+                    <p-dropdown *ngIf="selectedCustomer.id>0" [options]="selectedCustomer?.addresses" [style]="{'width':'20%'}" [(ngModel)]="selectedAddress" placeholder="Adres"  filter="true" optionLabel="street">
+                           
+                    </p-dropdown>
+               
 
                 <p-calendar [(ngModel)]="selectedDate" dateFormat="dd.mm.yy"></p-calendar>
             </div>
@@ -64,9 +57,9 @@
                     <div class="row">
                         <div class="col-md-8">
                             <p id="companyAddress">GÖRAL Vertriebs GMBH Kenan Aydin , OhligserStr. 22 , 42329 Wuppertal</p>
-                            <p id="customerAddress">{{selectedCustomer.companyName}}
-                                <br> {{selectedAddress.street}}
-                                <br> {{selectedAddress.postCode}} {{selectedAddress.city?.name}}
+                            <p id="customerAddress" class="border-bottom">{{selectedCustomer.companyName}}
+                                <br> {{selectedAddress?.street}}
+                                <br> {{selectedAddress?.postCode}} {{selectedAddress.city?.name}}
                             </p>
                         </div>
                         <div class="col-md-4" id="logo">
@@ -76,7 +69,7 @@
                             <p>Lieferdatum:{{selectedDate | date:'dd-MM-yyyy'}}</p>
                         </div>
                     </div>
-                    <h3>LIEFERSCHEIN: {{lastWaybill?.id+1 }}</h3>
+                    <h3 class="border-bottom">LIEFERSCHEIN: {{lastWaybill?.id+1 }}</h3>
                 </div>
                 <div id="waybillProducts">
                     <table class="table table-bordered">
@@ -88,7 +81,7 @@
                             <th>Text</th>
                         </tr>
 
-                        <tr *ngFor="let product of currentWaybill;index as i;toplam=0;">
+                        <tr  *ngFor="let product of currentWaybill;index as i;">
                             <td>{{i+1}}</td>
                             <td>
                                    
@@ -99,16 +92,12 @@
                             <td>{{product.product.barcodeOfProduct}}</td>
                             <td>{{product.product.productName}}</td>
                         </tr>
-                        <tr>
-                            <td></td>
-                            <td>{{total}}</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                           
-                        </tr>
+                       
                     </table>
                 </div>
+            </div>
+            <div id="waybillOperations">
+                <button class="btn btn-success" [disabled]="currentWaybill.length==0 || selectedCustomer.id==null || selectedAddress.id==null || selectedDate==null" (click)="saveWaybill()">KAYDET</button>
             </div>
         </div>
     </div>

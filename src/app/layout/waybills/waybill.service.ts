@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { Http, Response, RequestOptions, Headers } from '@angular/http';
 import 'rxjs';
 import { Observable } from 'rxjs/Observable';
+import { Waybill } from "../../shared/DTOs/wayBill";
 
 @Injectable()
 export class WaybillService 
@@ -20,4 +21,10 @@ export class WaybillService
         return this.http.post(url, input, this.options)
           .map((response: Response) => response.json());
       }
+
+    createNewWaybill(url: string, input: any):any
+    {
+        return this.http.post(url, input, this.options)
+        .map((response: Response) => response.json());
+    }
 }

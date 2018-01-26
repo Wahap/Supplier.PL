@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { BasketProduct } from '../../../shared/DTOs/basketProduct';
 import { ProductsService } from '../../products/products.service';
 import { IConfig, ConfigService } from '../../../app.config';
@@ -9,6 +9,7 @@ import { customer } from '../../../shared/DTOs/customer';
 import { CustomersService } from '../../customers/customers.service';
 import { address } from '../../../shared/DTOs/address';
 import { WaybillService } from '../waybill.service';
+import { ToastsManager } from 'ng2-toastr';
 
 @Component({
   selector: 'app-new-waybill',
@@ -24,8 +25,10 @@ export class NewWaybillComponent implements OnInit {
   selectedAddress:address=new address();
   lastWayBill:Waybill;
   selectedDate:Date;
-  total:number=0;
-  constructor(private customerService:CustomersService, private waybillService:WaybillService, private productsService:ProductsService,private configService: ConfigService) { }
+  constructor(private customerService:CustomersService,public toastr: ToastsManager, vcr: ViewContainerRef, private waybillService:WaybillService, private productsService:ProductsService,private configService: ConfigService) 
+  {
+    this.toastr.setRootViewContainerRef(vcr);
+   }
 
   ngOnInit() {
     this.config = this.configService.getAppConfig();
@@ -36,19 +39,7 @@ export class NewWaybillComponent implements OnInit {
       this.lastWayBill=result;
     });
   }
-  onCustomerSelect(event)
-  {
-    this.selectedCustomer=event.value;
-    
-    console.log(event);
-  }
-
-  onAddressSelect(event)
-  {
-    this.selectedAddress=event.value;
-    
-    console.log(event);
-  }
+ 
   fillCustomers()
   {
     this.customerService.getCustomers(this.config.getCustomersUrl,null).subscribe(result=>
@@ -172,6 +163,27 @@ export class NewWaybillComponent implements OnInit {
      });
    
     });
+  }
+
+  saveWaybill()
+  {
+    let waybill:Waybill=new Waybill();
+    waybill.addressId=this.selectedAddress.id;
+    waybill.customerId=this.selectedCustomer.id;
+    waybill.waybillDate=this.selectedDate;
+    waybill.waybillStatus=1;
+    this.currentWaybill.forEach(basketProduct => {
+      let waybillProduct=new WaybillProduct();
+      waybillProduct.numberOfPackage=basketProduct.package;
+      waybillProduct.productId=basketProduct.product.id;
+      waybill.waybillProducts.push(waybillProduct);
+    });
+
+    this.waybillService.createNewWaybill(this.config.createWaybillUrl,waybill).subscribe(result=>{
+      this.toastr.info("irsaliye başarıyla oluşturuldu...");
+    });
+    
+
   }
 
 }

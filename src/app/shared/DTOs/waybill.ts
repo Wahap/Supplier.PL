@@ -1,5 +1,6 @@
 import { customer } from "./customer";
 import { address } from "./address";
+import { WaybillProduct } from "./waybillProduct";
 export class Waybill
 {
     id:number;
@@ -15,4 +16,6 @@ export class Waybill
     customer:customer;
 
     address:address;
+
+    waybillProducts:WaybillProduct[]=[];
 }
