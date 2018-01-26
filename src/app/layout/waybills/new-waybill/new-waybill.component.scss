@@ -32,7 +32,9 @@ mat-dialog-container {
 }
 #waybill-preview
 {
-    background-image: url('/assets/images/paper.jpg');
+    background-image: url(/assets/images/paper.jpg);
+    border: 2px solid black;
+    padding: 3px;
 }
 
 .waybill-product-package
@@ -51,4 +53,20 @@ mat-dialog-container {
 #customerAddress
 {
     font-weight: bold;
+  
+}
+
+.border-bottom
+{
+    border-bottom:1px solid #ccc;
+}
+
+#waybill-preview tr
+{
+    border-bottom:2pt solid #ccc;
+}
+
+#waybillOperations
+{
+    margin-top: 10px;
 }
