@@ -5,6 +5,7 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import {InputTextModule,DataTableModule,SharedModule,ButtonModule,DialogModule, 
     StepsModule,DropdownModule} from 'primeng/primeng';
+    import { CalendarModule } from 'primeng/primeng';
 import { LayoutRoutingModule } from './layout-routing.module';
 import { LayoutComponent } from './layout.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
@@ -16,6 +17,9 @@ import { PdfExporterComponent } from '../pdf-exporter/pdf-exporter.component';
 import { CancelledOrderComponent } from './order/cancelled-order/cancelled-order.component';
 import { ApprovedOrdersComponent } from './order/approved-order/approved-orders.component';
 import { ReceivedOrderComponent } from './order/received-order/receivedorder..component';
+import { NewWaybillComponent } from './waybills/new-waybill/new-waybill.component';
+import { WaybillsListComponent } from './waybills/waybills-list/waybills-list.component';
+import { MaterialModule } from './material.module';
 
 
 
@@ -27,11 +31,14 @@ import { ReceivedOrderComponent } from './order/received-order/receivedorder..co
         TranslateModule,
         NgbDropdownModule.forRoot(),
         FormsModule,
-        InputTextModule, DataTableModule, SharedModule,ButtonModule,DialogModule,
-        StepsModule ,DropdownModule
+        InputTextModule, DataTableModule, SharedModule,ButtonModule,DialogModule,CalendarModule,
+        StepsModule ,DropdownModule,
+        MaterialModule
     ],
     declarations: [PdfExporterComponent,LayoutComponent, SidebarComponent, HeaderComponent, ProductsComponent, CustomersComponent, ReceivedOrderComponent,
          ApprovedOrdersComponent,
-         CancelledOrderComponent]
+         CancelledOrderComponent,
+         NewWaybillComponent,
+         WaybillsListComponent]
 })
 export class LayoutModule {}

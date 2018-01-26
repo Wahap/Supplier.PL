@@ -20,6 +20,7 @@ import { OrderService } from './layout/order/order.service';
 // AoT requires an exported function for factories
 // custom-option.ts
 import {ToastOptions} from 'ng2-toastr';
+import { WaybillService } from './layout/waybills/waybill.service';
 
 export class CustomOption extends ToastOptions {
   animate = 'flyRight'; // you can override any options available
@@ -52,7 +53,7 @@ export function createTranslateLoader(http: HttpClient) {
     ],
     declarations: [AppComponent],
     providers: [AuthGuard, LoginServiceService, ConfigService,
-        BlankPageService, ProductsService, CommonService, CustomersService, OrderService, {provide: ToastOptions, useClass: CustomOption},
+        BlankPageService, ProductsService, CommonService, CustomersService, OrderService, WaybillService, {provide: ToastOptions, useClass: CustomOption},
         [{provide: LocationStrategy, useClass: HashLocationStrategy}]
     ],
     bootstrap: [AppComponent]
