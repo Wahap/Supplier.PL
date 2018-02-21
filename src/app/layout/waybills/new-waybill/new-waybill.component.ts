@@ -10,6 +10,8 @@ import { CustomersService } from '../../customers/customers.service';
 import { address } from '../../../shared/DTOs/address';
 import { WaybillService } from '../waybill.service';
 import { ToastsManager } from 'ng2-toastr';
+import { MatDialog } from '@angular/material';
+import { ConfirmComponent } from '../../../shared/components/confirm/confirm.component';
 
 @Component({
   selector: 'app-new-waybill',
@@ -23,9 +25,9 @@ export class NewWaybillComponent implements OnInit {
   customers:customer[]=[];
   selectedCustomer:customer=new customer();
   selectedAddress:address=new address();
-  lastWayBill:Waybill;
+  lastWaybill:Waybill=new Waybill();
   selectedDate:Date;
-  constructor(private customerService:CustomersService,public toastr: ToastsManager, vcr: ViewContainerRef, private waybillService:WaybillService, private productsService:ProductsService,private configService: ConfigService) 
+  constructor(private customerService:CustomersService,public toastr: ToastsManager, vcr: ViewContainerRef, private waybillService:WaybillService, private productsService:ProductsService,private configService: ConfigService,public dialog: MatDialog) 
   {
     this.toastr.setRootViewContainerRef(vcr);
    }
@@ -35,11 +37,17 @@ export class NewWaybillComponent implements OnInit {
     this.fillBasketProducts();
     this.fillCurrentWaybill();
     this.fillCustomers();
-    this.waybillService.getLastWaybill(this.config.getLastWaybillUrl,null).subscribe(result=>{
-      this.lastWayBill=result;
-    });
+   this.setLastWaybill();
   }
  
+  setLastWaybill()
+  {
+    this.waybillService.getLastWaybill(this.config.getLastWaybillUrl,null).subscribe(result=>{
+      console.log(result);
+      this.lastWaybill=result;
+    });
+  }
+
   fillCustomers()
   {
     this.customerService.getCustomers(this.config.getCustomersUrl,null).subscribe(result=>
@@ -82,7 +90,20 @@ export class NewWaybillComponent implements OnInit {
   
   }
 
+ clearProducts()
+ {
+  let dialogRef = this.dialog.open(ConfirmComponent, {
+    width: '50%',
+    data: { title:"irsaliyeyi sıfırlamak istiyor musunuz?" }
+  });
 
+  dialogRef.afterClosed().subscribe(result => {
+   if(result=='yes')
+   {
+    this.removeCurrentWaybill();
+   }
+  });
+ }
   removeCurrentWaybill()
   {
     localStorage.removeItem("currentWaybill");
@@ -181,6 +202,8 @@ export class NewWaybillComponent implements OnInit {
 
     this.waybillService.createNewWaybill(this.config.createWaybillUrl,waybill).subscribe(result=>{
       this.toastr.info("irsaliye başarıyla oluşturuldu...");
+      this.removeCurrentWaybill();
+      this.setLastWaybill();
     });
     
 
