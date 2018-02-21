@@ -25,13 +25,7 @@
                             <button class="btnDecrease" (click)="decrease(product)">-</button>
                             <input type="text" class="waybill-product-package" [(ngModel)]="product.package" />
                              <button class="btnIncrease" (click)="increase(product)">+</button>
-                        <!-- <button pButton type="button" (click)="decrease(product)">
-                            <i class="fa fa-2x fa-minus-circle"></i>
-                        </button>
-                        <input class="numberOfPackage ui-inputtext ui-corner-all ui-state-default ui-widget" type="number" pInputText [(ngModel)]="product.package">
-                        <button pButton type="button" (click)="increase(product)">
-                            <i class="fa fa-2x fa-plus-circle"></i>
-                        </button> -->
+                      
                     </div>
 
                 </ng-template>
@@ -98,6 +92,8 @@
             </div>
             <div id="waybillOperations">
                 <button class="btn btn-success" [disabled]="currentWaybill.length==0 || selectedCustomer.id==null || selectedAddress.id==null || selectedDate==null" (click)="saveWaybill()">KAYDET</button>
+
+                <button class="btn btn-danger" [disabled]="currentWaybill.length<1" (click)="clearProducts()">Temizle</button>
             </div>
         </div>
     </div>

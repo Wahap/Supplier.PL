@@ -21,6 +21,7 @@ import { OrderService } from './layout/order/order.service';
 // custom-option.ts
 import {ToastOptions} from 'ng2-toastr';
 import { WaybillService } from './layout/waybills/waybill.service';
+import { ConfirmComponent } from './shared/components/confirm/confirm.component';
 
 export class CustomOption extends ToastOptions {
   animate = 'flyRight'; // you can override any options available
@@ -51,11 +52,14 @@ export function createTranslateLoader(http: HttpClient) {
         }),
         AppRoutingModule,
     ],
-    declarations: [AppComponent],
+    declarations: [AppComponent, ConfirmComponent],
     providers: [AuthGuard, LoginServiceService, ConfigService,
         BlankPageService, ProductsService, CommonService, CustomersService, OrderService, WaybillService, {provide: ToastOptions, useClass: CustomOption},
         [{provide: LocationStrategy, useClass: HashLocationStrategy}]
     ],
+    entryComponents: [
+        ConfirmComponent
+      ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
