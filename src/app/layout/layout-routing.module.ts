@@ -3,8 +3,10 @@ import { Routes, RouterModule } from '@angular/router';
 import { LayoutComponent } from './layout.component';
 import { ProductsComponent } from './products/products.component';
 import { CustomersComponent } from './customers/customers.component';
-import { ReceivedOrderComponent } from './order/receivedorder..component';
-import { ApprovedOrdersComponent } from './order/approved-orders.component';
+import { ReceivedOrderComponent } from './order/received-order/receivedorder..component';
+import { ApprovedOrdersComponent } from './order/approved-order/approved-orders.component';
+import { CancelledOrderComponent } from './order/cancelled-order/cancelled-order.component';
+
 import { NewWaybillComponent } from './waybills/new-waybill/new-waybill.component';
 import { WaybillsListComponent } from './waybills/waybills-list/waybills-list.component';
 
@@ -20,6 +22,7 @@ const routes: Routes = [
             { path: 'customers',component:CustomersComponent },
             { path: 'receivedOrders',component:ReceivedOrderComponent },
             { path: 'approvedOrders',component:ApprovedOrdersComponent },
+            { path: 'cancelledOrders',component:CancelledOrderComponent },
             { path: 'newWaybill',component:NewWaybillComponent },
             { path: 'waybills',component:WaybillsListComponent },
             { path: 'charts', loadChildren: './charts/charts.module#ChartsModule' },

@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
-import { receivedOrder } from '../../shared/DTOs/receivedOrder';
-import { customer } from '../../shared/DTOs/customer';
-import { OrderService } from './order.service';
-import { ConfigService, IConfig } from '../../app.config';
 import { ToastsManager } from 'ng2-toastr';
-import { orderStatus } from './orderStatus';
-import { receivedOrderProduct } from '../../shared/DTOs/receivedOrderProduct';
+import { IConfig, ConfigService } from '../../../app.config';
+import { receivedOrder } from '../../../shared/DTOs/receivedOrder';
+import { customer } from '../../../shared/DTOs/customer';
+import { receivedOrderProduct } from '../../../shared/DTOs/receivedOrderProduct';
+import { orderStatus } from '../orderStatus';
+import { OrderService } from '../order.service';
 
 
 
@@ -67,6 +67,7 @@ export class ReceivedOrderComponent implements OnInit {
       .subscribe(items => { 
         this.loading = false;
         let order = new receivedOrder();
+        this.toastr.success('Siparis Onaylanmistir.', 'Basarili!')
         order.orderStatus = orderStatus.Waiting;
         this.getAllOrderByStatus( this.receivedOrder);
       },

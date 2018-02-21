@@ -1,0 +1,67 @@
+<p-dataTable [value]="this.approvedOrders" scrollable="true" [rows]="14" [paginator]="true" [loading]="loading">
+  <p-header>Iptal Edilen Siparişler</p-header>
+
+  <p-column field="id" header="Sipariş No" [style]="{'width':'5%' }">
+      <ng-template let-col pTemplate="body" let-order="rowData">
+          {{order.id}}
+      </ng-template>
+  </p-column>
+  <p-column field="companyName" header="Firma Adi">
+      <ng-template let-col pTemplate="body" let-order="rowData">
+          {{order.customer.companyName}}
+      </ng-template>
+  </p-column>
+  <p-column field="address" header="Adres" [style]="{'width':'35%' }">
+      <ng-template let-col pTemplate="body" let-order="rowData">
+          {{order.address.street + ',' + order.address.postCode + ','+order.address.city.name}}
+      </ng-template>
+  </p-column>
+  <p-column field="orderStatus" header="Durum"[style]="{'width':'10%' }">
+      <ng-template let-col pTemplate="body" let-order="rowData">
+          <!-- {{order.orderStatus==2?'Onaylandı':'Beklemede'}} -->
+          <label  style="margin-right: 10px; background-color:Red !important; border-color: Red !important ;color:white"  for="barcodeOfPackage">Iptal Edilmis</label>
+      </ng-template>
+  </p-column>
+
+  <p-column field="orderDate" header="Tarih">
+      <ng-template let-col pTemplate="body" let-order="rowData">
+          {{order.orderDate | date}}
+      </ng-template>
+  </p-column>
+  <p-column field="" header="Detay" [style]="{'width':'15%' }">
+      <ng-template let-col pTemplate="body" let-order="rowData">
+          <button mat-raised-button color="primary" style="float: left; margin-right:5px " (click)="showOrderDetails(order)">Detay</button>
+          <pdf-exporter [orderData]="order"></pdf-exporter>
+      </ng-template>
+  </p-column>
+</p-dataTable>
+<!-->Order Details -->
+<p-dialog header="Siparis Detayi" [(visible)]="displayOrderDetails" [responsive]="true" [width]="800" showEffect="fade" [modal]="true">
+  <div>
+
+      <p-dataTable [value]="orderDetails" [loading]="loading" [rows]="15" [paginator]="true" [editable]="true" [responsive]="true">
+          <p-column field="barcodeOfProduct" header="Barkod">
+              <ng-template let-col pTemplate="body" let-order="rowData">
+                  {{order.product.barcodeOfProduct}}
+              </ng-template>
+          </p-column>
+          <p-column field="orderNumber" header="Sipariş No">
+              <ng-template let-col pTemplate="body" let-order="rowData">
+                  {{order.product.orderNumber}}
+              </ng-template>
+          </p-column>
+          <p-column field="productName" header="Ürün">
+              <ng-template let-col pTemplate="body" let-order="rowData">
+                  {{order.product.productName}}
+              </ng-template>
+          </p-column>
+
+          <p-column field="numberOfPackage" header="Sipariş Edilen(Koli)">
+              <ng-template let-col pTemplate="body" let-order="rowData">
+                  {{order.numberOfPackage}} ({{order.product.quantity + '/' + order.product.unit.name}})
+
+
+              </ng-template>
+          </p-column>
+      </p-dataTable>
+      <!--< Order Details -->

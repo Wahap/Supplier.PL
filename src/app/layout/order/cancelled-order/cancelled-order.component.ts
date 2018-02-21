@@ -1,18 +1,18 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
-import { receivedOrder } from '../../shared/DTOs/receivedOrder';
-import { customer } from '../../shared/DTOs/customer';
-import { OrderService } from './order.service';
-import { ConfigService, IConfig } from '../../app.config';
+import { receivedOrder } from '../../../shared/DTOs/receivedOrder';
+import { orderStatus } from '../orderStatus';
+import { OrderService } from '../order.service';
+import { ConfigService, IConfig } from '../../../app.config';
 import { ToastsManager } from 'ng2-toastr';
-import { orderStatus } from './orderStatus';
-import { receivedOrderProduct } from '../../shared/DTOs/receivedOrderProduct';
+import { receivedOrderProduct } from '../../../shared/DTOs/receivedOrderProduct';
+import { customer } from '../../../shared/DTOs/customer';
 
 @Component({
-  selector: 'app-approved-orders',
-  templateUrl: './approved-orders.component.html',
-  styleUrls: ['./approved-orders.component.scss']
+  selector: 'app-cancelled-order',
+  templateUrl: './cancelled-order.component.html',
+  styleUrls: ['./cancelled-order.component.scss']
 })
-export class ApprovedOrdersComponent implements OnInit {
+export class CancelledOrderComponent implements OnInit {
   initialCount: number = 10;
   config: IConfig;
   approvedOrders: receivedOrder[];
@@ -35,7 +35,7 @@ export class ApprovedOrdersComponent implements OnInit {
   ngOnInit() {
     this.config = this.configService.getAppConfig();
 
-    this.approvedOrder.orderStatus= orderStatus.Approved;
+    this.approvedOrder.orderStatus= orderStatus.Cancelled;
     this.getAllOrderByStatus(this.approvedOrder)
 
   }
