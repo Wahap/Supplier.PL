@@ -20,7 +20,10 @@ export interface IConfig {
 	saveReceivedOrder:string;
 
 	getLastWaybillUrl:string;
+	getWaybillUrl:string;
 	createWaybillUrl:string;
+	getAllWaybillsUrl:string;
+	deleteWaybillUrl:string;
 
 
 };
@@ -64,7 +67,9 @@ export class ConfigService {
 
 		let getLastWaybillUrl = (debug ? serverLoginPathDebug + "waybill/getlastwaybill" : serverLoginPath + "waybill/getlastwaybill");
 		let createWaybillUrl = (debug ? serverLoginPathDebug + "waybill/create" : serverLoginPath + "waybill/create");
-		
+		let getAllWaybillsUrl = (debug ? serverLoginPathDebug + "waybill/getallwaybills" : serverLoginPath + "waybill/getallwaybills");
+		let deleteWaybillUrl = (debug ? serverLoginPathDebug + "waybill/deletewaybill" : serverLoginPath + "waybill/deletewaybill");
+		let getWaybillUrl = (debug ? serverLoginPathDebug + "waybill/getwaybill" : serverLoginPath + "waybill/getwaybill");
 		
 		return {
 			logInUrl: logInUrl,
@@ -85,7 +90,10 @@ export class ConfigService {
 			getOrderDetails:getOrderDetails,
 			saveReceivedOrder:saveReceivedOrder,
 			getLastWaybillUrl:getLastWaybillUrl,
-			createWaybillUrl:createWaybillUrl
+			createWaybillUrl:createWaybillUrl,
+			getAllWaybillsUrl:getAllWaybillsUrl,
+			deleteWaybillUrl:deleteWaybillUrl,
+			getWaybillUrl:getWaybillUrl,
 
 		}
 	}

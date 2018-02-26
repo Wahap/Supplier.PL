@@ -5,11 +5,9 @@ import { Observable } from 'rxjs/Observable';
 import { Waybill } from "../../shared/DTOs/wayBill";
 
 @Injectable()
-export class WaybillService 
-{
+export class WaybillService {
     options: any;
-    constructor(private http:Http)
-    {
+    constructor(private http: Http) {
         let token = localStorage.getItem('userToken');
         let headers = new Headers({ 'Content-Type': 'application/json' });
         headers.append('Authorization', token)
@@ -19,12 +17,24 @@ export class WaybillService
 
     getLastWaybill(url: string, input: any): any {
         return this.http.post(url, input, this.options)
-          .map((response: Response) => response.json());
-      }
+            .map((response: Response) => response.json());
+    }
 
-    createNewWaybill(url: string, input: any):any
-    {
+    getWaybill(url: string, input: any): any {
         return this.http.post(url, input, this.options)
-        .map((response: Response) => response.json());
+            .map((response: Response) => response.json());
+    }
+    getAllWaybills(url: string, input: any): any {
+        return this.http.post(url, input, this.options)
+            .map((response: Response) => response.json());
+    }
+    createNewWaybill(url: string, input: any): any {
+        return this.http.post(url, input, this.options)
+            .map((response: Response) => response.json());
+    }
+
+    deleteWaybill(url: string, input: any): any {
+        return this.http.post(url, input, this.options)
+            .map((response: Response) => response.json());
     }
 }

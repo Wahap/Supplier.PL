@@ -1,3 +1,32 @@
-<p>
-  waybills-list works!
-</p>
+<p-dataTable [value]="allWaybills" [loading]="loading">
+  <p-header>irsaliye listesi</p-header>
+  <p-column field="id" header="Irs.No." [filter]="true" filterPlaceholder="Irs.No"></p-column>
+  <p-column field="customer.companyName" header="Firma" [filter]="true" filterPlaceholder="Firma" filterMatchMode="contains">
+    <ng-template pTemplate="body" let-col let-customer="rowData.customer">
+      {{customer?.companyName}}
+  </ng-template>
+  </p-column>
+  <p-column field="customer.customerName" header="Müşteri" [filter]="true"  filterPlaceholder="Müşteri" filterMatchMode="contains">
+    <ng-template pTemplate="body" let-col let-customer="rowData.customer">
+      {{customer?.customerName}} {{customer?.lastname}}  
+  </ng-template>
+  </p-column>
+
+  <p-column field="address.street" header="Adres" [filter]="true"  filterPlaceholder="Adres" filterMatchMode="contains">
+    <ng-template pTemplate="body" let-col let-address="rowData.address">
+      {{address?.street}},  {{address?.postCode}}, {{address?.city?.name}}
+  </ng-template>
+  </p-column>
+  <p-column field="id" header="Güncelle">
+      <ng-template pTemplate="body" let-col let-waybill="rowData">
+       <button class="btn btn-success btn-block" (click)="updateWaybill(waybill)">Güncelle</button>
+    </ng-template>
+    </p-column>
+  <p-column field="id" header="Sil">
+      <ng-template pTemplate="body" let-col let-waybill="rowData">
+       <button class="btn btn-danger btn-block" (click)="deleteWaybill(waybill)">Sil</button>
+    </ng-template>
+    </p-column>
+
+    
+</p-dataTable>

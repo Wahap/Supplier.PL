@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-6">
-        <p-dataTable [value]="basketProducts" scrollable="true" scrollHeight="500px">
+        <p-dataTable [value]="basketProducts"  scrollable="true" scrollHeight="500px">
             <p-header>Ürünler</p-header>
             <p-column field="basketProducts.product" header="Barkod" [style]="{'width':'27%'}">
                 <ng-template let-col let-product="rowData.product" pTemplate="body">
