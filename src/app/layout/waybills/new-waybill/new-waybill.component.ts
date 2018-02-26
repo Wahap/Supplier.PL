@@ -209,4 +209,8 @@ export class NewWaybillComponent implements OnInit {
 
   }
 
+  windowsHeight(){
+    return (window.screen.height -280) + "px";
+  }
+
 }
