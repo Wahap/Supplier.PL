@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, Input } from '@angular/core';
 import { BasketProduct } from '../../../shared/DTOs/basketProduct';
 import { ProductsService } from '../../products/products.service';
 import { IConfig, ConfigService } from '../../../app.config';
@@ -12,6 +12,7 @@ import { WaybillService } from '../waybill.service';
 import { ToastsManager } from 'ng2-toastr';
 import { MatDialog } from '@angular/material';
 import { ConfirmComponent } from '../../../shared/components/confirm/confirm.component';
+import { product } from '../../../shared/DTOs/product';
 
 @Component({
   selector: 'app-new-waybill',
@@ -27,19 +28,62 @@ export class NewWaybillComponent implements OnInit {
   selectedAddress:address=new address();
   lastWaybill:Waybill=new Waybill();
   selectedDate:Date;
+  productList:product[]=[];
+  @Input()
+  selectedWayBill: Waybill;
+
   constructor(private customerService:CustomersService,public toastr: ToastsManager, vcr: ViewContainerRef, private waybillService:WaybillService, private productsService:ProductsService,private configService: ConfigService,public dialog: MatDialog) 
   {
     this.toastr.setRootViewContainerRef(vcr);
+    
+   }
+
+   ngOnChanges()
+   {
+    if(this.selectedWayBill!=null){
+ 
+     this.getWayBillById(this.selectedWayBill.id);
+     this.fillBasketProducts();
+      }
    }
 
   ngOnInit() {
     this.config = this.configService.getAppConfig();
-    this.fillBasketProducts();
+    this.getProducts();
+  //  this.fillBasketProducts();
     this.fillCurrentWaybill();
     this.fillCustomers();
-   this.setLastWaybill();
+   // this.setLastWaybill();
+
   }
- 
+
+  getWayBillById(selectedWayBillId): any {
+  //  this.loading = true;
+
+    this.waybillService.getWaybill(this.config.getWaybillUrl, selectedWayBillId)
+      .subscribe(items => {
+    //    if (items != null && items.length != 0) {
+      var wayBill=items;
+      wayBill.waybillProducts.forEach(wp => {
+        var product=this.productList.filter(x=>x.id==wp.productId)[0];
+        let basketProduct=new BasketProduct();
+        basketProduct.product=product;
+        basketProduct.package=wp.numberOfPackage;
+    
+        this.addProductToCurrentWaybill(basketProduct);
+
+      });
+      //    this.loading = false;
+    //    }
+      },
+      error => this.toastr.error('Siparisler getirilirken hata ile karsilasildi.'+error, 'Error!'),
+      () => {
+        //finally bloke ..!
+        this.fillBasketProducts();
+      }
+      );
+  }
+
   setLastWaybill()
   {
     this.waybillService.getLastWaybill(this.config.getLastWaybillUrl,null).subscribe(result=>{
@@ -67,6 +111,8 @@ export class NewWaybillComponent implements OnInit {
     decrease(basketProduct: BasketProduct) {
     
       if (basketProduct.package <= 1) {//remove product from basket
+        let updateProduct= this.basketProducts.filter(x=>x.product==basketProduct.product)[0];
+        updateProduct.package=0;
         basketProduct.package = 0;
         this.removeProductToCurrentWaybill(basketProduct);
       }
@@ -81,12 +127,12 @@ export class NewWaybillComponent implements OnInit {
 
   saveCurrentWaybillProducts(waybillProducts:WaybillProduct[])
   {
-    localStorage.setItem("currentWaybill",JSON.stringify(waybillProducts));
+   // localStorage.setItem("currentWaybill",JSON.stringify(waybillProducts));
   }
 
   fillCurrentWaybill() 
   {
-    this.currentWaybill=JSON.parse(localStorage.getItem("currentWaybill")) || [];
+    //this.currentWaybill=JSON.parse(localStorage.getItem("currentWaybill")) || [];
   
   }
 
@@ -106,7 +152,7 @@ export class NewWaybillComponent implements OnInit {
  }
   removeCurrentWaybill()
   {
-    localStorage.removeItem("currentWaybill");
+   // localStorage.removeItem("currentWaybill");
     this.currentWaybill=[];  
   }
 
@@ -114,12 +160,16 @@ export class NewWaybillComponent implements OnInit {
   {
     let isExist = false;
  
+   let updateProduct= this.basketProducts.filter(x=>x.product==basketProduct.product)[0];
+   updateProduct.package=basketProduct.package;
+
     for (let i = 0; i < this.currentWaybill.length; i++)//check if product exist in currentWaybill
     {
       
       if (this.currentWaybill[i].product.id == basketProduct.product.id) {
         this.currentWaybill[i].package = basketProduct.package;
         isExist = true;
+        break;
        
       }
       
@@ -131,7 +181,7 @@ export class NewWaybillComponent implements OnInit {
       
       }
 
-    localStorage.setItem("currentWaybill", JSON.stringify(this.currentWaybill));
+ //   localStorage.setItem("currentWaybill", JSON.stringify(this.currentWaybill));
   }
 
   removeProductToCurrentWaybill(basketProduct: BasketProduct) {
@@ -148,7 +198,7 @@ export class NewWaybillComponent implements OnInit {
       
     }
 
-    localStorage.setItem("currentWaybill", JSON.stringify(this.currentWaybill));
+   // localStorage.setItem("currentWaybill", JSON.stringify(this.currentWaybill));
   }
 
   getProductFromCurrentWaybill(id:number)
@@ -159,17 +209,22 @@ export class NewWaybillComponent implements OnInit {
       if (this.currentWaybill[i].product.id ==id) {
          return this.currentWaybill[i]; 
       }
-      
     }
 
     return null;
   }
-
+  getProducts()
+  {
+    this.productsService.getProducts(this.config.getProductsWithRelationalEntitiesUrl,null).subscribe(items=>{
+      this.productList=items;
+      this.fillBasketProducts();
+    });
+  }
   fillBasketProducts()
   {
     this.basketProducts=[];
-    this.productsService.getProducts(this.config.getProductsWithRelationalEntitiesUrl,null).subscribe(items=>{
-     items.forEach(element => {
+    
+     this.productList.forEach(element => {
        let basketProduct=new BasketProduct();
       
       basketProduct.package=0;
@@ -183,7 +238,6 @@ export class NewWaybillComponent implements OnInit {
      
      });
    
-    });
   }
 
   saveWaybill()
@@ -197,6 +251,7 @@ export class NewWaybillComponent implements OnInit {
       let waybillProduct=new WaybillProduct();
       waybillProduct.numberOfPackage=basketProduct.package;
       waybillProduct.productId=basketProduct.product.id;
+      waybillProduct.status=basketProduct.status
       waybill.waybillProducts.push(waybillProduct);
     });
 

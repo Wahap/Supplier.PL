@@ -4,4 +4,5 @@ export class BasketProduct
 {
     product:product =new product();
     package:number;
+    status:string;
 }

@@ -16,13 +16,14 @@ export class WaybillsListComponent implements OnInit {
   config: IConfig;
   loading:boolean=true;
   allWaybills:Waybill[]=[];
+  selectedWayBill:Waybill;
   allCustomers:customer[]=[];
   constructor(private configService: ConfigService,private waybillService:WaybillService,private customerService:CustomersService,public dialog: MatDialog) { }
 
   ngOnInit() {
     this.config = this.configService.getAppConfig();
     this.fillAllWaybills();
-    this.fillAllCustomers();
+   // this.fillAllCustomers();
   }
 
   fillAllWaybills()
@@ -60,10 +61,10 @@ export class WaybillsListComponent implements OnInit {
 
   updateWaybill(waybill:Waybill)
   {
-    alert(waybill.id);
-    this.waybillService.getWaybill(this.config.getWaybillUrl, waybill.id).subscribe(response=>{
+    this.selectedWayBill=waybill;
+    // this.waybillService.getWaybill(this.config.getWaybillUrl, waybill.id).subscribe(response=>{
       
-    });
+    // });
   }
 
 }

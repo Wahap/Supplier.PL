@@ -32,7 +32,7 @@ export class PdfExporterComponent implements OnInit {
         this.toastr.error('Urun Listesi Bos, PDF Olusturulamadi', 'Error!');
 
       },
-      error => this.toastr.error('Siparisler getirilirken hata ile karsilasildi.', 'Error!'),
+      error => this.toastr.error('Pdf Olusturulurken hata ile karsilasildi.', 'Error!'),
       () => {
         //finally bloke ..!
         // No errors, route to new page

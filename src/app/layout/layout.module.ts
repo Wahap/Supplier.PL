@@ -35,7 +35,7 @@ import { MaterialModule } from './material.module';
         StepsModule ,DropdownModule,
         MaterialModule
     ],
-    declarations: [PdfExporterComponent,LayoutComponent, SidebarComponent, HeaderComponent, ProductsComponent, CustomersComponent, ReceivedOrderComponent,
+    declarations: [NewWaybillComponent,PdfExporterComponent,LayoutComponent, SidebarComponent, HeaderComponent, ProductsComponent, CustomersComponent, ReceivedOrderComponent,
          ApprovedOrdersComponent,
          CancelledOrderComponent,
          NewWaybillComponent,

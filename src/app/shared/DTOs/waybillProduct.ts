@@ -13,5 +13,7 @@ export class WaybillProduct
 
     product:product;
 
-    waybill:Waybill;
+    status:string;
+
+  //  waybill:Waybill;
 }
