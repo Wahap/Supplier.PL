@@ -3,9 +3,9 @@ import { address } from "./address";
 export class customer
 {
     id:number;
-    email:string;
+    eMail:string;
     isActive:boolean;
-    lastName:string;
+    lastname:string;
     customerName:string;
     companyName:string;
     phone:string;

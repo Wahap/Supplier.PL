@@ -64,12 +64,16 @@ export class NewWaybillComponent implements OnInit {
       .subscribe(items => {
     //    if (items != null && items.length != 0) {
       var wayBill=items;
+      this.selectedCustomer=this.customers.filter(x => x.id == wayBill.customer.id)[0];
+      this.selectedCustomer.addresses=wayBill.customer.addresses;
+      this.selectedAddress= wayBill.customer.addresses.filter(x => x.id == wayBill.addressId)[0];
+     this.selectedDate= new Date(wayBill.waybillDate);
       wayBill.waybillProducts.forEach(wp => {
         var product=this.productList.filter(x=>x.id==wp.productId)[0];
         let basketProduct=new BasketProduct();
         basketProduct.product=product;
         basketProduct.package=wp.numberOfPackage;
-    
+
         this.addProductToCurrentWaybill(basketProduct);
 
       });
@@ -87,7 +91,6 @@ export class NewWaybillComponent implements OnInit {
   setLastWaybill()
   {
     this.waybillService.getLastWaybill(this.config.getLastWaybillUrl,null).subscribe(result=>{
-      console.log(result);
       this.lastWaybill=result;
     });
   }
@@ -98,7 +101,7 @@ export class NewWaybillComponent implements OnInit {
       {
 
         this.customers=result;
-        console.log(result);
+
       });
   }
   increase(basketProduct:BasketProduct)
