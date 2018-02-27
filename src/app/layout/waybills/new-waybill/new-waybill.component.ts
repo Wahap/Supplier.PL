@@ -26,7 +26,8 @@ export class NewWaybillComponent implements OnInit {
   customers:customer[]=[];
   selectedCustomer:customer=new customer();
   selectedAddress:address=new address();
-  lastWaybill:Waybill=new Waybill();
+  originalWaybill:Waybill=new Waybill();
+  deletedBasketProducts:BasketProduct[]=[];
   selectedDate:Date;
   productList:product[]=[];
   @Input()
@@ -64,6 +65,7 @@ export class NewWaybillComponent implements OnInit {
       .subscribe(items => {
     //    if (items != null && items.length != 0) {
       var wayBill=items;
+      this.originalWaybill= { ...items };
       this.selectedCustomer=this.customers.filter(x => x.id == wayBill.customer.id)[0];
       this.selectedCustomer.addresses=wayBill.customer.addresses;
       this.selectedAddress= wayBill.customer.addresses.filter(x => x.id == wayBill.addressId)[0];
@@ -71,9 +73,11 @@ export class NewWaybillComponent implements OnInit {
       wayBill.waybillProducts.forEach(wp => {
         var product=this.productList.filter(x=>x.id==wp.productId)[0];
         let basketProduct=new BasketProduct();
+        basketProduct.id=wp.id;
+        basketProduct.waybillId=selectedWayBillId;
         basketProduct.product=product;
         basketProduct.package=wp.numberOfPackage;
-
+ 
         this.addProductToCurrentWaybill(basketProduct);
 
       });
@@ -90,9 +94,9 @@ export class NewWaybillComponent implements OnInit {
 
   setLastWaybill()
   {
-    this.waybillService.getLastWaybill(this.config.getLastWaybillUrl,null).subscribe(result=>{
-      this.lastWaybill=result;
-    });
+    // this.waybillService.getLastWaybill(this.config.getLastWaybillUrl,null).subscribe(result=>{
+    //   this.lastWaybill=result;
+    // });
   }
 
   fillCustomers()
@@ -107,6 +111,7 @@ export class NewWaybillComponent implements OnInit {
   increase(basketProduct:BasketProduct)
   {
     basketProduct.package++;
+    basketProduct.status="edited";
    this.addProductToCurrentWaybill(basketProduct);
   }
 
@@ -121,6 +126,7 @@ export class NewWaybillComponent implements OnInit {
       }
       else {
         basketProduct.package -= 1;
+        basketProduct.status="edited";
         this.addProductToCurrentWaybill(basketProduct);
       }
      // this.getProductsInBasket();
@@ -179,7 +185,7 @@ export class NewWaybillComponent implements OnInit {
     }
     
     if (!isExist) {
-     
+     // basketProduct.status="added";
        this.currentWaybill=[...this.currentWaybill,basketProduct];
       
       }
@@ -194,6 +200,8 @@ export class NewWaybillComponent implements OnInit {
       if (this.currentWaybill[i].product.id == basketProduct.product.id) {
         var index = this.currentWaybill.indexOf(this.currentWaybill[i]);
         if (index > -1) {
+          basketProduct.status="deleted";
+          this.deletedBasketProducts.push(basketProduct)
           this.currentWaybill.splice(index, 1);
           this.currentWaybill=[...this.currentWaybill];
       }
@@ -246,22 +254,36 @@ export class NewWaybillComponent implements OnInit {
   saveWaybill()
   {
     let waybill:Waybill=new Waybill();
+    if(this.selectedWayBill!=null){
+    waybill.id=this.selectedWayBill.id;
+  }
     waybill.addressId=this.selectedAddress.id;
     waybill.customerId=this.selectedCustomer.id;
     waybill.waybillDate=this.selectedDate;
     waybill.waybillStatus=1;
     this.currentWaybill.forEach(basketProduct => {
       let waybillProduct=new WaybillProduct();
+      waybillProduct.id=basketProduct.id;
+      waybillProduct.waybillId=basketProduct.waybillId;
       waybillProduct.numberOfPackage=basketProduct.package;
       waybillProduct.productId=basketProduct.product.id;
       waybillProduct.status=basketProduct.status
       waybill.waybillProducts.push(waybillProduct);
     });
 
-    this.waybillService.createNewWaybill(this.config.createWaybillUrl,waybill).subscribe(result=>{
-      this.toastr.info("irsaliye başarıyla oluşturuldu...");
+    //add also removed/deleted product with "deleted" flag/status
+    this.deletedBasketProducts.forEach (dltd=>{
+      let deletedWayBillProduct= new WaybillProduct();
+      deletedWayBillProduct.id=dltd.id;
+      deletedWayBillProduct.status=dltd.status;
+      waybill.waybillProducts.push(deletedWayBillProduct);
+
+    }); 
+
+    this.waybillService.saveWaybill(this.config.saveWaybillUrl,waybill).subscribe(result=>{
+      this.toastr.info("irsaliye başarıyla kaydedildi...");
       this.removeCurrentWaybill();
-      this.setLastWaybill();
+    //  this.setLastWaybill();
     });
     
 

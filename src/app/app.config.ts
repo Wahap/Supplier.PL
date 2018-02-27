@@ -21,7 +21,7 @@ export interface IConfig {
 
 	getLastWaybillUrl:string;
 	getWaybillUrl:string;
-	createWaybillUrl:string;
+	saveWaybillUrl:string;
 	getAllWaybillsUrl:string;
 	deleteWaybillUrl:string;
 
@@ -40,7 +40,7 @@ export class ConfigService {
 	
 
 		let serverUserNotificationPath = '';
-		let debug = false;
+		let debug = true;
 
 		let getUsers = (debug ? serverLoginPathDebug + "authentication/login" : serverLoginPath + "userCont/getusers");
 		//let logInUrl = (debug ? serverLoginPathDebug + "userCont/login" : serverLoginPath + "userCont/login");
@@ -66,7 +66,7 @@ export class ConfigService {
 		let saveReceivedOrder = (debug ? serverLoginPathDebug + "order/updatereceivedorder" : serverLoginPath + "order/updatereceivedorder");
 
 		let getLastWaybillUrl = (debug ? serverLoginPathDebug + "waybill/getlastwaybill" : serverLoginPath + "waybill/getlastwaybill");
-		let createWaybillUrl = (debug ? serverLoginPathDebug + "waybill/create" : serverLoginPath + "waybill/create");
+		let saveWaybillUrl = (debug ? serverLoginPathDebug + "waybill/save" : serverLoginPath + "waybill/save");
 		let getAllWaybillsUrl = (debug ? serverLoginPathDebug + "waybill/getallwaybills" : serverLoginPath + "waybill/getallwaybills");
 		let deleteWaybillUrl = (debug ? serverLoginPathDebug + "waybill/deletewaybill" : serverLoginPath + "waybill/deletewaybill");
 		let getWaybillUrl = (debug ? serverLoginPathDebug + "waybill/getwaybill" : serverLoginPath + "waybill/getwaybill");
@@ -90,7 +90,7 @@ export class ConfigService {
 			getOrderDetails:getOrderDetails,
 			saveReceivedOrder:saveReceivedOrder,
 			getLastWaybillUrl:getLastWaybillUrl,
-			createWaybillUrl:createWaybillUrl,
+			saveWaybillUrl:saveWaybillUrl,
 			getAllWaybillsUrl:getAllWaybillsUrl,
 			deleteWaybillUrl:deleteWaybillUrl,
 			getWaybillUrl:getWaybillUrl,
