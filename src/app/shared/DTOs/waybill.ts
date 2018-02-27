@@ -16,6 +16,7 @@ export class Waybill
     customer:customer;
 
     address:address;
+    isActive:boolean;
 
     waybillProducts:WaybillProduct[]=[];
 }

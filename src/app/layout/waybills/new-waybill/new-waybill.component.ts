@@ -50,6 +50,7 @@ export class NewWaybillComponent implements OnInit {
 
   ngOnInit() {
     this.config = this.configService.getAppConfig();
+    this.currentWaybill=[];
     this.getProducts();
   //  this.fillBasketProducts();
     this.fillCurrentWaybill();
@@ -63,7 +64,7 @@ export class NewWaybillComponent implements OnInit {
 
     this.waybillService.getWaybill(this.config.getWaybillUrl, selectedWayBillId)
       .subscribe(items => {
-    //    if (items != null && items.length != 0) {
+        this.currentWaybill=[];
       var wayBill=items;
       this.originalWaybill= { ...items };
       this.selectedCustomer=this.customers.filter(x => x.id == wayBill.customer.id)[0];
@@ -261,6 +262,7 @@ export class NewWaybillComponent implements OnInit {
     waybill.customerId=this.selectedCustomer.id;
     waybill.waybillDate=this.selectedDate;
     waybill.waybillStatus=1;
+    waybill.isActive=true;
     this.currentWaybill.forEach(basketProduct => {
       let waybillProduct=new WaybillProduct();
       waybillProduct.id=basketProduct.id;
