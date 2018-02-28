@@ -1,48 +1,43 @@
 <div class="row">
     <div class="col-md-6">
-        <p-dataTable [value]="basketProducts"  scrollable="true" scrollHeight="500px">
+        <p-dataTable [loading]="loading" scrollable="true" scrollHeight="{{windowsHeight()}}" [value]="basketProducts" scrollable="true"
+            scrollHeight="500px">
             <p-header>Ürünler</p-header>
-            <p-column field="basketProducts.product" header="Barkod" [style]="{'width':'27%'}">
+            <p-column field="product.barcodeOfProduct" header="Barkod" [filter]="true" filterMatchMode="contains" [style]="{'width':'27%'}">
                 <ng-template let-col let-product="rowData.product" pTemplate="body">
                     <span>{{product.barcodeOfProduct}}</span>
                 </ng-template>
             </p-column>
-            <p-column field="basketProducts.product" header="S.No" [style]="{'width':'10%'}">
+            <p-column field="product.orderNumber" header="S.No" [filter]="true" filterMatchMode="contains" [style]="{'width':'10%'}">
                 <ng-template let-col let-product="rowData.product" pTemplate="body">
                     <span>{{product.orderNumber}}</span>
                 </ng-template>
             </p-column>
-            <p-column field="basketProducts.product" header="Ürün">
+            <p-column field="product.productName" [filter]="true" filterMatchMode="contains" header="Ürün">
                 <ng-template let-col let-product="rowData.product" pTemplate="body">
                     <span>{{product.productName}}</span>
                 </ng-template>
             </p-column>
-
-
-            <p-column field="basketProducts.package" header="Koli" [style]="{'width':'20%'}">
+            <p-column field="product.package" header="Koli" [filter]="true" filterMatchMode="contains" [style]="{'width':'20%'}">
                 <ng-template pTemplate="body" let-product="rowData">
                     <div class="ui-inputgroup">
-                            <button class="btnDecrease" (click)="decrease(product)">-</button>
-                            <input type="text" class="waybill-product-package" [(ngModel)]="product.package" />
-                             <button class="btnIncrease" (click)="increase(product)">+</button>
-                      
+                        <button class="btnDecrease" (click)="decrease(product)">-</button>
+                        <input type="text" class="waybill-product-package" [(ngModel)]="product.package" />
+                        <button class="btnIncrease" (click)="increase(product)">+</button>
                     </div>
-
                 </ng-template>
             </p-column>
-
         </p-dataTable>
     </div>
     <div class="col-md-6">
         <div id="waybillContainer">
 
             <div id="waybill-customer-selection">
-                    <p-dropdown [options]="customers" [style]="{'width':'40%'}" [(ngModel)]="selectedCustomer" placeholder="Müşteri" optionLabel="companyName" filter="true"></p-dropdown>
-                    <p-dropdown *ngIf="selectedCustomer.id>0" [options]="selectedCustomer?.addresses" [style]="{'width':'20%'}" [(ngModel)]="selectedAddress" placeholder="Adres"  filter="true" optionLabel="street">
-                           
-                    </p-dropdown>
-               
-
+                <p-dropdown [options]="customers" [style]="{'width':'40%'}" [(ngModel)]="selectedCustomer" placeholder="Müşteri" optionLabel="companyName"
+                    filter="true"></p-dropdown>
+                <p-dropdown *ngIf="selectedCustomer.id>0" [options]="selectedCustomer?.addresses" [style]="{'width':'20%'}" [(ngModel)]="selectedAddress"
+                    placeholder="Adres" filter="true" optionLabel="street">
+                </p-dropdown>
                 <p-calendar [(ngModel)]="selectedDate" dateFormat="dd.mm.yy"></p-calendar>
             </div>
             <div id="waybill-preview">
@@ -74,25 +69,23 @@
                             <th>Barcode</th>
                             <th>Text</th>
                         </tr>
-
-                        <tr  *ngFor="let product of currentWaybill;index as i;">
+                        <tr *ngFor="let product of currentWaybill;index as i;">
                             <td>{{i+1}}</td>
                             <td>
-                                   
                                 <button class="btnDecrease" (click)="decrease(product)">-</button>
-                               <input type="text" class="waybill-product-package" [(ngModel)]="product.package" />
-                                <button class="btnIncrease" (click)="increase(product)">+</button></td>
+                                <input type="text" class="waybill-product-package" [(ngModel)]="product.package" />
+                                <button class="btnIncrease" (click)="increase(product)">+</button>
+                            </td>
                             <td>{{product.product.orderNumber}}</td>
                             <td>{{product.product.barcodeOfProduct}}</td>
                             <td>{{product.product.productName}}</td>
                         </tr>
-                       
                     </table>
                 </div>
             </div>
             <div id="waybillOperations">
-                <button class="btn btn-success" [disabled]="currentWaybill.length==0 || selectedCustomer.id==null || selectedAddress.id==null || selectedDate==null" (click)="saveWaybill()">KAYDET</button>
-
+                <button class="btn btn-success" [disabled]="currentWaybill.length==0 || selectedCustomer.id==null || selectedAddress.id==null || selectedDate==null"
+                    (click)="saveWaybill()">KAYDET</button>
                 <button class="btn btn-danger" [disabled]="currentWaybill.length<1" (click)="clearProducts()">Temizle</button>
             </div>
         </div>
