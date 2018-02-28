@@ -58,7 +58,7 @@
                             <p>Lieferdatum:{{selectedDate | date:'dd-MM-yyyy'}}</p>
                         </div>
                     </div>
-                    <h3 class="border-bottom">LIEFERSCHEIN: {{lastWaybill?.id+1 }}</h3>
+                    <h3 class="border-bottom">LIEFERSCHEIN: {{selectedWayBill==null? lastWaybill?.id+1:selectedWayBill.id }}</h3>
                 </div>
                 <div id="waybillProducts">
                     <table class="table table-bordered">

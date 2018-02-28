@@ -13,7 +13,7 @@ import { ToastsManager } from 'ng2-toastr';
 import { MatDialog } from '@angular/material';
 import { ConfirmComponent } from '../../../shared/components/confirm/confirm.component';
 import { product } from '../../../shared/DTOs/product';
-
+import {Router} from '@angular/router';
 @Component({
   selector: 'app-new-waybill',
   templateUrl: './new-waybill.component.html',
@@ -30,10 +30,11 @@ export class NewWaybillComponent implements OnInit {
   selectedDate: Date;
   productList: product[] = [];
   loading: boolean;
+  lastWaybill:Waybill;
   @Input()
   selectedWayBill: Waybill;
 
-  constructor(private customerService: CustomersService, public toastr: ToastsManager, vcr: ViewContainerRef, private waybillService: WaybillService, private productsService: ProductsService, private configService: ConfigService, public dialog: MatDialog) {
+  constructor(private customerService: CustomersService, public toastr: ToastsManager, vcr: ViewContainerRef, private waybillService: WaybillService, private productsService: ProductsService, private configService: ConfigService, public dialog: MatDialog,public router: Router) {
     this.toastr.setRootViewContainerRef(vcr);
     this.loading = false;
   }
@@ -53,7 +54,7 @@ export class NewWaybillComponent implements OnInit {
     //  this.fillBasketProducts();
     this.fillCurrentWaybill();
     this.fillCustomers();
-    // this.setLastWaybill();
+     this.setLastWaybill();
   }
 
   getWayBillById(selectedWayBillId): any {
@@ -88,9 +89,9 @@ export class NewWaybillComponent implements OnInit {
   }
 
   setLastWaybill() {
-    // this.waybillService.getLastWaybill(this.config.getLastWaybillUrl,null).subscribe(result=>{
-    //   this.lastWaybill=result;
-    // });
+    this.waybillService.getLastWaybill(this.config.getLastWaybillUrl,null).subscribe(result=>{
+      this.lastWaybill=result;
+    });
   }
 
   fillCustomers() {
@@ -239,8 +240,10 @@ export class NewWaybillComponent implements OnInit {
 
     this.waybillService.saveWaybill(this.config.saveWaybillUrl, waybill).subscribe(result => {
       this.toastr.info("irsaliye başarıyla kaydedildi...");
-      this.removeCurrentWaybill();
-      //  this.setLastWaybill();
+      this.selectedWayBill=null;
+    //this.router.navigateByUrl('/waybills')
+      //this.removeCurrentWaybill();
+        //this.setLastWaybill();
     });
   }
 
