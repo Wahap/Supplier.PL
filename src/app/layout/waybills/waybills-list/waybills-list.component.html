@@ -23,7 +23,7 @@
             <button class="btn btn-success btn-block btn-sm" (click)="updateWaybill(waybill)">Güncelle</button>
           </ng-template>
         </p-column>
-        <p-column field="id" header="Sil" [style]="{'width':'7%'}">
+        <p-column field="pdf" header="Yazdir" [style]="{'width':'7%'}">
           <ng-template pTemplate="body" let-col let-waybill="rowData">
             <pdf-waybill [waybill]="waybill" ></pdf-waybill>
           </ng-template>

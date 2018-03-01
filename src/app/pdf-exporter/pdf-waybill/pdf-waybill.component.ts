@@ -95,7 +95,7 @@ export class PdfWaybillComponent implements OnInit {
 
     doc.autoTable([], [], { margin: { top: 275 } });
     //Define columns name
-    var col = ["Barkod", "Siparis No", "Ürün", "Siparis Edilen(Koli)"];
+    var col = ["Pos","Menge(Koli)","Barcode", "Art-Nr", "Text", ];
     var rows = [];
 
     let waybillId = this.waybill.id;
@@ -106,14 +106,15 @@ export class PdfWaybillComponent implements OnInit {
     let postcode = this.waybill.address.postCode;
     let cityName = this.waybill.address.city.name;
     let wayBillDate = new Date(this.waybill.waybillDate).toLocaleDateString("en-GB");
+    let totalNumberOfPackage=0;
 
 
-    let ad = this.waybill.customer.customerName;
     //prepare columns data 
     for (let i = 0; i < waybillProducts.length; i++) {
-      var temp = [waybillProducts[i]['barcodeOfProduct'], waybillProducts[i]['orderNumber'], waybillProducts[i]['productName'],
-      waybillProducts[i]['numberOfPackage'] + ' (' + waybillProducts[i]['quantity'] + '/' + waybillProducts[i]['unit']['name'] + ')'
-      ];
+      var temp = [i+1, waybillProducts[i]['numberOfPackage'] + ' (' + waybillProducts[i]['quantity'] + '/' + waybillProducts[i]['unit']['name'] + ')',
+      waybillProducts[i]['barcodeOfProduct'], waybillProducts[i]['orderNumber'], waybillProducts[i]['productName']];
+      //calculate total.
+      totalNumberOfPackage+= waybillProducts[i]['numberOfPackage'];
       rows.push(temp);
     }
 
@@ -147,7 +148,9 @@ export class PdfWaybillComponent implements OnInit {
     };
 
     doc.autoTable(col, rows, options);
-
+    let finalY = doc.autoTable.previous.finalY; // The y position on the page
+    doc.setFontSize(12);
+    doc.text("GESAMT KOLLI: "+totalNumberOfPackage, 60,finalY+15);
     var img = new Image;
     img.onload = function () {
       doc.addImage(this, 450, 75);
