@@ -1,15 +1,16 @@
 import { Component, OnInit, Input, ViewContainerRef } from '@angular/core';
-import { OrderService } from '../layout/order/order.service';
-import { ConfigService, IConfig } from '../app.config';
+import { ConfigService, IConfig } from '../../app.config';
 import { ToastsManager } from 'ng2-toastr';
-import { receivedOrderProduct } from '../shared/DTOs/receivedOrderProduct';
+import { receivedOrderProduct } from '../../shared/DTOs/receivedOrderProduct';
+import { OrderService } from '../../layout/order/order.service';
+
 declare var jsPDF: any; // Important 
 @Component({
-  selector: 'pdf-exporter',
-  templateUrl: './pdf-exporter.component.html',
-  styleUrls: ['./pdf-exporter.component.scss']
+  selector: 'pdf-order',
+  templateUrl: './pdf-order.component.html',
+  styleUrls: ['./pdf-order.component.scss']
 })
-export class PdfExporterComponent implements OnInit {
+export class PdfOrderComponent implements OnInit {
   config: IConfig;
   orderDetails: receivedOrderProduct[];
   @Input()
