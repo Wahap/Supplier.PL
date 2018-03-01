@@ -1,7 +1,8 @@
-<div [hidden]="selectedWayBill!=null">
-    <p-dataTable [value]="allWaybills" [loading]="loading" >
+<div>
+    <p-dataTable [value]="allWaybills" [loading]="loading" resizableColumns="true" >
+   
         <p-header>irsaliye listesi</p-header>
-        <p-column field="id" header="Irs.No." [filter]="true" filterPlaceholder="Irs.No"></p-column>
+        <p-column field="id" header="Irs.No." [filter]="true" filterPlaceholder="Irs.No" [style]="{'width':'7%'}"></p-column>
         <p-column field="customer.companyName" header="Firma" [filter]="true" filterPlaceholder="Firma" filterMatchMode="contains">
           <ng-template pTemplate="body" let-col let-customer="rowData.customer">
             {{customer?.companyName}}
@@ -17,21 +18,23 @@
             {{address?.street}}, {{address?.postCode}}, {{address?.city?.name}}
           </ng-template>
         </p-column>
-        <p-column field="id" header="Güncelle">
+        <p-column field="id" header="Güncelle" [style]="{'width':'10%'}">
           <ng-template pTemplate="body" let-col let-waybill="rowData">
-            <button class="btn btn-success btn-block" (click)="updateWaybill(waybill)">Güncelle</button>
+            <button class="btn btn-success btn-block btn-sm" (click)="updateWaybill(waybill)">Güncelle</button>
           </ng-template>
         </p-column>
-        <p-column field="id" header="Sil">
+        <p-column field="id" header="Sil" [style]="{'width':'7%'}">
           <ng-template pTemplate="body" let-col let-waybill="rowData">
-            <button class="btn btn-danger btn-block" (click)="deleteWaybill(waybill)">Sil</button>
+            <button class="btn btn-danger btn-block btn-sm" (click)="deleteWaybill(waybill)">Sil</button>
           </ng-template>
         </p-column>
       </p-dataTable>
 </div>
 
-<div [hidden]="selectedWayBill==null">
-    <button class="btn btn-danger" 
-    (click)="selectedWayBill=null">Irsaliye Listesine Geri Don</button>
-  <app-new-waybill [selectedWayBill]="selectedWayBill"></app-new-waybill>
-</div>
+
+<p-dialog [positionTop]="50" header="Irsaliye Detayları" [(visible)]="dialogVisible" [responsive]="true" showEffect="fade" [modal]="true" width="1000">
+    <div>
+      
+      <app-new-waybill [selectedWayBill]="selectedWayBill"></app-new-waybill>
+    </div>
+</p-dialog>

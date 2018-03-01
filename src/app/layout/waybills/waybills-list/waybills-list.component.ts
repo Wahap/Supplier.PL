@@ -18,6 +18,7 @@ export class WaybillsListComponent implements OnInit {
   allWaybills:Waybill[]=[];
   selectedWayBill:Waybill;
   allCustomers:customer[]=[];
+  dialogVisible:boolean=false;
   constructor(private configService: ConfigService,private waybillService:WaybillService,private customerService:CustomersService,public dialog: MatDialog) { }
 
   ngOnInit() {
@@ -61,7 +62,9 @@ export class WaybillsListComponent implements OnInit {
 
   updateWaybill(waybill:Waybill)
   {
+    
     this.selectedWayBill=waybill;
+    this.dialogVisible = true;
     // this.waybillService.getWaybill(this.config.getWaybillUrl, waybill.id).subscribe(response=>{
       
     // });
