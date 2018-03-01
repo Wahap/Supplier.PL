@@ -82,7 +82,6 @@ export class NewWaybillComponent implements OnInit {
         error => this.toastr.error('Irsaliye getirilirken hata ile karsilasildi.' + error, 'Error!'),
         () => {
           this.loading = false;
-          this.loading
           this.fillBasketProducts();
         }
       );

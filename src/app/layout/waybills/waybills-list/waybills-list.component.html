@@ -25,6 +25,11 @@
         </p-column>
         <p-column field="id" header="Sil" [style]="{'width':'7%'}">
           <ng-template pTemplate="body" let-col let-waybill="rowData">
+            <pdf-waybill [waybill]="waybill" ></pdf-waybill>
+          </ng-template>
+        </p-column>
+        <p-column field="id" header="Sil" [style]="{'width':'7%'}">
+          <ng-template pTemplate="body" let-col let-waybill="rowData">
             <button class="btn btn-danger btn-block btn-sm" (click)="deleteWaybill(waybill)">Sil</button>
           </ng-template>
         </p-column>

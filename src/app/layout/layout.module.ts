@@ -21,6 +21,7 @@ import { NewWaybillComponent } from './waybills/new-waybill/new-waybill.componen
 import { WaybillsListComponent } from './waybills/waybills-list/waybills-list.component';
 import { MaterialModule } from './material.module';
 import { PdfOrderComponent } from '../pdf-exporter/pdf-order/pdf-order.component';
+import { PdfWaybillComponent } from '../pdf-exporter/pdf-waybill/pdf-waybill.component';
 
 
 
@@ -36,7 +37,7 @@ import { PdfOrderComponent } from '../pdf-exporter/pdf-order/pdf-order.component
         StepsModule ,DropdownModule,
         MaterialModule
     ],
-    declarations: [NewWaybillComponent,PdfOrderComponent,LayoutComponent, SidebarComponent, HeaderComponent, ProductsComponent, CustomersComponent, ReceivedOrderComponent,
+    declarations: [NewWaybillComponent,PdfWaybillComponent,PdfOrderComponent,LayoutComponent, SidebarComponent, HeaderComponent, ProductsComponent, CustomersComponent, ReceivedOrderComponent,
          ApprovedOrdersComponent,
          CancelledOrderComponent,
          NewWaybillComponent,
