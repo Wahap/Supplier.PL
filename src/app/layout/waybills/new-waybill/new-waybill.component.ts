@@ -245,7 +245,7 @@ export class NewWaybillComponent implements OnInit {
         //this.setLastWaybill();
     });
   }
-
+   
   windowsHeight() {
     return (window.screen.height - 325) + "px";
   }

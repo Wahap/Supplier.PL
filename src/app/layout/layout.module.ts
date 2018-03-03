@@ -22,6 +22,8 @@ import { WaybillsListComponent } from './waybills/waybills-list/waybills-list.co
 import { MaterialModule } from './material.module';
 import { PdfOrderComponent } from '../pdf-exporter/pdf-order/pdf-order.component';
 import { PdfWaybillComponent } from '../pdf-exporter/pdf-waybill/pdf-waybill.component';
+import { SaveBillComponent } from './bills/save-bill/save-bill.component';
+import { BillListComponent } from './bills/bill-list/bill-list.component';
 
 
 
@@ -41,6 +43,8 @@ import { PdfWaybillComponent } from '../pdf-exporter/pdf-waybill/pdf-waybill.com
          ApprovedOrdersComponent,
          CancelledOrderComponent,
          NewWaybillComponent,
-         WaybillsListComponent]
+         WaybillsListComponent,
+         SaveBillComponent,
+         BillListComponent]
 })
 export class LayoutModule {}

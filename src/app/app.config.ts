@@ -25,6 +25,12 @@ export interface IConfig {
 	getAllWaybillsUrl:string;
 	deleteWaybillUrl:string;
 
+	getLastBillUrl:string;
+	getBillUrl:string;
+	saveBillUrl:string;
+	getAllBillsUrl:string;
+	deleteBillUrl:string;
+
 
 };
 import { Injectable } from '@angular/core';
@@ -40,7 +46,7 @@ export class ConfigService {
 	
 
 		let serverUserNotificationPath = '';
-		let debug = false;
+		let debug = true;
 
 		let getUsers = (debug ? serverLoginPathDebug + "authentication/login" : serverLoginPath + "userCont/getusers");
 		//let logInUrl = (debug ? serverLoginPathDebug + "userCont/login" : serverLoginPath + "userCont/login");
@@ -70,6 +76,12 @@ export class ConfigService {
 		let getAllWaybillsUrl = (debug ? serverLoginPathDebug + "waybill/getallwaybills" : serverLoginPath + "waybill/getallwaybills");
 		let deleteWaybillUrl = (debug ? serverLoginPathDebug + "waybill/deletewaybill" : serverLoginPath + "waybill/deletewaybill");
 		let getWaybillUrl = (debug ? serverLoginPathDebug + "waybill/getwaybill" : serverLoginPath + "waybill/getwaybill");
+
+		let getLastBillUrl = (debug ? serverLoginPathDebug + "bill/getlastbill" : serverLoginPath + "bill/getlastbill");
+		let saveBillUrl = (debug ? serverLoginPathDebug + "bill/save" : serverLoginPath + "bill/save");
+		let getAllBillsUrl = (debug ? serverLoginPathDebug + "bill/getallbills" : serverLoginPath + "bill/getallbills");
+		let deleteBillUrl = (debug ? serverLoginPathDebug + "bill/deletebill" : serverLoginPath + "bill/deletebill");
+		let getBillUrl = (debug ? serverLoginPathDebug + "bill/getbill" : serverLoginPath + "bill/getbill");
 		
 		return {
 			logInUrl: logInUrl,
@@ -94,6 +106,12 @@ export class ConfigService {
 			getAllWaybillsUrl:getAllWaybillsUrl,
 			deleteWaybillUrl:deleteWaybillUrl,
 			getWaybillUrl:getWaybillUrl,
+			
+			getLastBillUrl:getLastBillUrl,
+			saveBillUrl:saveBillUrl,
+			getAllBillsUrl:getAllBillsUrl,
+			deleteBillUrl:deleteBillUrl,
+			getBillUrl:getBillUrl
 
 		}
 	}

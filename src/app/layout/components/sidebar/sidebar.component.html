@@ -60,6 +60,27 @@
                 </ul>
             </li>
         </div>
+
+        <div class="nested-menu">
+            <a class="list-group-item" (click)="addExpandClass('fatura')">
+                <span><i class="fa fa-shopping-cart"></i>&nbsp; {{ 'Faturalar' | translate }}</span>
+            </a>
+            <li class="nested" [class.expand]="showMenu === 'fatura'">
+                <ul class="submenu">
+                    <li>
+                        <a [routerLink]="['/bills']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                            <i class="fa fa-fw fa-shopping-basket"></i>&nbsp;{{ 'Fatura Listesi' | translate }}
+                        </a>
+                    </li>
+                    <li>
+
+                        <a [routerLink]="['/savebill']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                            <i class="fa fa-fw fa-list-alt "></i>&nbsp;{{ 'Yeni Fatura' | translate }}
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </div>
       
 
         <!-- <a [routerLink]="['/charts']" [routerLinkActive]="['router-link-active']" class="list-group-item">

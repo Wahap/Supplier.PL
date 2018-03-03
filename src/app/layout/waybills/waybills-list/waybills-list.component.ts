@@ -8,7 +8,7 @@ import { ConfirmComponent } from '../../../shared/components/confirm/confirm.com
 import { MatDialog } from '@angular/material';
 
 @Component({
-  selector: 'app-waybills-list',
+  selector: 'app-waybills-list',  
   templateUrl: './waybills-list.component.html',
   styleUrls: ['./waybills-list.component.scss']
 })

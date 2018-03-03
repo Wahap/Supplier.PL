@@ -1,0 +1,72 @@
+.numberOfPackage
+{
+    width: 50px;
+    text-align: center;
+    font-weight: bold;
+}
+
+mat-dialog-container {
+  
+    width: 500px !important;
+   
+}
+
+.ui-button-text
+{
+    display: none;
+}
+
+*
+{
+    font-size: 0.95em;
+}
+
+#companyAddress
+{
+    text-decoration: underline;
+    font-size: 0.8em;
+}
+#logo
+{
+    width: 200px;
+}
+#bill-preview
+{
+    background-image: url(/assets/images/paper.jpg);
+    border: 2px solid black;
+    padding: 3px;
+}
+
+.bill-product-package
+{
+    width: 30px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1em;
+}
+
+#billProducts td,#billProducts th
+{
+    padding: 0px;
+}
+
+#customerAddress
+{
+    font-weight: bold;
+  
+}
+
+.border-bottom
+{
+    border-bottom:1px solid #ccc;
+}
+
+#bill-preview tr
+{
+    border-bottom:2pt solid #ccc;
+}
+
+#billOperations
+{
+    margin-top: 10px;
+}

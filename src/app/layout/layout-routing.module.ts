@@ -9,6 +9,8 @@ import { CancelledOrderComponent } from './order/cancelled-order/cancelled-order
 
 import { NewWaybillComponent } from './waybills/new-waybill/new-waybill.component';
 import { WaybillsListComponent } from './waybills/waybills-list/waybills-list.component';
+import { SaveBillComponent } from './bills/save-bill/save-bill.component';
+import { BillListComponent } from './bills/bill-list/bill-list.component';
 
 
 const routes: Routes = [
@@ -25,6 +27,8 @@ const routes: Routes = [
             { path: 'cancelledOrders',component:CancelledOrderComponent },
             { path: 'newWaybill',component:NewWaybillComponent },
             { path: 'waybills',component:WaybillsListComponent },
+            { path: 'savebill',component:SaveBillComponent },
+            { path: 'bills',component:BillListComponent },
             { path: 'charts', loadChildren: './charts/charts.module#ChartsModule' },
             { path: 'tables', loadChildren: './tables/tables.module#TablesModule' },
             { path: 'forms', loadChildren: './form/form.module#FormModule' },
