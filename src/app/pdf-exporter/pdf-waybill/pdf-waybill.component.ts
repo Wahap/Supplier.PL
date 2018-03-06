@@ -24,28 +24,15 @@ export class PdfWaybillComponent implements OnInit {
   }
 
   exportPDF() {
+    if(this.waybill==null)
+    {
+      this.toastr.error("Irsaliyeyi kaydettikten sonra yazdirabilirsiniz.!");
+    }
     this.getProducts();
-    // this.orderService.getAllOrderDetails(this.config.getOrderDetails, this.waybill)
-    //   .subscribe(items => {
-    //     if (items != null && items.length != 0) {
-    //       this.orderDetails = items;
-    //       this.generatePDFForOrders();
-    //       this.toastr.success('Pdf Olusturuldu!', 'Success!');
-    //     } else
-    //       this.toastr.error('Urun Listesi Bos, PDF Olusturulamadi', 'Error!');
-
-    //   },
-    //     error => this.toastr.error('Pdf Olusturulurken hata ile karsilasildi.', 'Error!'),
-    //     () => {
-    //       //finally bloke ..!
-    //       // No errors, route to new page
-    //     }
-    //   );
 
 
   }
   getWayBillById(selectedWayBillId): any {
-
     this.waybillService.getWaybill(this.config.getWaybillUrl, this.waybill.id)
       .subscribe(items => {
         var waybill = items;
@@ -80,6 +67,7 @@ export class PdfWaybillComponent implements OnInit {
     this.productsService.getProducts(this.config.getProductsWithRelationalEntitiesUrl, null)
       .subscribe(items => {
         this.products = items;
+        
         this.getWayBillById(this.waybill.id);
         // this.generatePDFForOrders(wayBill.waybillProducts);
       },

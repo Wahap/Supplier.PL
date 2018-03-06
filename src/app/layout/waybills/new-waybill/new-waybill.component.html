@@ -1,4 +1,4 @@
-<pdf-waybill [waybill]="selectedWayBill">
+<pdf-waybill [waybill]="selectedWayBill==null? lastWaybill:selectedWayBill">
 </pdf-waybill>
 <div class="row">
     <div class="col-md-6">
@@ -60,7 +60,7 @@
                             <p>Lieferdatum:{{selectedDate | date:'dd-MM-yyyy'}}</p>
                         </div>
                     </div>
-                    <h3 class="border-bottom">LIEFERSCHEIN: {{selectedWayBill==null? lastWaybill?.id+1:selectedWayBill.id }}</h3>
+                    <h3 class="border-bottom">LIEFERSCHEIN: {{selectedWayBill==null? lastWaybill?.id:selectedWayBill.id }}</h3>
                 </div>
                 <div id="waybillProducts">
                     <table class="table table-bordered">
