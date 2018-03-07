@@ -29,6 +29,7 @@ const routes: Routes = [
             { path: 'waybills',component:WaybillsListComponent },
             { path: 'savebill',component:SaveBillComponent },
             { path: 'bills',component:BillListComponent },
+            { path: 'billList',component:BillListComponent },
             { path: 'charts', loadChildren: './charts/charts.module#ChartsModule' },
             { path: 'tables', loadChildren: './tables/tables.module#TablesModule' },
             { path: 'forms', loadChildren: './form/form.module#FormModule' },

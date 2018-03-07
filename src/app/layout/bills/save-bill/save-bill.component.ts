@@ -28,6 +28,7 @@ export class SaveBillComponent implements OnInit {
   selectedCustomer: customer = new customer();
   selectedAddress: address = new address();
   selectedDate: Date;
+  isNewRecord:boolean;
   lastBill:Bill;
   @Input()
   selectedBill:Bill;  
@@ -35,6 +36,7 @@ export class SaveBillComponent implements OnInit {
   {
     this.toastr.setRootViewContainerRef(vcr);
     this.loading = false;
+    this.isNewRecord=true;
    }
 
   ngOnInit() {
@@ -49,6 +51,7 @@ export class SaveBillComponent implements OnInit {
     if (this.selectedBill != null) {
       this.getBillById(this.selectedBill.id);
       this.fillBasketProducts();
+      this.isNewRecord=false;
     }
   }
   getBillById(selectedBillId): any {
@@ -102,13 +105,17 @@ export class SaveBillComponent implements OnInit {
       }
     }
     return null;
-  }
+  }  
   saveBill() {
     let bill: Bill = new Bill();
+    bill.billNumber=this.lastBill.billNumber+1;
     if (this.selectedBill != null) {
       bill.id = this.selectedBill.id;
+      bill.billNumber=this.selectedBill.billNumber;
     }
-    bill.billNumber=this.lastBill.billNumber+1;
+
+    
+    
     bill.addressId = this.selectedAddress.id;
     bill.customerId = this.selectedCustomer.id;
     bill.billDate = this.selectedDate;
@@ -137,7 +144,7 @@ export class SaveBillComponent implements OnInit {
 
     this.billService.saveBill(this.config.saveBillUrl, bill).subscribe(result => {
       this.toastr.info("Fatura başarıyla kaydedildi...");
-     
+      this.router.navigateByUrl("/billList");
      
     });
   }
