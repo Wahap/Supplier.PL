@@ -145,7 +145,7 @@ export class SaveBillComponent implements OnInit {
     this.billService.saveBill(this.config.saveBillUrl, bill).subscribe(result => {
       this.toastr.info("Fatura başarıyla kaydedildi...");
       this.router.navigateByUrl("/billList");
-     
+       
     });
   }
   getProducts() {

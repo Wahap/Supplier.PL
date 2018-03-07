@@ -1,6 +1,6 @@
 <div>
   <p-dataTable [value]="allBills" [loading]="loading" resizableColumns="true" >
- 
+    
       <p-header>Fatura listesi</p-header>
       <p-column field="billNumber" header="F.No." [filter]="true" filterPlaceholder="F.No" [style]="{'width':'7%'}"></p-column>
       <p-column field="customer.companyName" header="Firma" [filter]="true" filterPlaceholder="Firma" filterMatchMode="contains">
