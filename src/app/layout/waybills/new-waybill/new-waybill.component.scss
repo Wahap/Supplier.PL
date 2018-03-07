@@ -39,7 +39,7 @@ mat-dialog-container {
 
 .waybill-product-package
 {
-    width: 30px;
+    width: 45px;
     text-align: center;
     font-weight: bold;
     font-size: 1em;
@@ -69,4 +69,13 @@ mat-dialog-container {
 #waybillOperations
 {
     margin-top: 10px;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
 }

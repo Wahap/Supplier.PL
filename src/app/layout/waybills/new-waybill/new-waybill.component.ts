@@ -159,12 +159,20 @@ export class NewWaybillComponent implements OnInit {
   }
   increase(basketProduct: BasketProduct) {
 
-   // basketProduct.package= type=='set'?basketProduct.package:basketProduct.package+1;
     basketProduct.package++;
     basketProduct.status = "edited";
     this.addProductToCurrentWaybill(basketProduct);
   }
+  setPackage(basketProduct: BasketProduct,type) {
 
+    if(basketProduct.package==null){
+      basketProduct.package=0;
+    } 
+    basketProduct.status = "edited";
+    this.addProductToCurrentWaybill(basketProduct);
+
+  }
+  
   decrease(basketProduct: BasketProduct) {
 
     if (basketProduct.package <= 1) {//remove product from basket
@@ -184,18 +192,6 @@ export class NewWaybillComponent implements OnInit {
   removeCurrentWaybill() {
     // localStorage.removeItem("currentWaybill");
     this.currentWaybill = [];
-  }
-  setTextValueToProductPackage(product)
-  {
-    for (let i = 0; i < this.currentWaybill.length; i++)//check if product exist in currentWaybill
-    {
-      if (this.currentWaybill[i].product.id == product.product.id) {
-        this.currentWaybill[i].package = product.package;
-        this.currentWaybill[i].status = "edited";
-        break;
-      }
-    }
-   
   }
   
   addProductToCurrentWaybill(basketProduct: BasketProduct) {
@@ -221,6 +217,8 @@ export class NewWaybillComponent implements OnInit {
   }
 
   removeProductToCurrentWaybill(basketProduct: BasketProduct) {
+    let updateProduct = this.basketProducts.filter(x => x.product == basketProduct.product)[0];
+    updateProduct.package =0;
     for (let i = 0; i < this.currentWaybill.length; i++)//check if product exist in basket
     {
       if (this.currentWaybill[i].product.id == basketProduct.product.id) {

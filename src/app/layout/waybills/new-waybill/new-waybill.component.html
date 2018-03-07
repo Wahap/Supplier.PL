@@ -24,7 +24,7 @@
                 <ng-template pTemplate="body" let-product="rowData">
                     <div class="ui-inputgroup">
                         <button class="btnDecrease" (click)="decrease(product)">-</button>
-                        <input type="text" class="waybill-product-package" [(ngModel)]="product.package" />
+                        <input type="number" class="waybill-product-package" [(ngModel)]="product.package" (ngModelChange)="setPackage(product)" />
                         <button class="btnIncrease" (click)="increase(product)">+</button>
                     </div>
                 </ng-template>
@@ -76,7 +76,7 @@
                             <td>
                                 <button class="btnDecrease btn-danger" (click)="removeProductToCurrentWaybill(product)">X</button>
                                 <button class="btnDecrease btn-warning" (click)="decrease(product)">-</button>
-                                <input type="text" class="waybill-product-package" [(ngModel)]="product.package"  />
+                                <input type="number"class="waybill-product-package" [(ngModel)]="product.package" (ngModelChange)="setPackage(product)" />
                                 <button class="btnIncrease btn-success" (click)="increase(product)">+</button>
                             </td>
                             <td>{{product.product.orderNumber}}</td>
