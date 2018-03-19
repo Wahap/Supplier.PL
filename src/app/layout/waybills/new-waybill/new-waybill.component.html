@@ -24,7 +24,7 @@
                 <ng-template pTemplate="body" let-product="rowData">
                     <div class="ui-inputgroup">
                         <button class="btnDecrease" (click)="decrease(product)">-</button>
-                        <input type="text" class="waybill-product-package" [(ngModel)]="product.package" />
+                        <input type="number" class="waybill-product-package" [(ngModel)]="product.package" (ngModelChange)="setPackage(product)" />
                         <button class="btnIncrease" (click)="increase(product)">+</button>
                     </div>
                 </ng-template>
@@ -32,7 +32,7 @@
         </p-dataTable>
     </div>
     <div class="col-md-6">
-        <div id="waybillContainer">   
+        <div id="waybillContainer">
 
             <div id="waybill-customer-selection">
                 <p-dropdown [options]="customers" [style]="{'width':'40%'}" [(ngModel)]="selectedCustomer" placeholder="Müşteri" optionLabel="companyName"
@@ -74,9 +74,10 @@
                         <tr *ngFor="let product of currentWaybill;index as i;">
                             <td>{{i+1}}</td>
                             <td>
-                                <button class="btnDecrease" (click)="decrease(product)">-</button>
-                                <input type="text" class="waybill-product-package" [(ngModel)]="product.package" />
-                                <button class="btnIncrease" (click)="increase(product)">+</button>
+                                <button class="btnDecrease btn-danger" (click)="removeProductToCurrentWaybill(product)">X</button>
+                                <button class="btnDecrease btn-warning" (click)="decrease(product)">-</button>
+                                <input type="number"class="waybill-product-package" [(ngModel)]="product.package" (ngModelChange)="setPackage(product)" />
+                                <button class="btnIncrease btn-success" (click)="increase(product)">+</button>
                             </td>
                             <td>{{product.product.orderNumber}}</td>
                             <td>{{product.product.barcodeOfProduct}}</td>
