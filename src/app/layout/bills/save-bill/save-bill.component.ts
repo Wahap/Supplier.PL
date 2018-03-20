@@ -12,6 +12,7 @@ import { address } from '../../../shared/DTOs/address';
 import { BillService } from '../bill.service';
 import { Bill } from '../../../shared/DTOs/Bill';
  import { BillProduct } from '../../../shared/DTOs/billProduct';
+import { ProductListOptions } from '../../../shared/DTOs/productListOptions';
 @Component({
   selector: 'app-save-bill',
   templateUrl: './save-bill.component.html',
@@ -30,6 +31,7 @@ export class SaveBillComponent implements OnInit {
   selectedDate: Date;
   isNewRecord:boolean;
   lastBill:Bill;
+  productListOptions:ProductListOptions=new ProductListOptions();
   @Input()
   selectedBill:Bill;  
   constructor(private customerService: CustomersService, public toastr: ToastsManager, vcr: ViewContainerRef, private billService: BillService, private productsService: ProductsService, private configService: ConfigService, public dialog: MatDialog,public router: Router) 
@@ -53,6 +55,15 @@ export class SaveBillComponent implements OnInit {
       this.fillBasketProducts();
       this.isNewRecord=false;
     }
+  }
+
+  onPriceTypeChange()
+  {
+    this.productListOptions.customerId=this.selectedCustomer.id;
+    this.productsService.getProductsByPriceType(this.config.getProductsByPriceTypeUrl,this.productListOptions).subscribe(response=>{
+      
+    });
+    
   }
   getBillById(selectedBillId): any {
 

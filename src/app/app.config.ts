@@ -4,6 +4,7 @@ export interface IConfig {
 	calculate: string;
 
 	getProductsUrl: string;
+	getProductsByPriceTypeUrl: string;
 	saveProductsUrl:string;
 	getProductsWithRelationalEntitiesUrl:string;
 
@@ -55,6 +56,7 @@ export class ConfigService {
 		let calculate = (debug ? serverLoginPathDebug + "Operation" : serverLoginPath + "Operation");
 		//ProductController 
 		let getProductsUrl = (debug ? serverLoginPathDebug + "Product/getallproducts" : serverLoginPath + "Product/getallproducts");
+		let getProductsByPriceTypeUrl = (debug ? serverLoginPathDebug + "Product/getallproductsbypricetype" : serverLoginPath + "Product/getallproductsbypricetype");
 		let getProductsWithRelationalEntities = (debug ? serverLoginPathDebug + "Product/getallproductswithrelationalentities" : serverLoginPath + "Product/getallproductswithrelationalentities");
 		let saveProductsUrl = (debug ? serverLoginPathDebug + "Product/saveproduct" : serverLoginPath + "Product/saveproduct");
 		
@@ -88,6 +90,7 @@ export class ConfigService {
 			getUsers: getUsers,
 			calculate: calculate,
 			getProductsUrl: getProductsUrl,
+			getProductsByPriceTypeUrl:getProductsByPriceTypeUrl,
 			getCategoriesUrl: getCategoriesUrl,
 			getProductsWithRelationalEntitiesUrl:getProductsWithRelationalEntities,
 			getAllUnitsUrl: getAllUnitsUrl,
