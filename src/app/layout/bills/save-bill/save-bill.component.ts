@@ -13,6 +13,7 @@ import { BillService } from '../bill.service';
 import { Bill } from '../../../shared/DTOs/Bill';
  import { BillProduct } from '../../../shared/DTOs/billProduct';
 import { ProductListOptions } from '../../../shared/DTOs/productListOptions';
+import { PriceGroup } from '../../../shared/DTOs/priceGroup';
 @Component({
   selector: 'app-save-bill',
   templateUrl: './save-bill.component.html',
@@ -32,6 +33,8 @@ export class SaveBillComponent implements OnInit {
   isNewRecord:boolean;
   lastBill:Bill;
   productListOptions:ProductListOptions=new ProductListOptions();
+  priceGroups:PriceGroup[]=[];
+  selectedPriceGroup:PriceGroup=new PriceGroup();
   @Input()
   selectedBill:Bill;  
   constructor(private customerService: CustomersService, public toastr: ToastsManager, vcr: ViewContainerRef, private billService: BillService, private productsService: ProductsService, private configService: ConfigService, public dialog: MatDialog,public router: Router) 
@@ -43,10 +46,11 @@ export class SaveBillComponent implements OnInit {
 
   ngOnInit() {
     this.config = this.configService.getAppConfig();
-    this.getProducts();
+    this.getPriceGroups();
     this.fillCustomers();
     this.deletedBasketProducts = [];
     this.setLastBill();
+    this.selectedPriceGroup.id=0;
   }
 
   ngOnChanges() {
@@ -59,11 +63,23 @@ export class SaveBillComponent implements OnInit {
 
   onPriceTypeChange()
   {
-    this.productListOptions.customerId=this.selectedCustomer.id;
-    this.productsService.getProductsByPriceType(this.config.getProductsByPriceTypeUrl,this.productListOptions).subscribe(response=>{
-      
-    });
+    this.getProducts();
     
+  }
+
+  changeProductPrice(product:product,amount:number)
+  {
+    
+    product.netSalePrice=parseFloat((product.netSalePrice+amount).toFixed(2));
+    if(product.netSalePrice<=0)
+    product.netSalePrice=0;
+  }
+
+  getPriceGroups()
+  {
+    this.productsService.getPriceGroups(this.config.getPriceGroupsUrl,null).subscribe(response=>{
+      this.priceGroups=response;
+    });
   }
   getBillById(selectedBillId): any {
 
@@ -161,7 +177,9 @@ export class SaveBillComponent implements OnInit {
   }
   getProducts() {
     this.loading = true;
-    this.productsService.getProducts(this.config.getProductsWithRelationalEntitiesUrl, null).subscribe(items => {
+    this.productListOptions.customerId=this.selectedCustomer.id;
+    this.productListOptions.priceGroupId=this.selectedPriceGroup.id;
+    this.productsService.getProducts(this.config.getProductsByPriceTypeUrl, this.productListOptions).subscribe(items => {
       this.productList = items;
       this.fillBasketProducts();
       this.loading = false;
