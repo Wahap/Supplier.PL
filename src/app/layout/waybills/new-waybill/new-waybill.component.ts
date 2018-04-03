@@ -50,6 +50,7 @@ export class NewWaybillComponent implements OnInit {
 
   ngOnInit() {
     this.config = this.configService.getAppConfig();
+    //testtt
     this.currentWaybill = [];
     this.deletedBasketProducts = [];
     this.getProducts();

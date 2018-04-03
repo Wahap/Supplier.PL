@@ -23,28 +23,15 @@ export class PdfBillComponent implements OnInit {
 
   exportPDF() {
     this.getProducts();
-    // this.orderService.getAllOrderDetails(this.config.getOrderDetails, this.waybill)
-    //   .subscribe(items => {
-    //     if (items != null && items.length != 0) {
-    //       this.orderDetails = items;
-    //       this.generatePDFForOrders();
-    //       this.toastr.success('Pdf Olusturuldu!', 'Success!');
-    //     } else
-    //       this.toastr.error('Urun Listesi Bos, PDF Olusturulamadi', 'Error!');
-
-    //   },
-    //     error => this.toastr.error('Pdf Olusturulurken hata ile karsilasildi.', 'Error!'),
-    //     () => {
-    //       //finally bloke ..!
-    //       // No errors, route to new page
-    //     }
-    //   );
-
+    if(this.bill==null)
+    {
+      this.toastr.error("Faturayi kaydettikten sonra yazdirabilirsiniz.!");
+    }
 
   }
-  getBillById(selectedWayBillId): any {
+  getBillById(selectedBillId): any {
 
-    this.billService.getBill(this.config.getBillUrl, this.bill.id)
+    this.billService.getBill(this.config.getBillUrl, selectedBillId)
       .subscribe(items => {
         var bill = items;
         var billOutputList = [];

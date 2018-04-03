@@ -44,7 +44,7 @@ export class SaveBillComponent implements OnInit {
     this.getProducts();
     this.fillCustomers();
     this.deletedBasketProducts = [];
-    this.setLastBill();
+  //  this.setLastBill();
   }
 
   ngOnChanges() {
@@ -59,22 +59,7 @@ export class SaveBillComponent implements OnInit {
     this.loading = true;
     this.billService.getBill(this.config.getBillUrl, selectedBillId)
       .subscribe(items => {
-        this.currentBill = [];
-        this.deletedBasketProducts = [];
-        var bill = items;
-        this.selectedCustomer = this.customers.filter(x => x.id == bill.customer.id)[0];
-        this.selectedCustomer.addresses = bill.customer.addresses;
-        this.selectedAddress = bill.customer.addresses.filter(x => x.id == bill.addressId)[0];
-        this.selectedDate = new Date(bill.billDate);
-        bill.billProducts.forEach(bp => {
-          var product = this.productList.filter(x => x.id == bp.productId)[0];
-          let basketProduct = new BasketProduct();
-          basketProduct.id = bp.id;
-          basketProduct.waybillId = selectedBillId;
-          basketProduct.product = product;
-          basketProduct.package = bp.numberOfPackage;
-          this.addProductToCurrentBill(basketProduct);
-        });
+     this.setCurrentbill(items);
       },
         error => this.toastr.error('Irsaliye getirilirken hata ile karsilasildi.' + error, 'Error!'),
         () => {
@@ -82,6 +67,39 @@ export class SaveBillComponent implements OnInit {
           this.fillBasketProducts();
         }
       );
+  }
+  setLastBill() {
+    this.loading = true;
+    this.billService.getLastBill(this.config.getLastBillUrl, null)
+      .subscribe(items => {
+        this.lastBill=items;
+        this.setCurrentbill(items);
+      },
+        error => this.toastr.error('Irsaliye getirilirken hata ile karsilasildi.' + error, 'Error!'),
+        () => {
+          this.loading = false;
+          this.fillBasketProducts();
+        }
+      );
+  }
+
+  setCurrentbill(items){
+    this.currentBill = [];
+    this.deletedBasketProducts = [];
+    var bill = items;
+    this.selectedCustomer = this.customers.filter(x => x.id == bill.customer.id)[0];
+    this.selectedCustomer.addresses = bill.customer.addresses;
+    this.selectedAddress = bill.customer.addresses.filter(x => x.id == bill.addressId)[0];
+    this.selectedDate = new Date(bill.billDate);
+    bill.billProducts.forEach(bp => {
+      var product = this.productList.filter(x => x.id == bp.productId)[0];
+      let basketProduct = new BasketProduct();
+      basketProduct.id = bp.id;
+      basketProduct.billNumber = bill.id;
+      basketProduct.product = product;
+      basketProduct.package = bp.numberOfPackage;
+      this.addProductToCurrentBill(basketProduct);
+    });
   }
   fillBasketProducts() {
     this.basketProducts = [];
@@ -108,10 +126,14 @@ export class SaveBillComponent implements OnInit {
   }  
   saveBill() {
     let bill: Bill = new Bill();
-    bill.billNumber=this.lastBill.billNumber+1;
+  
     if (this.selectedBill != null) {
       bill.id = this.selectedBill.id;
-      bill.billNumber=this.selectedBill.billNumber;
+    //  bill.billNumber=this.lastBill.billNumber+1;
+    }
+    else if( this.lastBill!=null){
+      bill.id = this.lastBill.id;
+      bill.billNumber=this.lastBill.billNumber+1;
     }
 
     
@@ -226,11 +248,7 @@ export class SaveBillComponent implements OnInit {
     });
   }
 
-  setLastBill() {
-    this.billService.getLastBill(this.config.getLastBillUrl,null).subscribe(result=>{
-      this.lastBill=result;
-    });
-  }
+
   windowsHeight() {
     return (window.screen.height - 325) + "px";
   }
