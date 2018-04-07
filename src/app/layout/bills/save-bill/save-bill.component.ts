@@ -51,6 +51,7 @@ export class SaveBillComponent implements OnInit {
     this.deletedBasketProducts = [];
     this.setLastBill();
     this.selectedPriceGroup.id=0;
+    this.getProducts();
   }
 
   ngOnChanges() {
@@ -61,10 +62,12 @@ export class SaveBillComponent implements OnInit {
     }
   }
 
-  onPriceTypeChange()
+  onPriceTypeChange(selectedId)
   {
+    if(selectedId!=null){
+     this.productListOptions.priceType=selectedId;
+    }
     this.getProducts();
-    
   }
 
   changeProductPrice(product:product,amount:number)
@@ -210,9 +213,10 @@ export class SaveBillComponent implements OnInit {
 
   addProductToCurrentBill(basketProduct: BasketProduct) {
     let isExist = false;
-    let updateProduct = this.basketProducts.filter(x => x.product == basketProduct.product)[0];
-    updateProduct.package = basketProduct.package;
-
+    //==>> Ne icin kullandin anlamadim
+   // let updateProduct = this.basketProducts.filter(x => x.product == basketProduct.product)[0];
+   // updateProduct.package = basketProduct.package;
+   //==<< Ne icin kullandin anlamadim
     for (let i = 0; i < this.currentBill.length; i++)//check if product exist in currentWaybill
     {
       if (this.currentBill[i].product.id == basketProduct.product.id) {
