@@ -22,7 +22,7 @@
                 <ng-template let-col let-product="rowData.product" pTemplate="body">
                     <div class="ui-inputgroup">
                         <button class="btnChangePrice" (click)="changeProductPrice(product,-0.10)">-</button>
-                        <input type="text" class="bill-product-netsaleprice" [(ngModel)]="product.netSalePrice" />
+                        <input type="text" class="bill-product-netsaleprice" (ngOnChanges)="changeProductPrice(product,-1)" [(ngModel)]="product.netSalePrice" />
                         <button class="btnChangePrice" (click)="changeProductPrice(product,0.10)">+</button>
                     </div>
                 </ng-template>

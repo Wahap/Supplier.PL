@@ -30,6 +30,7 @@ export interface IConfig {
 	getLastBillUrl:string;
 	getBillUrl:string;
 	saveBillUrl:string;
+	saveProductPrice:string;
 	getAllBillsUrl:string;
 	deleteBillUrl:string;
 
@@ -61,6 +62,7 @@ export class ConfigService {
 		let getProductsWithRelationalEntities = (debug ? serverLoginPathDebug + "Product/getallproductswithrelationalentities" : serverLoginPath + "Product/getallproductswithrelationalentities");
 		let saveProductsUrl = (debug ? serverLoginPathDebug + "Product/saveproduct" : serverLoginPath + "Product/saveproduct");
 		let getPriceGroupsUrl = (debug ? serverLoginPathDebug + "Product/getallpricegroups" : serverLoginPath + "Product/getallpricegroups");
+		let saveProductPrice  = (debug ? serverLoginPathDebug + "Product/saveproductprices" : serverLoginPath + "Product/saveproductprices");
 		
 		
 		let getCategoriesUrl = (debug ? serverLoginPathDebug + "Common/getallcategories" : serverLoginPath + "Common/getallcategories");
@@ -117,7 +119,8 @@ export class ConfigService {
 			saveBillUrl:saveBillUrl,
 			getAllBillsUrl:getAllBillsUrl,
 			deleteBillUrl:deleteBillUrl,
-			getBillUrl:getBillUrl
+			getBillUrl:getBillUrl,
+			saveProductPrice:saveProductPrice
 
 		}
 	}

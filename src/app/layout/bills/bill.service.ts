@@ -19,6 +19,10 @@ export class BillService {
         return this.http.post(url, input, this.options)
             .map((response: Response) => response.json());
     }
+    saveProductPrice(url: string, input: any): any {
+        return this.http.post(url, input, this.options)
+            .map((response: Response) => response.json());
+    }
 
     getBill(url: string, input: any): any {
         return this.http.post(url, input, this.options)

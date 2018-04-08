@@ -24,6 +24,7 @@ export class SaveBillComponent implements OnInit {
   loading: boolean;
   basketProducts: BasketProduct[] = [];
   productList: product[] = [];
+  changedPriceList: product[] = [];
   currentBill: BasketProduct[] = [];
   deletedBasketProducts: BasketProduct[] = [];
   customers: customer[] = [];
@@ -45,6 +46,7 @@ export class SaveBillComponent implements OnInit {
    }
 
   ngOnInit() {
+    this.changedPriceList=[];
     this.config = this.configService.getAppConfig();
     this.getPriceGroups();
     this.fillCustomers();
@@ -72,10 +74,14 @@ export class SaveBillComponent implements OnInit {
 
   changeProductPrice(product:product,amount:number)
   {
-    
+    if(this.changedPriceList.indexOf(product)==-1){
+      this.changedPriceList.push(product);
+    }
+    if(amount!=-1){
     product.netSalePrice=parseFloat((product.netSalePrice+amount).toFixed(2));
     if(product.netSalePrice<=0)
     product.netSalePrice=0;
+  }
   }
 
   getPriceGroups()
@@ -143,8 +149,6 @@ export class SaveBillComponent implements OnInit {
       bill.id = this.selectedBill.id;
       bill.billNumber=this.selectedBill.billNumber;
     }
-
-    
     
     bill.addressId = this.selectedAddress.id;
     bill.customerId = this.selectedCustomer.id;
@@ -174,10 +178,32 @@ export class SaveBillComponent implements OnInit {
 
     this.billService.saveBill(this.config.saveBillUrl, bill).subscribe(result => {
       this.toastr.info("Fatura başarıyla kaydedildi...");
+      this.saveUpdatedProductPrice();
       this.router.navigateByUrl("/billList");
-       
+    },
+    error => this.toastr.error('Kaydedilirken Hata ile Karsilasildi.' + error, 'Error!'),
+    () => {
+      this.loading = false;
+      this.fillBasketProducts();
     });
   }
+
+  saveUpdatedProductPrice()
+  {
+    var  dataTosend={productListOptions:this.productListOptions,products:this.changedPriceList};
+  
+    this.billService.saveProductPrice(this.config.saveProductPrice,JSON.stringify(dataTosend)).subscribe(result => {
+      this.toastr.info("Fiyatlar başarıyla kaydedildi...");
+      this.router.navigateByUrl("/billList");
+       
+    },
+    error => this.toastr.error('Fiyatlar Kaydedilirken Hata ile Karsilasildi.' + error, 'Error!'),
+    () => {
+      this.loading = false;
+      this.fillBasketProducts();
+    });
+  }
+
   getProducts() {
     this.loading = true;
     this.productListOptions.customerId=this.selectedCustomer.id;
