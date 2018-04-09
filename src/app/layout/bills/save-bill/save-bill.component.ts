@@ -152,7 +152,7 @@ export class SaveBillComponent implements OnInit {
     
     bill.addressId = this.selectedAddress.id;
     bill.customerId = this.selectedCustomer.id;
-    bill.billDate = this.selectedDate;
+    bill.createdDate = this.selectedDate;
     bill.billStatus = 1;
     bill.isActive = true;
     this.currentBill.forEach(basketProduct => {

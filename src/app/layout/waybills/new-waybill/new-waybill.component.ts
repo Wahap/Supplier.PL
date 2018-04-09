@@ -115,7 +115,7 @@ export class NewWaybillComponent implements OnInit {
     }
     waybill.addressId = this.selectedAddress.id;
     waybill.customerId = this.selectedCustomer.id;
-    waybill.waybillDate = this.selectedDate;
+    waybill.createdDate = this.selectedDate;
     waybill.waybillStatus = 1;
     waybill.isActive = true;
     this.currentWaybill.forEach(basketProduct => {
