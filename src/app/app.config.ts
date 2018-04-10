@@ -46,7 +46,7 @@ export class ConfigService {
 	
 
 		let serverUserNotificationPath = '';
-		let debug = false;
+		let debug = true;
 
 		let getUsers = (debug ? serverLoginPathDebug + "authentication/login" : serverLoginPath + "userCont/getusers");
 		//let logInUrl = (debug ? serverLoginPathDebug + "userCont/login" : serverLoginPath + "userCont/login");

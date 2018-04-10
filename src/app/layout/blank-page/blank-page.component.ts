@@ -8,6 +8,7 @@ import { brand } from '../../shared/DTOs/brand';
 import { category } from '../../shared/DTOs/category';
 import { NgForm } from '@angular/forms';
 import { rootRenderNodes } from '@angular/core/src/view/util';
+import { HttpClient, HttpRequest, HttpEventType, HttpResponse } from '@angular/common/http'
 declare var jsPDF: any; // Important 
 
 //This component and its service have been created for testing porpuse.
@@ -30,12 +31,47 @@ export class BlankPageComponent implements OnInit {
     selectedCategory: category;
     model: any = [];
     items = [];
-  
-    constructor( @Inject('Window') private window: Window, private commonServices: CommonService, private blankPageServices: BlankPageService, private configService: ConfigService, public toastr: ToastsManager, vcr: ViewContainerRef) {
+    public progress: number;
+    public message: string;
+    imageChangedEvent: any = '';
+    croppedImage: any = '';
+    constructor( private http: HttpClient,@Inject('Window') private window: Window, private commonServices: CommonService, private blankPageServices: BlankPageService, private configService: ConfigService, public toastr: ToastsManager, vcr: ViewContainerRef) {
         this.toastr.setRootViewContainerRef(vcr);
         this.model = { username: '', password: '' };
     }
 
+    fileChangeEvent(event: any): void {
+        this.imageChangedEvent = event;
+    }
+    imageCropped(image: string) {
+        this.croppedImage = image;
+    }
+    imageLoaded() {
+        // show cropper
+    }
+    loadImageFailed() {
+        // show message
+    }
+    upload(files) {
+        // if (files.length === 0)
+        //   return;
+    
+        const formData = new FormData();
+        formData.append("Test Abdulll", this.croppedImage) 
+        // for (let file of files)
+        //   formData.append(file.name, file);   
+     
+        const uploadReq = new HttpRequest('POST', `http://localhost:4315/api/upload`, this.croppedImage, {
+          reportProgress: true,
+        });
+    
+        this.http.request(uploadReq).subscribe(event => {
+          if (event.type === HttpEventType.UploadProgress)
+            this.progress = Math.round(100 * event.loaded / event.total);
+          else if (event.type === HttpEventType.Response)
+            this.message = event.body.toString();
+        });
+      }
 
     download() {
 
