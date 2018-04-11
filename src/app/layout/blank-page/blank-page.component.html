@@ -27,9 +27,6 @@
 <button (click)="download()">Pdf exporter </button>
 
 
-<h1>File Upload Using Angular 5 and ASP.NET Core 2.1</h1>
-<input #file type="file" multiple (change)="upload(file.files)" />
-<br/>
 
 
 <input type="file" (change)="fileChangeEvent($event)" />
@@ -38,11 +35,14 @@
     [imageChangedEvent]="imageChangedEvent"
     [maintainAspectRatio]="true"
     [aspectRatio]="4 / 3"
-    [resizeToWidth]="128"
-    format="jpeg"
+    [resizeToWidth]="0"
+    format="png"
     (imageCropped)="imageCropped($event)"
     (imageLoaded)="imageLoaded()"
     (loadImageFailed)="loadImageFailed()"
 ></image-cropper>
 
-<img [src]="croppedImage" />
+<img type="file" #fileInput [src]="croppedImage" />
+
+
+<button (click)="addFile()">Add</button>

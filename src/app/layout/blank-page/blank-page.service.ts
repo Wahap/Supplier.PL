@@ -15,7 +15,14 @@ export class BlankPageService {
     this.options = new RequestOptions({ headers: headers });
 
 
-    // this.options = new RequestOptions({ headers: headers });
+
+  }
+
+    upload(url: any,fileToUpload: any) {
+      let input = new FormData();
+      input.append("file", fileToUpload);
+      return this.http
+          .post(url, input);
   }
   getProducts(url: string, userState: any): any {
 

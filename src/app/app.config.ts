@@ -31,6 +31,7 @@ export interface IConfig {
 	getAllBillsUrl:string;
 	deleteBillUrl:string;
 
+	uploadImageUrl: string;
 
 };
 import { Injectable } from '@angular/core';
@@ -82,6 +83,7 @@ export class ConfigService {
 		let getAllBillsUrl = (debug ? serverLoginPathDebug + "bill/getallbills" : serverLoginPath + "bill/getallbills");
 		let deleteBillUrl = (debug ? serverLoginPathDebug + "bill/deletebill" : serverLoginPath + "bill/deletebill");
 		let getBillUrl = (debug ? serverLoginPathDebug + "bill/getbill" : serverLoginPath + "bill/getbill");
+		let uploadImageUrl = (debug ? serverLoginPathDebug + "Uploader/Upload" : serverLoginPath + "Uploader/Upload");
 		
 		return {
 			logInUrl: logInUrl,
@@ -111,7 +113,8 @@ export class ConfigService {
 			saveBillUrl:saveBillUrl,
 			getAllBillsUrl:getAllBillsUrl,
 			deleteBillUrl:deleteBillUrl,
-			getBillUrl:getBillUrl
+			getBillUrl:getBillUrl,
+			uploadImageUrl:uploadImageUrl
 
 		}
 	}
