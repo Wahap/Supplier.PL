@@ -8,8 +8,7 @@ export class Bill
     customerId:number;
     addressId:number;
     billStatus:number;
-    createdDate:Date;  
-    deliveryDate:Date;
+    billDate:Date;  
     customer:customer;
     address:address;
     isActive:boolean;

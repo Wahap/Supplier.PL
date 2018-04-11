@@ -1,141 +1,101 @@
+<!-- <pdf-bill [bill]="selectedBill==null? lastbill:selectedBill"></pdf-bill> -->
 <div class="row">
-    <div class="col-md-6">
-        <p-dataTable [loading]="loading" scrollable="true" scrollHeight="{{windowsHeight()}}" [value]="basketProducts" scrollable="true"
-            scrollHeight="500px">
-            <p-header>Ürünler</p-header>
-            <p-column field="product.barcodeOfProduct" header="Barkod" [filter]="true" filterMatchMode="contains" [style]="{'width':'27%'}">
-                <ng-template let-col let-product="rowData.product" pTemplate="body">
-                    <span>{{product.barcodeOfProduct}}</span>
-                </ng-template>
-            </p-column>
-            <p-column field="product.orderNumber" header="S.No" [filter]="true" filterMatchMode="contains" [style]="{'width':'10%'}">
-                <ng-template let-col let-product="rowData.product" pTemplate="body">
-                    <span>{{product.orderNumber}}</span>
-                </ng-template>
-            </p-column>
-            <p-column field="product.productName" [filter]="true" filterMatchMode="contains" header="Ürün">
-                <ng-template let-col let-product="rowData.product" pTemplate="body">
-                    <span>{{product.productName}}</span>
-                </ng-template>
-            </p-column>
-            <p-column field="product" header="Fiyat" [style]="{'width':'20%'}">
-                <ng-template let-col let-product="rowData.product" pTemplate="body">
-                    <div class="ui-inputgroup">
-                        <button class="btnChangePrice" (click)="changeProductPrice(product,-0.10)">-</button>
-                        <input type="text" class="bill-product-netsaleprice" (ngOnChanges)="changeProductPrice(product,-1)" [(ngModel)]="product.netSalePrice" />
-                        <button class="btnChangePrice" (click)="changeProductPrice(product,0.10)">+</button>
-                    </div>
-                </ng-template>
-            </p-column>
-            <p-column field="product" header="Vergi" [style]="{'width':'10%'}">
-                <ng-template let-col let-product="rowData.product" pTemplate="body">
-                    <span>{{product.tax}}</span>
-                </ng-template>
-            </p-column>
-            <p-column field="product.package" header="Koli" [filter]="true" filterMatchMode="contains" [style]="{'width':'20%'}">
-                <ng-template pTemplate="body" let-product="rowData">
-                    <div class="ui-inputgroup">
-                        <button class="btnDecrease" (click)="decrease(product)">-</button>
-                        <input type="text" class="bill-product-package" [(ngModel)]="product.package" />
-                        <button class="btnIncrease" (click)="increase(product)">+</button>
-                    </div>
-                </ng-template>
-            </p-column>
-        </p-dataTable>
-    </div>
-
-    <div class="col-md-6">
-        <div id="billContainer">
-
-            <div id="bill-customer-selection">
-                <div id="bill-options">
-                    <p-dropdown [options]="customers" [style]="{'width':'40%'}" [(ngModel)]="selectedCustomer" placeholder="Müşteri" optionLabel="companyName"
-                        filter="true"></p-dropdown>
-                    <p-dropdown *ngIf="selectedCustomer.id>0" [options]="selectedCustomer?.addresses" [style]="{'width':'20%'}" [(ngModel)]="selectedAddress"
-                        placeholder="Adres" filter="true" optionLabel="street">
-                    </p-dropdown>
-                    <p-calendar [(ngModel)]="selectedDate" dateFormat="dd.mm.yy"></p-calendar>
+  <div class="col-md-6">
+    <p-dataTable [loading]="loading" scrollable="true" scrollHeight="{{windowsHeight()}}" [value]="basketProducts" scrollable="true"
+        scrollHeight="500px">
+        <p-header>Ürünler</p-header>
+        <p-column field="product.barcodeOfProduct" header="Barkod" [filter]="true" filterMatchMode="contains" [style]="{'width':'27%'}">
+            <ng-template let-col let-product="rowData.product" pTemplate="body">
+                <span>{{product.barcodeOfProduct}}</span>
+            </ng-template>
+        </p-column>
+        <p-column field="product.orderNumber" header="S.No" [filter]="true" filterMatchMode="contains" [style]="{'width':'10%'}">
+            <ng-template let-col let-product="rowData.product" pTemplate="body">
+                <span>{{product.orderNumber}}</span>
+            </ng-template>
+        </p-column>
+        <p-column field="product.productName" [filter]="true" filterMatchMode="contains" header="Ürün">
+            <ng-template let-col let-product="rowData.product" pTemplate="body">
+                <span>{{product.productName}}</span>
+            </ng-template>
+        </p-column>
+        <p-column field="product"  header="Fiyat" [style]="{'width':'20%'}">
+          <ng-template let-col let-product="rowData.product" pTemplate="body">
+              <span>{{product.netSalePrice}}</span>
+              <span>Vergi:{{product.tax}}%</span>
+          </ng-template>
+      </p-column>
+        <p-column field="product.package" header="Koli" [filter]="true" filterMatchMode="contains" [style]="{'width':'20%'}">
+            <ng-template pTemplate="body" let-product="rowData">
+                <div class="ui-inputgroup">
+                    <button class="btnDecrease" (click)="decrease(product)">-</button>
+                    <input type="text" class="bill-product-package" [(ngModel)]="product.package" />
+                    <button class="btnIncrease" (click)="increase(product)">+</button>
                 </div>
-                <div id="bill-price-options" *ngIf="selectedCustomer.id>0">
-                    <div class="form-check form-check-inline">
-                        <input type="radio" name="fixedPrice" checked  (change)="onPriceTypeChange(0)" class="form-check-input" name="priceOption"
-                            value="0">
-                        <label class="form-check-label" for="fixedPrice">
-                            Sabit Fiyat
-                        </label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input [(ngModel)]="productListOptions.priceType" type="radio" (change)="onPriceTypeChange()" class="form-check-input" name="priceOption"
-                            id="customerPrice" value="1">
-                        <label class="form-check-label" for="customerPrice">
-                            Müşteriye Özel Fiyat
-                        </label>
-                    </div>
+            </ng-template>
+        </p-column>
+    </p-dataTable>
+</div>
 
-                    <div class="form-check form-check-inline">
-                        <input type="radio" [(ngModel)]="productListOptions.priceType" class="form-check-input" name="priceOption"
-                            id="priceGroup" value="2">
-                        <label class="form-check-label" for="priceGroup">
-                            Fiyat Grubu
-                        </label>
-                    </div>
-                    <div class="form-group" *ngIf="productListOptions.priceType==2">
-                        <select [(ngModel)]="selectedPriceGroup.id" (change)="onPriceTypeChange()" class="form-control form-control-sm">
-                            <option value="0" disabled selected>Fiyat Grununu Seçin</option>
-                           <option *ngFor="let priceGroup of priceGroups" [value]="priceGroup.id">{{priceGroup.name}}</option>
-                        </select>
-                    </div>
+<div class="col-md-6">
+  <div id="billContainer">   
 
-                </div>
-            </div>
-            <div id="bill-preview">
+      <div id="bill-customer-selection">
+          <p-dropdown [options]="customers" [style]="{'width':'40%'}" [(ngModel)]="selectedCustomer" placeholder="Müşteri" optionLabel="companyName"
+              filter="true"></p-dropdown>
+          <p-dropdown *ngIf="selectedCustomer.id>0" [options]="selectedCustomer?.addresses" [style]="{'width':'20%'}" [(ngModel)]="selectedAddress"
+              placeholder="Adres" filter="true" optionLabel="street">
+          </p-dropdown>
+          <p-calendar [(ngModel)]="selectedDate" dateFormat="dd.mm.yy"></p-calendar>
+      </div>
+      <div id="bill-preview">
 
-                <div id="bill-header">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <p id="companyAddress">GÖRAL Vertriebs GMBH Kenan Aydin , OhligserStr. 22 , 42329 Wuppertal</p>
-                            <p id="customerAddress" class="border-bottom">{{selectedCustomer.companyName}}
-                                <br> {{selectedAddress?.street}}
-                                <br> {{selectedAddress?.postCode}} {{selectedAddress.city?.name}}
-                            </p>
-                        </div>
-                        <div class="col-md-4" id="logo">
-                            <img src="assets/images/goral.png" />
-                            <br>
-                            <p>Kunden Nr: {{selectedCustomer.id}}</p>
-                            <p>Lieferdatum:{{selectedDate | date:'dd-MM-yyyy'}}</p>
-                        </div>
-                    </div>
-                    <h3 class="border-bottom">RECHNUNG: {{selectedBill==null? lastBill?.billNumber+1:selectedBill.billNumber }}</h3>
-                </div>
-                <div id="billProducts">
-                    <table class="table table-bordered">
-                        <tr>
-                            <th>Pos</th>
-                            <th>Menge</th>
-                            <th>Art.Nr.</th>
-                            <th>Barcode</th>
-                            <th>Text</th>
-                        </tr>
-                        <tr *ngFor="let product of currentBill;index as i;">
-                            <td>{{i+1}}</td>
-                            <td>
-                                <button class="btnDecrease" (click)="decrease(product)">-</button>
-                                <input type="text" class="bill-product-package" [(ngModel)]="product.package" />
-                                <button class="btnIncrease" (click)="increase(product)">+</button>
-                            </td>
-                            <td>{{product.product.orderNumber}}</td>
-                            <td>{{product.product.barcodeOfProduct}}</td>
-                            <td>{{product.product.productName}}</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-            <div id="billOperations">
-                <button class="btn btn-success" [disabled]="currentBill.length==0 || selectedCustomer.id==null || selectedAddress.id==null || selectedDate==null"
-                    (click)="saveBill()">KAYDET</button>
-                <button class="btn btn-danger" [disabled]="currentBill.length<1" (click)="clearProducts()">Temizle</button>
-            </div>
-        </div>
-    </div>
+          <div id="bill-header">
+              <div class="row">
+                  <div class="col-md-8">
+                      <p id="companyAddress">GÖRAL Vertriebs GMBH Kenan Aydin , OhligserStr. 22 , 42329 Wuppertal</p>
+                      <p id="customerAddress" class="border-bottom">{{selectedCustomer.companyName}}
+                          <br> {{selectedAddress?.street}}
+                          <br> {{selectedAddress?.postCode}} {{selectedAddress.city?.name}}
+                      </p>
+                  </div>
+                  <div class="col-md-4" id="logo">
+                      <img src="assets/images/goral.png" />
+                      <br>
+                      <p>Kunden Nr: {{selectedCustomer.id}}</p>
+                      <p>Lieferdatum:{{selectedDate | date:'dd-MM-yyyy'}}</p>
+                  </div>
+              </div>
+              <h3 class="border-bottom">RECHNUNG: {{selectedBill==null? lastBill?.billNumber+1:selectedBill.billNumber }}</h3>
+          </div>
+          <div id="billProducts">
+              <table class="table table-bordered">
+                  <tr>
+                      <th>Pos</th>
+                      <th>Menge</th>
+                      <th>Art.Nr.</th>
+                      <th>Barcode</th>
+                      <th>Text</th>
+                  </tr>
+                  <tr *ngFor="let product of currentBill;index as i;">
+                      <td>{{i+1}}</td>
+                      <td>
+                          <button class="btnDecrease" (click)="decrease(product)">-</button>
+                          <input type="text" class="bill-product-package" [(ngModel)]="product.package" />
+                          <button class="btnIncrease" (click)="increase(product)">+</button>
+                      </td>
+                      <td>{{product.product.orderNumber}}</td>
+                      <td>{{product.product.barcodeOfProduct}}</td>
+                      <td>{{product.product.productName}}</td>
+                  </tr>
+              </table>
+          </div>
+      </div>
+      <div id="billOperations">
+          <button class="btn btn-success" [disabled]="currentBill.length==0 || selectedCustomer.id==null || selectedAddress.id==null || selectedDate==null"
+              (click)="saveBill()">KAYDET</button>
+          <button class="btn btn-danger" [disabled]="currentBill.length<1" (click)="clearProducts()">Temizle</button>
+      </div>
+  </div>
+</div>
 </div>

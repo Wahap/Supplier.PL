@@ -17,7 +17,7 @@ const routes: Routes = [
     {
         path: '',
         component: LayoutComponent,
-        children: [  
+        children: [
             { path: '', redirectTo: 'products' },
             { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' },
             { path: 'products',component:ProductsComponent },

@@ -12,8 +12,7 @@ export class Waybill
 
     waybillStatus:number;
 
-    createdDate:Date;  
-    deliveryDate:Date;
+    waybillDate:Date;
 
     customer:customer;
 

@@ -4,10 +4,8 @@ export interface IConfig {
 	calculate: string;
 
 	getProductsUrl: string;
-	getProductsByPriceTypeUrl: string;
 	saveProductsUrl:string;
 	getProductsWithRelationalEntitiesUrl:string;
-	getPriceGroupsUrl:string;
 
 	getCategoriesUrl: string;
 	getAllUnitsUrl: string;
@@ -30,10 +28,10 @@ export interface IConfig {
 	getLastBillUrl:string;
 	getBillUrl:string;
 	saveBillUrl:string;
-	saveProductPrice:string;
 	getAllBillsUrl:string;
 	deleteBillUrl:string;
 
+	uploadImageUrl: string;
 
 };
 import { Injectable } from '@angular/core';
@@ -58,11 +56,8 @@ export class ConfigService {
 		let calculate = (debug ? serverLoginPathDebug + "Operation" : serverLoginPath + "Operation");
 		//ProductController 
 		let getProductsUrl = (debug ? serverLoginPathDebug + "Product/getallproducts" : serverLoginPath + "Product/getallproducts");
-		let getProductsByPriceTypeUrl = (debug ? serverLoginPathDebug + "Product/getallproductsbypricetype" : serverLoginPath + "Product/getallproductsbypricetype");
 		let getProductsWithRelationalEntities = (debug ? serverLoginPathDebug + "Product/getallproductswithrelationalentities" : serverLoginPath + "Product/getallproductswithrelationalentities");
 		let saveProductsUrl = (debug ? serverLoginPathDebug + "Product/saveproduct" : serverLoginPath + "Product/saveproduct");
-		let getPriceGroupsUrl = (debug ? serverLoginPathDebug + "Product/getallpricegroups" : serverLoginPath + "Product/getallpricegroups");
-		let saveProductPrice  = (debug ? serverLoginPathDebug + "Product/saveproductprices" : serverLoginPath + "Product/saveproductprices");
 		
 		
 		let getCategoriesUrl = (debug ? serverLoginPathDebug + "Common/getallcategories" : serverLoginPath + "Common/getallcategories");
@@ -88,14 +83,13 @@ export class ConfigService {
 		let getAllBillsUrl = (debug ? serverLoginPathDebug + "bill/getallbills" : serverLoginPath + "bill/getallbills");
 		let deleteBillUrl = (debug ? serverLoginPathDebug + "bill/deletebill" : serverLoginPath + "bill/deletebill");
 		let getBillUrl = (debug ? serverLoginPathDebug + "bill/getbill" : serverLoginPath + "bill/getbill");
+		let uploadImageUrl = (debug ? serverLoginPathDebug + "Uploader/Upload" : serverLoginPath + "Uploader/Upload");
 		
 		return {
 			logInUrl: logInUrl,
 			getUsers: getUsers,
 			calculate: calculate,
 			getProductsUrl: getProductsUrl,
-			getPriceGroupsUrl:getPriceGroupsUrl,
-			getProductsByPriceTypeUrl:getProductsByPriceTypeUrl,
 			getCategoriesUrl: getCategoriesUrl,
 			getProductsWithRelationalEntitiesUrl:getProductsWithRelationalEntities,
 			getAllUnitsUrl: getAllUnitsUrl,
@@ -120,7 +114,7 @@ export class ConfigService {
 			getAllBillsUrl:getAllBillsUrl,
 			deleteBillUrl:deleteBillUrl,
 			getBillUrl:getBillUrl,
-			saveProductPrice:saveProductPrice
+			uploadImageUrl:uploadImageUrl
 
 		}
 	}

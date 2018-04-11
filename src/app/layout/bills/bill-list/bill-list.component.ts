@@ -43,7 +43,7 @@ export class BillListComponent implements OnInit {
   
     dialogRef.afterClosed().subscribe(result => {
      if(result=='yes')
-     {  
+     {
       this.billService.deleteBill(this.config.deleteBillUrl,bill).subscribe(result=>{
         this.fillAllBills();
       });

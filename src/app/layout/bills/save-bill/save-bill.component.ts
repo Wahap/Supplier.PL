@@ -12,8 +12,6 @@ import { address } from '../../../shared/DTOs/address';
 import { BillService } from '../bill.service';
 import { Bill } from '../../../shared/DTOs/Bill';
  import { BillProduct } from '../../../shared/DTOs/billProduct';
-import { ProductListOptions } from '../../../shared/DTOs/productListOptions';
-import { PriceGroup } from '../../../shared/DTOs/priceGroup';
 @Component({
   selector: 'app-save-bill',
   templateUrl: './save-bill.component.html',
@@ -24,7 +22,6 @@ export class SaveBillComponent implements OnInit {
   loading: boolean;
   basketProducts: BasketProduct[] = [];
   productList: product[] = [];
-  changedPriceList: product[] = [];
   currentBill: BasketProduct[] = [];
   deletedBasketProducts: BasketProduct[] = [];
   customers: customer[] = [];
@@ -33,9 +30,6 @@ export class SaveBillComponent implements OnInit {
   selectedDate: Date;
   isNewRecord:boolean;
   lastBill:Bill;
-  productListOptions:ProductListOptions=new ProductListOptions();
-  priceGroups:PriceGroup[]=[];
-  selectedPriceGroup:PriceGroup=new PriceGroup();
   @Input()
   selectedBill:Bill;  
   constructor(private customerService: CustomersService, public toastr: ToastsManager, vcr: ViewContainerRef, private billService: BillService, private productsService: ProductsService, private configService: ConfigService, public dialog: MatDialog,public router: Router) 
@@ -46,14 +40,11 @@ export class SaveBillComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.changedPriceList=[];
     this.config = this.configService.getAppConfig();
-    this.getPriceGroups();
+    this.getProducts();
     this.fillCustomers();
     this.deletedBasketProducts = [];
-    this.setLastBill();
-    this.selectedPriceGroup.id=0;
-    this.getProducts();
+  //  this.setLastBill();
   }
 
   ngOnChanges() {
@@ -63,54 +54,12 @@ export class SaveBillComponent implements OnInit {
       this.isNewRecord=false;
     }
   }
-
-  onPriceTypeChange(selectedId)
-  {
-    if(selectedId!=null){
-     this.productListOptions.priceType=selectedId;
-    }
-    this.getProducts();
-  }
-
-  changeProductPrice(product:product,amount:number)
-  {
-    if(this.changedPriceList.indexOf(product)==-1){
-      this.changedPriceList.push(product);
-    }
-    if(amount!=-1){
-    product.netSalePrice=parseFloat((product.netSalePrice+amount).toFixed(2));
-    if(product.netSalePrice<=0)
-    product.netSalePrice=0;
-  }
-  }
-
-  getPriceGroups()
-  {
-    this.productsService.getPriceGroups(this.config.getPriceGroupsUrl,null).subscribe(response=>{
-      this.priceGroups=response;
-    });
-  }
   getBillById(selectedBillId): any {
 
     this.loading = true;
     this.billService.getBill(this.config.getBillUrl, selectedBillId)
       .subscribe(items => {
-        this.currentBill = [];
-        this.deletedBasketProducts = [];
-        var bill = items;
-        this.selectedCustomer = this.customers.filter(x => x.id == bill.customer.id)[0];
-        this.selectedCustomer.addresses = bill.customer.addresses;
-        this.selectedAddress = bill.customer.addresses.filter(x => x.id == bill.addressId)[0];
-        this.selectedDate = new Date(bill.billDate);
-        bill.billProducts.forEach(bp => {
-          var product = this.productList.filter(x => x.id == bp.productId)[0];
-          let basketProduct = new BasketProduct();
-          basketProduct.id = bp.id;
-          basketProduct.waybillId = selectedBillId;
-          basketProduct.product = product;
-          basketProduct.package = bp.numberOfPackage;
-          this.addProductToCurrentBill(basketProduct);
-        });
+     this.setCurrentbill(items);
       },
         error => this.toastr.error('Irsaliye getirilirken hata ile karsilasildi.' + error, 'Error!'),
         () => {
@@ -118,6 +67,39 @@ export class SaveBillComponent implements OnInit {
           this.fillBasketProducts();
         }
       );
+  }
+  setLastBill() {
+    this.loading = true;
+    this.billService.getLastBill(this.config.getLastBillUrl, null)
+      .subscribe(items => {
+        this.lastBill=items;
+        this.setCurrentbill(items);
+      },
+        error => this.toastr.error('Irsaliye getirilirken hata ile karsilasildi.' + error, 'Error!'),
+        () => {
+          this.loading = false;
+          this.fillBasketProducts();
+        }
+      );
+  }
+
+  setCurrentbill(items){
+    this.currentBill = [];
+    this.deletedBasketProducts = [];
+    var bill = items;
+    this.selectedCustomer = this.customers.filter(x => x.id == bill.customer.id)[0];
+    this.selectedCustomer.addresses = bill.customer.addresses;
+    this.selectedAddress = bill.customer.addresses.filter(x => x.id == bill.addressId)[0];
+    this.selectedDate = new Date(bill.billDate);
+    bill.billProducts.forEach(bp => {
+      var product = this.productList.filter(x => x.id == bp.productId)[0];
+      let basketProduct = new BasketProduct();
+      basketProduct.id = bp.id;
+      basketProduct.billNumber = bill.id;
+      basketProduct.product = product;
+      basketProduct.package = bp.numberOfPackage;
+      this.addProductToCurrentBill(basketProduct);
+    });
   }
   fillBasketProducts() {
     this.basketProducts = [];
@@ -144,15 +126,21 @@ export class SaveBillComponent implements OnInit {
   }  
   saveBill() {
     let bill: Bill = new Bill();
-    bill.billNumber=this.lastBill.billNumber+1;
+  
     if (this.selectedBill != null) {
       bill.id = this.selectedBill.id;
-      bill.billNumber=this.selectedBill.billNumber;
+    //  bill.billNumber=this.lastBill.billNumber+1;
     }
+    else if( this.lastBill!=null){
+      bill.id = this.lastBill.id;
+      bill.billNumber=this.lastBill.billNumber+1;
+    }
+
+    
     
     bill.addressId = this.selectedAddress.id;
     bill.customerId = this.selectedCustomer.id;
-    bill.createdDate = this.selectedDate;
+    bill.billDate = this.selectedDate;
     bill.billStatus = 1;
     bill.isActive = true;
     this.currentBill.forEach(basketProduct => {
@@ -178,37 +166,13 @@ export class SaveBillComponent implements OnInit {
 
     this.billService.saveBill(this.config.saveBillUrl, bill).subscribe(result => {
       this.toastr.info("Fatura başarıyla kaydedildi...");
-      this.saveUpdatedProductPrice();
       this.router.navigateByUrl("/billList");
-    },
-    error => this.toastr.error('Kaydedilirken Hata ile Karsilasildi.' + error, 'Error!'),
-    () => {
-      this.loading = false;
-      this.fillBasketProducts();
+     
     });
   }
-
-  saveUpdatedProductPrice()
-  {
-    var  dataTosend={productListOptions:this.productListOptions,products:this.changedPriceList};
-  
-    this.billService.saveProductPrice(this.config.saveProductPrice,JSON.stringify(dataTosend)).subscribe(result => {
-      this.toastr.info("Fiyatlar başarıyla kaydedildi...");
-      this.router.navigateByUrl("/billList");
-       
-    },
-    error => this.toastr.error('Fiyatlar Kaydedilirken Hata ile Karsilasildi.' + error, 'Error!'),
-    () => {
-      this.loading = false;
-      this.fillBasketProducts();
-    });
-  }
-
   getProducts() {
     this.loading = true;
-    this.productListOptions.customerId=this.selectedCustomer.id;
-    this.productListOptions.priceGroupId=this.selectedPriceGroup.id;
-    this.productsService.getProducts(this.config.getProductsByPriceTypeUrl, this.productListOptions).subscribe(items => {
+    this.productsService.getProducts(this.config.getProductsWithRelationalEntitiesUrl, null).subscribe(items => {
       this.productList = items;
       this.fillBasketProducts();
       this.loading = false;
@@ -239,10 +203,9 @@ export class SaveBillComponent implements OnInit {
 
   addProductToCurrentBill(basketProduct: BasketProduct) {
     let isExist = false;
-    //==>> Ne icin kullandin anlamadim
-   // let updateProduct = this.basketProducts.filter(x => x.product == basketProduct.product)[0];
-   // updateProduct.package = basketProduct.package;
-   //==<< Ne icin kullandin anlamadim
+    let updateProduct = this.basketProducts.filter(x => x.product == basketProduct.product)[0];
+    updateProduct.package = basketProduct.package;
+
     for (let i = 0; i < this.currentBill.length; i++)//check if product exist in currentWaybill
     {
       if (this.currentBill[i].product.id == basketProduct.product.id) {
@@ -285,11 +248,7 @@ export class SaveBillComponent implements OnInit {
     });
   }
 
-  setLastBill() {
-    this.billService.getLastBill(this.config.getLastBillUrl,null).subscribe(result=>{
-      this.lastBill=result;
-    });
-  }
+
   windowsHeight() {
     return (window.screen.height - 325) + "px";
   }

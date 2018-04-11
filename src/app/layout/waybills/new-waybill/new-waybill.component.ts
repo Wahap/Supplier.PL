@@ -52,6 +52,7 @@ export class NewWaybillComponent implements OnInit {
 
   ngOnInit() {
     this.config = this.configService.getAppConfig();
+    //testtt
     this.currentWaybill = [];
     this.deletedBasketProducts = [];
     this.getProducts();
@@ -117,9 +118,13 @@ export class NewWaybillComponent implements OnInit {
     }
     waybill.addressId = this.selectedAddress.id;
     waybill.customerId = this.selectedCustomer.id;
+<<<<<<< HEAD
     waybill.createdDate = this.createdDate;
     waybill.deliveryDate=this.deliveryDate;
     waybill.deliveryAddressId=this.deliveryAddress.id;
+=======
+    waybill.waybillDate = this.selectedDate;
+>>>>>>> 704085a9357bdea2ea5d0286ade18dd5bf57d982
     waybill.waybillStatus = 1;
     waybill.isActive = true;
     this.currentWaybill.forEach(basketProduct => {

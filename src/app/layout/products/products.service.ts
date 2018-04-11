@@ -21,14 +21,4 @@ export class ProductsService {
     return this.http.post(url, input, this.options)
       .map((response: Response) => response.json());
   }
-
-  getProductsByPriceType(url: string, input: any): any {
-    return this.http.post(url, input, this.options)
-      .map((response: Response) => response.json());
-  }
-
-  getPriceGroups(url: string, input: any): any {
-    return this.http.post(url, input, this.options)
-      .map((response: Response) => response.json());
-  }
 }
