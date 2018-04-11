@@ -23,7 +23,6 @@ import {ToastOptions} from 'ng2-toastr';
 import { WaybillService } from './layout/waybills/waybill.service';
 import { ConfirmComponent } from './shared/components/confirm/confirm.component';
 import { BillService } from './layout/bills/bill.service';
-
 export class CustomOption extends ToastOptions {
   animate = 'flyRight'; // you can override any options available
   newestOnTop = false;

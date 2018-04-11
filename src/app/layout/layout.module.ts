@@ -3,9 +3,13 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
-import {InputTextModule,DataTableModule,SharedModule,ButtonModule,DialogModule, 
-    StepsModule,DropdownModule} from 'primeng/primeng';
-    import { CalendarModule } from 'primeng/primeng';
+import { TableModule } from 'primeng/table';
+import {
+    InputTextModule, DataTableModule, SharedModule, ButtonModule, DialogModule,
+    StepsModule, DropdownModule
+} from 'primeng/primeng';
+import { CalendarModule } from 'primeng/primeng';
+
 import { LayoutRoutingModule } from './layout-routing.module';
 import { LayoutComponent } from './layout.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
@@ -35,16 +39,16 @@ import { BillListComponent } from './bills/bill-list/bill-list.component';
         TranslateModule,
         NgbDropdownModule.forRoot(),
         FormsModule,
-        InputTextModule, DataTableModule, SharedModule,ButtonModule,DialogModule,CalendarModule,
-        StepsModule ,DropdownModule,
+        InputTextModule, DataTableModule, SharedModule, ButtonModule, DialogModule, CalendarModule,
+        StepsModule, DropdownModule,TableModule,
         MaterialModule
     ],
-    declarations: [NewWaybillComponent,PdfWaybillComponent,PdfOrderComponent,LayoutComponent, SidebarComponent, HeaderComponent, ProductsComponent, CustomersComponent, ReceivedOrderComponent,
-         ApprovedOrdersComponent,
-         CancelledOrderComponent,
-         NewWaybillComponent,
-         WaybillsListComponent,
-         SaveBillComponent,
-         BillListComponent]
+    declarations: [NewWaybillComponent, PdfWaybillComponent, PdfOrderComponent, LayoutComponent, SidebarComponent, HeaderComponent, ProductsComponent, CustomersComponent, ReceivedOrderComponent,
+        ApprovedOrdersComponent,
+        CancelledOrderComponent,
+        NewWaybillComponent,
+        WaybillsListComponent,
+        SaveBillComponent,
+        BillListComponent]
 })
-export class LayoutModule {}
+export class LayoutModule { }

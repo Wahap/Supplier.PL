@@ -50,6 +50,16 @@ export class ProductsComponent implements OnInit {
 
   }
 
+  ngOnInit() {
+    this.config = this.configService.getAppConfig();
+    this.getProducts();
+    this.getAllBrands();
+    this.getAllUnits();
+    this.getCategories();
+    this.getSuppliers();
+
+  }
+
   showDialogToAdd() {
     this.newProduct = true;
     this.selectedBrand = new brand();
@@ -117,15 +127,7 @@ export class ProductsComponent implements OnInit {
   findSelectedIndex(): number {
     return this.products.indexOf(this.selectedProduct);
   }
-  ngOnInit() {
-    this.config = this.configService.getAppConfig();
-    this.getProducts();
-    this.getAllBrands();
-    this.getAllUnits();
-    this.getCategories();
-    this.getSuppliers();
-
-  }
+  
 
   getProducts() {
     this.loading = true;
