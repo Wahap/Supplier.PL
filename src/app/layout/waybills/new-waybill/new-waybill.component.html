@@ -24,7 +24,8 @@
                 <ng-template pTemplate="body" let-product="rowData">
                     <div class="ui-inputgroup">
                         <button class="btnDecrease" (click)="decrease(product)">-</button>
-                        <input type="number" class="waybill-product-package" [(ngModel)]="product.package" (ngModelChange)="setPackage(product)" />
+                        <input type="number" class="waybill-product-package" [(ngModel)]="product.package" (ngModelChange)="setPackage(product)"
+                        />
                         <button class="btnIncrease" (click)="increase(product)">+</button>
                     </div>
                 </ng-template>
@@ -35,12 +36,29 @@
         <div id="waybillContainer">
 
             <div id="waybill-customer-selection">
-                <p-dropdown [options]="customers" [style]="{'width':'40%'}" [(ngModel)]="selectedCustomer" placeholder="Müşteri" optionLabel="companyName"
-                    filter="true"></p-dropdown>
-                <p-dropdown *ngIf="selectedCustomer.id>0" [options]="selectedCustomer?.addresses" [style]="{'width':'20%'}" [(ngModel)]="selectedAddress"
-                    placeholder="Adres" filter="true" optionLabel="street">
+               
+                    <label>Müşteri</label>
+                        <p-dropdown [options]="customers" [style]="{'width':'40%'}" [(ngModel)]="selectedCustomer" placeholder="Müşteri" optionLabel="companyName"
+                        filter="true"></p-dropdown>
+              
+               
+
+                <div *ngIf="selectedCustomer.id>0">
+                    <label>Fatura Adresi</label>
+                    <p-dropdown [options]="selectedCustomer?.addresses" [style]="{'width':'20%'}" [(ngModel)]="selectedAddress" placeholder="Adres"
+                        filter="true" optionLabel="street">
+                    </p-dropdown>
+                    <label>Teslimat Adresi</label>
+                    <p-dropdown [options]="selectedCustomer?.addresses" [style]="{'width':'20%'}" [(ngModel)]="deliveryAddress" placeholder="Adres"
+                    filter="true" optionLabel="street">
                 </p-dropdown>
-                <p-calendar [(ngModel)]="selectedDate" dateFormat="dd.mm.yy"></p-calendar>
+                </div>
+               <div>
+                <label>Oluşturulma Tarihi</label>
+                <p-calendar [(ngModel)]="createdDate" dateFormat="dd.mm.yy" utc="true"></p-calendar>
+                <label>Dağıtım Tarihi</label>
+                <p-calendar [(ngModel)]="deliveryDate" dateFormat="dd.mm.yy" utc="true"></p-calendar>
+            </div>
             </div>
             <div id="waybill-preview">
 
@@ -57,7 +75,7 @@
                             <img src="assets/images/goral.png" />
                             <br>
                             <p>Kunden Nr: {{selectedCustomer.id}}</p>
-                            <p>Lieferdatum:{{selectedDate | date:'dd-MM-yyyy'}}</p>
+                            <p>Lieferdatum:{{createdDate | date:'dd-MM-yyyy'}}</p>
                         </div>
                     </div>
                     <h3 class="border-bottom">LIEFERSCHEIN: {{selectedWayBill==null? lastWaybill?.id:selectedWayBill.id }}</h3>
@@ -76,7 +94,8 @@
                             <td>
                                 <button class="btnDecrease btn-danger" (click)="removeProductToCurrentWaybill(product)">X</button>
                                 <button class="btnDecrease btn-warning" (click)="decrease(product)">-</button>
-                                <input type="number"class="waybill-product-package" [(ngModel)]="product.package" (ngModelChange)="setPackage(product)" />
+                                <input type="number" class="waybill-product-package" [(ngModel)]="product.package" (ngModelChange)="setPackage(product)"
+                                />
                                 <button class="btnIncrease btn-success" (click)="increase(product)">+</button>
                             </td>
                             <td>{{product.product.orderNumber}}</td>
@@ -87,7 +106,7 @@
                 </div>
             </div>
             <div id="waybillOperations">
-                <button class="btn btn-success" [disabled]="currentWaybill.length==0 || selectedCustomer.id==null || selectedAddress.id==null || selectedDate==null"
+                <button class="btn btn-success" [disabled]="currentWaybill.length==0 || selectedCustomer.id==null || selectedAddress.id==null || createdDate==null || deliveryDate==null"
                     (click)="saveWaybill()">KAYDET</button>
                 <button class="btn btn-danger" [disabled]="currentWaybill.length<1" (click)="clearProducts()">Temizle</button>
             </div>

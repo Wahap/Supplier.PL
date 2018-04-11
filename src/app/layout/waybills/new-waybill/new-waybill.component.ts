@@ -26,8 +26,10 @@ export class NewWaybillComponent implements OnInit {
   customers: customer[] = [];
   selectedCustomer: customer = new customer();
   selectedAddress: address = new address();
+  deliveryAddress: address = new address();
   deletedBasketProducts: BasketProduct[] = [];
-  selectedDate: Date;
+  createdDate: Date;
+  deliveryDate:Date;
   productList: product[] = [];
   loading: boolean;
   lastWaybill:Waybill;
@@ -94,7 +96,7 @@ export class NewWaybillComponent implements OnInit {
     this.selectedCustomer = this.customers.filter(x => x.id == wayBill.customer.id)[0];
     this.selectedCustomer.addresses = wayBill.customer.addresses;
     this.selectedAddress = wayBill.customer.addresses.filter(x => x.id == wayBill.addressId)[0];
-    this.selectedDate = new Date(wayBill.waybillDate);
+    this.createdDate = new Date(wayBill.createdDate);
     wayBill.waybillProducts.forEach(wp => {
       var product = this.productList.filter(x => x.id == wp.productId)[0];
       let basketProduct = new BasketProduct();
@@ -115,7 +117,9 @@ export class NewWaybillComponent implements OnInit {
     }
     waybill.addressId = this.selectedAddress.id;
     waybill.customerId = this.selectedCustomer.id;
-    waybill.createdDate = this.selectedDate;
+    waybill.createdDate = this.createdDate;
+    waybill.deliveryDate=this.deliveryDate;
+    waybill.deliveryAddressId=this.deliveryAddress.id;
     waybill.waybillStatus = 1;
     waybill.isActive = true;
     this.currentWaybill.forEach(basketProduct => {

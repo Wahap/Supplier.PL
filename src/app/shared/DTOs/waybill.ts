@@ -8,6 +8,7 @@ export class Waybill
     customerId:number;
 
     addressId:number;
+    deliveryAddressId:number;
 
     waybillStatus:number;
 
