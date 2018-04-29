@@ -19,7 +19,7 @@ export class ProductsComponent implements OnInit {
   units: unit[];
   selectedUnit: unit;
   config: IConfig;
-  products: product[];
+  products: product[]=[];
   selectedProduct: product;
   product: product;
   newProduct: boolean;
@@ -68,7 +68,7 @@ export class ProductsComponent implements OnInit {
     this.selectedSupplier = new supplier();
     this.product = new product();
     this.selectedTax=this.taxNumbers[0];
-    this.displayDialog = true;
+    this.displayDialog = true;  
   }
   delete() {
     this.product.isActive=!this.product.isActive;
@@ -84,14 +84,14 @@ export class ProductsComponent implements OnInit {
  
     this.productsService.saveProducts(this.config.saveProductsUrl, this.product)
       .subscribe(items => {
-        if (items == true) {
+        if (items.data == true) {
           if (this.newProduct) {
             this.getProducts();
           }
           else {
             products[this.findSelectedIndex()] = this.product;
             this.products = products;
-            this.product = null;
+           // this.product = null;
           }
           this.toastr.success('Urun Basariyla Kaydedildi.', 'Basarili !');
         }
@@ -133,8 +133,8 @@ export class ProductsComponent implements OnInit {
     this.loading = true;
     this.productsService.getProducts(this.config.getProductsUrl, this.products)
       .subscribe(items => {
-        if (items != null && items.length != 0) {
-          this.products = items;
+        if (items.data != null && items.data.length != 0) {
+          this.products = items.data;
           this.loading = false;
         }
       },

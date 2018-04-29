@@ -1,4 +1,6 @@
 import { NgModule } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localeDe from '@angular/common/locales/de';
 import { CommonModule, LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -30,6 +32,7 @@ export class CustomOption extends ToastOptions {
   positionClass='toast-top-center';
   dismiss:'click'
 }
+registerLocaleData(localeDe);
 export function createTranslateLoader(http: HttpClient) {
     // for development
     // return new TranslateHttpLoader(http, '/start-angular/SB-Admin-BS4-Angular-5/master/dist/assets/i18n/', '.json');
@@ -62,4 +65,7 @@ export function createTranslateLoader(http: HttpClient) {
       ],
     bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule 
+{
+   
+ }

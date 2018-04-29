@@ -9,7 +9,7 @@ import {
     StepsModule, DropdownModule
 } from 'primeng/primeng';
 import { CalendarModule } from 'primeng/primeng';
-
+import {KeyFilterModule} from 'primeng/keyfilter';
 import { LayoutRoutingModule } from './layout-routing.module';
 import { LayoutComponent } from './layout.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
@@ -40,7 +40,7 @@ import { BillListComponent } from './bills/bill-list/bill-list.component';
         NgbDropdownModule.forRoot(),
         FormsModule,
         InputTextModule, DataTableModule, SharedModule, ButtonModule, DialogModule, CalendarModule,
-        StepsModule, DropdownModule,TableModule,
+        StepsModule, DropdownModule,TableModule,KeyFilterModule,
         MaterialModule
     ],
     declarations: [NewWaybillComponent, PdfWaybillComponent, PdfOrderComponent, LayoutComponent, SidebarComponent, HeaderComponent, ProductsComponent, CustomersComponent, ReceivedOrderComponent,

@@ -1,0 +1,28 @@
+.product-image
+{
+    width: 60px;
+    transition: 0.5s;
+    z-index: 1;
+    border-radius: 10%;
+    border:2px solid #ccc;
+    
+}
+.border-right
+{
+    border-right:2px solid #ccc;
+}
+#product-list input
+{
+    width: 100%;
+}
+/*Look it again,select this element effectively*/
+tr:hover img 
+{
+    transform: scale(2);
+}
+#btnOpenProductAddForm
+{
+    position: absolute;
+    top:0px;
+    left: 0px;
+}
