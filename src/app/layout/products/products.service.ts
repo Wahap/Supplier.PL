@@ -21,4 +21,10 @@ export class ProductsService {
     return this.http.post(url, input, this.options)
       .map((response: Response) => response.json());
   }
+  upload(url: any,fileToUpload: any) {
+    let input = new FormData();
+    input.append("file", fileToUpload);
+    return this.http
+        .post(url, input);
+}
 }

@@ -28,12 +28,14 @@ import { PdfOrderComponent } from '../pdf-exporter/pdf-order/pdf-order.component
 import { PdfWaybillComponent } from '../pdf-exporter/pdf-waybill/pdf-waybill.component';
 import { SaveBillComponent } from './bills/save-bill/save-bill.component';
 import { BillListComponent } from './bills/bill-list/bill-list.component';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 
 
 
 @NgModule({
     imports: [
+        ImageCropperModule,
         CommonModule,
         LayoutRoutingModule,
         TranslateModule,
