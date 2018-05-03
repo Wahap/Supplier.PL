@@ -135,7 +135,7 @@ export class ProductsComponent implements OnInit {
     this.displayChangeImg = true;
     this.hideImageUrl = false;
     this.croppedImage=null;
-    this.imageChangedEvent=null;
+  //  this.imageChangedEvent=null;
   }
 
   findSelectedIndex(): number {
@@ -145,9 +145,11 @@ export class ProductsComponent implements OnInit {
   // ==>Image funcs
   addFile(): void {
     //add some conditions , if barcodename is empty or croppedImage is 
+
     if (this.croppedImage == null) {
       this.toastr.error('Lutfen Resim ekleyiniz.', 'Error!');
     }
+    this.loading=true;
     let fileToUpload = this.dataURItoBlob(this.croppedImage);
     let fileName = this.product.barcodeOfProduct;
     this.productsService.upload(this.config.uploadImageUrl + "?fileName=" + fileName, fileToUpload)
@@ -157,7 +159,8 @@ export class ProductsComponent implements OnInit {
         this.croppedImage=null;
         this.imageChangedEvent=null;
 
-        this.toastr.success('Resim Kaydedildi.', 'Success!')
+        this.toastr.success('Resim Kaydedildi.', 'Success!');
+        this.loading=false;
       }),
       error => this.toastr.error('Resim Kaydedilirken hata ile karsilasildi.', 'Error!'),
       () => {

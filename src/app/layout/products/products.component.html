@@ -238,9 +238,9 @@
                                     <img class="saveProduct-image" src="http://goralgmbh.com/assets/images/products/{{product.barcodeOfProduct}}.jpg">
                                 </div>
                                 <div class="" [hidden]="!hideImageUrl">
-                                    <image-cropper   class="saveProduct-image"
-                                     [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="400 /400" [resizeToWidth]="0"
-                                        format="png" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()" (loadImageFailed)="loadImageFailed()"></image-cropper>
+                                    <image-cropper class="saveProduct-image" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="400 /400"
+                                        [resizeToWidth]="0" format="png" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()"
+                                        (loadImageFailed)="loadImageFailed()"></image-cropper>
                                 </div>
 
                             </div>
@@ -256,15 +256,23 @@
             </div>
             <p-footer>
                 <div class="ui-dialog-buttonpane ui-helper-clearfix">
-                    <input type="file" id="getFile" (click)="fileChangeEvent($event)" style="display:none" />
-                    <button type="button" id="btnUpload" class="btn btn-success btn-sm" (click)="addFile()">Kaydet
-                            <i class="fa fa-check" aria-hidden="true"></i>
-                        </button>
-
-                    <button type="button" id="btnUpload" class="btn btn-primary btn-sm"  onclick="document.getElementById('getFile').click()">Resim Sec
-                            <i class="fa fa-plus-circle" aria-hidden="true"></i>
-                        </button>
-
+                    <table class="float-right">
+                        <tr>
+                            <td>
+                                <span class="btn btn btn-primary btn-file">
+                                    Browse
+                                    <input type="file" (change)="fileChangeEvent($event)" />
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                </span>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn btn-success" (click)="addFile()">Kaydet
+                                    <i class="fa fa-save" aria-hidden="true"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </p-footer>
         </p-dialog>
+        <div class="loading"  [hidden]="!loading"></div>
