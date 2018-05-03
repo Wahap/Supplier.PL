@@ -144,8 +144,8 @@ export class ProductsComponent implements OnInit {
 
   // ==>Image funcs
   addFile(): void {
-    //add some conditions , if barcodename is empty or croppedImage is 
 
+    //add some conditions , if barcodename is empty or croppedImage is 
     if (this.croppedImage == null) {
       this.toastr.error('Lutfen Resim ekleyiniz.', 'Error!');
     }
