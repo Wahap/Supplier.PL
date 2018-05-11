@@ -1,8 +1,44 @@
 <!-->Customer Grid -->
+
+<p-table #dt [value]="customers" id="customers-list" autoLayout="true" [loading]="loading" [scrollable]="true" [scrollHeight]="windowsHeight()"
+rowHover="true">
+<ng-template pTemplate="caption">
+
+    <button type="button" id="btnOpenCustomerAddForm" class="btn btn-primary btn-sm" (click)="showDialogToAdd()">Yeni
+        <i class="fa fa-plus-circle" aria-hidden="true"></i>
+    </button>
+    Müşteri Listesi
+</ng-template>
+
+<ng-template pTemplate="header">
+    <tr>
+        <th>Firma</th>
+        <th>Müşteri</th>
+        <th>Telefon</th>
+        <th>Mail</th>
+        <th>Adres</th>
+        <th>Fiyat</th>
+        
+
+    </tr>
+  
+</ng-template>
+<ng-template pTemplate="body" let-customer>
+ <tr>
+     <td>{{customer.companyName}}</td>
+     <td>{{customer.customerName + ' '+ customer.lastname }}</td>
+     <td>{{customer.phone}}</td>
+     <td>{{customer.eMail}}</td>
+     <td><button type="button" pButton (click)="selectAddress(customer)" icon="fa fa-map-marker"></button></td>
+     <td><button type="button" pButton (click)="showCustomerPrices(customer)" icon="fa fa-eur"></button></td>
+ </tr>
+</ng-template>
+</p-table>
+
 <p-dataTable [value]="customers" [rowStyleClass]="customize" [(selection)]="selectedCustomer" (onRowSelect)="onRowSelect($event)"
     [loading]="loading" scrollable="true" scrollHeight="{{windowsHeight()}}" resizableColumns="true"  [rows]="10" [paginator]="false" selectionMode="single" [(selection)]="selectedCustomer"
     (onRowSelect)="onRowSelect($event)" [paginator]="true" rows="15" [responsive]="true">
-    <p-header>Müşteriler
+    <p-header>Müşteriler  
         <div class="ui-helper-clearfix" style="width:100%">
             <button type="button" pButton icon="fa-plus" style="float:left" (click)="showDialogToAdd()" label="Yeni Müşteri Ekle"></button>
         </div>

@@ -79,7 +79,7 @@
                     <ng-template pTemplate="body" let-pro>
                         <tr [pSelectableRow]="pro">
                             <td>
-                                <img class="product-image" (click)="showImgDialog(pro)" src="http://goralgmbh.com/assets/images/products/{{pro.barcodeOfProduct}}.jpg"
+                                <img class="product-image" (click)="showImgDialog(pro)" src="http://dev.goralgmbh.com/assets/images/products/{{pro.barcodeOfProduct}}.jpg"
                                     [alt]="pro.productName">
                             </td>
                             <td (click)="onRowSelect(pro)">{{pro.barcodeOfProduct}}</td>
