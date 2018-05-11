@@ -36,6 +36,13 @@ tr:hover img
     top:0px;
     left: 0px;
 }
+#btnExportCsvProductList
+{
+  position: absolute;
+  top: 0px;
+  left: 100px;
+  height: 34px;
+}
 .btn-file {
     position: relative;
     overflow: hidden;

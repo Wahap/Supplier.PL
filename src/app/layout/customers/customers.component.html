@@ -35,12 +35,13 @@ rowHover="true">
 </ng-template>
 </p-table>
 
-<p-dataTable [value]="customers" [rowStyleClass]="customize" [(selection)]="selectedCustomer" (onRowSelect)="onRowSelect($event)"
+<p-dataTable #dtc [value]="customers" [rowStyleClass]="customize" [(selection)]="selectedCustomer" (onRowSelect)="onRowSelect($event)"
     [loading]="loading" scrollable="true" scrollHeight="{{windowsHeight()}}" resizableColumns="true"  [rows]="10" [paginator]="false" selectionMode="single" [(selection)]="selectedCustomer"
     (onRowSelect)="onRowSelect($event)" [paginator]="true" rows="15" [responsive]="true">
     <p-header>Müşteriler  
         <div class="ui-helper-clearfix" style="width:100%">
             <button type="button" pButton icon="fa-plus" style="float:left" (click)="showDialogToAdd()" label="Yeni Müşteri Ekle"></button>
+            <button type="button" pButton icon="fa-file-o" iconPos="left" label="All Data" (click)="dtc.exportCSV()" style="float:left"></button>
         </div>
     </p-header>
     <p-column field="companyName" header="Firma Adi" [filter]="true" filterPlaceholder="Firma  Ara" [sortable]="true"></p-column>

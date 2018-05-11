@@ -38,6 +38,8 @@ export class ProductsComponent implements OnInit {
   imageChangedEvent: any = '';
   croppedImage: any = '';
   hideImageUrl: boolean;
+  productListCols: any[];
+
   @ViewChild("fileInput") fileInput;
 
   constructor(private commonServices: CommonService, private productsService: ProductsService, private configService: ConfigService, public toastr: ToastsManager, vcr: ViewContainerRef) {
@@ -63,7 +65,16 @@ export class ProductsComponent implements OnInit {
     this.getCategories();
     this.getSuppliers();
     this.hideImageUrl = false;
-
+    this.productListCols = [
+      { field: 'resim', header: 'Resim' },
+      { field: 'barcodeOfProduct', header: 'Barkod' },
+      { field: 'orderNumber', header: 'S.No' },
+      { field: 'productName', header: 'Ürün' },
+      { field: 'purchasePrice', header: 'Alış(€)' },
+      { field: 'netSalePrice', header: 'Net Satış(€)' },
+      { field: 'tax', header: 'Vergi(%)' },
+      { field: 'brutPrice', header: 'Brüt Satış' }
+  ];
   }
 
   showDialogToAdd() {

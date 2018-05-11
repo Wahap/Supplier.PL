@@ -1,63 +1,27 @@
 <div class='main'>
     <div class='content full'>
+
         <div class='row' style="margin:0px;">
             <div class='col-md-12 '>
-
-                <p-table #dt [value]="products" id="product-list" autoLayout="true" [loading]="loading" [scrollable]="true" [scrollHeight]="windowsHeight()"
-                    rowHover="true">
+                <p-table #dt [columns]="productListCols" [value]="products" id="product-list" autoLayout="true" [loading]="loading" [scrollable]="true"
+                    [scrollHeight]="windowsHeight()" rowHover="true">
                     <ng-template pTemplate="caption">
 
                         <button type="button" id="btnOpenProductAddForm" class="btn btn-primary btn-sm" (click)="showDialogToAdd()">Yeni
                             <i class="fa fa-plus-circle" aria-hidden="true"></i>
                         </button>
+                        <button type="button" id="btnExportCsvProductList" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()"></button>
                         Ürün Listesi
                     </ng-template>
-                    <ng-template pTemplate="colgroup" let-columns>
-                        <colgroup>
-                            <col [style.width]="'8%'">
-                            <!--iamge-->
-                            <col [style.width]="'15%'">
-                            <!--barcode-->
-                            <col [style.width]="'8%'">
-                            <!--order number-->
-                            <col [style.width]="'20%'">
-                            <!--name-->
-                            <col [style.width]="'10%'">
-                            <!--purchase Price-->
-                            <col [style.width]="'10%'">
-                            <!--netSalePrice-->
-                            <col [style.width]="'8%'">
-                            <!--Tax-->
-                            <col [style.width]="'10%'">
-                            <!--Brut-->
-                        </colgroup>
-                    </ng-template>
-                    <ng-template pTemplate="header">
-                        <tr>
-                            <th>Resim</th>
-                            <th [pSortableColumn]="'barcodeOfProduct'">Barkod
-                                <p-sortIcon></p-sortIcon>
-                            </th>
-                            <th [pSortableColumn]="'orderNumber'">S.NR
-                                <p-sortIcon></p-sortIcon>
-                            </th>
-                            <th [pSortableColumn]="'productName'">Ürün Adı
-                                <p-sortIcon></p-sortIcon>
-                            </th>
-                            <th [pSortableColumn]="'purchasePrice'">Alış(€)
-                                <p-sortIcon></p-sortIcon>
-                            </th>
-                            <th [pSortableColumn]="'netSalePrice'">Net Satış(€)
-                                <p-sortIcon></p-sortIcon>
-                            </th>
-                            <th [pSortableColumn]="'tax'">Vergi(%)
-                                <p-sortIcon></p-sortIcon>
-                            </th>
-                            <th>Brüt Satış(€)</th>
 
+                    <ng-template pTemplate="header" let-columns>
+                        <tr>
+                            <th *ngFor="let col of columns">
+                                {{col.header}}
+                            </th>
                         </tr>
                         <tr>
-                            <!--Searching Controls-->
+
                             <th>
 
                             </th>
@@ -76,19 +40,17 @@
                             <th></th>
                         </tr>
                     </ng-template>
-                    <ng-template pTemplate="body" let-pro>
+                    <ng-template pTemplate="body" let-pro let-columns="columns">
                         <tr [pSelectableRow]="pro">
-                            <td>
-                                <img class="product-image" (click)="showImgDialog(pro)" src="http://dev.goralgmbh.com/assets/images/products/{{pro.barcodeOfProduct}}.jpg"
+                            <td *ngFor="let col of columns" [ngSwitch]="col.field">
+                                    <img *ngSwitchCase="'resim'" class="product-image" (click)="showImgDialog(pro)" src="http://dev.goralgmbh.com/assets/images/products/{{pro.barcodeOfProduct}}.jpg"
                                     [alt]="pro.productName">
+                                    <span (click)="onRowSelect(pro)" *ngSwitchCase="'purchasePrice'">{{pro.purchasePrice | number:'1.2-2':'de'}}</span>
+                                    <span (click)="onRowSelect(pro)" *ngSwitchCase="'netSalePrice'">{{pro.netSalePrice | number:'1.2-2':'de'}}</span>
+                                    <span (click)="onRowSelect(pro)" *ngSwitchCase="'brutPrice'">{{pro.netSalePrice+pro.netSalePrice*pro.tax/100 | number:'1.2-2':'de'}}</span>
+                                <span (click)="onRowSelect(pro)" *ngSwitchDefault>{{pro[col.field]}}</span>
+                                
                             </td>
-                            <td (click)="onRowSelect(pro)">{{pro.barcodeOfProduct}}</td>
-                            <td (click)="onRowSelect(pro)">{{pro.orderNumber}}</td>
-                            <td (click)="onRowSelect(pro)">{{pro.productName}}</td>
-                            <td (click)="onRowSelect(pro)">{{pro.purchasePrice | number:'1.2-2':'de'}}</td>
-                            <td (click)="onRowSelect(pro)">{{pro.netSalePrice | number:'1.2-2':'de'}}</td>
-                            <td (click)="onRowSelect(pro)">{{pro.tax}}</td>
-                            <td (click)="onRowSelect(pro)">{{pro.netSalePrice+pro.netSalePrice*pro.tax/100 | number:'1.2-2':'de'}}</td>
                         </tr>
                     </ng-template>
                 </p-table>
@@ -275,4 +237,4 @@
                 </div>
             </p-footer>
         </p-dialog>
-        <div class="loading"  [hidden]="!loading"></div>
+        <div class="loading" [hidden]="!loading"></div>
