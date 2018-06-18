@@ -6,7 +6,8 @@ export  class address
     customerId:number;
     cityId:number;
     city:city;
-    postcode:string;
+    postCode:string;
     street:string;
+    branchName:string;
     
 }

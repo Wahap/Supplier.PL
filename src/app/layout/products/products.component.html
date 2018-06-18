@@ -21,10 +21,7 @@
                             </th>
                         </tr>
                         <tr>
-
-                            <th>
-
-                            </th>
+                            <th></th>
                             <th>
                                 <input placeholder="Barkod..." pInputText type="text" (input)="dt.filter($event.target.value, 'barcodeOfProduct','contains')">
                             </th>
@@ -42,14 +39,14 @@
                     </ng-template>
                     <ng-template pTemplate="body" let-pro let-columns="columns">
                         <tr [pSelectableRow]="pro">
-                            <td *ngFor="let col of columns" [ngSwitch]="col.field">
-                                    <img *ngSwitchCase="'resim'" class="product-image" (click)="showImgDialog(pro)" src="http://dev.goralgmbh.com/assets/images/products/{{pro.barcodeOfProduct}}.jpg"
+                            <td *ngFor="let col of columns" [ngSwitch]="col.field" (click)="col.field!='resim'?onRowSelect(pro):''">
+                                <img *ngSwitchCase="'resim'" class="product-image" (click)="showImgDialog(pro)" src="http://dev.goralgmbh.com/assets/images/products/{{pro.barcodeOfProduct}}.jpg"
                                     [alt]="pro.productName">
-                                    <span (click)="onRowSelect(pro)" *ngSwitchCase="'purchasePrice'">{{pro.purchasePrice | number:'1.2-2':'de'}}</span>
-                                    <span (click)="onRowSelect(pro)" *ngSwitchCase="'netSalePrice'">{{pro.netSalePrice | number:'1.2-2':'de'}}</span>
-                                    <span (click)="onRowSelect(pro)" *ngSwitchCase="'brutPrice'">{{pro.netSalePrice+pro.netSalePrice*pro.tax/100 | number:'1.2-2':'de'}}</span>
-                                <span (click)="onRowSelect(pro)" *ngSwitchDefault>{{pro[col.field]}}</span>
-                                
+                                <span *ngSwitchCase="'purchasePrice'">{{pro.purchasePrice | number:'1.2-2':'de'}}</span>
+                                <span *ngSwitchCase="'netSalePrice'">{{pro.netSalePrice | number:'1.2-2':'de'}}</span>
+                                <span *ngSwitchCase="'brutPrice'">{{pro.netSalePrice+pro.netSalePrice*pro.tax/100 | number:'1.2-2':'de'}}</span>
+                                <span *ngSwitchDefault>{{pro[col.field]}}</span>
+
                             </td>
                         </tr>
                     </ng-template>

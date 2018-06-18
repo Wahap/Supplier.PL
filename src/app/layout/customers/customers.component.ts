@@ -25,10 +25,13 @@ export class CustomersComponent implements OnInit {
   newCustomer: boolean;
   displayCustomerDialog: boolean;
   displayCustomersAddressDialog: boolean;
+  diplayCustomerPricesDialog: boolean;
   displayNewAddressDialog: boolean;
   activeButtonText: string;
   activeIndex: number;
   items: any = [];
+  customerListColumns: any[];
+  addressListColumns: any[];
   constructor(private commonServices: CommonService, private customersService: CustomersService, private configService: ConfigService, public toastr: ToastsManager, vcr: ViewContainerRef) {
     this.toastr.setRootViewContainerRef(vcr);
     this.activeButtonText = "Pasif Et";
@@ -55,7 +58,28 @@ export class CustomersComponent implements OnInit {
         this.activeIndex = 1;
       }
     }];
+
+
+    this.customerListColumns = [
+      { field: 'companyName', header: 'Firma' },
+      { field: 'customerName', header: 'Müşteri' },
+      { field: 'eMail', header: 'E-Mail' },
+      { field: 'phone', header: 'Telefon' },
+      { field: 'address', header: 'Adres' },
+      { field: 'addresses', header: 'Adresler' },
+      { field: 'priceList', header: 'Fiyatlar' }
+    ];
+
+    this.addressListColumns = [
+      { field: 'branchName', header: 'Şube' },
+      { field: 'street', header: 'Cadde' },
+      { field: 'postCode', header: 'Posta Kodu' },
+      { field: 'city', header: 'Şehir' },
+      { field: 'kaydet', header: 'Kaydet' },
+      { field: 'sil', header: 'Sil' }
+    ];
   }
+
 
   //#region Customer 
   save() {
@@ -87,13 +111,13 @@ export class CustomersComponent implements OnInit {
         } else
           this.toastr.error(result, 'Hata!');
       },
-      error => this.toastr.error('Urun kaydedilirken hata ile karsilasildi.', 'Error!'),
-      () => {
-        //finally bloke ..!
-        // No errors, route to new page
+        error => this.toastr.error('Urun kaydedilirken hata ile karsilasildi.', 'Error!'),
+        () => {
+          //finally bloke ..!
+          // No errors, route to new page
 
-        this.displayCustomerDialog = false;
-      });
+          this.displayCustomerDialog = false;
+        });
   }
   onRowSelect(event) {
     this.newCustomer = false;
@@ -130,7 +154,7 @@ export class CustomersComponent implements OnInit {
     this.customerAddress = new address;
     this.displayNewAddressDialog = true;
   }
-  selectAddress(customer) {
+  onSelectAddresses(customer) {
     this.selectedAddresses = customer.addresses;
     this.selectedCustomer = customer;
     this.selectedAddresses.forEach((address) => {
@@ -141,15 +165,21 @@ export class CustomersComponent implements OnInit {
 
     this.displayCustomersAddressDialog = true;
   }
+  onSelectCustomerPrice(customer) {
+    this.diplayCustomerPricesDialog = true;
+    this.customersService.getCustomerPrices(this.config.getCustomerPricesUrl,customer).subscribe(response=>{
+      
+    });
+  }
   saveOrDeleteAdress(address, saveOrDelete) {
     //save address
     this.loading = true;
     address.customerId = this.selectedCustomer.id;
-    if (this.selectedCity!=null) {
-      address.cityId = this.selectedCity.id;
+    if (address.city != null) {
+      address.cityId = address.city.id;
     }
     this.customersService.getCustomers(this.config.saveOrDeleteAddress + saveOrDelete, address)
-      .subscribe(items => { 
+      .subscribe(items => {
         this.loading = false;
         if (saveOrDelete == "saveaddress") {
           this.toastr.success('Adres Basariyla Kaydedildi.', 'Basarili !');
@@ -162,12 +192,12 @@ export class CustomersComponent implements OnInit {
         this.displayCustomersAddressDialog = false;
         this.getCustomers();
       },
-      error => this.toastr.error('Musteriler getirilirken hata ile karsilasildi.', 'Error!'),
-      () => {
-        //finally bloke ..!
-        this.loading = false;
+        error => this.toastr.error('Musteriler getirilirken hata ile karsilasildi.', 'Error!'),
+        () => {
+          //finally bloke ..!
+          this.loading = false;
 
-      }
+        }
       );
   }
 
@@ -188,11 +218,11 @@ export class CustomersComponent implements OnInit {
           this.loading = false;
         }
       },
-      error => this.toastr.error('Musteriler getirilirken hata ile karsilasildi.', 'Error!'),
-      () => {
-        //finally bloke ..!
-        // No errors, route to new page
-      }
+        error => this.toastr.error('Musteriler getirilirken hata ile karsilasildi.', 'Error!'),
+        () => {
+          //finally bloke ..!
+          // No errors, route to new page
+        }
       );
   }
 
@@ -203,7 +233,7 @@ export class CustomersComponent implements OnInit {
           this.cities = items;
         }
       },
-      error => this.toastr.error('Tum Sehirler getirilirken hata ile karsilasildi.', 'Error!')
+        error => this.toastr.error('Tum Sehirler getirilirken hata ile karsilasildi.', 'Error!')
       );
   }
   //#endregion Binding
@@ -214,8 +244,8 @@ export class CustomersComponent implements OnInit {
   customize(rowData, rowIndex): string {
     return rowData.isActive ? "" : "inactive-row";
   }
-  windowsHeight(){
-    return (window.screen.height*0.80-120) + "px";
+  windowsHeight() {
+    return (window.screen.height * 0.80 - 120) + "px";
   }
 
 }

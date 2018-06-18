@@ -75,7 +75,7 @@ export class ProductsComponent implements OnInit {
       { field: 'tax', header: 'Vergi(%)' },
       { field: 'brutPrice', header: 'Brüt Satış' }
   ];
-  }
+  };
 
   showDialogToAdd() {
     this.newProduct = true;
