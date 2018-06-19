@@ -10,7 +10,7 @@ export class product
     descripton:string;
     imageUrl:string;
     isActive:boolean;
-    name:string;
+    productName:string;
     netSalePrice: number;
     orderNumber:number;
     purchasePrice:string;

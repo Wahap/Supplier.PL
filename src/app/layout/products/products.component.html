@@ -1,15 +1,24 @@
 <div class='main'>
     <div class='content full'>
         <div class='row' style="margin:0px;">
-            <div class='col-md-12 '>
+            
                 <p-table #dt [columns]="productListCols" [value]="products" id="product-list" autoLayout="true" [loading]="loading" [scrollable]="true"
                     [scrollHeight]="windowsHeight()" rowHover="true">
                     <ng-template pTemplate="caption">
-                        <button type="button" id="btnOpenProductAddForm" class="btn btn-primary btn-sm" (click)="showDialogToAdd()">Yeni
-                            <i class="fa fa-plus-circle" aria-hidden="true"></i>
-                        </button>
-                        <button type="button" id="btnExportCsvProductList" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()"></button>
-                        Ürün Listesi
+                        
+                                <button type="button" id="btnOpenProductAddForm" class="btn btn-primary btn-sm" (click)="showDialogToAdd()">Yeni Ürün
+                                        <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                    </button>
+                                   
+                                    <button type="button" id="btnExportProductsAsCsv"  class="btn btn-primary btn-sm" (click)="dt.exportCSV()">CSV
+                                            <i class="fa fa-table" aria-hidden="true"></i>
+                                        </button>
+                                    <button id="btnExportProductsAsPdf" class="btn btn-primary btn-sm" (click)="exportProductsAsPdf()">PDF
+                                            <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                    </button>
+                       
+                       Ürün Listesi
+                        
                     </ng-template>
 
                     <ng-template pTemplate="header" let-columns>
@@ -51,7 +60,7 @@
                 </p-table>
                 <div>
                 </div>
-            </div>
+            
         </div>
 
         <p-dialog [header]="newProduct==true?'Yeni Ürün':'Ürün Detayı'" [(visible)]="displayDialog" [responsive]="true" [contentStyle]="{'width':'100%'}"

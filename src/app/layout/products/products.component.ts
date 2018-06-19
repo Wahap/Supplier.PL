@@ -9,7 +9,8 @@ import { CommonService } from '../../shared/common.service';
 import { category } from '../../shared/DTOs/category';
 import { unit } from '../../shared/DTOs/unit';
 import { supplier } from '../../shared/DTOs/supplier';
-
+import 'jspdf';
+declare var jsPDF: any; // Important 
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
@@ -74,7 +75,7 @@ export class ProductsComponent implements OnInit {
       { field: 'netSalePrice', header: 'Net Satış(€)' },
       { field: 'tax', header: 'Vergi(%)' },
       { field: 'brutPrice', header: 'Brüt Satış' }
-  ];
+    ];
   };
 
   showDialogToAdd() {
@@ -126,6 +127,24 @@ export class ProductsComponent implements OnInit {
 
 
   }
+  exportProductsAsPdf() {
+    var doc = new jsPDF();
+    var col = ["BARKOD","S.NO","ÜRÜN","FIYAT"];
+    var rows = [];
+
+    this.products.forEach(function (element) {
+
+      var row = [];
+      row.push(element.barcodeOfProduct);
+      row.push(element.orderNumber);
+      row.push(element.productName);
+      row.push(element.netSalePrice);
+      rows.push(row);
+    });
+    doc.autoTable(col, rows);
+    doc.save('Products.pdf');
+  }
+
   onRowSelect(product) {
     this.newProduct = false;
     // this.product = Object.assign({}, event.data);
@@ -145,8 +164,8 @@ export class ProductsComponent implements OnInit {
     this.product = Object.assign({}, product);
     this.displayChangeImg = true;
     this.hideImageUrl = false;
-    this.croppedImage=null;
-  //  this.imageChangedEvent=null;
+    this.croppedImage = null;
+    //  this.imageChangedEvent=null;
   }
 
   findSelectedIndex(): number {
@@ -160,18 +179,18 @@ export class ProductsComponent implements OnInit {
     if (this.croppedImage == null) {
       this.toastr.error('Lutfen Resim ekleyiniz.', 'Error!');
     }
-    this.loading=true;
+    this.loading = true;
     let fileToUpload = this.dataURItoBlob(this.croppedImage);
     let fileName = this.product.barcodeOfProduct;
     this.productsService.upload(this.config.uploadImageUrl + "?fileName=" + fileName, fileToUpload)
       .subscribe(res => {
         this.hideImageUrl = true;
-        this.displayChangeImg=false;
-        this.croppedImage=null;
-        this.imageChangedEvent=null;
+        this.displayChangeImg = false;
+        this.croppedImage = null;
+        this.imageChangedEvent = null;
 
         this.toastr.success('Resim Kaydedildi.', 'Success!');
-        this.loading=false;
+        this.loading = false;
       }),
       error => this.toastr.error('Resim Kaydedilirken hata ile karsilasildi.', 'Error!'),
       () => {
