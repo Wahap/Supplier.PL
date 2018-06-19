@@ -179,6 +179,9 @@
         <p-table #dtCustomerAddresses [columns]='addressListColumns' [value]='selectedAddresses' [autoLayout]="true" [loading]="loading"
             [scrollable]="true" [scrollHeight]="windowsHeight()" rowHover="true">
             <ng-template pTemplate='caption'>
+                    <div class="ui-helper-clearfix" style="width:100%">
+                            <button type="button" pButton icon="fa-plus" style="float:left" (click)="showDialogToAddAddress()" label="Yeni Adres Ekle"></button>
+                        </div>
                 Adres Listesi
             </ng-template>
             <ng-template pTemplate='header' let-columns>
@@ -206,42 +209,7 @@
             </ng-template>
         </p-table>
 
-        <p-dataTable [value]="selectedAddresses" [loading]="loading" [rows]="10" [paginator]="true" [editable]="true" [responsive]="true">
-            <p-header>
-                <div class="ui-helper-clearfix" style="width:100%">
-                    <button type="button" pButton icon="fa-plus" style="float:left" (click)="showDialogToAddAddress()" label="Yeni Adres Ekle"></button>
-                </div>
-            </p-header>
-            <p-column field="branchName" header="Sube Adi" [style]="{'width':'18%'}" [editable]="true"></p-column>
-            <p-column field="street" header="Cadde" [editable]="true" [style]="{'width':'18%'}"></p-column>
-            <p-column field="postCode" header="Posta Kodu" [editable]="true"></p-column>
-
-            <p-column field="city.name" header="Sehir" [editable]="true" [style]="{'width':'18%'}">
-                <ng-template let-col let-address="rowData" pTemplate="editor">
-                    <p-dropdown [options]="cities" [(ngModel)]="address[col.field]" [filter]="true" (onChange)="changeSelectedCity(address,address[col.field])"
-                        appendTo="body" name="cities" placeholder="Sehir Sec" optionLabel="name" [style]="{'width':'100%'}" styleClass="ui-column-filter"></p-dropdown>
-                </ng-template>
-            </p-column>
-
-            <p-column styleClass="col-button" [style]="{'width':'15%'}">
-                <ng-template pTemplate="header">
-                    <label>Kaydet</label>
-                </ng-template>
-                <ng-template let-address="rowData" pTemplate="body">
-                    <button type="button" class="ui-button-success" (click)="saveOrDeleteAdress(address,'saveaddress')" pButton icon="fa-floppy-o"
-                        label="Kaydet"></button>
-                </ng-template>
-            </p-column>
-            <p-column styleClass="col-button" [style]="{'width':'11%'}">
-                <ng-template pTemplate="header">
-                    <label>Sil</label>
-                </ng-template>
-                <ng-template let-address="rowData" pTemplate="body">
-                    <button type="button" class="ui-button-danger" (click)="saveOrDeleteAdress(address,'deleteaddress')" pButton icon="fa-trash-o"
-                        label="Sil"></button>
-                </ng-template>
-            </p-column>
-        </p-dataTable>
+       
     </div>
 
 </p-dialog>

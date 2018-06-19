@@ -11,6 +11,7 @@ import { NewWaybillComponent } from './waybills/new-waybill/new-waybill.componen
 import { WaybillsListComponent } from './waybills/waybills-list/waybills-list.component';
 import { SaveBillComponent } from './bills/save-bill/save-bill.component';
 import { BillListComponent } from './bills/bill-list/bill-list.component';
+import { PriceGroupsComponent } from './price-groups/price-groups.component';
 
 
 const routes: Routes = [
@@ -30,6 +31,7 @@ const routes: Routes = [
             { path: 'savebill',component:SaveBillComponent },
             { path: 'bills',component:BillListComponent },
             { path: 'billList',component:BillListComponent },
+            { path: 'priceGroups',component:PriceGroupsComponent },
             { path: 'charts', loadChildren: './charts/charts.module#ChartsModule' },
             { path: 'tables', loadChildren: './tables/tables.module#TablesModule' },
             { path: 'forms', loadChildren: './form/form.module#FormModule' },

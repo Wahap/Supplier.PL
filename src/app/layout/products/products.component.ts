@@ -204,7 +204,7 @@ export class ProductsComponent implements OnInit {
   //==< Image funcs
   getProducts() {
     this.loading = true;
-    this.productsService.getProducts(this.config.getProductsUrl, this.products)
+    this.productsService.getProducts(this.config.getProductsUrl, null)
       .subscribe(items => {
         if (items.success) {
           this.products = items.data;

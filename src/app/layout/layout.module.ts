@@ -29,6 +29,7 @@ import { PdfWaybillComponent } from '../pdf-exporter/pdf-waybill/pdf-waybill.com
 import { SaveBillComponent } from './bills/save-bill/save-bill.component';
 import { BillListComponent } from './bills/bill-list/bill-list.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { PriceGroupsComponent } from './price-groups/price-groups.component';
 
 
 
@@ -51,6 +52,8 @@ import { ImageCropperModule } from 'ngx-image-cropper';
         NewWaybillComponent,
         WaybillsListComponent,
         SaveBillComponent,
-        BillListComponent]
+        BillListComponent,
+    PriceGroupsComponent
+    ]
 })
 export class LayoutModule { }
