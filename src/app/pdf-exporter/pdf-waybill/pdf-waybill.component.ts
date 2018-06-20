@@ -5,7 +5,7 @@ import { ToastsManager } from 'ng2-toastr';
 import { receivedOrderProduct } from '../../shared/DTOs/receivedOrderProduct';
 import { OrderService } from '../../layout/order/order.service';
 import { WaybillService } from '../../layout/waybills/waybill.service';
-import { product } from '../../shared/DTOs/product';
+import { Product } from '../../shared/DTOs/product';
 import { ProductsService } from '../../layout/products/products.service';
 declare var jsPDF: any; // Important 
 @Component({

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewContainerRef, Input } from '@angular/core';
 import { BasketProduct } from '../../../shared/DTOs/basketProduct';
-import { product } from '../../../shared/DTOs/product';
+import { Product } from '../../../shared/DTOs/product';
 import { IConfig, ConfigService } from '../../../app.config';
 import { CustomersService } from '../../customers/customers.service';
 import { ToastsManager } from 'ng2-toastr';
@@ -21,7 +21,7 @@ export class SaveBillComponent implements OnInit {
   config: IConfig;
   loading: boolean;
   basketProducts: BasketProduct[] = [];
-  productList: product[] = [];
+  productList: Product[] = [];
   currentBill: BasketProduct[] = [];
   deletedBasketProducts: BasketProduct[] = [];
   customers: customer[] = [];

@@ -38,7 +38,7 @@
                 <button *ngSwitchCase="'addresses'" type="button" pButton (click)="onSelectAddresses(cust)" icon="fa fa-map-marker"></button>
                 <button *ngSwitchCase="'priceList'" type="button" pButton (click)="onSelectCustomerPrice(cust)" icon="fa fa-eur"></button>
                 <span *ngSwitchDefault>{{cust[col.field]}}</span>
-
+   
             </td>
         </tr>
     </ng-template>
@@ -168,8 +168,41 @@
 </p-dialog>
 <!--< Customer Details Dialog -->
 <!--Customer Prices-->
-<p-dialog header="Müşteri Fiyat Listesi" [(visible)]="diplayCustomerPricesDialog" dismissableMask="true">
-    
+<p-dialog header="Müşteri Fiyat Listesi" [(visible)]="diplayCustomerPricesDialog" [responsive]="true" [width]="1000" showEffect="fade"
+[modal]="true">
+    <p-table [value]="customerPrices" [scrollable]="true" [scrollHeight]="windowsHeight()" resizableColumns="true" [loading]="customerPricesLoading">
+        <ng-template pTemplate="header" let-columns >
+            <tr>
+                
+                <th>Barkod</th>
+                <th>Ürün</th>
+                <th>Ürün Fiyatı</th>
+                <th>Müşteri Özel Fiyatı</th>
+                <th>Kaydet</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-customerPrice>
+           <tr>
+             
+               <td>{{customerPrice.product.barcodeOfProduct}}</td>
+               <td>{{customerPrice.product.productName}}</td>
+               <td>{{customerPrice.product.netSalePrice | number:'1.2-2':'de'}}</td>
+               <td pEditableColumn>
+                    <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <input type="text" [(ngModel)]="customerPrice.price">
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                    {{customerPrice.price | number:'1.2-2':'de'}}
+                            </ng-template>
+                        </p-cellEditor>
+                  
+                
+                </td>
+                <td><button class="btn btn-success btn-sm" (click)="saveCustomerPrice(customerPrice)">Kaydet</button></td>
+           </tr>
+        </ng-template>
+    </p-table>
 </p-dialog>
 <!-->Customer Address -->
 <p-dialog header="Müşteri Adresleri" [(visible)]="displayCustomersAddressDialog" [responsive]="true" [width]="800" showEffect="fade"

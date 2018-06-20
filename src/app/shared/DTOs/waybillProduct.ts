@@ -1,4 +1,4 @@
-import { product } from "./product";
+import { Product } from "./product";
 import { Waybill } from "./wayBill";
 
 export class WaybillProduct
@@ -11,7 +11,7 @@ export class WaybillProduct
 
     numberOfPackage:number;
 
-    product:product;
+    product:Product;
 
     status:string;
 

@@ -1,4 +1,4 @@
-import { product } from "./product";
+import { Product } from "./product";
 
 export class BillProduct
 {
@@ -8,6 +8,6 @@ export class BillProduct
     numberOfPackage:number;
     netSalePrice:number;
     tax:number;
-    product:product;
+    product:Product;
     status:string;
 }

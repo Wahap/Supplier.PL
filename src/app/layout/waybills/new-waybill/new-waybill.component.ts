@@ -12,7 +12,7 @@ import { WaybillService } from '../waybill.service';
 import { ToastsManager } from 'ng2-toastr';
 import { MatDialog } from '@angular/material';
 import { ConfirmComponent } from '../../../shared/components/confirm/confirm.component';
-import { product } from '../../../shared/DTOs/product';
+import { Product } from '../../../shared/DTOs/product';
 import {Router} from '@angular/router';
 @Component({
   selector: 'app-new-waybill',
@@ -30,7 +30,7 @@ export class NewWaybillComponent implements OnInit {
   deletedBasketProducts: BasketProduct[] = [];
   createdDate: Date;
   deliveryDate:Date;
-  productList: product[] = [];
+  productList: Product[] = [];
   loading: boolean;
   lastWaybill:Waybill;
   isNewRecord:boolean;

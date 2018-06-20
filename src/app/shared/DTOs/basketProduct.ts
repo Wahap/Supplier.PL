@@ -1,11 +1,11 @@
-import { product } from "./product";
+import { Product } from "./product";
 
 export class BasketProduct
 {
     id:number;
     waybillId:number;
     billNumber:number;
-    product:product =new product();
+    product:Product =new Product();
     package:number;
     status:string;
 }

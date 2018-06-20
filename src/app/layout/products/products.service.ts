@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Response, RequestOptions, Headers } from '@angular/http';
 import 'rxjs';
 import { Observable } from 'rxjs/Observable';
-import { product } from '../../shared/DTOs/product';
+import { Product } from '../../shared/DTOs/product';
 
 @Injectable()
 export class ProductsService {

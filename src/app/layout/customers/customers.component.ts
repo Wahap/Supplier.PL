@@ -7,6 +7,7 @@ import { ToastsManager } from 'ng2-toastr';
 import { customer } from '../../shared/DTOs/customer';
 import { address } from '../../shared/DTOs/address';
 import { city } from '../../shared/DTOs/city';
+import { CustomerProductPrices } from '../../shared/DTOs/customerProductPrices';
 
 @Component({
   selector: 'app-customers',
@@ -17,6 +18,7 @@ export class CustomersComponent implements OnInit {
   cities: city[];
   selectedCity: city;
   loading: boolean;
+  customerPricesLoading:boolean=true;
   config: IConfig;
   customers: customer[];
   selectedCustomer: customer;
@@ -32,6 +34,7 @@ export class CustomersComponent implements OnInit {
   items: any = [];
   customerListColumns: any[];
   addressListColumns: any[];
+  customerPrices:CustomerProductPrices[];
   constructor(private commonServices: CommonService, private customersService: CustomersService, private configService: ConfigService, public toastr: ToastsManager, vcr: ViewContainerRef) {
     this.toastr.setRootViewContainerRef(vcr);
     this.activeButtonText = "Pasif Et";
@@ -78,6 +81,8 @@ export class CustomersComponent implements OnInit {
       { field: 'kaydet', header: 'Kaydet' },
       { field: 'sil', header: 'Sil' }
     ];
+
+   
   }
 
 
@@ -168,7 +173,19 @@ export class CustomersComponent implements OnInit {
   onSelectCustomerPrice(customer) {
     this.diplayCustomerPricesDialog = true;
     this.customersService.getCustomerPrices(this.config.getCustomerPricesUrl,customer).subscribe(response=>{
+      this.customerPricesLoading=false;
+      this.customerPrices=response;
       
+    });
+  }
+
+  saveCustomerPrice(customerPrice:CustomerProductPrices)
+  {
+    this.customersService.saveCustomerProductPrice(this.config.saveCustomerProductPriceUrl,customerPrice).subscribe(response=>{
+      this.toastr.success('Fiyat Basariyla Kaydedildi.', 'Basarili !');
+
+    },error=>{
+      this.toastr.error('Fiyat Kaydedilirken Bir Hata Meydana Geldi', 'Hata!')
     });
   }
   saveOrDeleteAdress(address, saveOrDelete) {

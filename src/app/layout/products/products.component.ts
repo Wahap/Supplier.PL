@@ -3,7 +3,7 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { NgForm } from '@angular/forms';
 import { ConfigService, IConfig } from '../../app.config';
 import { ProductsService } from './products.service';
-import { product } from '../../shared/DTOs/product';
+import { Product } from '../../shared/DTOs/product';
 import { brand } from '../../shared/DTOs/brand';
 import { CommonService } from '../../shared/common.service';
 import { category } from '../../shared/DTOs/category';
@@ -20,9 +20,9 @@ export class ProductsComponent implements OnInit {
   units: unit[];
   selectedUnit: unit;
   config: IConfig;
-  products: product[] = [];
-  selectedProduct: product;
-  product: product;
+  products: Product[] = [];
+  selectedProduct: Product;
+  product: Product;
   newProduct: boolean;
   loading: boolean;
   displayDialog: boolean;
@@ -45,14 +45,14 @@ export class ProductsComponent implements OnInit {
 
   constructor(private commonServices: CommonService, private productsService: ProductsService, private configService: ConfigService, public toastr: ToastsManager, vcr: ViewContainerRef) {
     this.toastr.setRootViewContainerRef(vcr);
-    this.product = new product()
+    this.product = new Product()
     this.deleteButtonText = 'Pasif Et';
     this.loading = false;
     this.selectedBrand = new brand();
     this.selectedCategory = new category();
     this.selectedUnit = new unit();
     this.selectedSupplier = new supplier();
-    this.product = new product();
+    this.product = new Product();
     this.taxNumbers = [{ "data": "7" }, { "data": "19" }, { "data": "0" }];
     this.selectedTax = this.taxNumbers[0];
 
@@ -84,7 +84,7 @@ export class ProductsComponent implements OnInit {
     this.selectedCategory = new category();
     this.selectedUnit = new unit();
     this.selectedSupplier = new supplier();
-    this.product = new product();
+    this.product = new Product();
     this.selectedTax = this.taxNumbers[0];
     this.displayDialog = true;
   }
