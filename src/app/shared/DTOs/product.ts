@@ -1,3 +1,5 @@
+import { ProductPriceGroup } from "./productPriceGroup";
+
 export class Product
 {
     id:number;
@@ -20,5 +22,6 @@ export class Product
     unitId:number;
     unitsInPackage:number;
     updateDate:Date;
+    productPriceGroups:ProductPriceGroup[];
 
 }

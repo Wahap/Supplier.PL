@@ -25,10 +25,35 @@ export class PriceGroupsComponent implements OnInit {
   }
 
   getAllGroupsPrices() {
-    this.productService.getAllGroupPrices(this.config.getAllGroupsPricesUrl, null).subscribe(items => {
+    this.productService.getAllGroupPrices(this.config.getAllGroupsPricesUrl, null).subscribe(products => {
       this.isAllGroupsPricesLoading=false;
-      this.allGroupsPrices = items;
-      console.log(items);
+      this.allGroupsPrices = products.map(function(product:Product){
+        //checking is there bronze Price in PriceGroupList
+        let bronze=product.productPriceGroups.find(function(obj){
+          return obj.priceGroupId==1;
+        });
+        let silver=product.productPriceGroups.find(function(obj){
+          return obj.priceGroupId==2;
+        });
+        let gold=product.productPriceGroups.find(function(obj){
+          return obj.priceGroupId==3;
+        });
+        if(!bronze)
+        {
+         product.productPriceGroups.push({id:0, productId:product.id, price:0, priceGroupId:1 });
+        }
+        if(!silver)
+        {
+         product.productPriceGroups.push({id:0, productId:product.id, price:0, priceGroupId:2 });
+        }
+        if(!gold)
+        {
+         product.productPriceGroups.push({id:0, productId:product.id, price:0, priceGroupId:3 });
+        }
+        
+        return product;
+      });
+     
     });
   }
 
