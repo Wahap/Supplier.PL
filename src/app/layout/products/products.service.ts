@@ -27,4 +27,13 @@ export class ProductsService {
     return this.http
         .post(url, input);
 }
+
+getGroupPrices(url: string, input: any): any {
+  return this.http.post(url, input, this.options)
+    .map((response: Response) => response.json());
+}
+getAllGroupPrices(url: string, input: any): any {
+  return this.http.post(url, input, this.options)
+    .map((response: Response) => response.json());
+}
 }

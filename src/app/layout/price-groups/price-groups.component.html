@@ -1,5 +1,32 @@
-<div class="btn-group" role="group" aria-label="Basic example">
-    <button type="button" class="btn btn-dark">Bronz Fiyatlar</button>
-    <button type="button" class="btn btn-secondary">Gümüş Fiyatlar</button>
-    <button type="button" class="btn btn-warning">Altın Fiyatlar</button>
+<div class="btn-group" role="group">
+    <button type="button" class="btn btn-dark" (click)="showGroupPrices(1)">Bronz Fiyatlar</button>
+    <button type="button" class="btn btn-secondary" (click)="showGroupPrices(2)">Gümüş Fiyatlar</button>
+    <button type="button" class="btn btn-warning" (click)="showGroupPrices(3)">Altın Fiyatlar</button>
   </div>
+
+  <p-table [value]="allGroupsPrices" [loading]="isAllGroupsPricesLoading" [scrollable]="true"
+  [scrollHeight]="windowsHeight()" resizableColumns="true">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Barkod</th>
+            <th>Ürün</th>
+            <th>Sabit Fiyat</th>
+            <th>Bronz</th>
+            <th>Gümüş</th>
+            <th>Altın</th>
+           
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-product>
+        <tr>
+            <td>{{product.barcodeOfProduct}} {{product.id}}</td>
+            <td>{{product.productName}}</td>
+           <td>{{product.netSalePrice}}</td>
+           <td></td>
+           <td></td>
+           <td></td>
+
+
+        </tr>
+    </ng-template>
+</p-table>
