@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { TableModule } from 'primeng/table';
 import {
     InputTextModule, DataTableModule, SharedModule, ButtonModule, DialogModule,
-    StepsModule, DropdownModule
+    StepsModule, DropdownModule,SliderModule
 } from 'primeng/primeng';
 import { CalendarModule } from 'primeng/primeng';
 import {KeyFilterModule} from 'primeng/keyfilter';
@@ -43,7 +43,7 @@ import { PriceGroupsComponent } from './price-groups/price-groups.component';
         NgbDropdownModule.forRoot(),
         FormsModule,
         InputTextModule, DataTableModule, SharedModule, ButtonModule, DialogModule, CalendarModule,
-        StepsModule, DropdownModule,TableModule,KeyFilterModule,
+        StepsModule, DropdownModule,TableModule,KeyFilterModule,SliderModule,
         MaterialModule
     ],
     declarations: [NewWaybillComponent, PdfWaybillComponent, PdfOrderComponent, LayoutComponent, SidebarComponent, HeaderComponent, ProductsComponent, CustomersComponent, ReceivedOrderComponent,

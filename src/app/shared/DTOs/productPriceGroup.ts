@@ -4,4 +4,5 @@ export class ProductPriceGroup
     price:number;
     priceGroupId:number;
     productId:number;
+
 }

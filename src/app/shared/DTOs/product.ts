@@ -24,4 +24,9 @@ export class Product
     updateDate:Date;
     productPriceGroups:ProductPriceGroup[];
 
+    //Using only UI Properties
+    bronzePriceGroup:ProductPriceGroup;
+    silverPriceGroup:ProductPriceGroup;
+    goldPriceGroup:ProductPriceGroup;
+
 }

@@ -36,4 +36,9 @@ getAllGroupPrices(url: string, input: any): any {
   return this.http.post(url, input, this.options)
     .map((response: Response) => response.json());
 }
+
+saveProductGroupPrices(url: string, input: any): any {
+  return this.http.post(url, input, this.options)
+    .map((response: Response) => response.json());
+}
 }

@@ -2,30 +2,68 @@
     <button type="button" class="btn btn-dark" (click)="showGroupPrices(1)">Bronz Fiyatlar</button>
     <button type="button" class="btn btn-secondary" (click)="showGroupPrices(2)">Gümüş Fiyatlar</button>
     <button type="button" class="btn btn-warning" (click)="showGroupPrices(3)">Altın Fiyatlar</button>
-  </div>
+</div>
 
-  <p-table [value]="allGroupsPrices" [loading]="isAllGroupsPricesLoading" [scrollable]="true"
-  [scrollHeight]="windowsHeight()" resizableColumns="true">
+<p-table #dt [value]="allGroupsPrices" [loading]="isAllGroupsPricesLoading" [scrollable]="true" [scrollHeight]="windowsHeight()"
+    resizableColumns="true">
     <ng-template pTemplate="header">
         <tr>
-            <th>Barkod</th>
+            <th> Barkod</th>
             <th>Ürün</th>
             <th>Sabit Fiyat</th>
             <th>Bronz</th>
             <th>Gümüş</th>
             <th>Altın</th>
-           
+            <th>Kaydet</th>
+        </tr>
+        <tr>
+            <th><input type="text" class="form-control w-100 form-control-sm"  placeholder="Barkod..." (input)="dt.filter($event.target.value,'barcodeOfProduct', 'contains')"></th>
+            <th><input type="text" class="form-control w-100 form-control-sm"  placeholder="Ürün..." (input)="dt.filter($event.target.value,'productName', 'contains')"></th>
+            <th><button type="button" class="btn btn-outline-secondary btn-sm" (click)="exportPricesAsPdf(0)">PDF(Sabit) <i class="fa fa-file-pdf-o"></i></button></th>
+            <th><button type="button" class="btn btn-outline-secondary btn-sm" (click)="exportPricesAsPdf(1)">PDF(Bronz) <i class="fa fa-file-pdf-o"></i></button></th>
+            <th><button type="button" class="btn btn-outline-secondary btn-sm" (click)="exportPricesAsPdf(2)">PDF(Gümüş) <i class="fa fa-file-pdf-o"></i></button></th>
+            <th><button type="button" class="btn btn-outline-secondary btn-sm" (click)="exportPricesAsPdf(3)">PDF(Altın) <i class="fa fa-file-pdf-o"></i></button></th>
+            <th></th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-product>
         <tr>
-            <td>{{product.barcodeOfProduct}} {{product.id}}</td>
+            <td>{{product.barcodeOfProduct}}</td>
             <td>{{product.productName}}</td>
-           <td>{{product.netSalePrice}}</td>
-           <td>{{'Find the Bronze Price'}}</td>
-           <td>{{'Find the Silver Price'}}</td>
-           <td>{{'Find the Gold Price'}}</td>
-
+            <td>{{product.netSalePrice}}</td>
+            <td pEditableColumn>
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <input type="text" [(ngModel)]="product.bronzePriceGroup.price">
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        {{product.bronzePriceGroup.price | number:'1.2-2':'de'}}
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+            <td pEditableColumn>
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <input type="text" [(ngModel)]="product.silverPriceGroup.price">
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        {{product.silverPriceGroup.price | number:'1.2-2':'de'}}
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+            <td pEditableColumn>
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <input type="text" [(ngModel)]="product.goldPriceGroup.price">
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        {{product.goldPriceGroup.price | number:'1.2-2':'de'}}
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+            <td>
+                <button (click)="saveGroupPrices(product)" type="button" class="btn btn-primary btn-sm">Kaydet</button>
+            </td>
 
         </tr>
     </ng-template>

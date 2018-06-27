@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { ProductsService } from '../products/products.service';
 import { IConfig, ConfigService } from '../../app.config';
 import { ProductPriceGroup } from '../../shared/DTOs/productPriceGroup';
 import { PriceGroup } from '../../shared/DTOs/priceGroup';
 import { Product } from '../../shared/DTOs/product';
+import { ToastsManager } from 'ng2-toastr';
+import 'jspdf';
+declare var jsPDF: any; // Important 
 
 @Component({
   selector: 'app-price-groups',
@@ -16,7 +19,10 @@ export class PriceGroupsComponent implements OnInit {
   priceGroup: PriceGroup = new PriceGroup();
   allGroupsPrices: Product[];
   isAllGroupsPricesLoading: boolean = true;
-  constructor(private configService: ConfigService, private productService: ProductsService) { }
+
+  constructor(private configService: ConfigService, private productService: ProductsService, public toastr: ToastsManager, vcr: ViewContainerRef) {
+    this.toastr.setRootViewContainerRef(vcr);
+  }
 
   ngOnInit() {
     this.config = this.configService.getAppConfig();
@@ -26,34 +32,42 @@ export class PriceGroupsComponent implements OnInit {
 
   getAllGroupsPrices() {
     this.productService.getAllGroupPrices(this.config.getAllGroupsPricesUrl, null).subscribe(products => {
-      this.isAllGroupsPricesLoading=false;
-      this.allGroupsPrices = products.map(function(product:Product){
+      this.isAllGroupsPricesLoading = false;
+      this.allGroupsPrices = products.map(function (product: Product) {
         //checking is there bronze Price in PriceGroupList
-        let bronze=product.productPriceGroups.find(function(obj){
-          return obj.priceGroupId==1;
+        let bronze = product.productPriceGroups.find(function (obj) {
+          return obj.priceGroupId == 1;
         });
-        let silver=product.productPriceGroups.find(function(obj){
-          return obj.priceGroupId==2;
+        let silver = product.productPriceGroups.find(function (obj) {
+          return obj.priceGroupId == 2;
         });
-        let gold=product.productPriceGroups.find(function(obj){
-          return obj.priceGroupId==3;
+        let gold = product.productPriceGroups.find(function (obj) {
+          return obj.priceGroupId == 3;
         });
-        if(!bronze)
+        if (!bronze)//BronzePrice Doesnt exist
         {
-         product.productPriceGroups.push({id:0, productId:product.id, price:0, priceGroupId:1 });
+          product.bronzePriceGroup = { id: 0, productId: product.id, price: 0, priceGroupId: 1 };
         }
-        if(!silver)
-        {
-         product.productPriceGroups.push({id:0, productId:product.id, price:0, priceGroupId:2 });
+        else {
+          product.bronzePriceGroup = { id: bronze.id, productId: bronze.productId, price: bronze.price, priceGroupId: bronze.priceGroupId };
         }
-        if(!gold)
-        {
-         product.productPriceGroups.push({id:0, productId:product.id, price:0, priceGroupId:3 });
+        if (!silver) {
+          product.silverPriceGroup = { id: 0, productId: product.id, price: 0, priceGroupId: 2 };
         }
-        
+        else {
+          product.silverPriceGroup = { id: silver.id, productId: silver.productId, price: silver.price, priceGroupId: silver.priceGroupId };
+        }
+
+        if (!gold) {
+          product.goldPriceGroup = { id: 0, productId: product.id, price: 0, priceGroupId: 3 };
+        }
+        else {
+          product.goldPriceGroup = { id: gold.id, productId: gold.productId, price: gold.price, priceGroupId: gold.priceGroupId };
+        }
+
         return product;
       });
-     
+
     });
   }
 
@@ -64,7 +78,39 @@ export class PriceGroupsComponent implements OnInit {
       console.log(response);
     });
   }
+  saveGroupPrices(product: Product) {
+    let groupPrices: ProductPriceGroup[] = [];
+    groupPrices.push(product.bronzePriceGroup);
+    groupPrices.push(product.silverPriceGroup);
+    groupPrices.push(product.goldPriceGroup);
 
+    this.productService.saveProductGroupPrices(this.config.saveProductGroupPricesUrl, groupPrices).subscribe(response => {
+      this.toastr.success("Fiyat Grubu Başarıyla Güncellendi","Başarılı");
+    });
+  }
+
+  exportPricesAsPdf(priceGroupId:number)//0:Fixed,1:Bronze,2:Silver,3:Gold
+  {
+    var doc = new jsPDF();
+    var col = ["BARKOD","S.NO","ÜRÜN","FIYAT"];
+    var rows = [];
+
+    this.allGroupsPrices.forEach(function (element) {
+
+      var row = [];
+      row.push(element.barcodeOfProduct);
+      row.push(element.orderNumber);
+      row.push(element.productName);
+      if(priceGroupId==0){row.push(element.netSalePrice);}
+      else if(priceGroupId==1){row.push(element.bronzePriceGroup.price);}
+      else if(priceGroupId==2){row.push(element.silverPriceGroup.price);}
+      else if(priceGroupId==3){row.push(element.goldPriceGroup.price);}
+      
+      rows.push(row);
+    });
+    doc.autoTable(col, rows);
+    doc.save('FiyatListesi.pdf');
+  }
   windowsHeight() {
     return (window.screen.height * 0.80 - 120) + "px";
   }
