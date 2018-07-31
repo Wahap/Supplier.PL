@@ -1,68 +1,98 @@
 <div class='main'>
     <div class='content full'>
         <div class='row' style="margin:0px;">
-            
-                <p-table #dt [columns]="productListCols" [value]="products" id="product-list" autoLayout="true" [loading]="loading" [scrollable]="true"
-                    [scrollHeight]="windowsHeight()" rowHover="true">
-                    <ng-template pTemplate="caption">
-                        
-                                <button type="button" id="btnOpenProductAddForm" class="btn btn-primary btn-sm" (click)="showDialogToAdd()">Yeni Ürün
-                                        <i class="fa fa-plus-circle" aria-hidden="true"></i>
-                                    </button>
-                                   
-                                    <button type="button" id="btnExportProductsAsCsv"  class="btn btn-primary btn-sm" (click)="dt.exportCSV()">CSV
-                                            <i class="fa fa-table" aria-hidden="true"></i>
-                                        </button>
-                                    <button id="btnExportProductsAsPdf" class="btn btn-primary btn-sm" (click)="exportProductsAsPdf()">PDF
-                                            <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
-                                    </button>
-                       
-                       Ürün Listesi
-                        
-                    </ng-template>
 
-                    <ng-template pTemplate="header" let-columns>
-                        <tr>
-                            <th *ngFor="let col of columns">
-                                {{col.header}}
-                            </th>
-                        </tr>
-                        <tr>
-                            <th></th>
-                            <th>
-                                <input placeholder="Barkod..." pInputText type="text" (input)="dt.filter($event.target.value, 'barcodeOfProduct','contains')">
-                            </th>
-                            <th>
-                                <input placeholder="S.No..." pInputText type="text" (input)="dt.filter($event.target.value, 'orderNumber','contains')">
-                            </th>
-                            <th>
-                                <input placeholder="Ürün Adı..." pInputText type="text" (input)="dt.filter($event.target.value, 'productName','contains')">
-                            </th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </ng-template>
-                    <ng-template pTemplate="body" let-pro let-columns="columns">
-                        <tr [pSelectableRow]="pro">
-                            <td *ngFor="let col of columns" [ngSwitch]="col.field" (click)="col.field!='resim'?onRowSelect(pro):''">
-                                <img *ngSwitchCase="'resim'" class="product-image" (click)="showImgDialog(pro)" src="http://dev.goralgmbh.com/assets/images/products/{{pro.barcodeOfProduct}}.jpg"
-                                    [alt]="pro.productName">
-                                <span *ngSwitchCase="'purchasePrice'">{{pro.purchasePrice | number:'1.2-2':'de'}}</span>
-                                <span *ngSwitchCase="'netSalePrice'">{{pro.netSalePrice | number:'1.2-2':'de'}}</span>
-                                <span *ngSwitchCase="'brutPrice'">{{pro.netSalePrice+pro.netSalePrice*pro.tax/100 | number:'1.2-2':'de'}}</span>
-                                <span *ngSwitchDefault>{{pro[col.field]}}</span>
+            <p-table #dt [columns]="productListCols" [value]="products" id="product-list" autoLayout="true" [loading]="loading" [scrollable]="true"
+                [scrollHeight]="windowsHeight()" rowHover="true">
+                <ng-template pTemplate="caption">
 
-                            </td>
-                        </tr>
-                    </ng-template>
-                </p-table>
-                <div>
-                </div>
-            
+                    <button type="button" id="btnOpenProductAddForm" class="btn btn-primary btn-sm" (click)="showDialogToAdd()">Yeni Ürün
+                        <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                    </button>
+
+                    <button type="button" id="btnExportProductsAsCsv" class="btn btn-primary btn-sm" (click)="dt.exportCSV()">CSV
+                        <i class="fa fa-table" aria-hidden="true"></i>
+                    </button>
+                    <button id="btnExportProductsAsPdf" class="btn btn-primary btn-sm" (click)="exportProductsAsPdf()">PDF
+                        <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                    </button>
+                    <button id="btnBrochure" class="btn btn-primary btn-sm" (click)="showBrochure()">
+                        <i class="fa fa-book" aria-hidden="true"></i> Broşür
+                    </button>
+
+                    Ürün Listesi (Toplam Ürün Sayısı: {{products.length}})
+
+                </ng-template>
+
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th *ngFor="let col of columns">
+                            {{col.header}}
+                        </th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th>
+                            <input placeholder="Barkod..." pInputText type="text" (input)="dt.filter($event.target.value, 'barcodeOfProduct','contains')">
+                        </th>
+                        <th>
+                            <input placeholder="S.No..." pInputText type="text" (input)="dt.filter($event.target.value, 'orderNumber','contains')">
+                        </th>
+                        <th>
+                            <input placeholder="Ürün Adı..." pInputText type="text" (input)="dt.filter($event.target.value, 'productName','contains')">
+                        </th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-pro let-columns="columns">
+                    <tr [pSelectableRow]="pro">
+                        <td *ngFor="let col of columns" [ngSwitch]="col.field" (click)="col.field!='resim'?onRowSelect(pro):''">
+                            <img *ngSwitchCase="'resim'" class="product-image" (click)="showImgDialog(pro)" src="http://dev.goralgmbh.com/assets/images/products/{{pro.barcodeOfProduct}}.jpg"
+                                [alt]="pro.productName" onError="this.src='http://via.placeholder.com/500x500';">
+                            <span *ngSwitchCase="'purchasePrice'">{{pro.purchasePrice | number:'1.2-2':'de'}}</span>
+                            <span *ngSwitchCase="'netSalePrice'">{{pro.netSalePrice | number:'1.2-2':'de'}}</span>
+                            <span *ngSwitchCase="'brutPrice'">{{pro.netSalePrice+pro.netSalePrice*pro.tax/100 | number:'1.2-2':'de'}}</span>
+                            <span *ngSwitchDefault>{{pro[col.field]}}</span>
+
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+            <div>
+            </div>
+
         </div>
+        <p-dialog header="Broşür" [(visible)]="isShowBrochure" [modal]="true" [responsive]="true" [width]="windowsWidth()" [maximizable]="true"
+            [baseZIndex]="10000">
+            <button class="btn btn-primary btn-sm" (click)="exportBrochureAsPdf()">PDF
+                <i aria-hidden="true" class="fa fa-file-pdf-o"></i>
+            </button>
+            <div id="brochure">
+                <div id="brHeader">
+                    <div id="brLogo" class="float-left">
+                        <img src="assets/images/goral.png" alt="">
+                    </div>
+                    <div id="brInfo" class="float-left">
+                        <h1>Göral GMBH</h1>
+                        <h4><span>"Keşke Hiç Bitmese"</span></h4>
+                    </div>
 
+                </div>
+                <div id="brBody">
+                  <div *ngFor="let pro of products;let i = index">
+                      <div class="page">
+                        <img src="assets/images/Products/{{pro.imageUrl}}" alt="">
+                      </div>
+                  </div>
+                  
+                </div>
+
+            </div>
+
+        </p-dialog>
         <p-dialog [header]="newProduct==true?'Yeni Ürün':'Ürün Detayı'" [(visible)]="displayDialog" [responsive]="true" [contentStyle]="{'width':'100%'}"
             showEffect="fade" [modal]="true">
             <div>
@@ -186,14 +216,17 @@
             </div>
             <p-footer>
                 <div class="ui-dialog-buttonpane ui-helper-clearfix">
-                    <button type="button" class="ui-button-danger" [disabled]="newProduct" pButton icon="fa-close" (click)="delete()" label="{{deleteButtonText}}"></button>
+                    <!-- <button type="button" class="ui-button-danger" [disabled]="newProduct" pButton icon="fa-close" (click)="delete()" label="Sil"></button>
                     <button type="button" class="ui-button-success" [disabled]="!productForm.form.valid    ||selectedCategory.name==null" pButton
-                        icon="fa-check" (click)="save()" label="Kaydet"></button>
+                        icon="fa-check" (click)="save()" label="Kaydet"></button> -->
+                    <button class="btn btn-success" [disabled]="!productForm.form.valid    ||selectedCategory.name==null" (click)="save(true)">Kaydet</button>
+                    <button class="btn btn-danger btn-sm" [disabled]="newProduct" (click)="delete(product)">Sil</button>
+
                 </div>
             </p-footer>
         </p-dialog>
 
-        <p-dialog header="Resin Yukle" [(visible)]="displayChangeImg" [responsive]="true" [contentStyle]="{'width':'100%'}" showEffect="fade"
+        <p-dialog header="Resim Yukle" [(visible)]="displayChangeImg" [responsive]="true" [contentStyle]="{'width':'100%'}" showEffect="fade"
             [modal]="true">
             <div>
                 <form class="" #ImgForm="ngForm">

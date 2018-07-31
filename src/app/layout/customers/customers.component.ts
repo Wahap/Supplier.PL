@@ -8,7 +8,8 @@ import { customer } from '../../shared/DTOs/customer';
 import { address } from '../../shared/DTOs/address';
 import { city } from '../../shared/DTOs/city';
 import { CustomerProductPrices } from '../../shared/DTOs/customerProductPrices';
-
+import 'jspdf';
+declare var jsPDF: any; // Important 
 @Component({
   selector: 'app-customers',
   templateUrl: './customers.component.html',
@@ -20,7 +21,7 @@ export class CustomersComponent implements OnInit {
   loading: boolean;
   customerPricesLoading:boolean=true;
   config: IConfig;
-  customers: customer[];
+  customers: customer[]=[];
   selectedCustomer: customer;
   customerAddress: address;
   selectedAddresses: address[];
@@ -85,7 +86,34 @@ export class CustomersComponent implements OnInit {
    
   }
 
+  exportCustomersAsPdf()
+  {
+    var doc = new jsPDF('l', 'mm', 'a4');
+    var col = ["Firma","Müsteri","EMail","Telefon","Adres"];
+    var rows = [];
 
+    this.customers.forEach(function (element) {
+
+      var row = [];
+      row.push(element.companyName);
+      row.push(element.customerName+" "+element.lastname);
+      row.push(element.eMail);
+      row.push(element.phone);
+      if(element.addresses.length>0)
+      {
+        let firstAddress=element.addresses[0];
+        row.push(firstAddress.street+","+firstAddress.postCode+","+firstAddress.city.name);
+      }
+      else
+      {
+        row.push("-");
+      }
+      
+      rows.push(row);
+    });
+    doc.autoTable(col, rows);
+    doc.save('customers.pdf');
+  }
   //#region Customer 
   save() {
     let customers = [...this.customers];

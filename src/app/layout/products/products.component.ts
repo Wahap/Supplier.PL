@@ -11,6 +11,9 @@ import { unit } from '../../shared/DTOs/unit';
 import { supplier } from '../../shared/DTOs/supplier';
 import 'jspdf';
 declare var jsPDF: any; // Important 
+import 'html2canvas';
+declare var html2canvas: any; // Important 
+
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
@@ -40,6 +43,7 @@ export class ProductsComponent implements OnInit {
   croppedImage: any = '';
   hideImageUrl: boolean;
   productListCols: any[];
+  isShowBrochure: boolean = true;
 
   @ViewChild("fileInput") fileInput;
 
@@ -89,18 +93,19 @@ export class ProductsComponent implements OnInit {
     this.displayDialog = true;
   }
 
-  delete() {
-    this.product.isActive = !this.product.isActive;
-    this.save();
+  delete(product: Product) {
+
+    this.product = product;
+    this.save(false);
   }
-  save() {
+  save(isActive: boolean) {
     let products = [...this.products];
     this.product.brandId = this.selectedBrand.id;
     this.product.categoryId = this.selectedCategory.id;
     this.product.unitId = this.selectedUnit.id;
     this.product.supplierId = this.selectedSupplier.id;
     this.product.tax = this.selectedTax.data;
-
+    this.product.isActive = isActive;
     this.productsService.saveProducts(this.config.saveProductsUrl, this.product)
       .subscribe(items => {
         if (items.data == true) {
@@ -108,9 +113,12 @@ export class ProductsComponent implements OnInit {
             this.getProducts();
           }
           else {
-            products[this.findSelectedIndex()] = this.product;
-            this.products = products;
-            // this.product = null;
+            if (!this.product.isActive)//if delete button clicks
+            {
+              this.products.splice(this.findSelectedIndex(), 1);
+
+            }
+
           }
           this.toastr.success('Urun Basariyla Kaydedildi.', 'Basarili !');
         }
@@ -129,7 +137,7 @@ export class ProductsComponent implements OnInit {
   }
   exportProductsAsPdf() {
     var doc = new jsPDF();
-    var col = ["BARKOD","S.NO","ÜRÜN","FIYAT"];
+    var col = ["BARKOD", "S.NO", "ÜRÜN", "FIYAT"];
     var rows = [];
 
     this.products.forEach(function (element) {
@@ -148,7 +156,7 @@ export class ProductsComponent implements OnInit {
   onRowSelect(product) {
     this.newProduct = false;
     // this.product = Object.assign({}, event.data);
-    this.product = Object.assign({}, product);
+    this.product = product;
     this.displayDialog = true;
 
     //set selected dropdowns values
@@ -169,7 +177,8 @@ export class ProductsComponent implements OnInit {
   }
 
   findSelectedIndex(): number {
-    return this.products.indexOf(this.selectedProduct);
+    let index = this.products.indexOf(this.product);
+    return index;
   }
 
   // ==>Image funcs
@@ -220,6 +229,24 @@ export class ProductsComponent implements OnInit {
   imageLoaded() {
     // show cropper
   }
+  showBrochure() {
+    this.isShowBrochure = true;
+
+  }
+
+  exportBrochureAsPdf() {
+
+
+
+    html2canvas(document.querySelector("#brochure")).then(canvas => {
+      var doc = new jsPDF('p', 'pt', 'a4');
+      var imgData = canvas.toDataURL('image/png');
+      doc.addImage(imgData, 'PNG', 10, 10,150,300);
+      doc.save('brosur.pdf');
+
+    });
+
+  }
   //==< Image funcs
   getProducts() {
     this.loading = true;
@@ -241,6 +268,9 @@ export class ProductsComponent implements OnInit {
   }
   windowsHeight() {
     return (window.screen.height * 0.80 - 120) + "px";
+  }
+  windowsWidth() {
+    return (window.screen.width * 0.80 - 120) + "px";
   }
   //#region Bindings
   getCategories() {

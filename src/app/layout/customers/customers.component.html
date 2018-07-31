@@ -1,8 +1,9 @@
 <p-table [value]="customers" #dtCustomers [columns]="customerListColumns" autoLayout="true" [loading]="loading" [scrollable]="true"
     [scrollHeight]="windowsHeight()" resizableColumns="true">
     <ng-template pTemplate="caption">
-        <button type="button" id='btnOpenCustomerAddForm' pButton icon="fa-plus" style="float:left" (click)="showDialogToAdd()" label="Yeni Müşteri Ekle"></button>
-        Müşteri Listesi
+        <button class="btn btn-primary btn-sm" id='btnOpenCustomerAddForm'  (click)="showDialogToAdd()"><i class="fa fa-user-plus" aria-hidden="true"></i>Yeni Müşteri Ekle</button>
+        <button class="btn btn-primary btn-sm" id='btnCustomerListPdf' (click)="exportCustomersAsPdf()"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>PDF</button>
+        Müşteri Listesi ({{customers.length}} Müşteri)
     </ng-template>
     <ng-template pTemplate="header" let-columns>
         <tr>
@@ -13,10 +14,10 @@
             <tr>
 
                 <th>
-                    <input placeholder="Firma..." pInputText type="text" (input)="dtCustomers.filter($event.target.value, 'companyName','contains')">
+                    <input placeholder="Firma..." class="form-control form-control-sm"  type="text" (input)="dtCustomers.filter($event.target.value, 'companyName','contains')">
                 </th>
                 <th>
-                        <input placeholder="Müşteri..." pInputText type="text" (input)="dtCustomers.filter($event.target.value, 'customerName','contains')">
+                        <input placeholder="Müşteri..." class="form-control form-control-sm"  type="text" (input)="dtCustomers.filter($event.target.value, 'customerName','contains')">
                     </th>
                 <th></th>
                 <th></th>
