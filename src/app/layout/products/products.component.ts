@@ -238,10 +238,10 @@ export class ProductsComponent implements OnInit {
 
 
 
-    html2canvas(document.querySelector("#brochure")).then(canvas => {
+    html2canvas(document.querySelector("body")).then(canvas => {
       var doc = new jsPDF('p', 'pt', 'a4');
       var imgData = canvas.toDataURL('image/png');
-      doc.addImage(imgData, 'PNG', 10, 10,150,300);
+      doc.addImage(imgData, 'PNG', 10, 10);
       doc.save('brosur.pdf');
 
     });

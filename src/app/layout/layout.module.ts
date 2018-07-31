@@ -30,6 +30,7 @@ import { SaveBillComponent } from './bills/save-bill/save-bill.component';
 import { BillListComponent } from './bills/bill-list/bill-list.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { PriceGroupsComponent } from './price-groups/price-groups.component';
+import { MoneyPipe } from './pipes/money.pipe';
 
 
 
@@ -53,7 +54,8 @@ import { PriceGroupsComponent } from './price-groups/price-groups.component';
         WaybillsListComponent,
         SaveBillComponent,
         BillListComponent,
-    PriceGroupsComponent
+    PriceGroupsComponent,
+    MoneyPipe
     ]
 })
 export class LayoutModule { }
