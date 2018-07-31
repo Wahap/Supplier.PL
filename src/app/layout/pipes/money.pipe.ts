@@ -6,7 +6,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class MoneyPipe implements PipeTransform {
 
   transform(value: any=0, args?: any): any {
-    let money=value.toFixed(2).toString().replace('.',',')
+//6,77
+    let money=(parseFloat(value.toString().replace(',','.')).toFixed(2)).toString().replace('.',',');
     return money;
   }
 
