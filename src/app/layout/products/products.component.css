@@ -23,6 +23,14 @@
   top:0;
   left:280px;
 }
+#brochure {
+  border: 2px solid #83186c;
+  width: 1000px;
+  overflow: auto;
+  border-radius: 10px;
+  padding: 10px;
+  height: 2800px;
+}
 .product-image
 {
     width: 60px;
@@ -198,27 +206,4 @@ tr:hover img
     }
   }
 
-  /*Brochure styles */
-  #brochure {
-    border: 2px solid #83186c;
-    width: 760px;
-    overflow: auto;
-    border-radius: 10px;
-    padding: 10px;
-    height: auto;
-  }
-  #brHeader
-  {
-    width: 740px;
-    height: 250px;
-  }
-  #brLogo
-  {
-    width: 200px;
-  }
-  #brInfo
-  {
-    width: 500px;
-    text-align: center;
-    font-style: italic;
-  }
+  

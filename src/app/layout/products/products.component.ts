@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { NgForm } from '@angular/forms';
 import { ConfigService, IConfig } from '../../app.config';
@@ -17,7 +17,8 @@ declare var html2canvas: any; // Important
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
-  styleUrls: ['./products.component.css']
+  styleUrls: ['./products.component.css'],
+  encapsulation: ViewEncapsulation.None//For using this component css styles globally
 })
 export class ProductsComponent implements OnInit {
   units: unit[];
@@ -43,7 +44,7 @@ export class ProductsComponent implements OnInit {
   croppedImage: any = '';
   hideImageUrl: boolean;
   productListCols: any[];
-  isShowBrochure: boolean = true;
+  isShowBrochure: boolean = false;
 
   @ViewChild("fileInput") fileInput;
 
@@ -65,10 +66,10 @@ export class ProductsComponent implements OnInit {
   ngOnInit() {
     this.config = this.configService.getAppConfig();
     this.getProducts();
-    this.getAllBrands();
-    this.getAllUnits();
-    this.getCategories();
-    this.getSuppliers();
+     this.getAllBrands();
+     this.getAllUnits();
+     this.getCategories();
+     this.getSuppliers();
     this.hideImageUrl = false;
     this.productListCols = [
       { field: 'resim', header: 'Resim' },
@@ -234,17 +235,33 @@ export class ProductsComponent implements OnInit {
 
   }
 
-  exportBrochureAsPdf() {
+  printBrochure() {
+    
 
 
+    var mywindow = window.open('', 'new div', 'height=700,width=1200');
+    mywindow.document.write('<html><head><title></title>');
+    mywindow.document.write('<style>body{ font-family: Arial, Helvetica, sans-serif; }</style>');
+    mywindow.document.write('</head><body >');
+    mywindow.document.write(document.querySelector("#brochure").innerHTML);
+    mywindow.document.write('</body></html>');
+    mywindow.document.close();
+    mywindow.focus();
+    setTimeout(function(){mywindow.print();},1000);
+   
+    
 
-    html2canvas(document.querySelector("body")).then(canvas => {
-      var doc = new jsPDF('p', 'pt', 'a4');
-      var imgData = canvas.toDataURL('image/png');
-      doc.addImage(imgData, 'PNG', 10, 10);
-      doc.save('brosur.pdf');
+    //document.body.innerHTML = originalContents;
 
-    });
+    // html2canvas(document.querySelector("#brochure")).then(canvas => {
+    //   var doc = new jsPDF('p', 'pt', 'a4');
+    //   var imgData = canvas.toDataURL('image/jpg',1.0);
+    //  // window.open(imgData);
+    //   doc.addImage(imgData, 'jpg', 5, 15, 210, 297,'','FAST');
+      
+    //   doc.save('brosur.pdf');
+
+    //});
 
   }
   //==< Image funcs
@@ -254,6 +271,7 @@ export class ProductsComponent implements OnInit {
       .subscribe(items => {
         if (items.success) {
           this.products = items.data;
+          console.log(this.products);
           this.loading = false;
         } else {
           this.toastr.error(items.message, 'Error!')

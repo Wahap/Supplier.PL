@@ -14,6 +14,7 @@ import { MatDialog } from '@angular/material';
 import { ConfirmComponent } from '../../../shared/components/confirm/confirm.component';
 import { Product } from '../../../shared/DTOs/product';
 import {Router} from '@angular/router';
+import { ProductListOptions } from '../../../shared/DTOs/productListOptions';
 @Component({
   selector: 'app-new-waybill',
   templateUrl: './new-waybill.component.html',
@@ -24,6 +25,7 @@ export class NewWaybillComponent implements OnInit {
   basketProducts: BasketProduct[] = [];
   currentWaybill: BasketProduct[] = [];
   customers: customer[] = [];
+  priceTypeId:number;
   selectedCustomer: customer = new customer();
   selectedAddress: address = new address();
   deliveryAddress: address = new address();
@@ -42,7 +44,15 @@ export class NewWaybillComponent implements OnInit {
     this.loading = false;
     this.isNewRecord=true;
   }
+  ngOnInit() {
+    this.config = this.configService.getAppConfig();
 
+
+    //this.getProducts();
+    //  this.fillBasketProducts();
+    this.fillCustomers();
+    //this.setLastWaybill();
+  }
   ngOnChanges() {
     if (this.selectedWayBill != null) {
       this.getWayBillById(this.selectedWayBill.id);
@@ -50,16 +60,7 @@ export class NewWaybillComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
-    this.config = this.configService.getAppConfig();
-    //testtt
-    this.currentWaybill = [];
-    this.deletedBasketProducts = [];
-    this.getProducts();
-    //  this.fillBasketProducts();
-    this.fillCustomers();
-    //this.setLastWaybill();
-  }
+ 
 
   getWayBillById(selectedWayBillId): any {
 
@@ -71,7 +72,7 @@ export class NewWaybillComponent implements OnInit {
         error => this.toastr.error('Irsaliye getirilirken hata ile karsilasildi.' + error, 'Error!'),
         () => {
           this.loading = false;
-          this.fillBasketProducts();
+         // this.fillBasketProducts();
         }
       );
   }
@@ -86,7 +87,7 @@ export class NewWaybillComponent implements OnInit {
         error => this.toastr.error('Irsaliye getirilirken hata ile karsilasildi.' + error, 'Error!'),
         () => {
           this.loading = false;
-          this.fillBasketProducts();
+          //this.fillBasketProducts();
         }
       );
   }
@@ -253,27 +254,36 @@ export class NewWaybillComponent implements OnInit {
   }
   getProducts() {
     this.loading = true;
-    this.productsService.getProducts(this.config.getProductsWithRelationalEntitiesUrl, null).subscribe(items => {
-      this.productList = items;
-      this.fillBasketProducts();
+    let productListOptions=new ProductListOptions();
+    productListOptions.customerId=this.selectedCustomer.id;
+    productListOptions.priceTypeId=this.priceTypeId;
+    this.productsService.getProducts(this.config.getProductsByPriceTypeUrl, productListOptions).subscribe(items => {
+      console.log(items);
+      this.basketProducts=items.map(product=>{
+        let basketProduct=new BasketProduct();
+        basketProduct.product=product;
+        basketProduct.package=0;
+        return basketProduct;
+      });
+      //this.fillBasketProducts();
       this.loading = false;
     });
   }
-  fillBasketProducts() {
-    this.basketProducts = [];
+  // fillBasketProducts() {
+  //   this.basketProducts = [];
 
-    this.productList.forEach(element => {
-      let basketProduct = new BasketProduct();
+  //   this.productList.forEach(element => {
+  //     let basketProduct = new BasketProduct();
 
-      basketProduct.package = 0;
-      let productInCurrentWaybill = this.getProductFromCurrentWaybill(element.id);
-      if (productInCurrentWaybill) {
-        basketProduct.package = productInCurrentWaybill.package;
-      }
-      basketProduct.product = element;
-      this.basketProducts = [...this.basketProducts, basketProduct];
-    });
-  }
+  //     basketProduct.package = 0;
+  //     let productInCurrentWaybill = this.getProductFromCurrentWaybill(element.id);
+  //     if (productInCurrentWaybill) {
+  //       basketProduct.package = productInCurrentWaybill.package;
+  //     }
+  //     basketProduct.product = element;
+  //     this.basketProducts = [...this.basketProducts, basketProduct];
+  //   });
+  // }
 
 
    

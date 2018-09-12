@@ -15,12 +15,18 @@
                     <span>{{product.orderNumber}}</span>
                 </ng-template>
             </p-column>
+
             <p-column field="product.productName" [filter]="true" filterMatchMode="contains" header="Ürün">
                 <ng-template let-col let-product="rowData.product" pTemplate="body">
                     <span>{{product.productName}}</span>
                 </ng-template>
             </p-column>
-            <p-column field="product.package" header="Koli" [filter]="true" filterMatchMode="contains" [style]="{'width':'20%'}">
+            <p-column field="product.netSalePrice" header="Fiyat"  [style]="{'width':'15%'}">
+                <ng-template let-col let-product="rowData.product" pTemplate="body">
+                        <input type="number" class="form-control"  [(ngModel)]="product.netSalePrice"/>
+                </ng-template>
+            </p-column>
+            <p-column field="product.package" header="Koli"  [style]="{'width':'20%'}">
                 <ng-template pTemplate="body" let-product="rowData">
                     <div class="ui-inputgroup">
                         <button class="btnDecrease" (click)="decrease(product)">-</button>
@@ -40,6 +46,14 @@
                     <label>Müşteri</label>
                         <p-dropdown [options]="customers" [style]="{'width':'40%'}" [(ngModel)]="selectedCustomer" placeholder="Müşteri" optionLabel="companyName"
                         filter="true"></p-dropdown>
+                        <label for="">Fiyat Tipi</label>
+                        <select id="drpPriceType" class="form-control form-control-sm" [(ngModel)]="priceTypeId" (change)="getProducts()" >
+                            <option value="1">Müşteriye Özel</option>
+                            <option value="2">Sabit Fiyat</option>
+                            <option value="3">Bronz Fiyat</option>
+                            <option value="4">Gümüş Fiyat</option>
+                            <option value="5">Altın Fiyat</option>
+                        </select>
               
                
 
