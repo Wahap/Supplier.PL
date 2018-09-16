@@ -4,11 +4,12 @@ import { NgForm } from '@angular/forms';
 import { CustomersService } from './customers.service';
 import { ConfigService, IConfig } from '../../app.config';
 import { ToastsManager } from 'ng2-toastr';
-import { customer } from '../../shared/DTOs/customer';
-import { address } from '../../shared/DTOs/address';
+import { Customer } from '../../shared/DTOs/customer';
+import { Address } from '../../shared/DTOs/address';
 import { city } from '../../shared/DTOs/city';
 import { CustomerProductPrices } from '../../shared/DTOs/customerProductPrices';
 import 'jspdf';
+import { findIndex } from 'rxjs/operators';
 declare var jsPDF: any; // Important 
 @Component({
   selector: 'app-customers',
@@ -21,10 +22,10 @@ export class CustomersComponent implements OnInit {
   loading: boolean;
   customerPricesLoading:boolean=true;
   config: IConfig;
-  customers: customer[]=[];
-  selectedCustomer: customer;
-  customerAddress: address;
-  selectedAddresses: address[];
+  customers: Customer[]=[];
+  selectedCustomer: Customer;
+  customerAddress: Address;
+  selectedAddresses: Address[];
   newCustomer: boolean;
   displayCustomerDialog: boolean;
   displayCustomersAddressDialog: boolean;
@@ -40,7 +41,7 @@ export class CustomersComponent implements OnInit {
     this.toastr.setRootViewContainerRef(vcr);
     this.activeButtonText = "Pasif Et";
     this.activeIndex = 0;
-    this.customerAddress = new address();
+    this.customerAddress = new Address();
 
   }
 
@@ -67,6 +68,7 @@ export class CustomersComponent implements OnInit {
     this.customerListColumns = [
       { field: 'companyName', header: 'Firma' },
       { field: 'customerName', header: 'Müşteri' },
+      { field: 'customerNumber', header: 'Müşteri Numarası' },
       { field: 'eMail', header: 'E-Mail' },
       { field: 'phone', header: 'Telefon' },
       { field: 'address', header: 'Adres' },
@@ -135,7 +137,7 @@ export class CustomersComponent implements OnInit {
             this.getCustomers();
           }
           else {
-            customers[this.findSelectedIndex()] = this.selectedCustomer;
+            customers[this.findSelectedCustomerIndex()] = this.selectedCustomer;
             this.customers = customers;
             this.selectedCustomer = null;
             this.getCustomers();
@@ -144,7 +146,7 @@ export class CustomersComponent implements OnInit {
         } else
           this.toastr.error(result, 'Hata!');
       },
-        error => this.toastr.error('Urun kaydedilirken hata ile karsilasildi.', 'Error!'),
+        error => this.toastr.error('Müşteri kaydedilirken hata ile karsilasildi.', 'Error!'),
         () => {
           //finally bloke ..!
           // No errors, route to new page
@@ -152,15 +154,15 @@ export class CustomersComponent implements OnInit {
           this.displayCustomerDialog = false;
         });
   }
-  onRowSelect(event) {
+  onRowSelect(cust) {
     this.newCustomer = false;
-    this.selectedCustomer = Object.assign({}, event.data);
+    this.selectedCustomer = Object.assign({}, cust);
     this.selectedCity = new city();
     this.activeIndex = 0;
-    this.customerAddress = event.data.addresses[0];
+    this.customerAddress = cust.addresses[0];
 
-    if (event.data.addresses[0] == null) {
-      this.customerAddress = new address();
+    if (cust.addresses[0] == null) {
+      this.customerAddress = new Address();
     }
     this.customerAddress.cityId != null ? this.selectedCity = this.cities.filter(x => x.id == this.customerAddress.cityId)[0] : "";
     this.displayCustomerDialog = true;
@@ -172,8 +174,8 @@ export class CustomersComponent implements OnInit {
   showDialogToAdd() {
     this.newCustomer = true;
     this.activeIndex = 0;
-    this.selectedCustomer = new customer();
-    this.customerAddress = new address();
+    this.selectedCustomer = new Customer();
+    this.customerAddress = new Address();
     this.selectedCity = new city();
     this.displayCustomerDialog = true;
   }
@@ -184,7 +186,7 @@ export class CustomersComponent implements OnInit {
   //#endregion customer
   //#region Customer address
   showDialogToAddAddress() {
-    this.customerAddress = new address;
+    this.customerAddress = new Address();
     this.displayNewAddressDialog = true;
   }
   onSelectAddresses(customer) {
@@ -216,34 +218,36 @@ export class CustomersComponent implements OnInit {
       this.toastr.error('Fiyat Kaydedilirken Bir Hata Meydana Geldi', 'Hata!')
     });
   }
-  saveOrDeleteAdress(address, saveOrDelete) {
+  saveAddress(address:Address) {
     //save address
-    this.loading = true;
-    address.customerId = this.selectedCustomer.id;
-    if (address.city != null) {
-      address.cityId = address.city.id;
+    address.isActive=true;
+    address.cityId=this.selectedCity.id;
+    address.customerId=this.selectedCustomer.id;
+    this.customersService.saveCustomerAddress(this.config.saveAddressUrl,address).subscribe((savedAddress:Address)=>{
+      this.displayNewAddressDialog=false;
+      if(address.id==0 || address.id==undefined)
+      {
+        //new Address
+        savedAddress.city=this.selectedCity;
+        this.customers[this.findSelectedCustomerIndex()].addresses.push(savedAddress);
+      }
+      else
+      {
+        //Address Updating...
+      }
+      this.toastr.success("Adres Kaydedildi...")
+    });
+  }
+
+  deleteAddress(address:Address) {
+    if (confirm("Adresi silmek istediğinize emin misiniz?")) {
+      this.customersService.deleteCustomerAddress(this.config.deleteAddressUrl,address).subscribe(response=>{
+        //hide deleted address
+        this.selectedAddresses=this.selectedAddresses.filter(x=>x.id!=address.id);
+      });
     }
-    this.customersService.getCustomers(this.config.saveOrDeleteAddress + saveOrDelete, address)
-      .subscribe(items => {
-        this.loading = false;
-        if (saveOrDelete == "saveaddress") {
-          this.toastr.success('Adres Basariyla Kaydedildi.', 'Basarili !');
-        } else {
-
-          this.toastr.success('Adres Basariyla Silindi.', 'Basarili !');
-          this.selectedCustomer.addresses.splice(this.selectedCustomer.addresses.indexOf(address), 1);
-        }
-        this.displayNewAddressDialog = false;
-        this.displayCustomersAddressDialog = false;
-        this.getCustomers();
-      },
-        error => this.toastr.error('Musteriler getirilirken hata ile karsilasildi.', 'Error!'),
-        () => {
-          //finally bloke ..!
-          this.loading = false;
-
-        }
-      );
+    
+   
   }
 
   changeSelectedCity(address, city) {
@@ -282,7 +286,7 @@ export class CustomersComponent implements OnInit {
       );
   }
   //#endregion Binding
-  findSelectedIndex(): number {
+  findSelectedCustomerIndex(): number {
     return this.customers.indexOf(this.selectedCustomer);
   }
 

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IConfig, ConfigService } from '../../../app.config';
 import { Waybill } from '../../../shared/DTOs/wayBill';
 import { WaybillService } from '../waybill.service';
-import { customer } from '../../../shared/DTOs/customer';
+import { Customer } from '../../../shared/DTOs/customer';
 import { CustomersService } from '../../customers/customers.service';
 import { ConfirmComponent } from '../../../shared/components/confirm/confirm.component';
 import { MatDialog } from '@angular/material';
@@ -17,13 +17,24 @@ export class WaybillsListComponent implements OnInit {
   loading:boolean=true;
   allWaybills:Waybill[]=[];
   selectedWayBill:Waybill;
-  allCustomers:customer[]=[];
+  allCustomers:Customer[]=[];
   dialogVisible:boolean=false;
+  waybillListColumns:any[];
   constructor(private configService: ConfigService,private waybillService:WaybillService,private customerService:CustomersService,public dialog: MatDialog) { }
 
   ngOnInit() {
     this.config = this.configService.getAppConfig();
     this.fillAllWaybills();
+    this.waybillListColumns = [
+      { field: 'id', header: 'Irs.No' },
+      { field: 'companyName', header: 'Firma' },
+      { field: 'customerName', header: 'Müşteri' },
+      { field: 'address', header: 'Adres' },
+      { field: 'update', header: 'Güncelle' },
+      { field: 'print', header: 'Yazdır' },
+      { field: 'delete', header: 'Sil' }
+    ];
+
    // this.fillAllCustomers();
   }
 

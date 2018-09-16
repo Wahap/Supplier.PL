@@ -5,16 +5,17 @@ import { IConfig, ConfigService } from '../../../app.config';
 import { WaybillProduct } from '../../../shared/DTOs/waybillProduct';
 import { retry } from 'rxjs/operator/retry';
 import { Waybill } from '../../../shared/DTOs/wayBill';
-import { customer } from '../../../shared/DTOs/customer';
+import { Customer } from '../../../shared/DTOs/customer';
 import { CustomersService } from '../../customers/customers.service';
-import { address } from '../../../shared/DTOs/address';
+import { Address } from '../../../shared/DTOs/address';
 import { WaybillService } from '../waybill.service';
 import { ToastsManager } from 'ng2-toastr';
 import { MatDialog } from '@angular/material';
 import { ConfirmComponent } from '../../../shared/components/confirm/confirm.component';
 import { Product } from '../../../shared/DTOs/product';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 import { ProductListOptions } from '../../../shared/DTOs/productListOptions';
+import { Totals } from '../../../shared/DTOs/totals';
 @Component({
   selector: 'app-new-waybill',
   templateUrl: './new-waybill.component.html',
@@ -24,136 +25,172 @@ export class NewWaybillComponent implements OnInit {
   config: IConfig;
   basketProducts: BasketProduct[] = [];
   currentWaybill: BasketProduct[] = [];
-  customers: customer[] = [];
-  priceTypeId:number;
-  selectedCustomer: customer = new customer();
-  selectedAddress: address = new address();
-  deliveryAddress: address = new address();
+  customers: Customer[] = [];
+  priceTypeId: number;
+  selectedCustomer: Customer = new Customer();
+  selectedAddress: Address = new Address();
+  deliveryAddress: Address = new Address();
   deletedBasketProducts: BasketProduct[] = [];
   createdDate: Date;
-  deliveryDate:Date;
+  deliveryDate: Date;
   productList: Product[] = [];
   loading: boolean;
-  lastWaybill:Waybill;
-  isNewRecord:boolean;
+  lastWaybill: Waybill;
+  isNewRecord: boolean;
+  productListCols: any[];
+currentWaybillTotals:Totals=new Totals();
   @Input()
   selectedWayBill: Waybill;
 
-  constructor(private customerService: CustomersService, public toastr: ToastsManager, vcr: ViewContainerRef, private waybillService: WaybillService, private productsService: ProductsService, private configService: ConfigService, public dialog: MatDialog,public router: Router) {
+  constructor(private customerService: CustomersService, public toastr: ToastsManager, vcr: ViewContainerRef, private waybillService: WaybillService, private productsService: ProductsService, private configService: ConfigService, public dialog: MatDialog, public router: Router) {
     this.toastr.setRootViewContainerRef(vcr);
     this.loading = false;
-    this.isNewRecord=true;
+    //this.isNewRecord = true;
   }
   ngOnInit() {
     this.config = this.configService.getAppConfig();
 
+    this.productListCols = [
+      { field: 'barcodeOfProduct', header: 'Barkod' },
+      { field: 'orderNumber', header: 'S.No' },
+      { field: 'productName', header: 'Ürün' },
+      { field: 'netSalePrice', header: 'Fiyat' },
+      { field: 'package', header: 'Koli' }
+    ];
 
+   
     //this.getProducts();
     //  this.fillBasketProducts();
     this.fillCustomers();
+
     //this.setLastWaybill();
   }
   ngOnChanges() {
-    if (this.selectedWayBill != null) {
-      this.getWayBillById(this.selectedWayBill.id);
-      this.isNewRecord=false;
+    if(this.selectedWayBill != null && this.customers.length>0)
+    {
+      let a=this.selectedWayBill;
+      this.selectedCustomer=this.customers.find(x=>x.id==this.selectedWayBill.customerId);
+      this.selectedAddress=this.selectedCustomer.addresses.find(x=>x.id==this.selectedWayBill.addressId);
+      this.deliveryAddress=this.selectedCustomer.addresses.find(x=>x.id==this.selectedWayBill.deliveryAddressId);
+      this.createdDate=new Date(this.selectedWayBill.createdDate);
+      this.deliveryDate=new Date(this.selectedWayBill.deliveryDate);
+      this.mapSelectedWaybillProductsToCurrentWaybillProducts();
     }
+    
+    // if (this.selectedWayBill != null) {
+    //   this.getWayBillById(this.selectedWayBill.id);
+    //   this.isNewRecord = false;
+    // }
   }
 
- 
-
-  getWayBillById(selectedWayBillId): any {
-
-    this.loading = true;
-    this.waybillService.getWaybill(this.config.getWaybillUrl, selectedWayBillId)
-      .subscribe(items => {
-       this.setCurrentWaybill(items);
-      },
-        error => this.toastr.error('Irsaliye getirilirken hata ile karsilasildi.' + error, 'Error!'),
-        () => {
-          this.loading = false;
-         // this.fillBasketProducts();
-        }
-      );
-  }
-
-  setLastWaybill() {
-    this.loading = true;
-    this.waybillService.getLastWaybill(this.config.getLastWaybillUrl, null)
-      .subscribe(items => {
-        this.lastWaybill=items;
-        this.setCurrentWaybill(items);
-      },
-        error => this.toastr.error('Irsaliye getirilirken hata ile karsilasildi.' + error, 'Error!'),
-        () => {
-          this.loading = false;
-          //this.fillBasketProducts();
-        }
-      );
-  }
-  setCurrentWaybill(items){
-    this.currentWaybill = [];
-    this.deletedBasketProducts = [];
-    var wayBill = items;
-    this.selectedCustomer = this.customers.filter(x => x.id == wayBill.customer.id)[0];
-    this.selectedCustomer.addresses = wayBill.customer.addresses;
-    this.selectedAddress = wayBill.customer.addresses.filter(x => x.id == wayBill.addressId)[0];
-    this.createdDate = new Date(wayBill.createdDate);
-    wayBill.waybillProducts.forEach(wp => {
-      var product = this.productList.filter(x => x.id == wp.productId)[0];
-      let basketProduct = new BasketProduct();
-      basketProduct.id = wp.id;
-      basketProduct.waybillId = wayBill.id;
-      basketProduct.product = product;
-      basketProduct.package = wp.numberOfPackage;
-      this.addProductToCurrentWaybill(basketProduct);
+  mapSelectedWaybillProductsToCurrentWaybillProducts()
+  {
+    this.waybillService.getWaybillProducts(this.config.getWaybillProductsUrl,this.selectedWayBill).subscribe(waybillProducts=>{
+      this.currentWaybill=waybillProducts.map((waybillProduct:WaybillProduct)=>{
+        let basketProduct=new BasketProduct();
+        basketProduct.id=waybillProduct.id;
+        basketProduct.package=waybillProduct.numberOfPackage;
+        basketProduct.product=waybillProduct.product;
+        return basketProduct;
+      });
     });
   }
+
+  // getWayBillById(selectedWayBillId): any {
+
+  //   this.loading = true;
+  //   this.waybillService.getWaybill(this.config.getWaybillUrl, selectedWayBillId)
+  //     .subscribe(items => {
+  //       this.setCurrentWaybill(items);
+  //     },
+  //       error => this.toastr.error('Irsaliye getirilirken hata ile karsilasildi.' + error, 'Error!'),
+  //       () => {
+  //         this.loading = false;
+  //         // this.fillBasketProducts();
+  //       }
+  //     );
+  // }
+
+  // setLastWaybill() {
+  //   this.loading = true;
+  //   this.waybillService.getLastWaybill(this.config.getLastWaybillUrl, null)
+  //     .subscribe(items => {
+  //       this.lastWaybill = items;
+  //       this.setCurrentWaybill(items);
+  //     },
+  //       error => this.toastr.error('Irsaliye getirilirken hata ile karsilasildi.' + error, 'Error!'),
+  //       () => {
+  //         this.loading = false;
+  //         //this.fillBasketProducts();
+  //       }
+  //     );
+  // }
+  // setCurrentWaybill(items) {
+  //   this.currentWaybill = [];
+  //   this.deletedBasketProducts = [];
+  //   var wayBill = items;
+  //   this.selectedCustomer = this.customers.filter(x => x.id == wayBill.customer.id)[0];
+  //   this.selectedCustomer.addresses = wayBill.customer.addresses;
+  //   this.selectedAddress = wayBill.customer.addresses.filter(x => x.id == wayBill.addressId)[0];
+  //   this.createdDate = new Date(wayBill.createdDate);
+  //   wayBill.waybillProducts.forEach(wp => {
+  //     var product = this.productList.filter(x => x.id == wp.productId)[0];
+  //     let basketProduct = new BasketProduct();
+  //     basketProduct.id = wp.id;
+  //     basketProduct.waybillId = wayBill.id;
+  //     basketProduct.product = product;
+  //     basketProduct.package = wp.numberOfPackage;
+  //     this.saveProductToCurrentWaybill(basketProduct);
+  //   });
+  // }
   saveWaybill() {
     let waybill: Waybill = new Waybill();
     if (this.selectedWayBill != null) {
       waybill.id = this.selectedWayBill.id;
     }
-    else if( this.lastWaybill!=null){
-      waybill.id = this.lastWaybill.id;
-    }
+    // else if (this.lastWaybill != null) {
+    //   waybill.id = this.lastWaybill.id;
+    // }
     waybill.addressId = this.selectedAddress.id;
     waybill.customerId = this.selectedCustomer.id;
     waybill.createdDate = this.createdDate;
-    waybill.deliveryDate=this.deliveryDate;
-    waybill.deliveryAddressId=this.deliveryAddress.id;
+    waybill.deliveryDate = this.deliveryDate;
+    waybill.deliveryAddressId = this.deliveryAddress.id;
     waybill.waybillStatus = 1;
     waybill.isActive = true;
     this.currentWaybill.forEach(basketProduct => {
       let waybillProduct = new WaybillProduct();
       waybillProduct.id = basketProduct.id;
-      waybillProduct.waybillId =waybill.id
+      waybillProduct.waybillId = waybill.id;
       waybillProduct.numberOfPackage = basketProduct.package;
+      waybillProduct.netSalePrice=basketProduct.product.netSalePrice;
+      waybillProduct.tax=basketProduct.product.tax;
       waybillProduct.productId = basketProduct.product.id;
-      waybillProduct.status = basketProduct.status
+      waybillProduct.status = basketProduct.status;
       waybill.waybillProducts.push(waybillProduct);
     });
 
-    //add also removed/deleted product with "deleted" flag/status
+   // add also removed/deleted product with "deleted" flag/status
     this.deletedBasketProducts.forEach(dltd => {
       let deletedWayBillProduct = new WaybillProduct();
       deletedWayBillProduct.id = dltd.id;
-      deletedWayBillProduct.status = dltd.status;
+      deletedWayBillProduct.status = 'deleted';
       waybill.waybillProducts.push(deletedWayBillProduct);
 
     });
 
     this.waybillService.saveWaybill(this.config.saveWaybillUrl, waybill).subscribe(result => {
       this.toastr.success("irsaliye başarıyla kaydedildi...");
-    //  this.selectedWayBill=null;
-    //this.router.navigateByUrl('/waybills')
-  
-     if(this.isNewRecord){
-       // this.removeCurrentWaybill();
-        this.setLastWaybill();
-     }else{
-      this.getWayBillById(waybill.id);
-     }
+
+      //  this.selectedWayBill=null;
+      //this.router.navigateByUrl('/waybills')
+
+      // if (this.isNewRecord) {
+      //   // this.removeCurrentWaybill();
+      //   this.setLastWaybill();
+      // } else {
+      //   this.getWayBillById(waybill.id);
+      // }
 
     });
   }
@@ -164,84 +201,80 @@ export class NewWaybillComponent implements OnInit {
     });
   }
   increase(basketProduct: BasketProduct) {
-
-    basketProduct.package++;
-    basketProduct.status = "edited";
-    this.addProductToCurrentWaybill(basketProduct);
-  }
-  setPackage(basketProduct: BasketProduct,type) {
-
-    if(basketProduct.package==null){
-      basketProduct.package=0;
-    } 
-    basketProduct.status = "edited";
-    this.addProductToCurrentWaybill(basketProduct);
+   
+      basketProduct.package++;
+      basketProduct.status = "edited";
+      this.saveProductToCurrentWaybill(basketProduct);
+    
 
   }
-  
+  setPackage(basketProduct: BasketProduct, type) {
+
+    if (basketProduct.package > 0) {
+      basketProduct.status = "edited";
+      this.saveProductToCurrentWaybill(basketProduct);
+    }
+
+
+  }
+
   decrease(basketProduct: BasketProduct) {
 
-    if (basketProduct.package <= 1) {//remove product from basket
-      let updateProduct = this.basketProducts.filter(x => x.product == basketProduct.product)[0];
-      updateProduct.package = 0;
-      basketProduct.package = 0;
-      this.removeProductToCurrentWaybill(basketProduct);
-    }
-    else {
-      basketProduct.package -= 1;
+    if (basketProduct.package > 0)//prevent negative inputs
+    {
+      basketProduct.package--;
       basketProduct.status = "edited";
-      this.addProductToCurrentWaybill(basketProduct);
+      this.saveProductToCurrentWaybill(basketProduct);
     }
+
+
     // this.getProductsInBasket();
   }
-  
+  removeProductToCurrentWaybill(waybillProduct:BasketProduct)
+  {
+    waybillProduct.package=0;
+    this.saveProductToCurrentWaybill(waybillProduct);
+  }
   removeCurrentWaybill() {
     // localStorage.removeItem("currentWaybill");
     this.currentWaybill = [];
   }
-  
-  addProductToCurrentWaybill(basketProduct: BasketProduct) {
-    let isExist = false;
-    let updateProduct = this.basketProducts.filter(x => x.product == basketProduct.product)[0];
-    updateProduct.package = basketProduct.package;
 
-    for (let i = 0; i < this.currentWaybill.length; i++)//check if product exist in currentWaybill
+  saveProductToCurrentWaybill(basketProduct: BasketProduct) {
+
+    let editedBasketProduct = this.currentWaybill.find(x => x.product.id == basketProduct.product.id);
+    if (editedBasketProduct != undefined && basketProduct.package < 1)//Delete product from currentWayBill
     {
-      if (this.currentWaybill[i].product.id == basketProduct.product.id) {
-        this.currentWaybill[i].package = basketProduct.package;
-        this.currentWaybill[i].status = basketProduct.status;
-        isExist = true;
-        break;
+      
+      let index = this.currentWaybill.findIndex(item => item.product.id == basketProduct.product.id);
+      this.currentWaybill.splice(index, 1);
+      if(this.selectedWayBill!=null)//Update operation
+      {
+        this.deletedBasketProducts.push(basketProduct);
       }
+      
     }
-
-    if (!isExist) {
-      // basketProduct.status="added";
-      this.currentWaybill = [...this.currentWaybill, basketProduct];
+    else if (editedBasketProduct == undefined)//product will be added first time
+    {
+      this.currentWaybill.push(basketProduct);
     }
-    //   localStorage.setItem("currentWaybill", JSON.stringify(this.currentWaybill));
+    else//product exist in waybill, update the package
+    {
+      editedBasketProduct.package = basketProduct.package;
+    }
+    this.calculateCurrentWaybillPrices();
   }
 
-  removeProductToCurrentWaybill(basketProduct: BasketProduct) {
-    let updateProduct = this.basketProducts.filter(x => x.product == basketProduct.product)[0];
-    updateProduct.package =0;
-    for (let i = 0; i < this.currentWaybill.length; i++)//check if product exist in basket
-    {
-      if (this.currentWaybill[i].product.id == basketProduct.product.id) {
-        var index = this.currentWaybill.indexOf(this.currentWaybill[i]);
-        if (index > -1) {
-          //if any existing product deleted 
-          if (this.currentWaybill[i].id != null && this.deletedBasketProducts.indexOf(this.currentWaybill[i]) < 0) {
-            this.currentWaybill[i].status = "deleted";
-            this.deletedBasketProducts.push(this.currentWaybill[i])
-          }
-          this.currentWaybill.splice(index, 1);
-          this.currentWaybill = [...this.currentWaybill];
-        }
-      }
-    }
-    // localStorage.setItem("currentWaybill", JSON.stringify(this.currentWaybill));
+  calculateCurrentWaybillPrices()
+  {
+    this.currentWaybillTotals=new Totals();
+    this.currentWaybill.forEach(basketProduct=>{
+      this.currentWaybillTotals.totalPackages+=basketProduct.package;
+      this.currentWaybillTotals.totalPieces+=basketProduct.package*basketProduct.product.unitsInPackage;
+    });
+    this.currentWaybillTotals.totalItems=this.currentWaybill.length;
   }
+
 
   getProductFromCurrentWaybill(id: number) {
     for (let i = 0; i < this.currentWaybill.length; i++)//check if product exist in waybill
@@ -253,16 +286,20 @@ export class NewWaybillComponent implements OnInit {
     return null;
   }
   getProducts() {
+    if (!this.selectedCustomer.id) {
+      alert("Lütfen önce müşteri seçiniz");
+      return;
+    }
     this.loading = true;
-    let productListOptions=new ProductListOptions();
-    productListOptions.customerId=this.selectedCustomer.id;
-    productListOptions.priceTypeId=this.priceTypeId;
+    let productListOptions = new ProductListOptions();
+    productListOptions.customerId = this.selectedCustomer.id;
+    productListOptions.priceTypeId = this.priceTypeId;
     this.productsService.getProducts(this.config.getProductsByPriceTypeUrl, productListOptions).subscribe(items => {
       console.log(items);
-      this.basketProducts=items.map(product=>{
-        let basketProduct=new BasketProduct();
-        basketProduct.product=product;
-        basketProduct.package=0;
+      this.basketProducts = items.map(product => {
+        let basketProduct = new BasketProduct();
+        basketProduct.product = product;
+        basketProduct.package = 0;
         return basketProduct;
       });
       //this.fillBasketProducts();
@@ -286,7 +323,7 @@ export class NewWaybillComponent implements OnInit {
   // }
 
 
-   
+
   windowsHeight() {
     return (window.screen.height - 325) + "px";
   }

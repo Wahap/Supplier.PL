@@ -5,7 +5,7 @@ import { OrderService } from '../order.service';
 import { ConfigService, IConfig } from '../../../app.config';
 import { ToastsManager } from 'ng2-toastr';
 import { receivedOrderProduct } from '../../../shared/DTOs/receivedOrderProduct';
-import { customer } from '../../../shared/DTOs/customer';
+import { Customer } from '../../../shared/DTOs/customer';
 
 @Component({
   selector: 'app-cancelled-order',
@@ -18,7 +18,7 @@ export class CancelledOrderComponent implements OnInit {
   approvedOrders: receivedOrder[];
   approvedOrder:receivedOrder;
   currentCustomerOrders: receivedOrder;
-  currentCustomer: customer;
+  currentCustomer: Customer;
   displayOrderDetails: boolean = false;
   orderDetails: receivedOrderProduct[];
   loading: boolean = true;

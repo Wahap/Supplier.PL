@@ -4,7 +4,16 @@
     text-align: center;
     font-weight: bold;
 }
-
+#waybillProducts mark
+{
+    font-size: 1.2em;
+    padding: 0px 10px;
+    border: 2px solid black;
+    border-radius: 14px;
+    margin-top: 1px;
+    display: inline-block;
+    font-weight: bold;
+}
 mat-dialog-container {
   
     width: 500px !important;
@@ -74,6 +83,13 @@ mat-dialog-container {
 {
     width: 157px;
     display: inline;
+}
+.waybill-tax,.waybill-netSale-Price
+{
+    width: 40px;
+    text-align: center;
+    font-weight: bold;
+    padding: 0px;
 }
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {

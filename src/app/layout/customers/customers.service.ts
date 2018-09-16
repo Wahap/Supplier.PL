@@ -36,5 +36,15 @@ getCities(url: string, input: any): any {
   return this.http.post(url, input, this.options)
     .map((response: Response) => response.json());
 }
+
+saveCustomerAddress(url: string, input: any): any {
+  return this.http.post(url, input, this.options)
+    .map((response: Response) => response.json());
+}
+
+deleteCustomerAddress(url: string, input: any): any {
+  return this.http.post(url, input, this.options)
+    .map((response: Response) => response.json());
+}
  //#endregion
 }

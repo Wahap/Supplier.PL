@@ -1,5 +1,5 @@
-import { customer } from "./customer";
-import { address } from "./address";
+import { Customer } from "./customer";
+import { Address } from "./address";
 import { WaybillProduct } from "./waybillProduct";
 export class Waybill
 {
@@ -15,9 +15,9 @@ export class Waybill
     createdDate:Date;
     deliveryDate:Date;
 
-    customer:customer;
+    customer:Customer;
 
-    address:address;
+    address:Address;
     isActive:boolean;
 
     waybillProducts:WaybillProduct[]=[];

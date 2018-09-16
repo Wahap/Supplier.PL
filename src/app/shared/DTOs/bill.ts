@@ -1,5 +1,5 @@
-import { customer } from "./customer";
-import { address } from "./address";
+import { Customer } from "./customer";
+import { Address } from "./address";
 import { BillProduct } from "./billProduct";
 export class Bill
 {
@@ -11,8 +11,8 @@ export class Bill
     billStatus:number;
     createdDate:Date;  
     deliveryBillDate:Date;
-    customer:customer;
-    address:address;
+    customer:Customer;
+    address:Address;
     isActive:boolean;
     billProducts:BillProduct[]=[];
 }

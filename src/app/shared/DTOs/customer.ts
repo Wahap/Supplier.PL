@@ -1,8 +1,9 @@
-import { address } from "./address";
+import { Address } from "./address";
 
-export class customer
+export class Customer
 {
     id:number;
+    customerNumber:string;
     eMail:string;
     isActive:boolean;
     lastname:string;
@@ -11,5 +12,5 @@ export class customer
     phone:string;
     userName:string;
     password:string;
-    addresses:address[];
+    addresses:Address[];
 }

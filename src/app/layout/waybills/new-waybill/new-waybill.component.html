@@ -2,77 +2,88 @@
 </pdf-waybill>
 <div class="row">
     <div class="col-md-6">
-        <p-dataTable [loading]="loading" scrollable="true" scrollHeight="{{windowsHeight()}}" [value]="basketProducts" scrollable="true"
-            scrollHeight="500px">
-            <p-header>Ürünler</p-header>
-            <p-column field="product.barcodeOfProduct" header="Barkod" [filter]="true" filterMatchMode="contains" [style]="{'width':'27%'}">
-                <ng-template let-col let-product="rowData.product" pTemplate="body">
-                    <span>{{product.barcodeOfProduct}}</span>
-                </ng-template>
-            </p-column>
-            <p-column field="product.orderNumber" header="S.No" [filter]="true" filterMatchMode="contains" [style]="{'width':'10%'}">
-                <ng-template let-col let-product="rowData.product" pTemplate="body">
-                    <span>{{product.orderNumber}}</span>
-                </ng-template>
-            </p-column>
+        <p-table [value]="basketProducts" #dtBasketProducts [columns]="productListCols" [loading]="loading" [scrollable]="true"
+        [scrollHeight]="windowsHeight()">
+            <ng-template pTemplate="caption">
+                Ürünler ({{basketProducts.length}})
+            </ng-template>
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th *ngFor="let col of columns">
+                        {{col.header}}
+                    </th>
 
-            <p-column field="product.productName" [filter]="true" filterMatchMode="contains" header="Ürün">
-                <ng-template let-col let-product="rowData.product" pTemplate="body">
-                    <span>{{product.productName}}</span>
-                </ng-template>
-            </p-column>
-            <p-column field="product.netSalePrice" header="Fiyat"  [style]="{'width':'15%'}">
-                <ng-template let-col let-product="rowData.product" pTemplate="body">
-                        <input type="number" class="form-control"  [(ngModel)]="product.netSalePrice"/>
-                </ng-template>
-            </p-column>
-            <p-column field="product.package" header="Koli"  [style]="{'width':'20%'}">
-                <ng-template pTemplate="body" let-product="rowData">
-                    <div class="ui-inputgroup">
-                        <button class="btnDecrease" (click)="decrease(product)">-</button>
-                        <input type="number" class="waybill-product-package" [(ngModel)]="product.package" (ngModelChange)="setPackage(product)"
-                        />
-                        <button class="btnIncrease" (click)="increase(product)">+</button>
-                    </div>
-                </ng-template>
-            </p-column>
-        </p-dataTable>
+                </tr>
+                <tr>
+                    <th>
+                        <input placeholder="Barkod..." class="form-control form-control-sm" type="text" (input)="dtBasketProducts.filter($event.target.value, 'product.barcodeOfProduct','contains')">
+                    </th>
+                    <th>
+                        <input placeholder="Siparis Numarası..." class="form-control form-control-sm" type="text" (input)="dtBasketProducts.filter($event.target.value, 'product.orderNumber','contains')">
+                    </th>
+                    <th>
+                        <input placeholder="Ürün..." class="form-control form-control-sm" type="text" (input)="dtBasketProducts.filter($event.target.value, 'product.productName','contains')">
+                    </th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-basketProduct let-columns="columns">
+                <tr>
+                    <td *ngFor="let col of columns" [ngSwitch]="col.field">
+                        <span *ngSwitchCase="'barcodeOfProduct'">{{basketProduct.product.barcodeOfProduct}}</span>
+                        <span *ngSwitchCase="'orderNumber'">{{basketProduct.product.orderNumber}}</span>
+                        <span *ngSwitchCase="'productName'">{{basketProduct.product.productName}}</span>
+                        <input *ngSwitchCase="'netSalePrice'" [(ngModel)]="basketProduct.product.netSalePrice" class="form-control" />
+                        <div *ngSwitchCase="'package'" class="ui-inputgroup">
+                            <button class="btnDecrease" (click)="decrease(basketProduct)">-</button>
+                            <input type="number" min="0" class="waybill-product-package" [(ngModel)]="basketProduct.package"
+                                (ngModelChange)="setPackage(basketProduct)" />
+                            <button class="btnIncrease" (click)="increase(basketProduct)">+</button>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+
+       
+     
     </div>
     <div class="col-md-6">
         <div id="waybillContainer">
 
             <div id="waybill-customer-selection">
-               
-                    <label>Müşteri</label>
-                        <p-dropdown [options]="customers" [style]="{'width':'40%'}" [(ngModel)]="selectedCustomer" placeholder="Müşteri" optionLabel="companyName"
-                        filter="true"></p-dropdown>
-                        <label for="">Fiyat Tipi</label>
-                        <select id="drpPriceType" class="form-control form-control-sm" [(ngModel)]="priceTypeId" (change)="getProducts()" >
-                            <option value="1">Müşteriye Özel</option>
-                            <option value="2">Sabit Fiyat</option>
-                            <option value="3">Bronz Fiyat</option>
-                            <option value="4">Gümüş Fiyat</option>
-                            <option value="5">Altın Fiyat</option>
-                        </select>
-              
-               
 
-                <div *ngIf="selectedCustomer.id>0">
+                <label>Müşteri</label>
+                <p-dropdown [options]="customers" [style]="{'width':'40%'}" [(ngModel)]="selectedCustomer" placeholder="Müşteri"
+                    optionLabel="companyName" filter="true"></p-dropdown>
+                <label for="">Fiyat Tipi</label>
+                <select id="drpPriceType" class="form-control form-control-sm" [(ngModel)]="priceTypeId" (change)="getProducts()">
+                    <option value="1">Müşteriye Özel</option>
+                    <option value="2">Sabit Fiyat</option>
+                    <option value="3">Bronz Fiyat</option>
+                    <option value="4">Gümüş Fiyat</option>
+                    <option value="5">Altın Fiyat</option>
+                </select>
+
+
+
+                <div *ngIf="selectedCustomer?.id>0">
                     <label>Fatura Adresi</label>
-                    <p-dropdown [options]="selectedCustomer?.addresses" [style]="{'width':'20%'}" [(ngModel)]="selectedAddress" placeholder="Adres"
-                        filter="true" optionLabel="street">
+                    <p-dropdown [options]="selectedCustomer?.addresses" [style]="{'width':'20%'}" [(ngModel)]="selectedAddress"
+                        placeholder="Adres" filter="true" optionLabel="street">
                     </p-dropdown>
                     <label>Teslimat Adresi</label>
-                    <p-dropdown [options]="selectedCustomer?.addresses" [style]="{'width':'20%'}" [(ngModel)]="deliveryAddress" placeholder="Adres"
-                    filter="true" optionLabel="street">
-                </p-dropdown>
+                    <p-dropdown [options]="selectedCustomer?.addresses" [style]="{'width':'20%'}" [(ngModel)]="deliveryAddress"
+                        placeholder="Adres" filter="true" optionLabel="street">
+                    </p-dropdown>
                 </div>
-               <div>
-                <label>Oluşturulma Tarihi</label>
-                <p-calendar [(ngModel)]="createdDate" dateFormat="dd.mm.yy" utc="true"></p-calendar>
-                <label>Dağıtım Tarihi</label>
-                <p-calendar [(ngModel)]="deliveryDate" dateFormat="dd.mm.yy" utc="true"></p-calendar>
-            </div>
+                <div>
+                    <label>Oluşturulma Tarihi</label>
+                    <p-calendar [(ngModel)]="createdDate" dateFormat="dd.mm.yy"  hideOnDateTimeSelect="true"></p-calendar>
+                    <label>Dağıtım Tarihi</label>
+                    <p-calendar [(ngModel)]="deliveryDate" dateFormat="dd.mm.yy"  hideOnDateTimeSelect="true"></p-calendar>
+                </div>
             </div>
             <div id="waybill-preview">
 
@@ -80,9 +91,9 @@
                     <div class="row">
                         <div class="col-md-8">
                             <p id="companyAddress">GÖRAL Vertriebs GMBH Kenan Aydin , OhligserStr. 22 , 42329 Wuppertal</p>
-                            <p id="customerAddress" class="border-bottom">{{selectedCustomer.companyName}}
+                            <p id="customerAddress" class="border-bottom">{{selectedCustomer?.companyName}}
                                 <br> {{selectedAddress?.street}}
-                                <br> {{selectedAddress?.postCode}} {{selectedAddress.city?.name}}
+                                <br> {{selectedAddress?.postCode}} {{selectedAddress?.city?.name}}
                             </p>
                         </div>
                         <div class="col-md-4" id="logo">
@@ -92,7 +103,8 @@
                             <p>Lieferdatum:{{createdDate | date:'dd-MM-yyyy'}}</p>
                         </div>
                     </div>
-                    <h3 class="border-bottom">LIEFERSCHEIN: {{selectedWayBill==null? lastWaybill?.id:selectedWayBill.id }}</h3>
+                    <h3 class="border-bottom">LIEFERSCHEIN: {{selectedWayBill==null? lastWaybill?.id:selectedWayBill.id
+                        }}</h3>
                 </div>
                 <div id="waybillProducts">
                     <table class="table table-bordered">
@@ -102,19 +114,37 @@
                             <th>Art.Nr.</th>
                             <th>Barcode</th>
                             <th>Text</th>
+                            <th>Preis</th>
+                            <th>MwSt</th>
+                            <th>Stück</th>
                         </tr>
                         <tr *ngFor="let product of currentWaybill;index as i;">
                             <td>{{i+1}}</td>
                             <td>
                                 <button class="btnDecrease btn-danger" (click)="removeProductToCurrentWaybill(product)">X</button>
                                 <button class="btnDecrease btn-warning" (click)="decrease(product)">-</button>
-                                <input type="number" class="waybill-product-package" [(ngModel)]="product.package" (ngModelChange)="setPackage(product)"
-                                />
+                                <input type="number" class="waybill-product-package" [(ngModel)]="product.package"
+                                    (ngModelChange)="setPackage(product)" />
                                 <button class="btnIncrease btn-success" (click)="increase(product)">+</button>
                             </td>
                             <td>{{product.product.orderNumber}}</td>
                             <td>{{product.product.barcodeOfProduct}}</td>
                             <td>{{product.product.productName}}</td>
+                           
+                            <td><input type="number" class="form-control form-control-sm waybill-netSale-Price" [(ngModel)]="product.product.netSalePrice" /></td>
+                            <td><input type="number" class="form-control form-control-sm waybill-tax" [(ngModel)]="product.product.tax" /></td>
+                            <td>{{product.package}} Kolli X {{ product.product.unitsInPackage }} Stk = {{product.package*product.product.unitsInPackage}} </td>
+                        </tr>
+                       
+                        <tr>
+                            <td></td>
+                            <td> <mark>{{currentWaybillTotals.totalPackages}} Kolli</mark> </td>
+                            <td></td>
+                            <td></td>
+                            <td> <mark>{{currentWaybillTotals.totalItems}} Artikel</mark> </td>
+                            <td></td>
+                            <td></td>
+                            <td> <mark>{{currentWaybillTotals.totalPieces}} Stk</mark> </td>
                         </tr>
                     </table>
                 </div>

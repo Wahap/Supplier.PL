@@ -2,7 +2,7 @@ import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { ToastsManager } from 'ng2-toastr';
 import { receivedOrderProduct } from '../../../shared/DTOs/receivedOrderProduct';
 import { receivedOrder } from '../../../shared/DTOs/receivedOrder';
-import { customer } from '../../../shared/DTOs/customer';
+import { Customer } from '../../../shared/DTOs/customer';
 import { orderStatus } from '../orderStatus';
 import { OrderService } from '../order.service';
 import { IConfig, ConfigService } from '../../../app.config';
@@ -18,7 +18,7 @@ export class ApprovedOrdersComponent implements OnInit {
   approvedOrders: receivedOrder[];
   approvedOrder:receivedOrder;
   currentCustomerOrders: receivedOrder;
-  currentCustomer: customer;
+  currentCustomer: Customer;
   displayOrderDetails: boolean = false;
   orderDetails: receivedOrderProduct[];
   loading: boolean = true;

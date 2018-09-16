@@ -1,6 +1,6 @@
 import { city } from "./city";
 
-export  class address
+export  class Address
 {
     id:number;
     customerId:number;
@@ -9,5 +9,6 @@ export  class address
     postCode:string;
     street:string;
     branchName:string;
+    isActive:boolean;
     
 }

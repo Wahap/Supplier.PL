@@ -1,5 +1,5 @@
 import { Product } from "./product";
-import { customer } from "./customer";   
+import { Customer } from "./customer";   
 
 export class CustomerProductPrices
 {
@@ -8,5 +8,5 @@ export class CustomerProductPrices
     price:number;
     productId:number;
     product:Product;
-    customer:customer;
+    customer:Customer;
 }

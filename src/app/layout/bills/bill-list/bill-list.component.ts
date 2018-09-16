@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IConfig, ConfigService } from '../../../app.config';
 import { Bill } from '../../../shared/DTOs/Bill';
-import { customer } from '../../../shared/DTOs/customer';
+import { Customer } from '../../../shared/DTOs/customer';
 import { BillService } from '../bill.service';
 import { CustomersService } from '../../customers/customers.service';
 import { MatDialog } from '@angular/material';
@@ -17,7 +17,7 @@ export class BillListComponent implements OnInit {
   loading:boolean=true;
   allBills:Bill[]=[];
   selectedBill:Bill;
-  allCustomers:customer[]=[];
+  allCustomers:Customer[]=[];
   dialogVisible:boolean=false;
   constructor(private configService: ConfigService,private billService:BillService,private customerService:CustomersService,public dialog: MatDialog) { }
 
