@@ -84,6 +84,13 @@ mat-dialog-container {
     width: 157px;
     display: inline;
 }
+#waybill-total-prices
+{
+    text-align: right;
+    padding-right: 62px;
+    font-weight: bold;
+    font-size: 1.1em;
+}
 .waybill-tax,.waybill-netSale-Price
 {
     width: 40px;

@@ -56,19 +56,16 @@ export class WaybillsListComponent implements OnInit {
 
   deleteWaybill(waybill)
   {
-    let dialogRef = this.dialog.open(ConfirmComponent, {
-      width: '50%',
-      data: { title:"irsaliyeyi silmek istediğinize emin misiniz?" }
-    });
+   
   
-    dialogRef.afterClosed().subscribe(result => {
-     if(result=='yes')
+   
+     if(confirm("irsaliyeyi Silmek istediğinize Emin Misiniz?"))
      {
       this.waybillService.deleteWaybill(this.config.deleteWaybillUrl,waybill).subscribe(result=>{
         this.fillAllWaybills();
       });
      }
-    });
+   
   }
 
   updateWaybill(waybill:Waybill)
@@ -79,6 +76,14 @@ export class WaybillsListComponent implements OnInit {
     // this.waybillService.getWaybill(this.config.getWaybillUrl, waybill.id).subscribe(response=>{
       
     // });
+  }
+  onWaybillPreview(waybill:Waybill)
+  {
+    
+  }
+  onCloseNewWaybillDialog()
+  {
+    this.selectedWayBill=null;
   }
 
 }

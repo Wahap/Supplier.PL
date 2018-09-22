@@ -118,7 +118,7 @@
                             <th>MwSt</th>
                             <th>Stück</th>
                         </tr>
-                        <tr *ngFor="let product of currentWaybill;index as i;">
+                        <tr *ngFor="let product of currentWaybill;index as i;" [ngStyle]="{ 'background-color': (product.product.netSalePrice<=0 ? 'red' : '') }" >
                             <td>{{i+1}}</td>
                             <td>
                                 <button class="btnDecrease btn-danger" (click)="removeProductToCurrentWaybill(product)">X</button>
@@ -147,6 +147,12 @@
                             <td> <mark>{{currentWaybillTotals.totalPieces}} Stk</mark> </td>
                         </tr>
                     </table>
+                    <div id="waybill-total-prices">
+                            
+                            <h3>Netto:{{currentWaybillTotals.totalNetPrice | money}}</h3>
+                            <h3>Mwst:{{currentWaybillTotals.totalTaxPrice | money}}</h3>
+                            <h3>Brutto:{{currentWaybillTotals.totalGrossPrice | money}}</h3>
+                    </div>
                 </div>
             </div>
             <div id="waybillOperations">

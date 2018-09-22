@@ -104,6 +104,10 @@ export class CustomersComponent implements OnInit {
       if(element.addresses.length>0)
       {
         let firstAddress=element.addresses[0];
+        if(firstAddress.city==null)
+        {
+          firstAddress.city={ id:null, name:'-' };
+        }
         row.push(firstAddress.street+","+firstAddress.postCode+","+firstAddress.city.name);
       }
       else

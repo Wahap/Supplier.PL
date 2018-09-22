@@ -74,6 +74,7 @@ currentWaybillTotals:Totals=new Totals();
       this.deliveryAddress=this.selectedCustomer.addresses.find(x=>x.id==this.selectedWayBill.deliveryAddressId);
       this.createdDate=new Date(this.selectedWayBill.createdDate);
       this.deliveryDate=new Date(this.selectedWayBill.deliveryDate);
+      this.deletedBasketProducts=[];//reset at every new waybill selection
       this.mapSelectedWaybillProductsToCurrentWaybillProducts();
     }
     
@@ -181,7 +182,13 @@ currentWaybillTotals:Totals=new Totals();
 
     this.waybillService.saveWaybill(this.config.saveWaybillUrl, waybill).subscribe(result => {
       this.toastr.success("irsaliye başarıyla kaydedildi...");
-
+      if(this.selectedWayBill==null)//new waybill operation completed
+      {
+        this.router.navigateByUrl('waybills');
+      }
+      else{//update waybill operation completed
+        location.reload();
+      }
       //  this.selectedWayBill=null;
       //this.router.navigateByUrl('/waybills')
 
@@ -269,8 +276,12 @@ currentWaybillTotals:Totals=new Totals();
   {
     this.currentWaybillTotals=new Totals();
     this.currentWaybill.forEach(basketProduct=>{
+      let numberOfPieces=basketProduct.package*basketProduct.product.unitsInPackage;
       this.currentWaybillTotals.totalPackages+=basketProduct.package;
-      this.currentWaybillTotals.totalPieces+=basketProduct.package*basketProduct.product.unitsInPackage;
+      this.currentWaybillTotals.totalPieces+=numberOfPieces;
+      this.currentWaybillTotals.totalNetPrice+=numberOfPieces*basketProduct.product.netSalePrice;
+      this.currentWaybillTotals.totalTaxPrice+=numberOfPieces*(basketProduct.product.netSalePrice*basketProduct.product.tax/100);
+      this.currentWaybillTotals.totalGrossPrice=this.currentWaybillTotals.totalNetPrice+this.currentWaybillTotals.totalTaxPrice;
     });
     this.currentWaybillTotals.totalItems=this.currentWaybill.length;
   }

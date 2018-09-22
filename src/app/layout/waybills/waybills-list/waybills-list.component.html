@@ -32,8 +32,8 @@
                     <span *ngSwitchCase="'customerName'">{{waybill.customer.customerName}} {{waybill.customer.lastname}}</span>
                     <span *ngSwitchCase="'address'">{{waybill.address.street}} {{waybill.address.postCode}} {{waybill.address.city.name}}</span>
                    <button *ngSwitchCase="'update'" class="btn btn-success" (click)="updateWaybill(waybill)">Güncelle</button>
-                   <button *ngSwitchCase="'print'" class="btn btn-primary">Yazdır</button>
-                   <button *ngSwitchCase="'delete'" class="btn btn-danger">Sil</button>
+                   <button *ngSwitchCase="'print'" class="btn btn-primary" (click)="onWaybillPreview(waybill)">Önizleme</button>
+                   <button *ngSwitchCase="'delete'" class="btn btn-danger" (click)="deleteWaybill(waybill)">Sil</button>
                 </td>
             </tr>
         </ng-template>
@@ -42,7 +42,7 @@
 </div>
    
 
-<p-dialog [positionTop]="50" header="Irsaliye Detayları" [(visible)]="dialogVisible" [responsive]="true" showEffect="fade" [modal]="true" width="95%">
+<p-dialog [positionTop]="50" header="Irsaliye Detayları" [(visible)]="dialogVisible" (onHide)="onCloseNewWaybillDialog()" [responsive]="true" showEffect="fade" [modal]="true" width="95%">
     <div>
       
       <app-new-waybill [selectedWayBill]="selectedWayBill"></app-new-waybill>
