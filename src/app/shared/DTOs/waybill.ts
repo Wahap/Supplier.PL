@@ -19,6 +19,6 @@ export class Waybill
 
     address:Address;
     isActive:boolean;
-
+    discount:number;
     waybillProducts:WaybillProduct[]=[];
 }

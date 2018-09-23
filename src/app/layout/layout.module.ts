@@ -31,6 +31,8 @@ import { BillListComponent } from './bills/bill-list/bill-list.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { PriceGroupsComponent } from './price-groups/price-groups.component';
 import { MoneyPipe } from './pipes/money.pipe';
+import { WaybillPrintComponent } from './waybills/waybill-print/waybill-print.component';
+import { PadLeftPipe } from './pipes/pad-left.pipe';
 
 
 
@@ -55,7 +57,9 @@ import { MoneyPipe } from './pipes/money.pipe';
         SaveBillComponent,
         BillListComponent,
     PriceGroupsComponent,
-    MoneyPipe
+    MoneyPipe,
+    WaybillPrintComponent,
+    PadLeftPipe
     ]
 })
 export class LayoutModule { }

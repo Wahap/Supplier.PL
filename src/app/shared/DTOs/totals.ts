@@ -8,6 +8,7 @@ export class Totals
         this.totalTaxPrice=0;
         this.totalGrossPrice=0;
         this.totalItems=0;
+        this.discount=0;
 
     }
 
@@ -17,4 +18,5 @@ export class Totals
     totalTaxPrice:number;
     totalGrossPrice:number;//Brüt Fiyat
     totalItems:number;
+    discount:number;
 }

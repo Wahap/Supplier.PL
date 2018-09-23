@@ -12,5 +12,6 @@ export class Customer
     phone:string;
     userName:string;
     password:string;
+    discount:number;
     addresses:Address[];
 }

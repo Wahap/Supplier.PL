@@ -147,11 +147,15 @@
                             <td> <mark>{{currentWaybillTotals.totalPieces}} Stk</mark> </td>
                         </tr>
                     </table>
+
                     <div id="waybill-total-prices">
                             
-                            <h3>Netto:{{currentWaybillTotals.totalNetPrice | money}}</h3>
-                            <h3>Mwst:{{currentWaybillTotals.totalTaxPrice | money}}</h3>
-                            <h3>Brutto:{{currentWaybillTotals.totalGrossPrice | money}}</h3>
+                            <h3>Netto:{{currentWaybillTotals.totalNetPrice | money}} €</h3>
+                            <h3>Mwst:{{currentWaybillTotals.totalTaxPrice | money}} €</h3>
+                            <h3>Rabatt: <input id="waybillDiscount" type="number" [(ngModel)]="selectedCustomer.discount" (keyup)="calculateCurrentWaybillPrices()" > % = -{{currentWaybillTotals.discount | money}} € </h3>
+                            <h3>Brutto:{{currentWaybillTotals.totalGrossPrice | money}} €</h3>
+                           
+                            
                     </div>
                 </div>
             </div>

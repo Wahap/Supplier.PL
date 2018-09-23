@@ -3,7 +3,7 @@
         <div class='row' style="margin:0px;">
 
             <p-table #dt [columns]="productListCols" [value]="products" id="product-list" [loading]="loading"
-                [scrollable]="false" [scrollHeight]="windowsHeight()" rowHover="true">
+                [scrollable]="true" [scrollHeight]="windowsHeight()" rowHover="true">
                 <ng-template pTemplate="caption">
 
                     <button type="button" id="btnOpenProductAddForm" class="btn btn-primary btn-sm" (click)="showDialogToAdd()">Yeni

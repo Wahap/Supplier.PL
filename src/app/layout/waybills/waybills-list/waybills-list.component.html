@@ -1,5 +1,5 @@
 <div>
-    <p-table #dtWaybillList [columns]="waybillListColumns" [value]="allWaybills">
+    <p-table #dtWaybillList [columns]="waybillListColumns" [value]="allWaybills" [loading]="loading" [scrollable]="true" [scrollHeight]="windowsHeight()">
         <ng-template pTemplate="header" let-columns>
             <tr>
                 <th *ngFor="let col of columns">
@@ -48,3 +48,11 @@
       <app-new-waybill [selectedWayBill]="selectedWayBill"></app-new-waybill>
     </div>
 </p-dialog>
+
+<p-dialog [positionTop]="50" header="irsaliye önizleme" [(visible)]="showPrintDialog"  [responsive]="true" showEffect="fade" [modal]="true" width="95%">
+        <div>
+                <app-waybill-print [selectedWaybill]="selectedWayBill"></app-waybill-print>
+          
+        </div>
+    </p-dialog>
+

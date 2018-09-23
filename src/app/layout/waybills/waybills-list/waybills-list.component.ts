@@ -19,6 +19,7 @@ export class WaybillsListComponent implements OnInit {
   selectedWayBill:Waybill;
   allCustomers:Customer[]=[];
   dialogVisible:boolean=false;
+  showPrintDialog:boolean=false;
   waybillListColumns:any[];
   constructor(private configService: ConfigService,private waybillService:WaybillService,private customerService:CustomersService,public dialog: MatDialog) { }
 
@@ -79,11 +80,19 @@ export class WaybillsListComponent implements OnInit {
   }
   onWaybillPreview(waybill:Waybill)
   {
-    
+    this.selectedWayBill=waybill;
+this.showPrintDialog=true;
   }
   onCloseNewWaybillDialog()
   {
     this.selectedWayBill=null;
+  }
+
+  windowsHeight() {
+    return (window.screen.height * 0.80 - 120) + "px";
+  }
+  windowsWidth() {
+    return (window.screen.width * 0.80 - 120) + "px";
   }
 
 }

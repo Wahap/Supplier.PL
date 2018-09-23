@@ -49,7 +49,7 @@ currentWaybillTotals:Totals=new Totals();
   }
   ngOnInit() {
     this.config = this.configService.getAppConfig();
-
+    
     this.productListCols = [
       { field: 'barcodeOfProduct', header: 'Barkod' },
       { field: 'orderNumber', header: 'S.No' },
@@ -74,6 +74,7 @@ currentWaybillTotals:Totals=new Totals();
       this.deliveryAddress=this.selectedCustomer.addresses.find(x=>x.id==this.selectedWayBill.deliveryAddressId);
       this.createdDate=new Date(this.selectedWayBill.createdDate);
       this.deliveryDate=new Date(this.selectedWayBill.deliveryDate);
+      this.selectedCustomer.discount=this.selectedWayBill.discount;//discount sync
       this.deletedBasketProducts=[];//reset at every new waybill selection
       this.mapSelectedWaybillProductsToCurrentWaybillProducts();
     }
@@ -92,8 +93,10 @@ currentWaybillTotals:Totals=new Totals();
         basketProduct.id=waybillProduct.id;
         basketProduct.package=waybillProduct.numberOfPackage;
         basketProduct.product=waybillProduct.product;
+        basketProduct.product.netSalePrice=waybillProduct.netSalePrice;
         return basketProduct;
       });
+      this.calculateCurrentWaybillPrices();
     });
   }
 
@@ -154,6 +157,7 @@ currentWaybillTotals:Totals=new Totals();
     // }
     waybill.addressId = this.selectedAddress.id;
     waybill.customerId = this.selectedCustomer.id;
+    waybill.discount=this.selectedCustomer.discount;
     waybill.createdDate = this.createdDate;
     waybill.deliveryDate = this.deliveryDate;
     waybill.deliveryAddressId = this.deliveryAddress.id;
@@ -281,7 +285,8 @@ currentWaybillTotals:Totals=new Totals();
       this.currentWaybillTotals.totalPieces+=numberOfPieces;
       this.currentWaybillTotals.totalNetPrice+=numberOfPieces*basketProduct.product.netSalePrice;
       this.currentWaybillTotals.totalTaxPrice+=numberOfPieces*(basketProduct.product.netSalePrice*basketProduct.product.tax/100);
-      this.currentWaybillTotals.totalGrossPrice=this.currentWaybillTotals.totalNetPrice+this.currentWaybillTotals.totalTaxPrice;
+      this.currentWaybillTotals.discount=(this.currentWaybillTotals.totalNetPrice+this.currentWaybillTotals.totalTaxPrice)*this.selectedCustomer.discount/100;
+      this.currentWaybillTotals.totalGrossPrice=this.currentWaybillTotals.totalNetPrice+this.currentWaybillTotals.totalTaxPrice-this.currentWaybillTotals.discount;
     });
     this.currentWaybillTotals.totalItems=this.currentWaybill.length;
   }
