@@ -1,5 +1,6 @@
 import { Customer } from "./customer";
 import { Address } from "./address";
+import { DiscountRate } from "./discountRate";
 import { WaybillProduct } from "./waybillProduct";
 export class Waybill
 {
@@ -9,7 +10,7 @@ export class Waybill
 
     addressId:number;
     deliveryAddressId:number;
-
+    discountRateId:number;
     waybillStatus:number;
 
     createdDate:Date;
@@ -19,6 +20,8 @@ export class Waybill
 
     address:Address;
     isActive:boolean;
-    discount:number;
+    extraDiscount:number;
     waybillProducts:WaybillProduct[]=[];
+    discountRate:DiscountRate=new DiscountRate();
+    
 }

@@ -88,9 +88,13 @@
           <div style="width:200px; float: left;text-align: right;">{{waybillTotals?.totalTaxPrice | money}} €</div>
       </div>
       <div class="row">
-          <div style="width:590px; float: left;">Rabatt {{ selectedWaybill?.discount }}%</div>
-          <div style="width:200px; float: left;text-align: right;">-{{waybillTotals?.discount | money}} €</div>
+          <div style="width:590px; float: left;">Rabatt {{ selectedWaybill?.extraDiscount }}%</div>
+          <div style="width:200px; float: left;text-align: right;">-{{waybillTotals?.extraDiscount | money}} €</div>
       </div>
+      <div class="row">
+        <div style="width:590px; float: left;">Skonto {{ selectedWaybill?.discountRate.rate }}%</div>
+        <div style="width:200px; float: left;text-align: right;">-{{waybillTotals?.discount | money}} €</div>
+    </div>
       <div class="row">
           <div style="width:590px; float: left;">Brutto Gesamt</div>
           <div style="width:200px; float: left;text-align: right;">{{waybillTotals?.totalGrossPrice | money}} €</div>

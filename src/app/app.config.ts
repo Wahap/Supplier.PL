@@ -43,6 +43,9 @@ export interface IConfig {
 
 	uploadImageUrl: string;
 
+	//DiscountRates
+	getAllDiscountRatesUrl:string;
+
 };
 import { Injectable } from '@angular/core';
 @Injectable()
@@ -103,7 +106,9 @@ export class ConfigService {
 		let deleteBillUrl = (debug ? serverLoginPathDebug + "bill/deletebill" : serverLoginPath + "bill/deletebill");
 		let getBillUrl = (debug ? serverLoginPathDebug + "bill/getbill" : serverLoginPath + "bill/getbill");
 		let uploadImageUrl = (debug ? serverLoginPathDebug + "Uploader/Upload" : serverLoginPath + "Uploader/Upload");
-		
+		//Discount Rates
+		let getAllDiscountRatesUrl = (debug ? serverLoginPathDebug + "Common/getAllDiscountRates" : serverLoginPath + "Common/getAllDiscountRates");
+
 		return {
 			logInUrl: logInUrl,
 			getUsers: getUsers,
@@ -129,20 +134,23 @@ export class ConfigService {
 			getAllOrderByStatusUrl:getAllOrderByStatusUrl,
 			getOrderDetails:getOrderDetails,
 			saveReceivedOrder:saveReceivedOrder,
-
+			//Waybills
 			getLastWaybillUrl:getLastWaybillUrl,
 			saveWaybillUrl:saveWaybillUrl,
 			getAllWaybillsUrl:getAllWaybillsUrl,
 			deleteWaybillUrl:deleteWaybillUrl,
 			getWaybillUrl:getWaybillUrl,
 			getWaybillProductsUrl:getWaybillProductsUrl,
-
+			//Bills
 			getLastBillUrl:getLastBillUrl,
 			saveBillUrl:saveBillUrl,
 			getAllBillsUrl:getAllBillsUrl,
 			deleteBillUrl:deleteBillUrl,
 			getBillUrl:getBillUrl,
-			uploadImageUrl:uploadImageUrl
+
+			uploadImageUrl:uploadImageUrl,
+			//Discount Rates
+			getAllDiscountRatesUrl:getAllDiscountRatesUrl
 
 		}
 	}

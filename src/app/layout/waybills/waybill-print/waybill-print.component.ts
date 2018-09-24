@@ -50,8 +50,9 @@ export class WaybillPrintComponent implements OnInit {
       this.waybillTotals.totalPieces+=numberOfPieces;
       this.waybillTotals.totalNetPrice+=numberOfPieces*pro.netSalePrice;
       this.waybillTotals.totalTaxPrice+=numberOfPieces*(pro.netSalePrice*pro.tax/100);
-      this.waybillTotals.discount=(this.waybillTotals.totalNetPrice+this.waybillTotals.totalTaxPrice)*this.selectedWaybill.discount/100;
-      this.waybillTotals.totalGrossPrice=this.waybillTotals.totalNetPrice+this.waybillTotals.totalTaxPrice-this.waybillTotals.discount;
+      this.waybillTotals.extraDiscount=(this.waybillTotals.totalNetPrice+this.waybillTotals.totalTaxPrice)*this.selectedWaybill.extraDiscount/100;
+      this.waybillTotals.discount=(this.waybillTotals.totalNetPrice+this.waybillTotals.totalTaxPrice)*this.selectedWaybill.discountRate.rate/100;
+      this.waybillTotals.totalGrossPrice=this.waybillTotals.totalNetPrice+this.waybillTotals.totalTaxPrice-this.waybillTotals.extraDiscount-this.waybillTotals.discount;
     });
     this.waybillTotals.totalItems=this.selectedWaybill.waybillProducts.length;
   }

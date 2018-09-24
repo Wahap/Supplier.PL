@@ -41,6 +41,11 @@ export class CommonService {
     return this.http.post(url, units, this.options)
       .map((response: Response) => response.json());
   }
+
+  getAllDiscountRates(url: string, input: any): any {
+    return this.http.post(url, input, this.options)
+        .map((response: Response) => response.json());
+}
   getAllBrands(url: string, brands: any): any {
     return this.http.post(url, brands, this.options)
       .map((response: Response) => response.json());

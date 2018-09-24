@@ -16,6 +16,8 @@ import { Product } from '../../../shared/DTOs/product';
 import { Router } from '@angular/router';
 import { ProductListOptions } from '../../../shared/DTOs/productListOptions';
 import { Totals } from '../../../shared/DTOs/totals';
+import { DiscountRate } from '../../../shared/DTOs/discountRate';
+import { CommonService } from '../../../shared/common.service';
 @Component({
   selector: 'app-new-waybill',
   templateUrl: './new-waybill.component.html',
@@ -26,8 +28,10 @@ export class NewWaybillComponent implements OnInit {
   basketProducts: BasketProduct[] = [];
   currentWaybill: BasketProduct[] = [];
   customers: Customer[] = [];
+  discountRates:DiscountRate[]=[];
   priceTypeId: number;
   selectedCustomer: Customer = new Customer();
+  selectedDiscountRate:DiscountRate=new DiscountRate();
   selectedAddress: Address = new Address();
   deliveryAddress: Address = new Address();
   deletedBasketProducts: BasketProduct[] = [];
@@ -42,7 +46,7 @@ currentWaybillTotals:Totals=new Totals();
   @Input()
   selectedWayBill: Waybill;
 
-  constructor(private customerService: CustomersService, public toastr: ToastsManager, vcr: ViewContainerRef, private waybillService: WaybillService, private productsService: ProductsService, private configService: ConfigService, public dialog: MatDialog, public router: Router) {
+  constructor(private customerService: CustomersService,private commonService:CommonService, public toastr: ToastsManager, vcr: ViewContainerRef, private waybillService: WaybillService, private productsService: ProductsService, private configService: ConfigService, public dialog: MatDialog, public router: Router) {
     this.toastr.setRootViewContainerRef(vcr);
     this.loading = false;
     //this.isNewRecord = true;
@@ -62,6 +66,7 @@ currentWaybillTotals:Totals=new Totals();
     //this.getProducts();
     //  this.fillBasketProducts();
     this.fillCustomers();
+    this.fillDiscountRates();//Skonto
 
     //this.setLastWaybill();
   }
@@ -74,7 +79,8 @@ currentWaybillTotals:Totals=new Totals();
       this.deliveryAddress=this.selectedCustomer.addresses.find(x=>x.id==this.selectedWayBill.deliveryAddressId);
       this.createdDate=new Date(this.selectedWayBill.createdDate);
       this.deliveryDate=new Date(this.selectedWayBill.deliveryDate);
-      this.selectedCustomer.discount=this.selectedWayBill.discount;//discount sync
+      this.selectedCustomer.extraDiscount=this.selectedWayBill.extraDiscount;//discount sync
+      this.selectedDiscountRate=this.discountRates.find(x=>x.id==this.selectedWayBill.discountRateId);
       this.deletedBasketProducts=[];//reset at every new waybill selection
       this.mapSelectedWaybillProductsToCurrentWaybillProducts();
     }
@@ -157,12 +163,14 @@ currentWaybillTotals:Totals=new Totals();
     // }
     waybill.addressId = this.selectedAddress.id;
     waybill.customerId = this.selectedCustomer.id;
-    waybill.discount=this.selectedCustomer.discount;
+    waybill.extraDiscount=this.selectedCustomer.extraDiscount;
     waybill.createdDate = this.createdDate;
     waybill.deliveryDate = this.deliveryDate;
     waybill.deliveryAddressId = this.deliveryAddress.id;
     waybill.waybillStatus = 1;
     waybill.isActive = true;
+    waybill.discountRateId=this.selectedDiscountRate.id;
+    waybill.discountRate=null;//No need to create a new Discount rate
     this.currentWaybill.forEach(basketProduct => {
       let waybillProduct = new WaybillProduct();
       waybillProduct.id = basketProduct.id;
@@ -209,6 +217,12 @@ currentWaybillTotals:Totals=new Totals();
   fillCustomers() {
     this.customerService.getCustomers(this.config.getCustomersUrl, null).subscribe(result => {
       this.customers = result;
+    });
+  }
+
+  fillDiscountRates() {
+    this.commonService.getAllDiscountRates(this.config.getAllDiscountRatesUrl, null).subscribe(result => {
+      this.discountRates = result;
     });
   }
   increase(basketProduct: BasketProduct) {
@@ -285,8 +299,9 @@ currentWaybillTotals:Totals=new Totals();
       this.currentWaybillTotals.totalPieces+=numberOfPieces;
       this.currentWaybillTotals.totalNetPrice+=numberOfPieces*basketProduct.product.netSalePrice;
       this.currentWaybillTotals.totalTaxPrice+=numberOfPieces*(basketProduct.product.netSalePrice*basketProduct.product.tax/100);
-      this.currentWaybillTotals.discount=(this.currentWaybillTotals.totalNetPrice+this.currentWaybillTotals.totalTaxPrice)*this.selectedCustomer.discount/100;
-      this.currentWaybillTotals.totalGrossPrice=this.currentWaybillTotals.totalNetPrice+this.currentWaybillTotals.totalTaxPrice-this.currentWaybillTotals.discount;
+      this.currentWaybillTotals.extraDiscount=(this.currentWaybillTotals.totalNetPrice+this.currentWaybillTotals.totalTaxPrice)*this.selectedCustomer.extraDiscount/100;
+      this.currentWaybillTotals.discount=(this.currentWaybillTotals.totalNetPrice+this.currentWaybillTotals.totalTaxPrice)*this.selectedDiscountRate.rate/100;
+      this.currentWaybillTotals.totalGrossPrice=this.currentWaybillTotals.totalNetPrice+this.currentWaybillTotals.totalTaxPrice-this.currentWaybillTotals.extraDiscount-this.currentWaybillTotals.discount;
     });
     this.currentWaybillTotals.totalItems=this.currentWaybill.length;
   }
