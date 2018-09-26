@@ -1,0 +1,108 @@
+<button class="btn btn-primary" (click)="printPage()"><i class="fa fa-print" aria-hidden="true"></i>Yazdır</button>
+<br><br>
+<div id="all-page">
+<div id="page-container">
+  <div id="page-header" style="position: relative;
+  height: 300px;
+  width: 800px;">
+    <h1 style="    position: absolute;
+    text-align: center;
+    width: 80%;">GÖRAL Vertriebs GMBH</h1>
+    <img src="assets/images/goral.png" style="    position: absolute;
+    right: 0px;
+    top: 0px;" />
+    <div id="waybill-infos" style="position: absolute;
+    height: 150px;
+    width: 800px;
+    top: 106px;">
+        <span id="company-address" style="position: absolute;
+        text-decoration: underline;
+        font-size: 0.7em;
+        font-style: italic;
+        top: 0px;
+        left: 0px;">GÖRAL VertriebsGMBHKenan AydinOhligserStr. 22, 42329Wupperta</span>
+        <span id="customer-company" style="    position: absolute;
+        top: 25px;
+        font-weight: bold;
+        left: 0px;">{{selectedBill?.customer.companyName}}</span>
+        <span id="customer-name" style="    position: absolute;
+        top: 45px;
+        left: 0px;
+        text-transform: capitalize;">{{selectedBill?.customer.customerName + ' ' + selectedBill?.customer.lastname }}</span>
+        <span id="customer-address" style="    position: absolute;
+        top: 76px;
+        left: 0px;
+        line-height: 20px;">{{selectedBill?.address.street}}<br>
+            {{selectedBill?.address.postCode}} {{selectedBill?.address.city.name}}
+            </span>
+            <h3 id="waybill-number" style="    position: absolute;
+            top: 119px;
+            left: 0px;">RECHUNG NR:{{selectedBill?.billNumber | padLeft:'0':5}}</h3>
+            <h5 id="customer-number" style="    position: absolute;
+            right: 50px;
+            top: 30px;">Kunden Nr: {{selectedBill?.customer.id | padLeft:'0':5}}</h5>
+            <h5 id="waybill-created-date" style="position: absolute;
+            right: 50px;
+            top: 61px;">Datum: {{selectedBill?.createdDate | date:'shortDate'}}</h5>
+    </div>
+
+    
+  </div>
+  <div id="page-body">
+    <table style="    width: 800px;
+    font-weight: bold;">
+      <thead>
+        <tr>
+          <th style="    text-align: left;border-bottom: 1px solid #ccc;">POS</th>
+          <th style="    text-align: left;border-bottom: 1px solid #ccc;">ARTIKEL BEZEICHNUNG</th>
+          <th style="    text-align: right;border-bottom: 1px solid #ccc;">EINHEIT</th>
+          <th style="    text-align: right;border-bottom: 1px solid #ccc;">MENGE</th>
+          <th style="    text-align: right;border-bottom: 1px solid #ccc;">PREIS STK</th>
+          <th style="    text-align: right;border-bottom: 1px solid #ccc;">PREIS GESAMT</th>
+        </tr>
+      </thead>
+      <tbody style="    font-size: 0.9em;">
+
+        <tr *ngFor="let pro of selectedBill?.billProducts;let i=index;">
+          <td>{{i+1}}</td>
+          <td>{{pro.product.productName}}</td>
+          <td style="    text-align: right;">{{pro.numberOfPackage}}</td>
+          <td style="    text-align: right;">{{pro.numberOfPackage * pro.product.unitsInPackage}}</td>
+          <td style="    text-align: right;">{{pro.netSalePrice | money}} €</td>
+          <td style="    text-align: right;">{{(pro.numberOfPackage * pro.product.unitsInPackage * pro.netSalePrice) | money}} €</td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <div id="totalsContainer" style="    font-weight: bold;
+    margin-top: 20px;
+    border-top: 1px solid #ccc;
+    width: 800px;
+    padding: 6px 0px;">
+      <div class="row">
+          <div style="width:590px; float: left;">Gesamt Netto</div>
+          <div style="width:200px; float: left; text-align: right;">{{billTotals?.totalNetPrice | money}} €</div>
+      </div>
+      <div class="row">
+          <div style="width:590px; float: left;">MwSt 7%</div>
+          <div style="width:200px; float: left;text-align: right;">{{billTotals?.totalTaxPrice | money}} €</div>
+      </div>
+      <div class="row">
+          <div style="width:590px; float: left;">Rabatt {{ selectedBill?.extraDiscount }}%</div>
+          <div style="width:200px; float: left;text-align: right;">-{{billTotals?.extraDiscount | money}} €</div>
+      </div>
+      <div class="row">
+        <div style="width:590px; float: left;">Skonto {{ selectedBill?.discountRate.rate }}%</div>
+        <div style="width:200px; float: left;text-align: right;">-{{billTotals?.discount | money}} €</div>
+    </div>
+      <div class="row">
+          <div style="width:590px; float: left;">Brutto Gesamt</div>
+          <div style="width:200px; float: left;text-align: right;">{{billTotals?.totalGrossPrice | money}} €</div>
+      </div>
+       
+     
+    </div>
+  
+  </div>
+</div>
+</div>

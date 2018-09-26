@@ -293,7 +293,7 @@ currentWaybillTotals:Totals=new Totals();
   calculateCurrentWaybillPrices()
   {
     this.currentWaybillTotals=new Totals();
-    this.currentWaybill.forEach(basketProduct=>{
+    this.currentWaybill.forEach(basketProduct=>{  
       let numberOfPieces=basketProduct.package*basketProduct.product.unitsInPackage;
       this.currentWaybillTotals.totalPackages+=basketProduct.package;
       this.currentWaybillTotals.totalPieces+=numberOfPieces;

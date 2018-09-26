@@ -34,13 +34,15 @@ export interface IConfig {
 	deleteWaybillUrl:string;
 	getWaybillProductsUrl:string;
 
-
+//Bill Urls
 	getLastBillUrl:string;
 	getBillUrl:string;
 	saveBillUrl:string;
 	getAllBillsUrl:string;
 	deleteBillUrl:string;
-
+	getBillProductsUrl:string;
+	getNextBillNumberUrl:string;
+	checkBillNumberIsValidUrl:string;
 	uploadImageUrl: string;
 
 	//DiscountRates
@@ -99,12 +101,15 @@ export class ConfigService {
 		let deleteWaybillUrl = (debug ? serverLoginPathDebug + "waybill/deletewaybill" : serverLoginPath + "waybill/deletewaybill");
 		let getWaybillUrl = (debug ? serverLoginPathDebug + "waybill/getwaybill" : serverLoginPath + "waybill/getwaybill");
 		let getWaybillProductsUrl = (debug ? serverLoginPathDebug + "waybill/getwaybillproducts" : serverLoginPath + "waybill/getwaybillproducts");
-
+		//Bill Urls
 		let getLastBillUrl = (debug ? serverLoginPathDebug + "bill/getlastbill" : serverLoginPath + "bill/getlastbill");
 		let saveBillUrl = (debug ? serverLoginPathDebug + "bill/save" : serverLoginPath + "bill/save");
 		let getAllBillsUrl = (debug ? serverLoginPathDebug + "bill/getallbills" : serverLoginPath + "bill/getallbills");
 		let deleteBillUrl = (debug ? serverLoginPathDebug + "bill/deletebill" : serverLoginPath + "bill/deletebill");
 		let getBillUrl = (debug ? serverLoginPathDebug + "bill/getbill" : serverLoginPath + "bill/getbill");
+		let getBillProductsUrl=(debug ? serverLoginPathDebug + "bill/getBillproducts" : serverLoginPath + "bill/getBillproducts");
+		let getNextBillNumberUrl=(debug ? serverLoginPathDebug + "bill/getNextBillNumber" : serverLoginPath + "bill/getNextBillNumber");
+		let checkBillNumberIsValidUrl=(debug ? serverLoginPathDebug + "bill/checkBillNumberIsValid" : serverLoginPath + "bill/checkBillNumberIsValid");
 		let uploadImageUrl = (debug ? serverLoginPathDebug + "Uploader/Upload" : serverLoginPath + "Uploader/Upload");
 		//Discount Rates
 		let getAllDiscountRatesUrl = (debug ? serverLoginPathDebug + "Common/getAllDiscountRates" : serverLoginPath + "Common/getAllDiscountRates");
@@ -147,7 +152,9 @@ export class ConfigService {
 			getAllBillsUrl:getAllBillsUrl,
 			deleteBillUrl:deleteBillUrl,
 			getBillUrl:getBillUrl,
-
+			getBillProductsUrl:getBillProductsUrl,
+			getNextBillNumberUrl:getNextBillNumberUrl,
+			checkBillNumberIsValidUrl:checkBillNumberIsValidUrl,
 			uploadImageUrl:uploadImageUrl,
 			//Discount Rates
 			getAllDiscountRatesUrl:getAllDiscountRatesUrl

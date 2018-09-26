@@ -4,7 +4,12 @@
     text-align: center;
     font-weight: bold;
 }
-
+.bill-tax, .bill-netSale-Price {
+    width: 40px;
+    text-align: center;
+    font-weight: bold;
+    padding: 0px;
+}
 mat-dialog-container {
   
     width: 500px !important;
@@ -36,7 +41,27 @@ mat-dialog-container {
     border: 2px solid black;
     padding: 3px;
 }
-
+#billProducts mark {
+    font-size: 1.2em;
+    padding: 0px 10px;
+    border: 2px solid black;
+    border-radius: 14px;
+    margin-top: 1px;
+    display: inline-block;
+    font-weight: bold;
+}
+#bill-total-prices {
+    text-align: right;
+    padding-right: 62px;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+#billExtraDiscount {
+    width: 36px;
+    text-align: center;
+    border-radius: 0px;
+    font-weight: bold;
+}
 .bill-product-package
 {
     width: 30px;
@@ -69,4 +94,37 @@ mat-dialog-container {
 #billOperations
 {
     margin-top: 10px;
+}
+#drpPriceType
+{
+    width: 157px;
+    display: inline;
+}
+.bill-product-package
+{
+    width: 45px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1em;
+}
+#billOperations
+{
+    margin-top: 10px;
+}
+#billNumber
+{
+    width: 60px;
+    display: inline;
+    font-weight: bold;
+    font-size: 1.2em;
+    padding: 0px;
+    text-align: center;
+}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
 }

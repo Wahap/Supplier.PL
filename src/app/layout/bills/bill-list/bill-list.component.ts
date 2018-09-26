@@ -18,12 +18,22 @@ export class BillListComponent implements OnInit {
   allBills:Bill[]=[];
   selectedBill:Bill;
   allCustomers:Customer[]=[];
-  dialogVisible:boolean=false;
+  showPrintDialog:boolean=false;
+  billListColumns:any[];
   constructor(private configService: ConfigService,private billService:BillService,private customerService:CustomersService,public dialog: MatDialog) { }
 
   ngOnInit() {
     this.config = this.configService.getAppConfig();
     this.fillAllBills();
+    this.billListColumns = [
+      { field: 'id', header: 'Irs.No' },
+      { field: 'companyName', header: 'Firma' },
+      { field: 'customerName', header: 'Müşteri' },
+      { field: 'address', header: 'Adres' },
+      { field: 'update', header: 'Güncelle' },
+      { field: 'print', header: 'Yazdır' },
+      { field: 'delete', header: 'Sil' }
+    ];
   }  
 
   fillAllBills()
@@ -36,29 +46,42 @@ export class BillListComponent implements OnInit {
 
   deleteBill(bill:Bill)
   {
-    let dialogRef = this.dialog.open(ConfirmComponent, {
-      width: '50%',
-      data: { title:"irsaliyeyi silmek istediğinize emin misiniz?" }
-    });
-  
-    dialogRef.afterClosed().subscribe(result => {
-     if(result=='yes')
+   
+    
+    
+     if(confirm("Faturayı Silmek istediğinize emin misiniz?"))
      {
+       this.loading=true;
       this.billService.deleteBill(this.config.deleteBillUrl,bill).subscribe(result=>{
         this.fillAllBills();
       });
      }
-    });
+    
   }
 
   updateBill(bill:Bill)
   {
     
     this.selectedBill=bill;
-    this.dialogVisible = true;
+    this.showPrintDialog = true;
     // this.waybillService.getWaybill(this.config.getWaybillUrl, waybill.id).subscribe(response=>{
       
     // });
+  }
+  onCloseNewBillDialog()
+  {
+    this.selectedBill=null;
+  }
+  onBillPreview(bill:Bill)
+  {
+    this.selectedBill=bill;
+this.showPrintDialog=true;
+  }
+  windowsHeight() {
+    return (window.screen.height * 0.80 - 120) + "px";
+  }
+  windowsWidth() {
+    return (window.screen.width * 0.80 - 120) + "px";
   }
 
 }

@@ -1,45 +1,58 @@
 <div>
-  <p-dataTable [value]="allBills" [loading]="loading" resizableColumns="true" >
- 
-      <p-header>Fatura listesi</p-header>
-      <p-column field="billNumber" header="F.No." [filter]="true" filterPlaceholder="F.No" [style]="{'width':'7%'}"></p-column>
-      <p-column field="customer.companyName" header="Firma" [filter]="true" filterPlaceholder="Firma" filterMatchMode="contains">
-        <ng-template pTemplate="body" let-col let-customer="rowData.customer">
-          {{customer?.companyName}}
+    <p-table #dtBillList [columns]="billListColumns" [value]="allBills" [loading]="loading" [scrollable]="true" [scrollHeight]="windowsHeight()">
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of columns">
+                    {{col.header}}
+                </th>
+            </tr>   
+            <tr>
+                <th>
+                    <input placeholder="Fatura.No..." class="form-control form-control-sm" type="text" (input)="dtBillList.filter($event.target.value, 'id','contains')">
+                </th>
+                <th>
+                    <input placeholder="Firma..." class="form-control form-control-sm" type="text" (input)="dtBillList.filter($event.target.value, 'customer.companyName','contains')">
+                </th>
+                <th>
+                    <input placeholder="Müşteri..." class="form-control form-control-sm" type="text" (input)="dtBillList.filter($event.target.value, 'customer.customerName','contains')">
+                </th>
+                <th>
+                    <input placeholder="Adres..." class="form-control form-control-sm" type="text" (input)="dtBillList.filter($event.target.value, 'customer.address.street','contains')">
+                </th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
         </ng-template>
-      </p-column>
-      <p-column field="customer.customerName" header="Müşteri" [filter]="true" filterPlaceholder="Müşteri" filterMatchMode="contains">
-        <ng-template pTemplate="body" let-col let-customer="rowData.customer">
-          {{customer?.customerName}} {{customer?.lastname}}
+        <ng-template pTemplate="body" let-bill let-columns="columns">
+            <tr>
+                <td *ngFor="let col of columns" [ngSwitch]="col.field">
+                    <span *ngSwitchCase="'id'">{{bill.id}}</span>
+                    <span *ngSwitchCase="'companyName'">{{bill.customer.companyName}}</span>
+                    <span *ngSwitchCase="'customerName'">{{bill.customer.customerName}} {{bill.customer.lastname}}</span>
+                    <span *ngSwitchCase="'address'">{{bill.address.street}} {{bill.address.postCode}} {{bill.address.city.name}}</span>
+                   <button *ngSwitchCase="'update'" class="btn btn-success" (click)="updateBill(bill)">Güncelle</button>
+                   <button *ngSwitchCase="'print'" class="btn btn-primary" (click)="onBillPreview(bill)">Önizleme</button>
+                   <button *ngSwitchCase="'delete'" class="btn btn-danger" (click)="deleteBill(bill)">Sil</button>
+                </td>
+            </tr>
         </ng-template>
-      </p-column>
-      <p-column field="address.street" header="Adres" [filter]="true" filterPlaceholder="Adres" filterMatchMode="contains">
-        <ng-template pTemplate="body" let-col let-address="rowData.address">
-          {{address?.street}}, {{address?.postCode}}, {{address?.city?.name}}
-        </ng-template>
-      </p-column>
-      <p-column field="id" header="Güncelle" [style]="{'width':'10%'}">
-        <ng-template pTemplate="body" let-col let-bill="rowData">
-          <button class="btn btn-success btn-block btn-sm" (click)="updateBill(bill)">Güncelle</button>
-        </ng-template>
-      </p-column>
-      <p-column field="pdf" header="Yazdir" [style]="{'width':'7%'}">
-        <ng-template pTemplate="body" let-col let-bill="rowData">
-          <pdf-waybill [waybill]="waybill" ></pdf-waybill>
-        </ng-template>
-      </p-column>
-      <p-column field="id" header="Sil" [style]="{'width':'7%'}">
-        <ng-template pTemplate="body" let-col let-bill="rowData">
-          <button class="btn btn-danger btn-block btn-sm" (click)="deleteBill(bill)">Sil</button>
-        </ng-template>
-      </p-column>
-    </p-dataTable>
-</div>
-
-
-<p-dialog [positionTop]="50" header="Fatura Detayları" [(visible)]="dialogVisible" [responsive]="true" showEffect="fade" [modal]="true" width="95%">
-  <div>
+    </p-table>
     
-    <app-save-bill [selectedBill]="selectedBill"></app-save-bill>
-  </div>
+</div>
+   
+
+<p-dialog [positionTop]="50" header="Fatura Detayları" [(visible)]="dialogVisible" (onHide)="onCloseNewBillDialog()" [responsive]="true" showEffect="fade" [modal]="true" width="95%">
+    <div>
+      
+      <app-save-bill [selectedBill]="selectedBill"></app-save-bill>
+    </div>
 </p-dialog>
+
+<p-dialog [positionTop]="50" header="irsaliye önizleme" [(visible)]="showPrintDialog"  [responsive]="true" showEffect="fade" [modal]="true" width="95%">
+        <div>
+                <app-bill-print [selectedBill]="selectedBill"></app-bill-print>
+          
+        </div>
+    </p-dialog>
+

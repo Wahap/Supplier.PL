@@ -28,12 +28,27 @@ export class BillService {
         return this.http.post(url, input, this.options)
             .map((response: Response) => response.json());
     }
+
+    getBillProducts(url: string, input: any): any {
+        return this.http.post(url, input, this.options)
+            .map((response: Response) => response.json());
+    }
     saveBill(url: string, input: any): any {
         return this.http.post(url, input, this.options)
             .map((response: Response) => response.json());
     }
 
     deleteBill(url: string, input: any): any {
+        return this.http.post(url, input, this.options)
+            .map((response: Response) => response.json());
+    }
+
+    getNextBillNumber(url: string, input: any): any {//Returns maxBillNumber+1
+        return this.http.post(url, input, this.options)
+            .map((response: Response) => response.json());
+    }
+
+    checkBillNumberIsValid(url: string, input: any): any {//Returns maxBillNumber+1
         return this.http.post(url, input, this.options)
             .map((response: Response) => response.json());
     }

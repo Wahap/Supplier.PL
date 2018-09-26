@@ -39,7 +39,7 @@ export class WaybillsListComponent implements OnInit {
    // this.fillAllCustomers();
   }
 
-  fillAllWaybills()
+  fillAllWaybills()   
   {
     this.waybillService.getAllWaybills(this.config.getAllWaybillsUrl,null).subscribe(waybills=>{
       this.allWaybills=waybills;

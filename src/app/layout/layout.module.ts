@@ -33,6 +33,7 @@ import { PriceGroupsComponent } from './price-groups/price-groups.component';
 import { MoneyPipe } from './pipes/money.pipe';
 import { WaybillPrintComponent } from './waybills/waybill-print/waybill-print.component';
 import { PadLeftPipe } from './pipes/pad-left.pipe';
+import { BillPrintComponent } from './bills/bill-print/bill-print.component';
 
 
 
@@ -59,7 +60,8 @@ import { PadLeftPipe } from './pipes/pad-left.pipe';
     PriceGroupsComponent,
     MoneyPipe,
     WaybillPrintComponent,
-    PadLeftPipe
+    PadLeftPipe,
+    BillPrintComponent
     ]
 })
 export class LayoutModule { }
