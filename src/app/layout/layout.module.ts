@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { TableModule } from 'primeng/table';
 import {
     InputTextModule, DataTableModule, SharedModule, ButtonModule, DialogModule,
-    StepsModule, DropdownModule,SliderModule
+    StepsModule, DropdownModule,SliderModule,InputSwitchModule
 } from 'primeng/primeng';
 import { CalendarModule } from 'primeng/primeng';
 import {KeyFilterModule} from 'primeng/keyfilter';
@@ -47,7 +47,7 @@ import { BillPrintComponent } from './bills/bill-print/bill-print.component';
         NgbDropdownModule.forRoot(),
         FormsModule,
         InputTextModule, DataTableModule, SharedModule, ButtonModule, DialogModule, CalendarModule,
-        StepsModule, DropdownModule,TableModule,KeyFilterModule,SliderModule,
+        StepsModule, DropdownModule,TableModule,KeyFilterModule,SliderModule,InputSwitchModule,
         MaterialModule
     ],
     declarations: [NewWaybillComponent, PdfWaybillComponent, PdfOrderComponent, LayoutComponent, SidebarComponent, HeaderComponent, ProductsComponent, CustomersComponent, ReceivedOrderComponent,

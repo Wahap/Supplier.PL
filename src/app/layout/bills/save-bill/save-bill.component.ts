@@ -128,8 +128,12 @@ export class SaveBillComponent implements OnInit {
   }
   saveBill() {
     let bill: Bill = new Bill();
-    if (this.selectedBill != null) {
+    if (this.selectedBill != null) {//Bill Updating...
       bill.id = this.selectedBill.id;
+    }
+    else//New bill adding...
+    {
+      bill.isPaid=false;
     }
     // else if (this.lastWaybill != null) {
     //   waybill.id = this.lastWaybill.id;

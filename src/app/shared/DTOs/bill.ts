@@ -17,6 +17,7 @@ export class Bill
     customer:Customer;
     address:Address;
     isActive:boolean;
+    isPaid:boolean;
     billProducts:BillProduct[]=[];
     discountRate:DiscountRate=new DiscountRate();
 }

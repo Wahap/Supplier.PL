@@ -31,7 +31,8 @@
                     <span *ngSwitchCase="'companyName'">{{bill.customer.companyName}}</span>
                     <span *ngSwitchCase="'customerName'">{{bill.customer.customerName}} {{bill.customer.lastname}}</span>
                     <span *ngSwitchCase="'address'">{{bill.address.street}} {{bill.address.postCode}} {{bill.address.city.name}}</span>
-                   <button *ngSwitchCase="'update'" class="btn btn-success" (click)="updateBill(bill)">Güncelle</button>
+                    <span *ngSwitchCase="'isPaid'"><p-inputSwitch [(ngModel)]="bill.isPaid" (onChange)="onIsPaidChange(bill)"></p-inputSwitch><span class="isPaid" [ngClass]="bill.isPaid ? 'text-success' : 'text-danger'">{{bill.isPaid?'Ödendi':'Ödenmedi'}}</span> </span>
+                    <button *ngSwitchCase="'update'" class="btn btn-success" (click)="updateBill(bill)">Güncelle</button>
                    <button *ngSwitchCase="'print'" class="btn btn-primary" (click)="onBillPreview(bill)">Önizleme</button>
                    <button *ngSwitchCase="'delete'" class="btn btn-danger" (click)="deleteBill(bill)">Sil</button>
                 </td>
@@ -42,7 +43,7 @@
 </div>
    
 
-<p-dialog [positionTop]="50" header="Fatura Detayları" [(visible)]="dialogVisible" (onHide)="onCloseNewBillDialog()" [responsive]="true" showEffect="fade" [modal]="true" width="95%">
+<p-dialog [positionTop]="50" header="Fatura Detayları" [(visible)]="showUpdateBillDialog" (onHide)="onCloseNewBillDialog()" [responsive]="true" showEffect="fade" [modal]="true" width="95%">
     <div>
       
       <app-save-bill [selectedBill]="selectedBill"></app-save-bill>

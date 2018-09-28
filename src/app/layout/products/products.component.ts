@@ -239,7 +239,7 @@ export class ProductsComponent implements OnInit {
     
 
 
-    var mywindow = window.open('', 'new div', 'height=700,width=1200');
+    var mywindow = window.open('', 'new div', 'height='+this.windowsHeight()+',width='+this.windowsWidth());
     mywindow.document.write('<html><head><title></title>');
     mywindow.document.write('<style>body{ font-family: Arial, Helvetica, sans-serif; }</style>');
     mywindow.document.write('</head><body >');

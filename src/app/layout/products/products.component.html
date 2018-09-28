@@ -53,10 +53,11 @@
                         <td *ngFor="let col of columns" [ngSwitch]="col.field" (click)="col.field!='resim'?onRowSelect(pro):''">
                             <img *ngSwitchCase="'resim'" class="product-image" (click)="showImgDialog(pro)" src="./assets/images/Products/{{pro.barcodeOfProduct}}.jpg"
                                 [alt]="pro.productName" onError="this.src='http://via.placeholder.com/500x500';">
-                            <span *ngSwitchCase="'purchasePrice'">{{pro.purchasePrice | money}}</span>
-                            <span *ngSwitchCase="'netSalePrice'">{{pro.netSalePrice | money}}</span>
+                            <span *ngSwitchCase="'purchasePrice'">{{pro.purchasePrice | money}} €</span>
+                            <span *ngSwitchCase="'netSalePrice'">{{pro.netSalePrice | money}} € <span class="badge">(Kar %: {{(pro.netSalePrice-pro.purchasePrice)*100/pro.purchasePrice | money}})</span> </span>
+                            <span *ngSwitchCase="'tax'">{{pro.tax}} <span class="badge">({{(pro.netSalePrice*pro.tax/100) | money}} €)</span></span>
                             <span *ngSwitchCase="'brutPrice'">{{(pro.netSalePrice+(pro.netSalePrice*pro.tax/100)) |
-                                money}}</span>
+                                money}} €</span>
                             <span *ngSwitchDefault>{{pro[col.field]}}</span>
 
                         </td>
@@ -71,7 +72,8 @@
             [maximizable]="true" [baseZIndex]="10000">
             <button class="btn btn-primary btn-sm" (click)="printBrochure()">Yazdır
                 <i aria-hidden="true" class="fa fa-file-pdf-o"></i>
-            </button>
+            </button><br>
+            <hr>
             <div id="brochure">
                 <div id="brochureWrapper">
                     <div id="brHeader" style="position: relative;
@@ -142,9 +144,9 @@
                         padding: 5px;
                         position: absolute;
                         top: 103px;
-                        right: 67px;
+                        right: 15px;
                         font-size: 1.5em;
-                        border-radius: 30px;">{{pro.quantity}} {{pro.unit.name}}</span>
+                        border-radius: 30px;">{{pro.quantity}} {{pro.unit.name}} X {{pro.unitsInPackage}} Stk</span>
                         <span style="    position: absolute;
                         right: 48px;
                         top: 155px;

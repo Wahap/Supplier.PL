@@ -19,6 +19,7 @@ export class BillListComponent implements OnInit {
   selectedBill:Bill;
   allCustomers:Customer[]=[];
   showPrintDialog:boolean=false;
+  showUpdateBillDialog:boolean=false;
   billListColumns:any[];
   constructor(private configService: ConfigService,private billService:BillService,private customerService:CustomersService,public dialog: MatDialog) { }
 
@@ -30,6 +31,7 @@ export class BillListComponent implements OnInit {
       { field: 'companyName', header: 'Firma' },
       { field: 'customerName', header: 'Müşteri' },
       { field: 'address', header: 'Adres' },
+      { field: 'isPaid', header: 'Ödenme Durumu' },
       { field: 'update', header: 'Güncelle' },
       { field: 'print', header: 'Yazdır' },
       { field: 'delete', header: 'Sil' }
@@ -43,7 +45,13 @@ export class BillListComponent implements OnInit {
       this.loading=false;
     });
   }
+  onIsPaidChange(bill)
+  {
+    this.billService.saveBill(this.config.saveBillUrl,bill).subscribe(response=>{
 
+
+    });
+  }
   deleteBill(bill:Bill)
   {
    
@@ -63,7 +71,7 @@ export class BillListComponent implements OnInit {
   {
     
     this.selectedBill=bill;
-    this.showPrintDialog = true;
+    this.showUpdateBillDialog = true;
     // this.waybillService.getWaybill(this.config.getWaybillUrl, waybill.id).subscribe(response=>{
       
     // });

@@ -127,8 +127,8 @@
                                 <td>{{product.product.barcodeOfProduct}}</td>
                                 <td>{{product.product.productName}}</td>
                                
-                                <td><input type="number" class="form-control form-control-sm bill-netSale-Price" [(ngModel)]="product.product.netSalePrice" /></td>
-                                <td><input type="number" class="form-control form-control-sm bill-tax" [(ngModel)]="product.product.tax" /></td>
+                                <td><input type="number" class="form-control form-control-sm bill-netSale-Price" [(ngModel)]="product.product.netSalePrice" (keyup)="calculateCurrentBillPrices()" /></td>
+                                <td><input type="number" class="form-control form-control-sm bill-tax" [(ngModel)]="product.product.tax" (keyup)="calculateCurrentBillPrices()" /></td>
                                 <td>{{product.package}} Kolli X {{ product.product.unitsInPackage }} Stk = {{product.package*product.product.unitsInPackage}} </td>
                             </tr>
                            
