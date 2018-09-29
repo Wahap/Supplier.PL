@@ -42,4 +42,9 @@ export class WaybillService {
         return this.http.post(url, input, this.options)
             .map((response: Response) => response.json());
     }
+
+    convertWaybillToBill(url: string, input: any): any {
+        return this.http.post(url, input, this.options)
+            .map((response: Response) => response.json());
+    }
 }

@@ -12,6 +12,7 @@ import { WaybillsListComponent } from './waybills/waybills-list/waybills-list.co
 import { SaveBillComponent } from './bills/save-bill/save-bill.component';
 import { BillListComponent } from './bills/bill-list/bill-list.component';
 import { PriceGroupsComponent } from './price-groups/price-groups.component';
+import { WelcomeComponent } from './welcome/welcome.component';
 
 
 const routes: Routes = [
@@ -19,7 +20,8 @@ const routes: Routes = [
         path: '',
         component: LayoutComponent,
         children: [
-            { path: '', redirectTo: 'products' },
+            { path: '', redirectTo: 'welcome' },
+            { path: 'welcome',component:WelcomeComponent },
             { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' },
             { path: 'products',component:ProductsComponent },
             { path: 'customers',component:CustomersComponent },

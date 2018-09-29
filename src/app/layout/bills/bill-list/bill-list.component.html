@@ -8,7 +8,7 @@
             </tr>   
             <tr>
                 <th>
-                    <input placeholder="Fatura.No..." class="form-control form-control-sm" type="text" (input)="dtBillList.filter($event.target.value, 'id','contains')">
+                    <input placeholder="Fatura.No..." class="form-control form-control-sm" type="text" (input)="dtBillList.filter($event.target.value, 'billNumber','contains')">
                 </th>
                 <th>
                     <input placeholder="Firma..." class="form-control form-control-sm" type="text" (input)="dtBillList.filter($event.target.value, 'customer.companyName','contains')">
@@ -27,7 +27,7 @@
         <ng-template pTemplate="body" let-bill let-columns="columns">
             <tr>
                 <td *ngFor="let col of columns" [ngSwitch]="col.field">
-                    <span *ngSwitchCase="'id'">{{bill.id}}</span>
+                    <span *ngSwitchCase="'billNumber'">{{bill.billNumber}}</span>
                     <span *ngSwitchCase="'companyName'">{{bill.customer.companyName}}</span>
                     <span *ngSwitchCase="'customerName'">{{bill.customer.customerName}} {{bill.customer.lastname}}</span>
                     <span *ngSwitchCase="'address'">{{bill.address.street}} {{bill.address.postCode}} {{bill.address.city.name}}</span>

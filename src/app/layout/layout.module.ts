@@ -34,6 +34,7 @@ import { MoneyPipe } from './pipes/money.pipe';
 import { WaybillPrintComponent } from './waybills/waybill-print/waybill-print.component';
 import { PadLeftPipe } from './pipes/pad-left.pipe';
 import { BillPrintComponent } from './bills/bill-print/bill-print.component';
+import { WelcomeComponent } from './welcome/welcome.component';
 
 
 
@@ -61,7 +62,8 @@ import { BillPrintComponent } from './bills/bill-print/bill-print.component';
     MoneyPipe,
     WaybillPrintComponent,
     PadLeftPipe,
-    BillPrintComponent
+    BillPrintComponent,
+    WelcomeComponent
     ]
 })
 export class LayoutModule { }

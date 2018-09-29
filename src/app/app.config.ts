@@ -33,7 +33,7 @@ export interface IConfig {
 	getAllWaybillsUrl:string;
 	deleteWaybillUrl:string;
 	getWaybillProductsUrl:string;
-
+	convertWaybillToBillUrl:string;
 //Bill Urls
 	getLastBillUrl:string;
 	getBillUrl:string;
@@ -57,8 +57,8 @@ export class ConfigService {
 	getAppConfig(): IConfig {
 
 	
-	//	let serverLoginPath = 'https://supplier.azurewebsites.net/api/', serverLoginPathDebug = 'http://localhost:4315/api/';
-		let serverLoginPath = 'https://devsupplier.azurewebsites.net/api/', serverLoginPathDebug = 'http://localhost:4315/api/';
+		let serverLoginPath = 'https://supplier.azurewebsites.net/api/', serverLoginPathDebug = 'http://localhost:4315/api/';
+		//let serverLoginPath = 'https://devsupplier.azurewebsites.net/api/', serverLoginPathDebug = 'http://localhost:4315/api/';
 	
 
 		let serverUserNotificationPath = '';
@@ -101,6 +101,9 @@ export class ConfigService {
 		let deleteWaybillUrl = (debug ? serverLoginPathDebug + "waybill/deletewaybill" : serverLoginPath + "waybill/deletewaybill");
 		let getWaybillUrl = (debug ? serverLoginPathDebug + "waybill/getwaybill" : serverLoginPath + "waybill/getwaybill");
 		let getWaybillProductsUrl = (debug ? serverLoginPathDebug + "waybill/getwaybillproducts" : serverLoginPath + "waybill/getwaybillproducts");
+		let convertWaybillToBillUrl = (debug ? serverLoginPathDebug + "waybill/convertWaybillToBill" : serverLoginPath + "waybill/convertWaybillToBill");
+		
+		
 		//Bill Urls
 		let getLastBillUrl = (debug ? serverLoginPathDebug + "bill/getlastbill" : serverLoginPath + "bill/getlastbill");
 		let saveBillUrl = (debug ? serverLoginPathDebug + "bill/save" : serverLoginPath + "bill/save");
@@ -146,6 +149,7 @@ export class ConfigService {
 			deleteWaybillUrl:deleteWaybillUrl,
 			getWaybillUrl:getWaybillUrl,
 			getWaybillProductsUrl:getWaybillProductsUrl,
+			convertWaybillToBillUrl:convertWaybillToBillUrl,
 			//Bills
 			getLastBillUrl:getLastBillUrl,
 			saveBillUrl:saveBillUrl,

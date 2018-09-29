@@ -42,6 +42,7 @@ export class NewWaybillComponent implements OnInit {
   lastWaybill: Waybill;
   isNewRecord: boolean;
   productListCols: any[];
+  convertedBillNumber:number;
 currentWaybillTotals:Totals=new Totals();
   @Input()
   selectedWayBill: Waybill;
@@ -82,6 +83,7 @@ currentWaybillTotals:Totals=new Totals();
       this.selectedCustomer.extraDiscount=this.selectedWayBill.extraDiscount;//discount sync
       this.selectedDiscountRate=this.discountRates.find(x=>x.id==this.selectedWayBill.discountRateId);
       this.deletedBasketProducts=[];//reset at every new waybill selection
+      this.convertedBillNumber=this.selectedWayBill.convertedBillNumber;
       this.mapSelectedWaybillProductsToCurrentWaybillProducts();
     }
     
@@ -157,10 +159,12 @@ currentWaybillTotals:Totals=new Totals();
     let waybill: Waybill = new Waybill();
     if (this.selectedWayBill != null) {
       waybill.id = this.selectedWayBill.id;
+      
     }
     // else if (this.lastWaybill != null) {
     //   waybill.id = this.lastWaybill.id;
     // }
+    waybill.convertedBillNumber=this.convertedBillNumber;
     waybill.addressId = this.selectedAddress.id;
     waybill.customerId = this.selectedCustomer.id;
     waybill.extraDiscount=this.selectedCustomer.extraDiscount;
@@ -223,6 +227,11 @@ currentWaybillTotals:Totals=new Totals();
   fillDiscountRates() {
     this.commonService.getAllDiscountRates(this.config.getAllDiscountRatesUrl, null).subscribe(result => {
       this.discountRates = result;
+      if(result.length>0 && this.selectedWayBill==null)
+      {
+        this.selectedDiscountRate=result[0];
+      }
+      
     });
   }
   increase(basketProduct: BasketProduct) {

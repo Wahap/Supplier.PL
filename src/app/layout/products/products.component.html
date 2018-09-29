@@ -146,7 +146,7 @@
                         top: 103px;
                         right: 15px;
                         font-size: 1.5em;
-                        border-radius: 30px;">{{pro.quantity}} {{pro.unit.name}} X {{pro.unitsInPackage}} Stk</span>
+                        border-radius: 30px;">{{pro.quantity}} {{pro.unit?.name}} X {{pro.unitsInPackage}} Stk</span>
                         <span style="    position: absolute;
                         right: 48px;
                         top: 155px;
@@ -304,7 +304,7 @@
                     <!-- <button type="button" class="ui-button-danger" [disabled]="newProduct" pButton icon="fa-close" (click)="delete()" label="Sil"></button>
                     <button type="button" class="ui-button-success" [disabled]="!productForm.form.valid    ||selectedCategory.name==null" pButton
                         icon="fa-check" (click)="save()" label="Kaydet"></button> -->
-                    <button class="btn btn-success" [disabled]="!productForm.form.valid    ||selectedCategory.name==null"
+                    <button class="btn btn-success" [disabled]="!productForm.form.valid"
                         (click)="save(true)">Kaydet</button>
                     <button class="btn btn-danger btn-sm" [disabled]="newProduct" (click)="delete(product)">Sil</button>
 

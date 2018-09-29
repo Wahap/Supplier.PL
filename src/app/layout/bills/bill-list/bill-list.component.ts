@@ -27,7 +27,7 @@ export class BillListComponent implements OnInit {
     this.config = this.configService.getAppConfig();
     this.fillAllBills();
     this.billListColumns = [
-      { field: 'id', header: 'Irs.No' },
+      { field: 'billNumber', header: 'Fatura.No' },
       { field: 'companyName', header: 'Firma' },
       { field: 'customerName', header: 'Müşteri' },
       { field: 'address', header: 'Adres' },

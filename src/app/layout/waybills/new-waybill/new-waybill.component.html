@@ -2,8 +2,8 @@
 </pdf-waybill>
 <div class="row">
     <div class="col-md-6">
-        <p-table [value]="basketProducts" #dtBasketProducts [columns]="productListCols" [loading]="loading" [scrollable]="true"
-        [scrollHeight]="windowsHeight()">
+        <p-table [value]="basketProducts" #dtBasketProducts [columns]="productListCols" [loading]="loading"
+            [scrollable]="true" [scrollHeight]="windowsHeight()">
             <ng-template pTemplate="caption">
                 Ürünler ({{basketProducts.length}})
             </ng-template>
@@ -19,7 +19,8 @@
                         <input placeholder="Barkod..." class="form-control form-control-sm" type="text" (input)="dtBasketProducts.filter($event.target.value, 'product.barcodeOfProduct','contains')">
                     </th>
                     <th>
-                        <input placeholder="Siparis Numarası..." class="form-control form-control-sm" type="text" (input)="dtBasketProducts.filter($event.target.value, 'product.orderNumber','contains')">
+                        <input placeholder="Siparis Numarası..." class="form-control form-control-sm" type="text"
+                            (input)="dtBasketProducts.filter($event.target.value, 'product.orderNumber','contains')">
                     </th>
                     <th>
                         <input placeholder="Ürün..." class="form-control form-control-sm" type="text" (input)="dtBasketProducts.filter($event.target.value, 'product.productName','contains')">
@@ -46,43 +47,60 @@
             </ng-template>
         </p-table>
 
-       
-     
+
+
     </div>
     <div class="col-md-6">
         <div id="waybillContainer">
 
             <div id="waybill-customer-selection">
-
-                <label>Müşteri</label>   
-                <p-dropdown [options]="customers" [style]="{'width':'40%'}" [(ngModel)]="selectedCustomer" placeholder="Müşteri"
-                    optionLabel="companyName" filter="true"></p-dropdown>
-                <label for="">Fiyat Tipi</label>
-                <select id="drpPriceType" class="form-control form-control-sm" [(ngModel)]="priceTypeId" (change)="getProducts()">
-                    <option value="1">Müşteriye Özel</option>
-                    <option value="2">Sabit Fiyat</option>
-                    <option value="3">Bronz Fiyat</option>
-                    <option value="4">Gümüş Fiyat</option>
-                    <option value="5">Altın Fiyat</option>
-                </select>
-
-
-
-                <div *ngIf="selectedCustomer?.id>0">
-                    <label>Fatura Adresi</label>
-                    <p-dropdown [options]="selectedCustomer?.addresses" [style]="{'width':'20%'}" [(ngModel)]="selectedAddress"
-                        placeholder="Adres" filter="true" optionLabel="street">
-                    </p-dropdown>
-                    <label>Teslimat Adresi</label>
-                    <p-dropdown [options]="selectedCustomer?.addresses" [style]="{'width':'20%'}" [(ngModel)]="deliveryAddress"
-                        placeholder="Adres" filter="true" optionLabel="street">
-                    </p-dropdown>
-                </div>
-                <div>
-                    <label>Oluşturulma Tarihi</label>
-                    <p-calendar [(ngModel)]="createdDate" dateFormat="dd.mm.yy"  hideOnDateTimeSelect="true"></p-calendar>
-                    <label>Dağıtım Tarihi</label>
-                    <p-calendar [(ngModel)]="deliveryDate" dateFormat="dd.mm.yy"  hideOnDateTimeSelect="true"></p-calendar>
+                <table class="table table-bordered">
+                    <tr>
+                        <td><label>Müşteri</label></td>
+                        <td> <p-dropdown [options]="customers" [style]="{'width':'100%'}" [(ngModel)]="selectedCustomer"
+                            placeholder="Müşteri" optionLabel="companyName" filter="true"></p-dropdown></td>
+                        <td>  <label for="">Fiyat Tipi</label></td>
+                        <td><select id="drpPriceType" class="form-control form-control-sm" [(ngModel)]="priceTypeId"
+                            (change)="getProducts()">
+                            <option value="1">Müşteriye Özel</option>
+                            <option value="2">Sabit Fiyat</option>
+                            <option value="3">Bronz Fiyat</option>
+                            <option value="4">Gümüş Fiyat</option>
+                            <option value="5">Altın Fiyat</option>
+                        </select></td>
+                    </tr>
+                    <tr>
+                        <td> <label>Fatura Adresi</label></td>
+                        <td>  <p-dropdown [options]="selectedCustomer?.addresses" [style]="{'width':'100%'}" [(ngModel)]="selectedAddress"
+                            placeholder="Adres" filter="true" optionLabel="street">
+                        </p-dropdown></td>
+                        <td> <label>Teslimat Adresi</label></td>
+                        <td>  <p-dropdown [options]="selectedCustomer?.addresses" [style]="{'width':'100%'}" [(ngModel)]="deliveryAddress"
+                            placeholder="Adres" filter="true" optionLabel="street">
+                        </p-dropdown></td>
+                    </tr>
+                    <tr>
+                        <td> <label>Oluşturulma Tarihi</label></td>
+                        <td> <p-calendar [(ngModel)]="createdDate" dateFormat="dd.mm.yy" hideOnDateTimeSelect="true"></p-calendar></td>
+                        <td>  <label>Dağıtım Tarihi</label></td>
+                        <td> <p-calendar [(ngModel)]="deliveryDate" dateFormat="dd.mm.yy" hideOnDateTimeSelect="true"></p-calendar></td>
+                    </tr>
+                    <tr>
+                        <td>  <label>Fatura Numarası</label></td>
+                        <td> <input type="number" class="form-control form-control-sm" [(ngModel)]="convertedBillNumber" /></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
+                
+               
+               
+                <div class="row">
+                    <div class="col-sm-6">
+                      
+                       
+                    </div>
+                    <div class="col-sm-6"></div>
                 </div>
             </div>
             <div id="waybill-preview">
@@ -118,7 +136,7 @@
                             <th>MwSt</th>
                             <th>Stück</th>
                         </tr>
-                        <tr *ngFor="let product of currentWaybill;index as i;" [ngStyle]="{ 'background-color': (product.product.netSalePrice<=0 ? 'red' : '') }" >
+                        <tr *ngFor="let product of currentWaybill;index as i;" [ngStyle]="{ 'background-color': (product.product.netSalePrice<=0 ? 'red' : '') }">
                             <td>{{i+1}}</td>
                             <td>
                                 <button class="btnDecrease btn-danger" (click)="removeProductToCurrentWaybill(product)">X</button>
@@ -130,12 +148,14 @@
                             <td>{{product.product.orderNumber}}</td>
                             <td>{{product.product.barcodeOfProduct}}</td>
                             <td>{{product.product.productName}}</td>
-                           
-                            <td><input type="number" class="form-control form-control-sm waybill-netSale-Price" [(ngModel)]="product.product.netSalePrice" /></td>
+
+                            <td><input type="number" class="form-control form-control-sm waybill-netSale-Price"
+                                    [(ngModel)]="product.product.netSalePrice" /></td>
                             <td><input type="number" class="form-control form-control-sm waybill-tax" [(ngModel)]="product.product.tax" /></td>
-                            <td>{{product.package}} Kolli X {{ product.product.unitsInPackage }} Stk = {{product.package*product.product.unitsInPackage}} </td>
+                            <td>{{product.package}} Kolli X {{ product.product.unitsInPackage }} Stk =
+                                {{product.package*product.product.unitsInPackage}} </td>
                         </tr>
-                       
+
                         <tr>
                             <td></td>
                             <td> <mark>{{currentWaybillTotals.totalPackages}} Kolli</mark> </td>
@@ -149,14 +169,18 @@
                     </table>
 
                     <div id="waybill-total-prices">
-                            
-                            <h3>Netto:{{currentWaybillTotals.totalNetPrice | money}} €</h3>
-                            <h3>Mwst:{{currentWaybillTotals.totalTaxPrice | money}} €</h3>
-                            <h3>Rabatt: <input id="waybillExtraDiscount" type="number" [(ngModel)]="selectedCustomer.extraDiscount" (keyup)="calculateCurrentWaybillPrices()" > % = -{{currentWaybillTotals.extraDiscount | money}} € </h3>
-                            <h3>Skonto: <p-dropdown [options]="discountRates" [(ngModel)]="selectedDiscountRate" optionLabel="definition" (onChange)="calculateCurrentWaybillPrices()"></p-dropdown>{{selectedDiscountRate?.rate}} % = -{{currentWaybillTotals.discount | money}} €</h3>
-                            <h3>Brutto:{{currentWaybillTotals.totalGrossPrice | money}} €</h3>
-                           
-                            
+
+                        <h3>Netto:{{currentWaybillTotals.totalNetPrice | money}} €</h3>
+                        <h3>Mwst:{{currentWaybillTotals.totalTaxPrice | money}} €</h3>
+                        <h3>Rabatt: <input id="waybillExtraDiscount" type="number" [(ngModel)]="selectedCustomer.extraDiscount"
+                                (keyup)="calculateCurrentWaybillPrices()"> % = -{{currentWaybillTotals.extraDiscount |
+                            money}} € </h3>
+                        <h3>Skonto: <p-dropdown [options]="discountRates" [(ngModel)]="selectedDiscountRate"
+                                optionLabel="definition" (onChange)="calculateCurrentWaybillPrices()"></p-dropdown>{{selectedDiscountRate?.rate}}
+                            % = -{{currentWaybillTotals.discount | money}} €</h3>
+                        <h3>Brutto:{{currentWaybillTotals.totalGrossPrice | money}} €</h3>
+
+
                     </div>
                 </div>
             </div>

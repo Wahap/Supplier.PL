@@ -31,9 +31,10 @@
                     <span *ngSwitchCase="'companyName'">{{waybill.customer.companyName}}</span>
                     <span *ngSwitchCase="'customerName'">{{waybill.customer.customerName}} {{waybill.customer.lastname}}</span>
                     <span *ngSwitchCase="'address'">{{waybill.address.street}} {{waybill.address.postCode}} {{waybill.address.city.name}}</span>
-                   <button *ngSwitchCase="'update'" class="btn btn-success" (click)="updateWaybill(waybill)">Güncelle</button>
-                   <button *ngSwitchCase="'print'" class="btn btn-primary" (click)="onWaybillPreview(waybill)">Önizleme</button>
-                   <button *ngSwitchCase="'delete'" class="btn btn-danger" (click)="deleteWaybill(waybill)">Sil</button>
+                   <button *ngSwitchCase="'update'" class="btn btn-success" (click)="updateWaybill(waybill)"><i class="fa fa-pencil"></i> Güncelle</button>
+                   <button *ngSwitchCase="'convert'" class="btn btn-dark" (click)="convertWaybillToBill(waybill)"><i class="fa fa-refresh"></i> Fatura ({{waybill.convertedBillNumber}})</button>
+                   <button *ngSwitchCase="'print'" class="btn btn-primary" (click)="onWaybillPreview(waybill)"><a class="fa fa-eye"></a> Önizleme</button>
+                   <button *ngSwitchCase="'delete'" class="btn btn-danger" (click)="deleteWaybill(waybill)"><i class="fa fa-times"></i> Sil</button>
                 </td>
             </tr>
         </ng-template>

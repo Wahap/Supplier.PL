@@ -81,8 +81,9 @@ mat-dialog-container {
 }
 #drpPriceType
 {
-    width: 157px;
+    width: 60%;
     display: inline;
+    height: 25px;
 }
 #waybill-total-prices
 {
@@ -104,6 +105,10 @@ mat-dialog-container {
     text-align: center;
     border-radius: 0px;
     font-weight: bold;
+}
+#waybill-customer-selection table td
+{
+    padding: 0px;
 }
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {

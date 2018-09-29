@@ -32,6 +32,7 @@ export class WaybillsListComponent implements OnInit {
       { field: 'customerName', header: 'Müşteri' },
       { field: 'address', header: 'Adres' },
       { field: 'update', header: 'Güncelle' },
+      { field: 'convert', header: 'Dönüştür' },
       { field: 'print', header: 'Yazdır' },
       { field: 'delete', header: 'Sil' }
     ];
@@ -69,7 +70,12 @@ export class WaybillsListComponent implements OnInit {
      }
    
   }
-
+  convertWaybillToBill(waybill:Waybill)
+  {
+    this.waybillService.convertWaybillToBill(this.config.convertWaybillToBillUrl,waybill).subscribe(bill=>{
+      
+    });
+  }
   updateWaybill(waybill:Waybill)
   {
     

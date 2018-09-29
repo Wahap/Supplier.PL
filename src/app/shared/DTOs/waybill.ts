@@ -11,6 +11,7 @@ export class Waybill
     addressId:number;
     deliveryAddressId:number;
     discountRateId:number;
+    convertedBillNumber:number;
     waybillStatus:number;
 
     createdDate:Date;
