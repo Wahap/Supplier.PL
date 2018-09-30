@@ -66,12 +66,13 @@ export class CustomersComponent implements OnInit {
 
 
     this.customerListColumns = [
+      { field: 'customerNumber', header: 'Müşteri Numarası' },
       { field: 'companyName', header: 'Firma' },
       { field: 'customerName', header: 'Müşteri' },
-      { field: 'customerNumber', header: 'Müşteri Numarası' },
-      { field: 'eMail', header: 'E-Mail' },
-      { field: 'phone', header: 'Telefon' },
-      { field: 'address', header: 'Adres' },
+      
+      { field: 'street', header: 'Sokak' },
+      { field: 'postCode', header: 'Posta Kodu' },
+      { field: 'city', header: 'Şehir' },
       { field: 'addresses', header: 'Adresler' },
       { field: 'priceList', header: 'Fiyatlar' }
     ];
@@ -225,7 +226,15 @@ export class CustomersComponent implements OnInit {
   saveAddress(address:Address) {
     //save address
     address.isActive=true;
-    address.cityId=this.selectedCity.id;
+    if(address.id>0)//Existing Address (Updating)
+    {
+      address.cityId=address.city.id;
+    }
+    else//Creating new address
+    {
+      address.cityId=this.selectedCity.id;
+    }
+    
     address.customerId=this.selectedCustomer.id;
     this.customersService.saveCustomerAddress(this.config.saveAddressUrl,address).subscribe((savedAddress:Address)=>{
       this.displayNewAddressDialog=false;
@@ -299,6 +308,27 @@ export class CustomersComponent implements OnInit {
   }
   windowsHeight() {
     return (window.screen.height * 0.80 - 120) + "px";
+  }
+
+  filterCustomersByCity(filteredCityId:number,cust:Customer)
+  {
+    //console.log(cust);
+    if(filteredCityId==undefined || filteredCityId==0)
+    {
+      return true;
+    }
+    else if(cust.addresses.length==0)
+    {
+      return false;
+    }
+   else if(cust.addresses[0].city==null)
+   {
+    return false;
+   }
+    else 
+    {
+     return cust.addresses[0].city.id==filteredCityId;
+    }
   }
 
 }

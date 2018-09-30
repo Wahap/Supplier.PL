@@ -76,6 +76,7 @@ export class ProductsComponent implements OnInit {
       { field: 'barcodeOfProduct', header: 'Barkod' },
       { field: 'orderNumber', header: 'S.No' },
       { field: 'productName', header: 'Ürün' },
+      { field: 'unit', header: 'Birim' },
       { field: 'purchasePrice', header: 'Alış(€)' },
       { field: 'netSalePrice', header: 'Net Satış(€)' },
       { field: 'tax', header: 'Vergi(%)' },
@@ -96,8 +97,12 @@ export class ProductsComponent implements OnInit {
 
   delete(product: Product) {
 
-    this.product = product;
-    this.save(false);
+    if(confirm("Ürünü silmek istediğinize emin misiniz?"))
+    {
+      this.product = product;
+      this.save(false);
+    }
+    
   }
   save(isActive: boolean) {
     let products = [...this.products];
@@ -116,7 +121,8 @@ export class ProductsComponent implements OnInit {
           else {
             if (!this.product.isActive)//if delete button clicks
             {
-              this.products.splice(this.findSelectedIndex(), 1);
+              this.getProducts();
+             // this.products.splice(this.findSelectedIndex(), 1);
 
             }
 
@@ -285,10 +291,10 @@ export class ProductsComponent implements OnInit {
       );
   }
   windowsHeight() {
-    return (window.screen.height * 0.80 - 120) + "px";
+    return (window.outerHeight * 0.80 - 120) + "px";
   }
   windowsWidth() {
-    return (window.screen.width * 0.80 - 120) + "px";
+    return (window.outerWidth * 0.80 - 120) + "px";
   }
   //#region Bindings
   getCategories() {

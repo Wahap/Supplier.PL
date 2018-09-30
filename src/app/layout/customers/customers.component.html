@@ -12,31 +12,49 @@
             </th>
         </tr>
             <tr>
-
+                <th>
+                    <input placeholder="Müşteri Numarası..." class="form-control form-control-sm"  type="text" (input)="dtCustomers.filter($event.target.value, 'customerNumber','contains')">
+                </th>
                 <th>
                     <input placeholder="Firma..." class="form-control form-control-sm"  type="text" (input)="dtCustomers.filter($event.target.value, 'companyName','contains')">
                 </th>
                 <th>
                     <input placeholder="Müşteri..." class="form-control form-control-sm"  type="text" (input)="dtCustomers.filter($event.target.value, 'customerName','contains')">
                 </th>
+               
+                <th></th>
+                <th></th>
                 <th>
-                        <input placeholder="Müşteri Numarası..." class="form-control form-control-sm"  type="text" (input)="dtCustomers.filter($event.target.value, 'customerNumber','contains')">
-                    </th>
-                <th></th>
-                <th></th>
-                <th></th>
+                        <mat-select placeholder="Şehir" [(value)]="filteredCityId">
+                                <mat-option  [value]="0">
+                                        Tüm Şehirler
+                                      </mat-option>
+                                <mat-option *ngFor="let city of cities" [value]="city.id">
+                                  {{city.name}}
+                                </mat-option>
+                              </mat-select>
+                        
                 <th></th>
                 <th></th>
             </tr>
       
     </ng-template>
     <ng-template pTemplate="body" let-cust let-columns="columns">
-        <tr [pSelectableRow]="cust" >
+        <tr [pSelectableRow]="cust" *ngIf="filterCustomersByCity(filteredCityId,cust)" >
             <td *ngFor="let col of columns" [ngSwitch]="col.field" (click)="col.field!='addresses' && col.field!='priceList' ?onRowSelect(cust):''">
                 <span *ngSwitchCase="'customerName'">{{cust.customerName + ' '+ cust.lastname }}</span>
-                <span *ngSwitchCase="'address'">
-                    <span *ngIf='cust.addresses.length>0;else noAddress'>{{cust.addresses[0].street + ', '+ cust.addresses[0].postCode +', '+cust.addresses[0].city?.name }}</span>
-                    <ng-template #noAddress>Henüz Adres Eklenmemiş...</ng-template>
+                <span *ngSwitchCase="'customerNumber'">{{cust.customerNumber==null?cust.id:cust.customerNumber }}</span>
+                <span *ngSwitchCase="'street'">
+                    <span *ngIf='cust.addresses.length>0;else noAddress'>{{cust.addresses[0].street}}</span>
+                    <ng-template #noAddress>-</ng-template>
+                </span>
+                <span *ngSwitchCase="'postCode'">
+                    <span *ngIf='cust.addresses.length>0;else noAddress'>{{cust.addresses[0].postCode}}</span>
+                    <ng-template #noAddress>-</ng-template>
+                </span>
+                <span *ngSwitchCase="'city'">
+                    <span *ngIf='cust.addresses.length>0;else noAddress'>{{cust.addresses[0].city?.name}}</span>
+                    <ng-template #noAddress>-</ng-template>
                 </span>
 
                 <button *ngSwitchCase="'addresses'" type="button" pButton (click)="onSelectAddresses(cust)" icon="fa fa-map-marker"></button>

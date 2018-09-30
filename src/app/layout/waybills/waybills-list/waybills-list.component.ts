@@ -6,6 +6,7 @@ import { Customer } from '../../../shared/DTOs/customer';
 import { CustomersService } from '../../customers/customers.service';
 import { ConfirmComponent } from '../../../shared/components/confirm/confirm.component';
 import { MatDialog } from '@angular/material';
+import { Bill } from '../../../shared/DTOs/Bill';
 
 @Component({
   selector: 'app-waybills-list',  
@@ -72,9 +73,14 @@ export class WaybillsListComponent implements OnInit {
   }
   convertWaybillToBill(waybill:Waybill)
   {
-    this.waybillService.convertWaybillToBill(this.config.convertWaybillToBillUrl,waybill).subscribe(bill=>{
-      
-    });
+    
+    if(confirm("irsaliyeyi Faturaya Dönüştürülecek. Devam etmek istiyor musunuz?"))
+    {
+      this.waybillService.convertWaybillToBill(this.config.convertWaybillToBillUrl,waybill).subscribe((bill:Bill)=>{
+      waybill.convertedBillNumber=bill.billNumber;
+      });
+    }
+   
   }
   updateWaybill(waybill:Waybill)
   {
@@ -96,10 +102,10 @@ this.showPrintDialog=true;
   }
 
   windowsHeight() {
-    return (window.screen.height * 0.80 - 120) + "px";
+    return (window.innerHeight) + "px";
   }
   windowsWidth() {
-    return (window.screen.width * 0.80 - 120) + "px";
+    return (window.screen.width * 0.85 - 120) + "px";
   }
 
 }

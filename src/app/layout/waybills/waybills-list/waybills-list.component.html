@@ -43,11 +43,11 @@
 </div>
    
 
-<p-dialog [positionTop]="50" header="Irsaliye Detayları" [(visible)]="dialogVisible" (onHide)="onCloseNewWaybillDialog()" [responsive]="true" showEffect="fade" [modal]="true" width="95%">
-    <div>
+<p-dialog [positionTop]="50" header="Irsaliye Detayları" maximizable="true" [(visible)]="dialogVisible" (onHide)="onCloseNewWaybillDialog()" [responsive]="true" showEffect="fade" [modal]="true" width="95%" height="95%" >
+    
       
       <app-new-waybill [selectedWayBill]="selectedWayBill"></app-new-waybill>
-    </div>
+    
 </p-dialog>
 
 <p-dialog [positionTop]="50" header="irsaliye önizleme" [(visible)]="showPrintDialog"  [responsive]="true" showEffect="fade" [modal]="true" width="95%">

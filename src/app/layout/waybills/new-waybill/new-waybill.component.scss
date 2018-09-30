@@ -44,6 +44,8 @@ mat-dialog-container {
     background-image: url(/assets/images/paper.jpg);
     border: 2px solid black;
     padding: 3px;
+   
+   
 }
 
 .waybill-product-package
@@ -53,7 +55,11 @@ mat-dialog-container {
     font-weight: bold;
     font-size: 1em;
 }
-
+#waybillProducts
+{
+    height: 500px;
+    overflow: scroll;
+}
 #waybillProducts td,#waybillProducts th
 {
     padding: 0px;

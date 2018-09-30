@@ -32,9 +32,9 @@
                     <span *ngSwitchCase="'customerName'">{{bill.customer.customerName}} {{bill.customer.lastname}}</span>
                     <span *ngSwitchCase="'address'">{{bill.address.street}} {{bill.address.postCode}} {{bill.address.city.name}}</span>
                     <span *ngSwitchCase="'isPaid'"><p-inputSwitch [(ngModel)]="bill.isPaid" (onChange)="onIsPaidChange(bill)"></p-inputSwitch><span class="isPaid" [ngClass]="bill.isPaid ? 'text-success' : 'text-danger'">{{bill.isPaid?'Ödendi':'Ödenmedi'}}</span> </span>
-                    <button *ngSwitchCase="'update'" class="btn btn-success" (click)="updateBill(bill)">Güncelle</button>
-                   <button *ngSwitchCase="'print'" class="btn btn-primary" (click)="onBillPreview(bill)">Önizleme</button>
-                   <button *ngSwitchCase="'delete'" class="btn btn-danger" (click)="deleteBill(bill)">Sil</button>
+                    <button *ngSwitchCase="'update'" class="btn btn-success" (click)="updateBill(bill)"><i class="fa fa-pencil"></i>Güncelle</button>
+                   <button *ngSwitchCase="'print'" class="btn btn-primary" (click)="onBillPreview(bill)"><a class="fa fa-eye"></a>Önizleme</button>
+                   <button *ngSwitchCase="'delete'" class="btn btn-danger" (click)="deleteBill(bill)"><i class="fa fa-times"></i>Sil</button>
                 </td>
             </tr>
         </ng-template>
