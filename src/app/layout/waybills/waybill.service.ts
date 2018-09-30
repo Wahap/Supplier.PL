@@ -28,6 +28,15 @@ export class WaybillService {
         return this.http.post(url, input, this.options)
             .map((response: Response) => response.json());
     }
+    getThisWeekWaybills(url: string, input: any): any {
+        return this.http.post(url, input, this.options)
+            .map((response: Response) => response.json());
+    }
+
+    getThisMonthWaybills(url: string, input: any): any {
+        return this.http.post(url, input, this.options)
+            .map((response: Response) => response.json());
+    }
     saveWaybill(url: string, input: any): any {
         return this.http.post(url, input, this.options)
             .map((response: Response) => response.json());

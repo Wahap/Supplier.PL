@@ -13,6 +13,10 @@ import { SaveBillComponent } from './bills/save-bill/save-bill.component';
 import { BillListComponent } from './bills/bill-list/bill-list.component';
 import { PriceGroupsComponent } from './price-groups/price-groups.component';
 import { WelcomeComponent } from './welcome/welcome.component';
+import { ThisWeekWaybillsComponent } from './waybills/this-week-waybills/this-week-waybills.component';
+import { ThisMonthWaybillsComponent } from './waybills/this-month-waybills/this-month-waybills.component';
+import { ThisWeekBillsComponent } from './bills/this-week-bills/this-week-bills.component';
+import { ThisMonthBillsComponent } from './bills/this-month-bills/this-month-bills.component';
 
 
 const routes: Routes = [
@@ -29,6 +33,10 @@ const routes: Routes = [
             { path: 'approvedOrders',component:ApprovedOrdersComponent },
             { path: 'cancelledOrders',component:CancelledOrderComponent },
             { path: 'newWaybill',component:NewWaybillComponent },
+            { path: 'thisWeekWaybills',component:ThisWeekWaybillsComponent },
+            { path: 'thisMonthWaybills',component:ThisMonthWaybillsComponent },
+            { path: 'thisWeekBills',component:ThisWeekBillsComponent },
+            { path: 'thisMonthBills',component:ThisMonthBillsComponent },
             { path: 'waybills',component:WaybillsListComponent },
             { path: 'savebill',component:SaveBillComponent },
             { path: 'bills',component:BillListComponent },

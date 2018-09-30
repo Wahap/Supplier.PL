@@ -200,7 +200,7 @@ currentWaybillTotals:Totals=new Totals();
       this.toastr.success("irsaliye başarıyla kaydedildi...");
       if(this.selectedWayBill==null)//new waybill operation completed
       {
-        this.router.navigateByUrl('waybills');
+        this.router.navigateByUrl('thisMonthWaybills');
       }
       else{//update waybill operation completed
         location.reload();

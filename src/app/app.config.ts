@@ -34,6 +34,8 @@ export interface IConfig {
 	deleteWaybillUrl:string;
 	getWaybillProductsUrl:string;
 	convertWaybillToBillUrl:string;
+	getThisWeekWaybillsUrl:string;
+	getThisMonthWaybillsUrl:string;
 //Bill Urls
 	getLastBillUrl:string;
 	getBillUrl:string;
@@ -44,7 +46,8 @@ export interface IConfig {
 	getNextBillNumberUrl:string;
 	checkBillNumberIsValidUrl:string;
 	uploadImageUrl: string;
-
+	getThisWeekBillsUrl:string;
+	getThisMonthBillsUrl:string;
 	//DiscountRates
 	getAllDiscountRatesUrl:string;
 
@@ -62,7 +65,7 @@ export class ConfigService {
 	
 
 		let serverUserNotificationPath = '';
-		let debug = true;
+		let debug = false;
 
 		let getUsers = (debug ? serverLoginPathDebug + "authentication/login" : serverLoginPath + "userCont/getusers");
 		//let logInUrl = (debug ? serverLoginPathDebug + "userCont/login" : serverLoginPath + "userCont/login");
@@ -102,6 +105,8 @@ export class ConfigService {
 		let getWaybillUrl = (debug ? serverLoginPathDebug + "waybill/getwaybill" : serverLoginPath + "waybill/getwaybill");
 		let getWaybillProductsUrl = (debug ? serverLoginPathDebug + "waybill/getwaybillproducts" : serverLoginPath + "waybill/getwaybillproducts");
 		let convertWaybillToBillUrl = (debug ? serverLoginPathDebug + "waybill/convertWaybillToBill" : serverLoginPath + "waybill/convertWaybillToBill");
+		let getThisWeekWaybillsUrl = (debug ? serverLoginPathDebug + "waybill/getThisWeekWaybills" : serverLoginPath + "waybill/getThisWeekWaybills");
+		let getThisMonthWaybillsUrl = (debug ? serverLoginPathDebug + "waybill/getThisMonthWaybills" : serverLoginPath + "waybill/getThisMonthWaybills");
 		
 		
 		//Bill Urls
@@ -113,6 +118,9 @@ export class ConfigService {
 		let getBillProductsUrl=(debug ? serverLoginPathDebug + "bill/getBillproducts" : serverLoginPath + "bill/getBillproducts");
 		let getNextBillNumberUrl=(debug ? serverLoginPathDebug + "bill/getNextBillNumber" : serverLoginPath + "bill/getNextBillNumber");
 		let checkBillNumberIsValidUrl=(debug ? serverLoginPathDebug + "bill/checkBillNumberIsValid" : serverLoginPath + "bill/checkBillNumberIsValid");
+		let getThisWeekBillsUrl = (debug ? serverLoginPathDebug + "bill/getThisWeekBills" : serverLoginPath + "bill/getThisWeekBills");
+		let getThisMonthBillsUrl = (debug ? serverLoginPathDebug + "bill/getThisMonthBills" : serverLoginPath + "bill/getThisMonthBills");
+		
 		let uploadImageUrl = (debug ? serverLoginPathDebug + "Uploader/Upload" : serverLoginPath + "Uploader/Upload");
 		//Discount Rates
 		let getAllDiscountRatesUrl = (debug ? serverLoginPathDebug + "Common/getAllDiscountRates" : serverLoginPath + "Common/getAllDiscountRates");
@@ -150,6 +158,8 @@ export class ConfigService {
 			getWaybillUrl:getWaybillUrl,
 			getWaybillProductsUrl:getWaybillProductsUrl,
 			convertWaybillToBillUrl:convertWaybillToBillUrl,
+			getThisWeekWaybillsUrl:getThisWeekWaybillsUrl,
+			getThisMonthWaybillsUrl:getThisMonthWaybillsUrl,
 			//Bills
 			getLastBillUrl:getLastBillUrl,
 			saveBillUrl:saveBillUrl,
@@ -159,6 +169,8 @@ export class ConfigService {
 			getBillProductsUrl:getBillProductsUrl,
 			getNextBillNumberUrl:getNextBillNumberUrl,
 			checkBillNumberIsValidUrl:checkBillNumberIsValidUrl,
+			getThisWeekBillsUrl:getThisWeekBillsUrl,
+			getThisMonthBillsUrl:getThisMonthBillsUrl,
 			uploadImageUrl:uploadImageUrl,
 			//Discount Rates
 			getAllDiscountRatesUrl:getAllDiscountRatesUrl

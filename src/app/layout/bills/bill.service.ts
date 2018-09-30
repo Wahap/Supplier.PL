@@ -47,6 +47,14 @@ export class BillService {
         return this.http.post(url, input, this.options)
             .map((response: Response) => response.json());
     }
+    getThisWeekBills(url: string, input: any): any {//Returns maxBillNumber+1
+        return this.http.post(url, input, this.options)
+            .map((response: Response) => response.json());
+    }
+    getThisMonthBills(url: string, input: any): any {//Returns maxBillNumber+1
+        return this.http.post(url, input, this.options)
+            .map((response: Response) => response.json());
+    }
 
     checkBillNumberIsValid(url: string, input: any): any {//Returns maxBillNumber+1
         return this.http.post(url, input, this.options)

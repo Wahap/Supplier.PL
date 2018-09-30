@@ -1,8 +1,10 @@
-<p-table [value]="customers" #dtCustomers [columns]="customerListColumns" autoLayout="true" [loading]="loading" [scrollable]="true"
-    [scrollHeight]="windowsHeight()" resizableColumns="true" rowHover="true">
+<p-table [value]="customers" #dtCustomers [columns]="customerListColumns" autoLayout="true" [loading]="loading"
+    [scrollable]="true" [scrollHeight]="windowsHeight()" resizableColumns="true" rowHover="true">
     <ng-template pTemplate="caption">
-        <button class="btn btn-primary btn-sm" id='btnOpenCustomerAddForm'  (click)="showDialogToAdd()"><i class="fa fa-user-plus" aria-hidden="true"></i>Yeni Müşteri Ekle</button>
-        <button class="btn btn-primary btn-sm" id='btnCustomerListPdf' (click)="exportCustomersAsPdf()"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>PDF</button>
+        <button class="btn btn-primary btn-sm" id='btnOpenCustomerAddForm' (click)="showDialogToAdd()"><i class="fa fa-user-plus"
+                aria-hidden="true"></i>Yeni Müşteri Ekle</button>
+        <button class="btn btn-primary btn-sm" id='btnCustomerListPdf' (click)="exportCustomersAsPdf()"><i class="fa fa-file-pdf-o"
+                aria-hidden="true"></i>PDF</button>
         Müşteri Listesi ({{customers.length}} Müşteri)
     </ng-template>
     <ng-template pTemplate="header" let-columns>
@@ -11,36 +13,36 @@
                 {{col.header}}
             </th>
         </tr>
-            <tr>
-                <th>
-                    <input placeholder="Müşteri Numarası..." class="form-control form-control-sm"  type="text" (input)="dtCustomers.filter($event.target.value, 'customerNumber','contains')">
-                </th>
-                <th>
-                    <input placeholder="Firma..." class="form-control form-control-sm"  type="text" (input)="dtCustomers.filter($event.target.value, 'companyName','contains')">
-                </th>
-                <th>
-                    <input placeholder="Müşteri..." class="form-control form-control-sm"  type="text" (input)="dtCustomers.filter($event.target.value, 'customerName','contains')">
-                </th>
-               
-                <th></th>
-                <th></th>
-                <th>
-                        <mat-select placeholder="Şehir" [(value)]="filteredCityId">
-                                <mat-option  [value]="0">
-                                        Tüm Şehirler
-                                      </mat-option>
-                                <mat-option *ngFor="let city of cities" [value]="city.id">
-                                  {{city.name}}
-                                </mat-option>
-                              </mat-select>
-                        
-                <th></th>
-                <th></th>
-            </tr>
-      
+        <tr>
+            <th>
+                <input placeholder="Müşteri Numarası..." class="form-control form-control-sm" type="text" (input)="dtCustomers.filter($event.target.value, 'customerNumber','contains')">
+            </th>
+            <th>
+                <input placeholder="Firma..." class="form-control form-control-sm" type="text" (input)="dtCustomers.filter($event.target.value, 'companyName','contains')">
+            </th>
+            <th>
+                <input placeholder="Müşteri..." class="form-control form-control-sm" type="text" (input)="dtCustomers.filter($event.target.value, 'customerName','contains')">
+            </th>
+
+            <th></th>
+            <th></th>
+            <th>
+                <mat-select placeholder="Şehir" [(value)]="filteredCityId">
+                    <mat-option [value]="0">
+                        Tüm Şehirler
+                    </mat-option>
+                    <mat-option *ngFor="let city of cities" [value]="city.id">
+                        {{city.name}}
+                    </mat-option>
+                </mat-select>
+
+            <th></th>
+            <th></th>
+        </tr>
+
     </ng-template>
     <ng-template pTemplate="body" let-cust let-columns="columns">
-        <tr [pSelectableRow]="cust" *ngIf="filterCustomersByCity(filteredCityId,cust)" >
+        <tr [pSelectableRow]="cust" *ngIf="filterCustomersByCity(filteredCityId,cust)">
             <td *ngFor="let col of columns" [ngSwitch]="col.field" (click)="col.field!='addresses' && col.field!='priceList' ?onRowSelect(cust):''">
                 <span *ngSwitchCase="'customerName'">{{cust.customerName + ' '+ cust.lastname }}</span>
                 <span *ngSwitchCase="'customerNumber'">{{cust.customerNumber==null?cust.id:cust.customerNumber }}</span>
@@ -60,7 +62,7 @@
                 <button *ngSwitchCase="'addresses'" type="button" pButton (click)="onSelectAddresses(cust)" icon="fa fa-map-marker"></button>
                 <button *ngSwitchCase="'priceList'" type="button" pButton (click)="onSelectCustomerPrice(cust)" icon="fa fa-eur"></button>
                 <span *ngSwitchDefault>{{cust[col.field]}}</span>
-   
+
             </td>
         </tr>
     </ng-template>
@@ -68,141 +70,79 @@
 <!-->Customer Grid -->
 
 <!-->Customer Details Dialog -->
-<p-dialog [header]="newCustomer?'Yeni Müşteri':'Müşteri Detayi'" [(visible)]="displayCustomerDialog" [responsive]="true" [width]="400" showEffect="fade"
-    [modal]="true">
-    <p-steps [model]="items" [(activeIndex)]="activeIndex" [readonly]="false"></p-steps>
+<p-dialog [header]="newCustomer?'Yeni Müşteri':'Müşteri Detayi'" [(visible)]="displayCustomerDialog" [responsive]="true"
+    [width]="1000" showEffect="fade" [modal]="true">
+
     <div>
-        <form class="" [hidden]="activeIndex!=0" #customerForm="ngForm">
-            <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="selectedCustomer">
-                <div class="ui-grid-row">
-                    <div class="ui-grid-col-4">
-                        <label for="companyName">Firma:</label>
+        <form class="" #customerForm="ngForm">
+          <div class="row">
+                <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="companyName">Firma:</label>
+                            <input  id="companyName" class="form-control form-control-sm"  name="companyName"
+                                [(ngModel)]="selectedCustomer.companyName" />
+                        </div>
+                        <div class="form-group">
+                                <label for="customerName">Müşteri Adi </label>
+                                <input  id="customerName" class="form-control form-control-sm"   name="customerName" [(ngModel)]="selectedCustomer.customerName"/>
+                            </div>
+                            <div class="form-group">
+                                    <label for="lastname">Soyisim</label>
+                                    <input  id="lastname" class="form-control form-control-sm"  name="lastname" [(ngModel)]="selectedCustomer.lastname" />
+                                </div>
+                                <div class="form-group">
+                                        <label for="customerNumber">Müşteri Numarası</label>
+                                        <input  id="customerNumber" class="form-control form-control-sm"  name="customerNumber" [(ngModel)]="selectedCustomer.customerNumber" />
+                                    </div>
+                                    <div class="form-group">
+                                            <label for="eMail">E-Mail</label>
+                                            <input  id="eMail" class="form-control form-control-sm"  name="eMail" [(ngModel)]="selectedCustomer.eMail" />
+                                        </div>
+                                        <div class="form-group">
+                                                <label for="phone">Telefon </label>
+                                                <input  id="phone" class="form-control form-control-sm"  name="phone" [(ngModel)]="selectedCustomer.phone" />
+                                            </div>
                     </div>
-                    <div class="ui-grid-col-8">
-                        <input pInputText id="companyName" #companyName="ngModel" name="companyName" [(ngModel)]="selectedCustomer.companyName" required
-                        />
-                    </div>
-                </div>
-                <div class="ui-grid-row">
-                    <div class="ui-grid-col-4">
-                        <label for="customerName">Müşteri Adi </label>
-                    </div>
-                    <div class="ui-grid-col-8">
-                        <input pInputText id="customerName" #customerName="ngModel" name="customerName" [(ngModel)]="selectedCustomer.customerName"
-                            required />
-                    </div>
-                </div>
-                <div class="ui-grid-row">
-                    <div class="ui-grid-col-4">
-                        <label for="lastname">Soyisim</label>
-                    </div>
-                    <div class="ui-grid-col-8">
-                        <input pInputText id="lastname" #lastname="ngModel" name="lastname" [(ngModel)]="selectedCustomer.lastname" />
-                    </div>
-                </div>
-                <div class="ui-grid-row">
-                    <div class="ui-grid-col-4">
-                        <label for="customerNumber">Müşteri Numarası</label>
-                    </div>
-                    <div class="ui-grid-col-8">
-                        <input pInputText id="customerNumber" #customerNumber="ngModel" name="customerNumber" [(ngModel)]="selectedCustomer.customerNumber" />
-                    </div>
-                </div>
-                <div class="ui-grid-row">
-                    <div class="ui-grid-col-4">
-                        <label for="eMail">E-Mail</label>
-                    </div>
-                    <div class="ui-grid-col-8">
-                        <input pInputText id="eMail" #eMail="ngModel" name="eMail" [(ngModel)]="selectedCustomer.eMail" />
-                    </div>
-                </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                                <label for="branchName">Sube Adi </label>
+                                <input  id="branchName" class="form-control form-control-sm"  name="branchName" [(ngModel)]="customerAddress.branchName" />
+                        </div>
+                        <div class="form-group">
+                                <label for="street">Cadde</label>
+                                <input  id="street" class="form-control form-control-sm"  name="street" [(ngModel)]="customerAddress.street" />
+                        </div>
 
-                <div class="ui-grid-row">
-                    <div class="ui-grid-col-4">
-                        <label for="phone">Telefon </label>
+                        <div class="form-group">
+                                <label for="postCode">Posta Kodu </label>
+                                <input id="postCode" class="form-control form-control-sm"  name="postCode" [(ngModel)]="customerAddress.postCode" />
+                        </div>
+                        <div class="form-group">
+                                <label for="cities"> Sehir</label>
+                                <p-dropdown [options]="cities" [(ngModel)]="selectedCity" appendTo="body" name="cities" placeholder="Sehir Sec"
+                                optionLabel="name" [style]="{'width':'100%'}" styleClass="ui-column-filter"></p-dropdown>
+                        </div>
                     </div>
-                    <div class="ui-grid-col-8">
-                        <input pInputText id="phone" #phone="ngModel" name="phone" [(ngModel)]="selectedCustomer.phone" />
-                    </div>
-                </div>
-
-                <!-- <div class="ui-grid-row">
-                    <div class="ui-grid-col-4">
-                        <label for="userName">Kullanici Adi</label>
-                    </div>
-                    <div class="ui-grid-col-8">
-                        <input pInputText id="userName" #userName="ngModel" name="userName" [(ngModel)]="selectedCustomer.userName" />
-                    </div>
-                </div>
-                <div class="ui-grid-row">
-                    <div class="ui-grid-col-4">
-                        <label for="password">Sifre</label>
-                    </div>
-                    <div class="ui-grid-col-8">
-                        <input pInputText id="password" #password="ngModel" name="password" [(ngModel)]="selectedCustomer.password" />
-                    </div>
-                </div> -->
-
-            </div>
+          </div>
+           
         </form>
-        <form class="" [hidden]="activeIndex!=1" #addressForm="ngForm">
-            <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="customerAddress">
-
-                <div class="ui-grid-row">
-                    <div class="ui-grid-col-4">
-                        <label for="branchName">Sube Adi </label>
-                    </div>
-                    <div class="ui-grid-col-8">
-                        <input pInputText id="branchName" #branchName="ngModel" name="branchName" [(ngModel)]="customerAddress.branchName" />
-                    </div>
-                </div>
-                <div class="ui-grid-row">
-                    <div class="ui-grid-col-4">
-                        <label for="street">Cadde Adi </label>
-                    </div>
-                    <div class="ui-grid-col-8">
-                        <input pInputText id="street" #street="ngModel" name="street" [(ngModel)]="customerAddress.street" />
-                    </div>
-                </div>
-                <div class="ui-grid-row">
-                    <div class="ui-grid-col-4">
-                        <label for="postCode">Posta Kodu </label>
-                    </div>
-                    <div class="ui-grid-col-8">
-                        <input pInputText id="postCode" #postCode="ngModel" name="postCode" [(ngModel)]="customerAddress.postCode" />
-                    </div>
-                </div>
-                <div class="ui-grid-row">
-                    <div class="ui-grid-col-4">
-                        <label for="cities"> Sehir</label>
-                    </div>
-                    <div class="ui-grid-col-8">
-                        <p-dropdown [options]="cities" [(ngModel)]="selectedCity" appendTo="body" name="cities" placeholder="Sehir Sec" optionLabel="name"
-                            [style]="{'width':'100%'}" styleClass="ui-column-filter"></p-dropdown>
-                    </div>
-                </div>
-
-
-
-            </div>
-        </form>
-
     </div>
     <p-footer>
         <div class="ui-dialog-buttonpane ui-helper-clearfix">
             <button type="button" class="btn btn-danger" [disabled]="newCustomer" (click)="delete()">{{activeButtonText}}</button>
-            <button type="button" class="btn btn-primary" [disabled]="!customerForm.form.valid " (click)="save()">Kaydet</button>
+            <button type="button" class="btn btn-primary" (click)="save()">Kaydet</button>
         </div>
     </p-footer>
 </p-dialog>
 <!--< Customer Details Dialog -->
 <!--Customer Prices-->
-<p-dialog header="Müşteri Fiyat Listesi" [(visible)]="diplayCustomerPricesDialog" [responsive]="true" [width]="1000" showEffect="fade"
-[modal]="true">
-    <p-table [value]="customerPrices" [scrollable]="true" [scrollHeight]="windowsHeight()" resizableColumns="true" [loading]="customerPricesLoading">
-        <ng-template pTemplate="header" let-columns >
+<p-dialog header="Müşteri Fiyat Listesi" [(visible)]="diplayCustomerPricesDialog" [responsive]="true" [width]="1000"
+    showEffect="fade" [modal]="true">
+    <p-table [value]="customerPrices" [scrollable]="true" [scrollHeight]="windowsHeight()" resizableColumns="true"
+        [loading]="customerPricesLoading">
+        <ng-template pTemplate="header" let-columns>
             <tr>
-                
+
                 <th>Barkod</th>
                 <th>Ürün</th>
                 <th>Ürün Fiyatı</th>
@@ -211,39 +151,40 @@
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-customerPrice>
-           <tr>
-             
-               <td>{{customerPrice.product.barcodeOfProduct}}</td>
-               <td>{{customerPrice.product.productName}}</td>
-               <td>{{customerPrice.product.netSalePrice | number:'1.2-2':'de'}}</td>
-               <td pEditableColumn>
+            <tr>
+
+                <td>{{customerPrice.product.barcodeOfProduct}}</td>
+                <td>{{customerPrice.product.productName}}</td>
+                <td>{{customerPrice.product.netSalePrice | number:'1.2-2':'de'}}</td>
+                <td pEditableColumn>
                     <p-cellEditor>
-                            <ng-template pTemplate="input">
-                                <input type="text" [(ngModel)]="customerPrice.price">
-                            </ng-template>
-                            <ng-template pTemplate="output">
-                                    {{customerPrice.price | number:'1.2-2':'de'}}
-                            </ng-template>
-                        </p-cellEditor>
-                  
-                
+                        <ng-template pTemplate="input">
+                            <input type="text" [(ngModel)]="customerPrice.price">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{customerPrice.price | number:'1.2-2':'de'}}
+                        </ng-template>
+                    </p-cellEditor>
+
+
                 </td>
                 <td><button class="btn btn-success btn-sm" (click)="saveCustomerPrice(customerPrice)">Kaydet</button></td>
-           </tr>
+            </tr>
         </ng-template>
     </p-table>
 </p-dialog>
 <!-->Customer Address -->
-<p-dialog header="Müşteri Adresleri" [(visible)]="displayCustomersAddressDialog" [responsive]="true" [width]="1200" height="1200" showEffect="fade" 
-    [modal]="true">
+<p-dialog header="Müşteri Adresleri" [(visible)]="displayCustomersAddressDialog" [responsive]="true" [width]="1200"
+    height="1200" showEffect="fade" [modal]="true">
     <div>
 
-        <p-table #dtCustomerAddresses [columns]='addressListColumns' [value]='selectedAddresses'  [loading]="loading"
-             rowHover="true">
+        <p-table #dtCustomerAddresses [columns]='addressListColumns' [value]='selectedAddresses' [loading]="loading"
+            rowHover="true">
             <ng-template pTemplate='caption'>
-                    <div class="ui-helper-clearfix" style="width:100%">
-                            <button class="btn btn-primary" type="button" style="float:left;"  (click)="showDialogToAddAddress()"><i class="fa fa-plus-circle fa-1x"></i>Yeni Adres</button>
-                        </div>
+                <div class="ui-helper-clearfix" style="width:100%">
+                    <button class="btn btn-primary" type="button" style="float:left;" (click)="showDialogToAddAddress()"><i
+                            class="fa fa-plus-circle fa-1x"></i>Yeni Adres</button>
+                </div>
                 Adres Listesi
             </ng-template>
             <ng-template pTemplate='header' let-columns>
@@ -259,7 +200,8 @@
                         <input *ngSwitchCase="'branchName'" type="text" class="form-control" [(ngModel)]="address.branchName">
                         <input *ngSwitchCase="'street'" type="text" class="form-control" [(ngModel)]="address.street">
                         <input *ngSwitchCase="'postCode'" type="text" class="form-control" [(ngModel)]="address.postCode">
-                        <p-dropdown *ngSwitchCase="'city'" [options]="cities" optionLabel="name" [(ngModel)]="address.city" [filter]='true' [style]="{'width':'100%'}"></p-dropdown>
+                        <p-dropdown *ngSwitchCase="'city'" [options]="cities" optionLabel="name" [(ngModel)]="address.city"
+                            [filter]='true' [style]="{'width':'100%'}"></p-dropdown>
 
                         <button *ngSwitchCase="'kaydet'" type="button" class="btn btn-primary" (click)="saveAddress(address)">Kaydet</button>
                         <button *ngSwitchCase="'sil'" type="button" class="btn btn-danger" (click)="deleteAddress(address)">Sil</button>
@@ -269,14 +211,15 @@
             </ng-template>
         </p-table>
 
-       
+
     </div>
 
 </p-dialog>
 <!--< Customer Address -->
 
 <!-->New Address Dialog -->
-<p-dialog header="Yeni Adres" [(visible)]="displayNewAddressDialog" [responsive]="true" [width]="400" showEffect="fade" [modal]="true">
+<p-dialog header="Yeni Adres" [(visible)]="displayNewAddressDialog" [responsive]="true" [width]="400" showEffect="fade"
+    [modal]="true">
     <div>
 
         <form class="" #newAddressForm="ngForm">
@@ -287,8 +230,7 @@
                         <label for="branchName">Şube</label>
                     </div>
                     <div class="ui-grid-col-8">
-                        <input pInputText id="branchName" #branchName="ngModel" required name="branchName" [(ngModel)]="customerAddress.branchName"
-                        />
+                        <input pInputText id="branchName" #branchName="ngModel" required name="branchName" [(ngModel)]="customerAddress.branchName" />
                     </div>
                 </div>
                 <div class="ui-grid-row">
@@ -312,8 +254,8 @@
                         <label for="cities"> Sehir</label>
                     </div>
                     <div class="ui-grid-col-8">
-                        <p-dropdown [options]="cities" [(ngModel)]="selectedCity" appendTo="body" name="cities" placeholder="Sehir Sec" optionLabel="name"
-                            [style]="{'width':'100%'}" styleClass="ui-column-filter"></p-dropdown>
+                        <p-dropdown [options]="cities" [(ngModel)]="selectedCity" appendTo="body" name="cities"
+                            placeholder="Sehir Sec" optionLabel="name" [style]="{'width':'100%'}" styleClass="ui-column-filter"></p-dropdown>
                     </div>
                 </div>
 
@@ -324,8 +266,7 @@
     </div>
     <p-footer>
         <div class="ui-dialog-buttonpane ui-helper-clearfix">
-            <button type="button" class="btn btn-primary" [disabled]="!newAddressForm.form.valid "  (click)="saveAddress(customerAddress)"
-                >Kaydet</button>
+            <button type="button" class="btn btn-primary" [disabled]="!newAddressForm.form.valid " (click)="saveAddress(customerAddress)">Kaydet</button>
         </div>
     </p-footer>
 </p-dialog>

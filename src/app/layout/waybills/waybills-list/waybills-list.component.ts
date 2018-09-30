@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input } from '@angular/core';
 import { IConfig, ConfigService } from '../../../app.config';
 import { Waybill } from '../../../shared/DTOs/wayBill';
 import { WaybillService } from '../waybill.service';
@@ -16,17 +16,26 @@ import { Bill } from '../../../shared/DTOs/Bill';
 export class WaybillsListComponent implements OnInit {
   config: IConfig;
   loading:boolean=true;
-  allWaybills:Waybill[]=[];
+  @Input() allWaybills:Waybill[]=[];
   selectedWayBill:Waybill;
   allCustomers:Customer[]=[];
   dialogVisible:boolean=false;
   showPrintDialog:boolean=false;
   waybillListColumns:any[];
+  existsInputData:boolean=false;
   constructor(private configService: ConfigService,private waybillService:WaybillService,private customerService:CustomersService,public dialog: MatDialog) { }
 
   ngOnInit() {
     this.config = this.configService.getAppConfig();
-    this.fillAllWaybills();
+    if(!this.existsInputData)//if this component not calling from other components
+    {
+      this.fillAllWaybills();
+    }
+    else//Data coming from another component
+    {
+this.loading=false;
+    }
+    
     this.waybillListColumns = [
       { field: 'id', header: 'Irs.No' },
       { field: 'companyName', header: 'Firma' },
@@ -40,7 +49,13 @@ export class WaybillsListComponent implements OnInit {
 
    // this.fillAllCustomers();
   }
-
+ngOnChanges(waybills): void {
+  this.existsInputData=true;
+  
+  //this.allWaybills=waybills;
+  
+  
+}
   fillAllWaybills()   
   {
     this.waybillService.getAllWaybills(this.config.getAllWaybillsUrl,null).subscribe(waybills=>{

@@ -54,7 +54,7 @@
                             <img *ngSwitchCase="'resim'" class="product-image" (click)="showImgDialog(pro)" src="./assets/images/Products/{{pro.barcodeOfProduct}}.jpg"
                                 [alt]="pro.productName" onError="this.src='http://via.placeholder.com/500x500';">
                             <span *ngSwitchCase="'purchasePrice'">{{pro.purchasePrice | money}} €</span>
-                            <span *ngSwitchCase="'unit'">{{pro.quantity }} {{pro.unit?.name}}</span>
+                            <span *ngSwitchCase="'unit'">{{pro.unitsInPackage}} X {{pro.quantity }} {{pro.unit?.name}}</span>
                             <span *ngSwitchCase="'netSalePrice'">{{pro.netSalePrice | money}} € <span class="badge">(Kar %: {{(pro.netSalePrice-pro.purchasePrice)*100/pro.purchasePrice | money}})</span> </span>
                             <span *ngSwitchCase="'tax'">{{pro.tax}} <span class="badge">({{(pro.netSalePrice*pro.tax/100) | money}} €)</span></span>
                             <span *ngSwitchCase="'brutPrice'">{{(pro.netSalePrice+(pro.netSalePrice*pro.tax/100)) |

@@ -2,6 +2,14 @@ import { Address } from "./address";
 
 export class Customer
 {
+    /**
+     *
+     */
+    constructor() {
+       this.id=0;
+       this.addresses=[];
+        
+    }
     id:number;
     customerNumber:string;
     eMail:string;

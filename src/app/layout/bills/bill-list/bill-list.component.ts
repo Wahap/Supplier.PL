@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input } from '@angular/core';
 import { IConfig, ConfigService } from '../../../app.config';
 import { Bill } from '../../../shared/DTOs/Bill';
 import { Customer } from '../../../shared/DTOs/customer';
@@ -15,18 +15,28 @@ import { ConfirmComponent } from '../../../shared/components/confirm/confirm.com
 export class BillListComponent implements OnInit {
   config: IConfig;
   loading:boolean=true;
-  allBills:Bill[]=[];
+  @Input() allBills:Bill[]=[];
   selectedBill:Bill;
   allCustomers:Customer[]=[];
   showPrintDialog:boolean=false;
   showUpdateBillDialog:boolean=false;
   billListColumns:any[];
+  existsInputData:boolean=false;
   constructor(private configService: ConfigService,private billService:BillService,private customerService:CustomersService,public dialog: MatDialog) { }
 
   ngOnInit() {
     this.config = this.configService.getAppConfig();
-    this.fillAllBills();
-    this.billListColumns = [
+    if(!this.existsInputData)//if this component not calling from other components
+    {
+      this.fillAllBills();
+
+    }
+    else//Data coming from another component
+    {
+this.loading=false;
+    }
+    
+    this.billListColumns = [   
       { field: 'billNumber', header: 'Fatura.No' },
       { field: 'companyName', header: 'Firma' },
       { field: 'customerName', header: 'Müşteri' },
@@ -37,7 +47,12 @@ export class BillListComponent implements OnInit {
       { field: 'delete', header: 'Sil' }
     ];
   }  
-
+ngOnChanges() {
+  //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+  //Add '${implements OnChanges}' to the class.
+  this.existsInputData=true;
+  
+}
   fillAllBills()
   {
     this.billService.getAllBills(this.config.getAllBillsUrl,null).subscribe(bills=>{

@@ -151,7 +151,7 @@ export class SaveBillComponent implements OnInit {
     bill.discountRate = null;//No need to create a new Discount rate
     this.currentBill.forEach(basketProduct => {
       let billProduct = new BillProduct();
-      billProduct.id = basketProduct.id;
+      billProduct.id = basketProduct.id;  
       billProduct.billId = bill.id;
       billProduct.numberOfPackage = basketProduct.package;
       billProduct.netSalePrice = basketProduct.product.netSalePrice;
@@ -174,7 +174,7 @@ export class SaveBillComponent implements OnInit {
       this.toastr.success("Fatura başarıyla kaydedildi...");
       if (this.selectedBill == null)//new bill operation completed
       {
-        this.router.navigateByUrl('bills');
+        this.router.navigateByUrl('thisMonthBills');
       }
       else {//update waybill operation completed
         location.reload();

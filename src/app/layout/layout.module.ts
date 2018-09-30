@@ -35,6 +35,10 @@ import { WaybillPrintComponent } from './waybills/waybill-print/waybill-print.co
 import { PadLeftPipe } from './pipes/pad-left.pipe';
 import { BillPrintComponent } from './bills/bill-print/bill-print.component';
 import { WelcomeComponent } from './welcome/welcome.component';
+import { ThisWeekWaybillsComponent } from './waybills/this-week-waybills/this-week-waybills.component';
+import { ThisMonthWaybillsComponent } from './waybills/this-month-waybills/this-month-waybills.component';
+import { ThisMonthBillsComponent } from './bills/this-month-bills/this-month-bills.component';
+import { ThisWeekBillsComponent } from './bills/this-week-bills/this-week-bills.component';
 
 
 
@@ -63,7 +67,11 @@ import { WelcomeComponent } from './welcome/welcome.component';
     WaybillPrintComponent,
     PadLeftPipe,
     BillPrintComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    ThisWeekWaybillsComponent,
+    ThisMonthWaybillsComponent,
+    ThisMonthBillsComponent,
+    ThisWeekBillsComponent
     ]
 })
 export class LayoutModule { }

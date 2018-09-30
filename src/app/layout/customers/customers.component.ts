@@ -23,7 +23,7 @@ export class CustomersComponent implements OnInit {
   customerPricesLoading:boolean=true;
   config: IConfig;
   customers: Customer[]=[];
-  selectedCustomer: Customer;
+  selectedCustomer: Customer=new Customer();
   customerAddress: Address;
   selectedAddresses: Address[];
   newCustomer: boolean;
@@ -32,15 +32,12 @@ export class CustomersComponent implements OnInit {
   diplayCustomerPricesDialog: boolean;
   displayNewAddressDialog: boolean;
   activeButtonText: string;
-  activeIndex: number;
-  items: any = [];
   customerListColumns: any[];
   addressListColumns: any[];
   customerPrices:CustomerProductPrices[];
   constructor(private commonServices: CommonService, private customersService: CustomersService, private configService: ConfigService, public toastr: ToastsManager, vcr: ViewContainerRef) {
     this.toastr.setRootViewContainerRef(vcr);
     this.activeButtonText = "Pasif Et";
-    this.activeIndex = 0;
     this.customerAddress = new Address();
 
   }
@@ -51,18 +48,7 @@ export class CustomersComponent implements OnInit {
     this.getCustomers();
     this.getCities();
 
-    this.items = [{
-      label: 'Müşteri Bilgisi',
-      command: (event: any) => {
-        this.activeIndex = 0;
-      }
-    },
-    {
-      label: 'Adres',
-      command: (event: any) => {
-        this.activeIndex = 1;
-      }
-    }];
+    
 
 
     this.customerListColumns = [
@@ -123,47 +109,47 @@ export class CustomersComponent implements OnInit {
   }
   //#region Customer 
   save() {
-    let customers = [...this.customers];
-    this.selectedCity != null ? this.customerAddress.cityId = this.selectedCity.id : "";
-    if (this.newCustomer) {
-      this.selectedCustomer.isActive = true;
-    }
-    if (this.selectedCustomer.addresses == null) {
-      this.selectedCustomer.addresses = [];
+    if(this.selectedCustomer.id==0)//new customer
+    {
+      this.selectedCustomer.isActive=true;
+      this.customerAddress.isActive=true;
+      this.customerAddress.cityId=this.selectedCity.id;
       this.selectedCustomer.addresses.push(this.customerAddress);
-    } else {
-      this.selectedCustomer.addresses[0] = this.customerAddress;
     }
+    else//customer has been updating
+    {
+      if(this.selectedCustomer.addresses.length>0)//Existing customer has at least 1 address
+      {
+        this.selectedCustomer.addresses[0].city=this.selectedCity;
+        this.selectedCustomer.addresses[0].cityId=this.selectedCity.id;
+      }
+      else//Existing customer doesnt have any address before
+      {
+ 
+      this.customerAddress.customerId=this.selectedCustomer.id;
+        this.customerAddress.isActive=true;
+      this.customerAddress.cityId=this.selectedCity.id;
+        this.selectedCustomer.addresses.push(this.customerAddress);
+      }
+     
+    }
+   
+    
+ 
 
     this.customersService.saveCustomer(this.config.saveCustomerUrl, this.selectedCustomer)
-      .subscribe(result => {
-        if (result == true) {
-          if (this.newCustomer) {
-            this.getCustomers();
-          }
-          else {
-            customers[this.findSelectedCustomerIndex()] = this.selectedCustomer;
-            this.customers = customers;
-            this.selectedCustomer = null;
-            this.getCustomers();
-          }
-          this.toastr.success('Musteri Basariyla Kaydedildi.', 'Basarili !');
-        } else
-          this.toastr.error(result, 'Hata!');
-      },
-        error => this.toastr.error('Müşteri kaydedilirken hata ile karsilasildi.', 'Error!'),
-        () => {
-          //finally bloke ..!
-          // No errors, route to new page
-
-          this.displayCustomerDialog = false;
-        });
-  }
+      .subscribe((customer:Customer) => {
+        this.toastr.success('Müşteri Basariyla Kaydedildi.', 'OK !');
+        this.displayCustomerDialog=false;
+        this.getCustomers();
+        
+      });
+    }
+        
   onRowSelect(cust) {
     this.newCustomer = false;
     this.selectedCustomer = Object.assign({}, cust);
     this.selectedCity = new city();
-    this.activeIndex = 0;
     this.customerAddress = cust.addresses[0];
 
     if (cust.addresses[0] == null) {
@@ -178,7 +164,6 @@ export class CustomersComponent implements OnInit {
   }
   showDialogToAdd() {
     this.newCustomer = true;
-    this.activeIndex = 0;
     this.selectedCustomer = new Customer();
     this.customerAddress = new Address();
     this.selectedCity = new city();
