@@ -57,7 +57,7 @@ ngOnChanges() {
   this.existsInputData=true;
   
 }
-openPaymentDialog()
+openPaymentDialog(bill)
 {
 this.showPaymentDialog=true;
 //get payment types
@@ -65,14 +65,32 @@ this.commonService.getAllPaymentTypes("define getallpayments url in app.cofig",n
   this.paymentTypes=paymentTypes;
 });
 
-}
+//get bill payments
+this.billService.getBillPayments("define getBillPayments url in app.cofig",bill).subscribe(payments=>{
+  this.selectedBill.payments=payments;
+});
 
-savePayment(payment)
+}
+setPayment(payment)
+{
+  this.payment=payment;
+}
+savePayment()
 {
   
-    this.billService.savePayment("define savePayment url in app.cofig",this.payment==undefined?this.payment:payment).subscribe(response=>{
+    this.billService.savePayment("define savePayment url in app.cofig",this.payment).subscribe(response=>{
       //refresh payments table
     this.payment=new Payment();//reset payment
+  
+    });
+  
+}
+deletePayment(payment)
+{
+  
+    this.billService.deletePayment("define deletePayment url in app.cofig",this.payment).subscribe(response=>{
+      //refresh payments table
+    
   
     });
   

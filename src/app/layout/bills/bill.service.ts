@@ -60,7 +60,16 @@ export class BillService {
         return this.http.post(url, input, this.options)
             .map((response: Response) => response.json());
     }
+    getBillPayments(url: string, input: any): any {//Returns maxBillNumber+1
+        return this.http.post(url, input, this.options)
+            .map((response: Response) => response.json());
+    }
     savePayment(url: string, input: any): any {//Returns maxBillNumber+1
+        return this.http.post(url, input, this.options)
+            .map((response: Response) => response.json());
+    }
+
+    deletePayment(url: string, input: any): any {//Returns maxBillNumber+1
         return this.http.post(url, input, this.options)
             .map((response: Response) => response.json());
     }

@@ -2,6 +2,7 @@ import { Customer } from "./customer";
 import { Address } from "./address";
 import { BillProduct } from "./billProduct";
 import { DiscountRate } from "./discountRate";
+import { Payment } from "./payment";
 export class Bill
 {
     id:number;
@@ -21,4 +22,5 @@ export class Bill
     waybillId:number;//No need to relation bill and waybill, its using just info
     billProducts:BillProduct[]=[];
     discountRate:DiscountRate=new DiscountRate();
+    payments:Payment[]=[];
 }
