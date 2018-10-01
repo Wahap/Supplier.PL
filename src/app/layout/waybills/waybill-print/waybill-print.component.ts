@@ -14,6 +14,7 @@ export class WaybillPrintComponent implements OnInit {
   @Input() selectedWaybill:Waybill;
   config: IConfig;
   waybillTotals:Totals;
+  printPrices:boolean=false;
   constructor(private configService: ConfigService,private waybillService:WaybillService) { }
 
   ngOnInit() {

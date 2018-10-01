@@ -18,6 +18,7 @@ export class Bill
     address:Address;
     isActive:boolean;
     isPaid:boolean;
+    waybillId:number;//No need to relation bill and waybill, its using just info
     billProducts:BillProduct[]=[];
     discountRate:DiscountRate=new DiscountRate();
 }

@@ -13,12 +13,7 @@
                 <th>
                     <input placeholder="Firma..." class="form-control form-control-sm" type="text" (input)="dtBillList.filter($event.target.value, 'customer.companyName','contains')">
                 </th>
-                <th>
-                    <input placeholder="Müşteri..." class="form-control form-control-sm" type="text" (input)="dtBillList.filter($event.target.value, 'customer.customerName','contains')">
-                </th>
-                <th>
-                    <input placeholder="Adres..." class="form-control form-control-sm" type="text" (input)="dtBillList.filter($event.target.value, 'customer.address.street','contains')">
-                </th>
+               
                 <th></th>
                 <th></th>
                 <th></th>
@@ -27,30 +22,87 @@
         <ng-template pTemplate="body" let-bill let-columns="columns">
             <tr>
                 <td *ngFor="let col of columns" [ngSwitch]="col.field">
-                    <span *ngSwitchCase="'billNumber'">{{bill.billNumber}}</span>
+                    <span *ngSwitchCase="'billNumber'">{{bill.billNumber}} <span class="badge">(irsaliye:{{bill.waybillId}})</span> </span>
                     <span *ngSwitchCase="'companyName'">{{bill.customer.companyName}}</span>
-                    <span *ngSwitchCase="'customerName'">{{bill.customer.customerName}} {{bill.customer.lastname}}</span>
-                    <span *ngSwitchCase="'address'">{{bill.address.street}} {{bill.address.postCode}} {{bill.address.city.name}}</span>
-                    <span *ngSwitchCase="'isPaid'"><p-inputSwitch [(ngModel)]="bill.isPaid" (onChange)="onIsPaidChange(bill)"></p-inputSwitch><span class="isPaid" [ngClass]="bill.isPaid ? 'text-success' : 'text-danger'">{{bill.isPaid?'Ödendi':'Ödenmedi'}}</span> </span>
-                    <button *ngSwitchCase="'update'" class="btn btn-success" (click)="updateBill(bill)"><i class="fa fa-pencil"></i>Güncelle</button>
+                   
+                    <span *ngSwitchCase="'isPaid'"><p-inputSwitch [(ngModel)]="bill.isPaid" (onChange)="onIsPaidChange(bill)"></p-inputSwitch><span class="isPaid" [ngClass]="bill.isPaid ? 'text-success' : 'text-danger'">{{bill.isPaid?'Ödendi':'Ödenmedi'}}</span> 
+                <button class="btn btn-primary" id="show-payment-dialog" (click)="openPaymentDialog()"><i class="fa fa-plus" aria-hidden="true"></i> <i class="fa fa-eur" aria-hidden="true"></i></button>
+                </span>
+                    <button *ngSwitchCase="'update'" class="btn btn-success" (click)="updateBill(bill)"><i class="fa fa-pencil"></i>Güncelle </button>
                    <button *ngSwitchCase="'print'" class="btn btn-primary" (click)="onBillPreview(bill)"><a class="fa fa-eye"></a>Önizleme</button>
                    <button *ngSwitchCase="'delete'" class="btn btn-danger" (click)="deleteBill(bill)"><i class="fa fa-times"></i>Sil</button>
                 </td>
             </tr>
-        </ng-template>
+        </ng-template> 
     </p-table>
     
 </div>
    
+<p-dialog [positionTop]="50" header="Ödeme Al" maximizable="true" [(visible)]="showPaymentDialog"  [responsive]="true" showEffect="fade" [modal]="true" width="1200">
+        <div class="row">
+          <div class="col-sm-4">
+               
+                    <div class="form-group">
+                      <label>Ödeme Tipi</label>
+                        
+                           <select class="form-control form-control-sm" [(ngModel)]="payment.paymentTypeId">
+                               <option value="1">Bar</option>
+                               <option value="2">Bank</option>
+                               <option value="3">Scheck</option>
+                           </select>
+                         
+                    </div>
+                    <div class="form-group">
+                      <label>Miktar</label>
+                      <input type="text" class="form-control form-control-sm" [(ngModel)]="payment.amount">
+                    </div>
+                    <div class="form-group">
+                            <label>Tarih</label><br>
+                            <p-calendar  [(ngModel)]="payment.paymentDate" dateFormat="dd.mm.yy"></p-calendar>
 
-<p-dialog [positionTop]="50" header="Fatura Detayları" [(visible)]="showUpdateBillDialog" (onHide)="onCloseNewBillDialog()" [responsive]="true" showEffect="fade" [modal]="true" width="95%">
+                          </div>
+
+                          <div class="form-group">
+                                <label>Açıklama</label>
+                                <textarea type="text" class="form-control form-control-sm" [(ngModel)]="payment.description"></textarea>
+                              </div>
+                   
+                    <button class="btn btn-primary" (click)="savePayment()">Kaydet</button>
+                
+          </div>
+          <div class="col-sm-8">
+              <table class="table table-bordered table-sm">
+                <thead>
+                    <tr>
+                        <th>Ödenen Miktar</th>
+                        <th>Tarih</th>
+                        <th>Ödeme Tipi</th>
+                        <th>Kaydet</th>
+                        <th>Sil</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>122,3:input[text]</td>
+                        <td>01.10.2018:primengDatePicker</td>
+                        <td>Bar:dropdown</td>
+                        <td><button class="btn btn-success" (click)="savePayment(payment)">Güncelle</button></td>
+                        <td><button class="btn btn-danger"> <i class="fa fa-times"></i> Sil</button></td>
+                    </tr>
+                </tbody>
+              </table>
+          </div>
+       
+        </div>
+    </p-dialog>
+<p-dialog [positionTop]="50" header="Fatura Detayları" maximizable="true" [(visible)]="showUpdateBillDialog" (onHide)="onCloseNewBillDialog()" [responsive]="true" showEffect="fade" [modal]="true" width="95%">
     <div>
       
       <app-save-bill [selectedBill]="selectedBill"></app-save-bill>
     </div>
 </p-dialog>
 
-<p-dialog [positionTop]="50" header="irsaliye önizleme" [(visible)]="showPrintDialog"  [responsive]="true" showEffect="fade" [modal]="true" width="95%">
+<p-dialog [positionTop]="50" header="irsaliye önizleme" maximizable="true" [(visible)]="showPrintDialog"  [responsive]="true" showEffect="fade" [modal]="true" width="95%">
         <div>
                 <app-bill-print [selectedBill]="selectedBill"></app-bill-print>
           

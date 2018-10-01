@@ -1,4 +1,10 @@
 <button class="btn btn-primary" (click)="printPage()"><i class="fa fa-print" aria-hidden="true"></i>Yazdır</button>
+<div id="print-options">
+    <p-inputSwitch [(ngModel)]="printPrices"></p-inputSwitch><span id="print-price-text">{{printPrices?'Fiyatları Yazdır':'Fiyatları Yazdırma'}}</span>
+</div>
+
+
+
 <br><br>
 <div id="all-page">
 <div id="page-container">
@@ -35,15 +41,27 @@
         line-height: 20px;">{{selectedWaybill?.address.street}}<br>
             {{selectedWaybill?.address.postCode}} {{selectedWaybill?.address.city.name}}
             </span>
+           
             <h3 id="waybill-number" style="    position: absolute;
             top: 119px;
-            left: 0px;">LIEFERSCHEIN NR:{{selectedWaybill?.id | padLeft:'0':5}}</h3>
-            <h5 id="customer-number" style="    position: absolute;
+            left: 0px;">Lieferschein Nr.:{{selectedWaybill?.id}}</h3>
+            <table  style="position: absolute;
             right: 50px;
-            top: 30px;">Kunden Nr: {{selectedWaybill?.customer.id | padLeft:'0':5}}</h5>
-            <h5 id="waybill-created-date" style="position: absolute;
-            right: 50px;
-            top: 61px;">Datum: {{selectedWaybill?.createdDate | date:'shortDate'}}</h5>
+            top: 61px;">
+                <tr>
+                  <td>Kunden Nr:</td>
+                  <td>{{selectedWaybill?.customer.customerNumber==null?selectedWaybill?.customer.customerNumber.id:selectedWaybill?.customer.customerNumber }}</td>
+                </tr>
+                <tr>
+                  <td>Rechnung Nr:</td>
+                  <td>{{selectedWaybill?.convertedBillNumber}}</td>
+                </tr>
+                <tr>
+                  <td>Datum: </td>
+                  <td>{{selectedWaybill?.createdDate | date:'shortDate'}}</td>
+                </tr>
+              </table>
+         
     </div>
 
     
@@ -57,8 +75,8 @@
           <th style="    text-align: left;border-bottom: 1px solid #ccc;">ARTIKEL BEZEICHNUNG</th>
           <th style="    text-align: right;border-bottom: 1px solid #ccc;">EINHEIT</th>
           <th style="    text-align: right;border-bottom: 1px solid #ccc;">MENGE</th>
-          <th style="    text-align: right;border-bottom: 1px solid #ccc;">PREIS STK</th>
-          <th style="    text-align: right;border-bottom: 1px solid #ccc;">PREIS GESAMT</th>
+          <th style="    text-align: right;border-bottom: 1px solid #ccc;" *ngIf="printPrices">PREIS STK</th>
+          <th style="    text-align: right;border-bottom: 1px solid #ccc;" *ngIf="printPrices">PREIS GESAMT</th>
         </tr>
       </thead>
       <tbody style="    font-size: 0.9em;">
@@ -68,13 +86,13 @@
           <td>{{pro.product.productName}}</td>
           <td style="    text-align: right;">{{pro.numberOfPackage}}</td>
           <td style="    text-align: right;">{{pro.numberOfPackage * pro.product.unitsInPackage}}</td>
-          <td style="    text-align: right;">{{pro.netSalePrice | money}} €</td>
-          <td style="    text-align: right;">{{(pro.numberOfPackage * pro.product.unitsInPackage * pro.netSalePrice) | money}} €</td>
+          <td style="    text-align: right;" *ngIf="printPrices">{{pro.netSalePrice | money}} €</td>
+          <td style="    text-align: right;" *ngIf="printPrices">{{(pro.numberOfPackage * pro.product.unitsInPackage * pro.netSalePrice) | money}} €</td>
         </tr>
       </tbody>
     </table>
     
-    <div id="totalsContainer" style="    font-weight: bold;
+    <div id="totalsContainer" *ngIf="printPrices" style="    font-weight: bold;
     margin-top: 20px;
     border-top: 1px solid #ccc;
     width: 800px;

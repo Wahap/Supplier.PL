@@ -43,6 +43,7 @@ export class SaveBillComponent implements OnInit {
   priceTypeId: number;
   productListCols: any[];
   currentBillTotals: Totals = new Totals();
+  waybillId:number;
   @Input()
   selectedBill: Bill;
   constructor(private customerService: CustomersService, private commonService: CommonService, public toastr: ToastsManager, vcr: ViewContainerRef, private billService: BillService, private productsService: ProductsService, private configService: ConfigService, public dialog: MatDialog, public router: Router) {
@@ -77,6 +78,7 @@ export class SaveBillComponent implements OnInit {
       this.createdDate = new Date(this.selectedBill.createdDate);
       this.deliveryDate = new Date(this.selectedBill.deliveryDate);
       this.billNumber = this.selectedBill.billNumber;
+      this.waybillId=this.selectedBill.waybillId;
       this.selectedCustomer.extraDiscount = this.selectedBill.extraDiscount;//discount sync
       this.selectedDiscountRate = this.discountRates.find(x => x.id == this.selectedBill.discountRateId);
       this.deletedBasketProducts = [];//reset at every new waybill selection
@@ -140,6 +142,7 @@ export class SaveBillComponent implements OnInit {
     // }
     bill.addressId = this.selectedAddress.id;
     bill.billNumber = this.billNumber;
+    bill.waybillId=this.waybillId;
     bill.customerId = this.selectedCustomer.id;
     bill.extraDiscount = this.selectedCustomer.extraDiscount;
     bill.createdDate = this.createdDate;
@@ -195,6 +198,11 @@ export class SaveBillComponent implements OnInit {
       });
     }
 
+  }
+  onCustomerSelect()
+  {
+    this.selectedAddress=this.selectedCustomer.addresses[0];
+    this.deliveryAddress=this.selectedCustomer.addresses[0];
   }
   getProducts() {
     if (!this.selectedCustomer.id) {

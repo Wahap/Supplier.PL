@@ -14,6 +14,9 @@ export class BillPrintComponent implements OnInit {
   @Input() selectedBill:Bill;
   config: IConfig;
   billTotals:Totals;
+  lastPaymentDate:Date;
+
+  
   constructor(private configService: ConfigService,private billService:BillService) { }
 
   ngOnInit() {
@@ -23,10 +26,13 @@ export class BillPrintComponent implements OnInit {
 
   ngOnChanges()
   {
+    console.log(this.selectedBill);
     if(this.selectedBill!=null)
     {
-      
+      this.lastPaymentDate = new Date(this.selectedBill.createdDate);
+      this.lastPaymentDate.setDate( this.lastPaymentDate.getDate() + this.selectedBill.discountRate.validDaysNumber );
       this.setBillProducts();
+     // this.lastPaymentDate=this.selectedBill.createdDate.setDate(this.selectedBill.createdDate.getDate()+14);
     }
    
   }

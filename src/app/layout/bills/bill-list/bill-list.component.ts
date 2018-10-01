@@ -6,6 +6,9 @@ import { BillService } from '../bill.service';
 import { CustomersService } from '../../customers/customers.service';
 import { MatDialog } from '@angular/material';
 import { ConfirmComponent } from '../../../shared/components/confirm/confirm.component';
+import { Payment } from '../../../shared/DTOs/payment';
+import { CommonService } from '../../../shared/common.service';
+import { PaymentType } from '../../../shared/DTOs/paymentType';
 
 @Component({
   selector: 'app-bill-list',
@@ -19,10 +22,13 @@ export class BillListComponent implements OnInit {
   selectedBill:Bill;
   allCustomers:Customer[]=[];
   showPrintDialog:boolean=false;
+  showPaymentDialog:boolean=false;
   showUpdateBillDialog:boolean=false;
   billListColumns:any[];
   existsInputData:boolean=false;
-  constructor(private configService: ConfigService,private billService:BillService,private customerService:CustomersService,public dialog: MatDialog) { }
+  payment:Payment=new Payment();
+  paymentTypes:PaymentType[]=[];
+  constructor(private configService: ConfigService,private commonService:CommonService, private billService:BillService,private customerService:CustomersService,public dialog: MatDialog) { }
 
   ngOnInit() {
     this.config = this.configService.getAppConfig();
@@ -39,8 +45,6 @@ this.loading=false;
     this.billListColumns = [   
       { field: 'billNumber', header: 'Fatura.No' },
       { field: 'companyName', header: 'Firma' },
-      { field: 'customerName', header: 'Müşteri' },
-      { field: 'address', header: 'Adres' },
       { field: 'isPaid', header: 'Ödenme Durumu' },
       { field: 'update', header: 'Güncelle' },
       { field: 'print', header: 'Yazdır' },
@@ -51,6 +55,26 @@ ngOnChanges() {
   //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
   //Add '${implements OnChanges}' to the class.
   this.existsInputData=true;
+  
+}
+openPaymentDialog()
+{
+this.showPaymentDialog=true;
+//get payment types
+this.commonService.getAllPaymentTypes("define getallpayments url in app.cofig",null).subscribe(paymentTypes=>{
+  this.paymentTypes=paymentTypes;
+});
+
+}
+
+savePayment(payment)
+{
+  
+    this.billService.savePayment("define savePayment url in app.cofig",this.payment==undefined?this.payment:payment).subscribe(response=>{
+      //refresh payments table
+    this.payment=new Payment();//reset payment
+  
+    });
   
 }
   fillAllBills()

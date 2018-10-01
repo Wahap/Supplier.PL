@@ -1,6 +1,51 @@
 <!-- <pdf-bill [bill]="selectedBill==null? lastbill:selectedBill"></pdf-bill> -->
 <div class="row">
     <div class="col-md-6">
+            <div id="bill-customer-selection">
+                <table class="table">
+                    <tr>
+                        <td>Müşteri</td>
+                        <td>  <p-dropdown [options]="customers" (onChange)="onCustomerSelect()" [style]="{'width':'100%'}" [(ngModel)]="selectedCustomer" placeholder="Müşteri"
+                            optionLabel="companyName" filter="true"></p-dropdown></td>
+                            <td>Fiyat Tipi</td>
+                            <td> <select id="drpPriceType" class="form-control form-control-sm" [(ngModel)]="priceTypeId" (change)="getProducts()" (change)="getProducts()">
+                                    <option value="1">Müşteriye Özel</option>
+                                    <option value="2">Sabit Fiyat</option>
+                                    <option value="3">Bronz Fiyat</option>
+                                    <option value="4">Gümüş Fiyat</option>
+                                    <option value="5">Altın Fiyat</option>
+                                </select></td>
+                    </tr>
+                    <tr>
+                        <td>Fatura Adresi</td>
+                        <td> <p-dropdown [options]="selectedCustomer?.addresses" [style]="{'width':'100%'}" [(ngModel)]="selectedAddress"
+                            placeholder="Adres" filter="true" optionLabel="street">
+                        </p-dropdown></td>
+                        <td>Teslimat Adresi</td>
+                        <td>   <p-dropdown [options]="selectedCustomer?.addresses" [style]="{'width':'100%'}" [(ngModel)]="deliveryAddress"
+                            placeholder="Adres" filter="true" optionLabel="street">
+                        </p-dropdown></td>
+                    </tr>
+                    <tr>
+                        <td>Oluşturulma Tarihi</td>
+                        <td> <p-calendar [(ngModel)]="createdDate" dateFormat="dd.mm.yy"></p-calendar></td>
+                        <td>Dağıtım Tarihi</td>
+                        <td><p-calendar [(ngModel)]="deliveryDate" dateFormat="dd.mm.yy" hideOnDateTimeSelect="true"></p-calendar></td>
+                    </tr>
+                    <tr>
+                        <td>irsaliye Numarası</td>
+                        <td><input type="number" class="form-control form-control-sm" [(ngModel)]="waybillId" /></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
+                  
+                  
+                   
+                   
+                 
+                  
+                </div>
             <p-table [value]="basketProducts" #dtBasketProducts [columns]="productListCols" [loading]="loading" [scrollable]="true"
             [scrollHeight]="windowsHeight()">
                 <ng-template pTemplate="caption">
@@ -49,36 +94,7 @@
     <div class="col-md-6">
         <div id="billContainer">
 
-            <div id="bill-customer-selection">
-                <label>Müşteri</label>
-                <p-dropdown [options]="customers" [style]="{'width':'40%'}" [(ngModel)]="selectedCustomer" placeholder="Müşteri"
-                    optionLabel="companyName" filter="true"></p-dropdown>
-                <label for="">Fiyat Tipi</label>
-                <select id="drpPriceType" class="form-control form-control-sm" [(ngModel)]="priceTypeId" (change)="getProducts()" (change)="getProducts()">
-                    <option value="1">Müşteriye Özel</option>
-                    <option value="2">Sabit Fiyat</option>
-                    <option value="3">Bronz Fiyat</option>
-                    <option value="4">Gümüş Fiyat</option>
-                    <option value="5">Altın Fiyat</option>
-                </select>
-                <div *ngIf="selectedCustomer?.id>0">
-                    <label>Fatura Adresi</label>
-                    <p-dropdown [options]="selectedCustomer?.addresses" [style]="{'width':'20%'}" [(ngModel)]="selectedAddress"
-                        placeholder="Adres" filter="true" optionLabel="street">
-                    </p-dropdown>
-                    <label>Teslimat Adresi</label>
-                    <p-dropdown [options]="selectedCustomer?.addresses" [style]="{'width':'20%'}" [(ngModel)]="deliveryAddress"
-                        placeholder="Adres" filter="true" optionLabel="street">
-                    </p-dropdown>
-                </div>
-                <div>
-                        <label>Oluşturulma Tarihi</label>
-                        <p-calendar [(ngModel)]="createdDate" dateFormat="dd.mm.yy"></p-calendar>
-                        <label>Dağıtım Tarihi</label>
-                        <p-calendar [(ngModel)]="deliveryDate" dateFormat="dd.mm.yy" hideOnDateTimeSelect="true"></p-calendar>
-                </div>
-              
-            </div>
+           
             <div id="bill-preview">
 
                     <div id="bill-header">

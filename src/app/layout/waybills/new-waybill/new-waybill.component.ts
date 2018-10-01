@@ -92,7 +92,7 @@ currentWaybillTotals:Totals=new Totals();
     //   this.isNewRecord = false;
     // }
   }
-
+ 
   mapSelectedWaybillProductsToCurrentWaybillProducts()
   {
     this.waybillService.getWaybillProducts(this.config.getWaybillProductsUrl,this.selectedWayBill).subscribe(waybillProducts=>{
@@ -108,53 +108,11 @@ currentWaybillTotals:Totals=new Totals();
     });
   }
 
-  // getWayBillById(selectedWayBillId): any {
-
-  //   this.loading = true;
-  //   this.waybillService.getWaybill(this.config.getWaybillUrl, selectedWayBillId)
-  //     .subscribe(items => {
-  //       this.setCurrentWaybill(items);
-  //     },
-  //       error => this.toastr.error('Irsaliye getirilirken hata ile karsilasildi.' + error, 'Error!'),
-  //       () => {
-  //         this.loading = false;
-  //         // this.fillBasketProducts();
-  //       }
-  //     );
-  // }
-
-  // setLastWaybill() {
-  //   this.loading = true;
-  //   this.waybillService.getLastWaybill(this.config.getLastWaybillUrl, null)
-  //     .subscribe(items => {
-  //       this.lastWaybill = items;
-  //       this.setCurrentWaybill(items);
-  //     },
-  //       error => this.toastr.error('Irsaliye getirilirken hata ile karsilasildi.' + error, 'Error!'),
-  //       () => {
-  //         this.loading = false;
-  //         //this.fillBasketProducts();
-  //       }
-  //     );
-  // }
-  // setCurrentWaybill(items) {
-  //   this.currentWaybill = [];
-  //   this.deletedBasketProducts = [];
-  //   var wayBill = items;
-  //   this.selectedCustomer = this.customers.filter(x => x.id == wayBill.customer.id)[0];
-  //   this.selectedCustomer.addresses = wayBill.customer.addresses;
-  //   this.selectedAddress = wayBill.customer.addresses.filter(x => x.id == wayBill.addressId)[0];
-  //   this.createdDate = new Date(wayBill.createdDate);
-  //   wayBill.waybillProducts.forEach(wp => {
-  //     var product = this.productList.filter(x => x.id == wp.productId)[0];
-  //     let basketProduct = new BasketProduct();
-  //     basketProduct.id = wp.id;
-  //     basketProduct.waybillId = wayBill.id;
-  //     basketProduct.product = product;
-  //     basketProduct.package = wp.numberOfPackage;
-  //     this.saveProductToCurrentWaybill(basketProduct);
-  //   });
-  // }
+  onCustomerSelect()
+  {
+    this.selectedAddress=this.selectedCustomer.addresses[0];
+    this.deliveryAddress=this.selectedCustomer.addresses[0];
+  }
   saveWaybill() {
     let waybill: Waybill = new Waybill();
     if (this.selectedWayBill != null) {
