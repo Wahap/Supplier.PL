@@ -43,7 +43,7 @@
             top: 32px;">
               <tr>
                 <td>Kunden Nr:</td>
-                <td>{{selectedBill?.customer.customerNumber==null?selectedBill?.customer.customerNumber.id:selectedBill?.customer.customerNumber }}</td>
+                <td>{{selectedBill?.customer.customerNumber==null || selectedBill?.customer.customerNumber!='' ?selectedBill?.customer.id:selectedBill?.customer.customerNumber }}</td>
               </tr>
               <tr>
                   <td>Lieferschein Nr:</td>
