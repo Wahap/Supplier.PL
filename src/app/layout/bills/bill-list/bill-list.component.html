@@ -47,7 +47,7 @@
 <p-dialog [positionTop]="50" header="Ödeme Al" maximizable="true" [(visible)]="showPaymentDialog" [responsive]="true"
     showEffect="fade" [modal]="true" width="1200">
     <div class="row">
-        <div class="col-sm-4">
+        <div class="col-sm-4 border border-info rounded-top">
 
             <div class="form-group">
                 <label>Ödeme Tipi</label>
@@ -56,7 +56,6 @@
                     <option *ngFor="let type of paymentTypes" value="{{type.id}}">{{type.type}}</option>
 
                 </select>
-
             </div>
             <div class="form-group">
                 <label>Miktar</label>
@@ -73,24 +72,26 @@
                 <textarea type="text" class="form-control form-control-sm" [(ngModel)]="payment.description"></textarea>
             </div>
 
-            <button class="btn btn-primary" (click)="savePayment()">Kaydet</button>
+            <button class="btn btn-primary mb-2" (click)="savePayment()">Kaydet</button>
+            
 
         </div>
         <div class="col-sm-8">
             <table class="table table-bordered table-sm">
+                    <caption>Alınan Ödemeler({{paymentTotals.totalItems}})</caption>
                 <thead>
                     <tr>
                         <th>Ödenen Miktar</th>
                         <th>Tarih</th>
                         <th>Ödeme Tipi</th>
-                        <th>Kaydet</th>
+                        <th>Güncelle</th>
                         <th>Sil</th>
                     </tr>
                 </thead>
                 <tbody *ngIf="selectedBill!=null">
                     <tr *ngFor="let payment of selectedBill.payments">
                         <td>{{payment.amount}}</td>
-                        <td>{{payment.paymentDate | date:'dd.mm.yyyy'}}</td>
+                        <td>{{payment.paymentDate | date:'dd/MM/yyyy'}}</td>
                         <td>{{payment.paymentType.type}}</td>
                         <td><button class="btn btn-success" (click)="setPayment(payment)">Güncelle</button></td>
                         <td><button class="btn btn-danger" (click)="deletePayment(payment)"> <i class="fa fa-times"></i>
@@ -98,6 +99,7 @@
                     </tr>
                 </tbody>
             </table>
+            <p>Toplam Yapılan Ödeme: <strong>{{paymentTotals.totalGrossPrice | money}} €</strong></p>
         </div>
 
     </div>

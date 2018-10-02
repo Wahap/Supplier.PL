@@ -50,6 +50,13 @@ export interface IConfig {
 	getThisMonthBillsUrl:string;
 	//DiscountRates
 	getAllDiscountRatesUrl:string;
+	//Common
+	saveCityUrl:string;
+	getPaymentTypesUrl:string;
+	savePaymentUrl:string;
+	getBillPaymentsUrl:string;
+	deletePaymentUrl:string;
+
 
 };
 import { Injectable } from '@angular/core';
@@ -60,12 +67,12 @@ export class ConfigService {
 	getAppConfig(): IConfig {
 
 	
-		//let serverLoginPath = 'https://supplier.azurewebsites.net/api/', serverLoginPathDebug = 'http://localhost:4315/api/';
-		let serverLoginPath = 'https://devsupplier.azurewebsites.net/api/', serverLoginPathDebug = 'http://localhost:4315/api/';
+		let serverLoginPath = 'https://supplier.azurewebsites.net/api/', serverLoginPathDebug = 'http://localhost:4315/api/';
+		//let serverLoginPath = 'https://devsupplier.azurewebsites.net/api/', serverLoginPathDebug = 'http://localhost:4315/api/';
 	
 
 		let serverUserNotificationPath = '';
-		let debug = true;
+		let debug = false;
 
 		let getUsers = (debug ? serverLoginPathDebug + "authentication/login" : serverLoginPath + "userCont/getusers");
 		//let logInUrl = (debug ? serverLoginPathDebug + "userCont/login" : serverLoginPath + "userCont/login");
@@ -122,11 +129,17 @@ export class ConfigService {
 		let getThisMonthBillsUrl = (debug ? serverLoginPathDebug + "bill/getThisMonthBills" : serverLoginPath + "bill/getThisMonthBills");
 		
 		let uploadImageUrl = (debug ? serverLoginPathDebug + "Uploader/Upload" : serverLoginPath + "Uploader/Upload");
-		//Discount Rates
+		//Common
 		let getAllDiscountRatesUrl = (debug ? serverLoginPathDebug + "Common/getAllDiscountRates" : serverLoginPath + "Common/getAllDiscountRates");
+		let saveCityUrl = (debug ? serverLoginPathDebug + "Common/saveCity" : serverLoginPath + "Common/saveCity");
+		let getPaymentTypesUrl = (debug ? serverLoginPathDebug + "Common/getPaymentTypes" : serverLoginPath + "Common/getPaymentTypes");
+		let savePaymentUrl = (debug ? serverLoginPathDebug + "Bill/savePayment" : serverLoginPath + "Bill/savePayment");
+		let getBillPaymentsUrl = (debug ? serverLoginPathDebug + "Bill/getBillPayments" : serverLoginPath + "Bill/getBillPayments");
+		let deletePaymentUrl = (debug ? serverLoginPathDebug + "Bill/deletePayment" : serverLoginPath + "Bill/deletePayment");
 
 		return {
 			logInUrl: logInUrl,
+			saveCityUrl:saveCityUrl,
 			getUsers: getUsers,
 			calculate: calculate,
 			getProductsUrl: getProductsUrl,
@@ -172,8 +185,12 @@ export class ConfigService {
 			getThisWeekBillsUrl:getThisWeekBillsUrl,
 			getThisMonthBillsUrl:getThisMonthBillsUrl,
 			uploadImageUrl:uploadImageUrl,
-			//Discount Rates
-			getAllDiscountRatesUrl:getAllDiscountRatesUrl
+			savePaymentUrl:savePaymentUrl,
+			//Common
+			getAllDiscountRatesUrl:getAllDiscountRatesUrl,
+			getPaymentTypesUrl:getPaymentTypesUrl,
+			getBillPaymentsUrl:getBillPaymentsUrl,
+			deletePaymentUrl:deletePaymentUrl
 
 		}
 	}

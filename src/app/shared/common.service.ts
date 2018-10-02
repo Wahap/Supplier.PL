@@ -68,4 +68,9 @@ export class CommonService {
       .map((response: Response) => response.json());
   }
 
+  saveCity(url: string, city: any): any {
+    return this.http.post(url, city, this.options)
+      .map((response: Response) => response.json());
+  }
+
 }

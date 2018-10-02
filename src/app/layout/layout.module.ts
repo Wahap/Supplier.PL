@@ -39,6 +39,7 @@ import { ThisWeekWaybillsComponent } from './waybills/this-week-waybills/this-we
 import { ThisMonthWaybillsComponent } from './waybills/this-month-waybills/this-month-waybills.component';
 import { ThisMonthBillsComponent } from './bills/this-month-bills/this-month-bills.component';
 import { ThisWeekBillsComponent } from './bills/this-week-bills/this-week-bills.component';
+import { NewCityComponent } from '../shared/components/new-city/new-city.component';
 
 
 
@@ -71,7 +72,8 @@ import { ThisWeekBillsComponent } from './bills/this-week-bills/this-week-bills.
     ThisWeekWaybillsComponent,
     ThisMonthWaybillsComponent,
     ThisMonthBillsComponent,
-    ThisWeekBillsComponent
+    ThisWeekBillsComponent,
+    NewCityComponent
     ]
 })
 export class LayoutModule { }

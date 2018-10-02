@@ -31,6 +31,7 @@ export class CustomersComponent implements OnInit {
   displayCustomersAddressDialog: boolean;
   diplayCustomerPricesDialog: boolean;
   displayNewAddressDialog: boolean;
+  newCityDialog:boolean=false;
   activeButtonText: string;
   customerListColumns: any[];
   addressListColumns: any[];
@@ -282,6 +283,11 @@ export class CustomersComponent implements OnInit {
       },
         error => this.toastr.error('Tum Sehirler getirilirken hata ile karsilasildi.', 'Error!')
       );
+  }
+  onNewCitySaved(city)
+  {
+    this.cities=[city,...this.cities];
+    this.newCityDialog=false;
   }
   //#endregion Binding
   findSelectedCustomerIndex(): number {

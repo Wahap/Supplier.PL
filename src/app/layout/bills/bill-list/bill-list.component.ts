@@ -9,6 +9,7 @@ import { ConfirmComponent } from '../../../shared/components/confirm/confirm.com
 import { Payment } from '../../../shared/DTOs/payment';
 import { CommonService } from '../../../shared/common.service';
 import { PaymentType } from '../../../shared/DTOs/paymentType';
+import { Totals } from '../../../shared/DTOs/totals';
 
 @Component({
   selector: 'app-bill-list',
@@ -28,6 +29,7 @@ export class BillListComponent implements OnInit {
   existsInputData:boolean=false;
   payment:Payment=new Payment();
   paymentTypes:PaymentType[]=[];
+  paymentTotals:Totals=new Totals();
   constructor(private configService: ConfigService,private commonService:CommonService, private billService:BillService,private customerService:CustomersService,public dialog: MatDialog) { }
 
   ngOnInit() {
@@ -59,38 +61,56 @@ ngOnChanges() {
 }
 openPaymentDialog(bill)
 {
+  this.selectedBill=bill;
 this.showPaymentDialog=true;
 //get payment types
-this.commonService.getAllPaymentTypes("define getallpayments url in app.cofig",null).subscribe(paymentTypes=>{
-  this.paymentTypes=paymentTypes;
-});
+if(this.paymentTypes.length<1)//Just fill once
+{
+  this.commonService.getAllPaymentTypes(this.config.getPaymentTypesUrl,null).subscribe(paymentTypes=>{
+    this.paymentTypes=paymentTypes;
+  });
+}
+
 
 //get bill payments
-this.billService.getBillPayments("define getBillPayments url in app.cofig",bill).subscribe(payments=>{
-  this.selectedBill.payments=payments;
-});
+this.getBillPayments(bill);
 
 }
-setPayment(payment)
+setPayment(payment:Payment)
 {
-  this.payment=payment;
+  this.payment=payment;//
+  this.payment.paymentDate=new Date(payment.paymentDate);//Because p-calendar only supports Date Type
+  
+}
+getBillPayments(bill)
+{
+  this.billService.getBillPayments(this.config.getBillPaymentsUrl,bill).subscribe((payments:Payment[])=>{
+    this.selectedBill.payments=payments;
+    this.paymentTotals=new Totals();//make all properties 0
+    this.paymentTotals.totalItems=payments.length;
+    payments.forEach(payment=>{
+      this.paymentTotals.totalGrossPrice+=payment.amount;
+    });
+  });
 }
 savePayment()
 {
-  
-    this.billService.savePayment("define savePayment url in app.cofig",this.payment).subscribe(response=>{
+  this.payment.billId=this.selectedBill.id;
+    this.billService.savePayment(this.config.savePaymentUrl,this.payment).subscribe(response=>{
       //refresh payments table
     this.payment=new Payment();//reset payment
-  
+      this.getBillPayments(this.selectedBill);
     });
   
 }
 deletePayment(payment)
 {
   
-    this.billService.deletePayment("define deletePayment url in app.cofig",this.payment).subscribe(response=>{
+
+    this.billService.deletePayment(this.config.deletePaymentUrl,this.payment).subscribe(response=>{
       //refresh payments table
-    
+    this.getBillPayments(this.selectedBill);
+    this.payment=new Payment();
   
     });
   
