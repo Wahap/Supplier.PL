@@ -36,6 +36,7 @@ export interface IConfig {
 	convertWaybillToBillUrl:string;
 	getThisWeekWaybillsUrl:string;
 	getThisMonthWaybillsUrl:string;
+	filterWaybillsUrl:string;
 //Bill Urls
 	getLastBillUrl:string;
 	getBillUrl:string;
@@ -48,6 +49,7 @@ export interface IConfig {
 	uploadImageUrl: string;
 	getThisWeekBillsUrl:string;
 	getThisMonthBillsUrl:string;
+	filterBillsUrl:string;
 	//DiscountRates
 	getAllDiscountRatesUrl:string;
 	//Common
@@ -114,6 +116,7 @@ export class ConfigService {
 		let convertWaybillToBillUrl = (debug ? serverLoginPathDebug + "waybill/convertWaybillToBill" : serverLoginPath + "waybill/convertWaybillToBill");
 		let getThisWeekWaybillsUrl = (debug ? serverLoginPathDebug + "waybill/getThisWeekWaybills" : serverLoginPath + "waybill/getThisWeekWaybills");
 		let getThisMonthWaybillsUrl = (debug ? serverLoginPathDebug + "waybill/getThisMonthWaybills" : serverLoginPath + "waybill/getThisMonthWaybills");
+		let filterWaybillsUrl = (debug ? serverLoginPathDebug + "waybill/filterWaybills" : serverLoginPath + "waybill/filterWaybills");
 		
 		
 		//Bill Urls
@@ -127,6 +130,7 @@ export class ConfigService {
 		let checkBillNumberIsValidUrl=(debug ? serverLoginPathDebug + "bill/checkBillNumberIsValid" : serverLoginPath + "bill/checkBillNumberIsValid");
 		let getThisWeekBillsUrl = (debug ? serverLoginPathDebug + "bill/getThisWeekBills" : serverLoginPath + "bill/getThisWeekBills");
 		let getThisMonthBillsUrl = (debug ? serverLoginPathDebug + "bill/getThisMonthBills" : serverLoginPath + "bill/getThisMonthBills");
+		let filterBillsUrl = (debug ? serverLoginPathDebug + "bill/filterBills" : serverLoginPath + "bill/filterBills");
 		
 		let uploadImageUrl = (debug ? serverLoginPathDebug + "Uploader/Upload" : serverLoginPath + "Uploader/Upload");
 		//Common
@@ -173,6 +177,7 @@ export class ConfigService {
 			convertWaybillToBillUrl:convertWaybillToBillUrl,
 			getThisWeekWaybillsUrl:getThisWeekWaybillsUrl,
 			getThisMonthWaybillsUrl:getThisMonthWaybillsUrl,
+			filterWaybillsUrl:filterWaybillsUrl,
 			//Bills
 			getLastBillUrl:getLastBillUrl,
 			saveBillUrl:saveBillUrl,
@@ -186,6 +191,7 @@ export class ConfigService {
 			getThisMonthBillsUrl:getThisMonthBillsUrl,
 			uploadImageUrl:uploadImageUrl,
 			savePaymentUrl:savePaymentUrl,
+			filterBillsUrl:filterBillsUrl,
 			//Common
 			getAllDiscountRatesUrl:getAllDiscountRatesUrl,
 			getPaymentTypesUrl:getPaymentTypesUrl,
