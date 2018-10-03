@@ -40,6 +40,8 @@ import { ThisMonthWaybillsComponent } from './waybills/this-month-waybills/this-
 import { ThisMonthBillsComponent } from './bills/this-month-bills/this-month-bills.component';
 import { ThisWeekBillsComponent } from './bills/this-week-bills/this-week-bills.component';
 import { NewCityComponent } from '../shared/components/new-city/new-city.component';
+import { FilterWaybillsComponent } from './waybills/filter-waybills/filter-waybills.component';
+import { FilterBillsComponent } from './bills/filter-bills/filter-bills.component';
 
 
 
@@ -73,7 +75,9 @@ import { NewCityComponent } from '../shared/components/new-city/new-city.compone
     ThisMonthWaybillsComponent,
     ThisMonthBillsComponent,
     ThisWeekBillsComponent,
-    NewCityComponent
+    NewCityComponent,
+    FilterWaybillsComponent,
+    FilterBillsComponent
     ]
 })
 export class LayoutModule { }

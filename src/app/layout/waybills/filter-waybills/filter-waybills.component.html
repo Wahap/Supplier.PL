@@ -1,0 +1,22 @@
+
+<div class="filters-container form-inline mb-2">
+    <div class="form-group">
+        
+        <mat-form-field>
+            <input matInput [matDatepicker]="picker" placeholder="Choose a date" [(ngModel)]="tarih">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+
+          {{tarih}}
+      </div>
+      <div class="form-group">
+        <label for="pwd">Password:</label>
+        <input type="password" class="form-control" id="pwd">
+      </div>
+      <div class="checkbox">
+        <label><input type="checkbox"> Remember me</label>
+      </div>
+      <button type="submit" class="btn btn-default">Submit</button>
+</div>
+<app-waybills-list [allWaybills]="filteredWaybills"></app-waybills-list>

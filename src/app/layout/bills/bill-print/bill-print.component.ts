@@ -65,7 +65,16 @@ export class BillPrintComponent implements OnInit {
   {
     var mywindow = window.open('', 'fatura yazdır', 'height='+window.outerHeight+',width='+window.outerWidth);
     mywindow.document.write('<html><head><title></title>');
-    mywindow.document.write('<style>body{ font-family: Arial, Helvetica, sans-serif; }</style>');
+    mywindow.document.write(`<style>
+    body{ font-family: Arial, Helvetica, sans-serif; }
+    @page
+    {
+      margin-top:200px;
+      margin-bottom:100px;
+    }
+    </style>
+    
+    `);
     mywindow.document.write('</head><body >');
     mywindow.document.write(document.querySelector("#all-page").innerHTML);
     mywindow.document.write('</body></html>');

@@ -17,6 +17,8 @@ import { ThisWeekWaybillsComponent } from './waybills/this-week-waybills/this-we
 import { ThisMonthWaybillsComponent } from './waybills/this-month-waybills/this-month-waybills.component';
 import { ThisWeekBillsComponent } from './bills/this-week-bills/this-week-bills.component';
 import { ThisMonthBillsComponent } from './bills/this-month-bills/this-month-bills.component';
+import { FilterWaybillsComponent } from './waybills/filter-waybills/filter-waybills.component';
+import { FilterBillsComponent } from './bills/filter-bills/filter-bills.component';
 
 
 const routes: Routes = [
@@ -26,7 +28,6 @@ const routes: Routes = [
         children: [
             { path: '', redirectTo: 'welcome' },
             { path: 'welcome',component:WelcomeComponent },
-            { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' },
             { path: 'products',component:ProductsComponent },
             { path: 'customers',component:CustomersComponent },
             { path: 'receivedOrders',component:ReceivedOrderComponent },
@@ -38,6 +39,8 @@ const routes: Routes = [
             { path: 'thisWeekBills',component:ThisWeekBillsComponent },
             { path: 'thisMonthBills',component:ThisMonthBillsComponent },
             { path: 'waybills',component:WaybillsListComponent },
+            { path: 'filteredWaybills',component:FilterWaybillsComponent },
+            { path: 'filteredBills',component:FilterBillsComponent },
             { path: 'savebill',component:SaveBillComponent },
             { path: 'bills',component:BillListComponent },
             { path: 'billList',component:BillListComponent },

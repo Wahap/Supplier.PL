@@ -50,6 +50,10 @@ mat-dialog-container {
     display: inline-block;
     font-weight: bold;
 }
+#billProducts {
+    overflow: scroll;
+    height: 390px;
+}
 #bill-total-prices {
     text-align: right;
     padding-right: 62px;

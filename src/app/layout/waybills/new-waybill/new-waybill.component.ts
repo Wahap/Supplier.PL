@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef, Input } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, Input, ViewChild, ElementRef } from '@angular/core';
 import { BasketProduct } from '../../../shared/DTOs/basketProduct';
 import { ProductsService } from '../../products/products.service';
 import { IConfig, ConfigService } from '../../../app.config';
@@ -44,6 +44,7 @@ export class NewWaybillComponent implements OnInit {
   productListCols: any[];
   convertedBillNumber:number;
 currentWaybillTotals:Totals=new Totals();
+@ViewChild('wayBillProductsContainer') private wayBillProductsContainer: ElementRef;
   @Input()
   selectedWayBill: Waybill;
 
@@ -249,6 +250,8 @@ currentWaybillTotals:Totals=new Totals();
     else if (editedBasketProduct == undefined)//product will be added first time
     {
       this.currentWaybill.push(basketProduct);
+        //scroll bottom 
+        this.wayBillProductsContainer.nativeElement.scrollTop = this.wayBillProductsContainer.nativeElement.scrollHeight;
     }
     else//product exist in waybill, update the package
     {
