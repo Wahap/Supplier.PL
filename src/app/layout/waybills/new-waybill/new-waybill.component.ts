@@ -140,6 +140,7 @@ currentWaybillTotals:Totals=new Totals();
       waybillProduct.waybillId = waybill.id;
       waybillProduct.numberOfPackage = basketProduct.package;
       waybillProduct.netSalePrice=basketProduct.product.netSalePrice;
+      waybillProduct.purchasePrice=basketProduct.product.purchasePrice;
       waybillProduct.tax=basketProduct.product.tax;
       waybillProduct.productId = basketProduct.product.id;
       waybillProduct.status = basketProduct.status;

@@ -159,6 +159,7 @@ export class SaveBillComponent implements OnInit {
       billProduct.billId = bill.id;
       billProduct.numberOfPackage = basketProduct.package;
       billProduct.netSalePrice = basketProduct.product.netSalePrice;
+      billProduct.purchasePrice=basketProduct.product.purchasePrice;
       billProduct.tax = basketProduct.product.tax;
       billProduct.productId = basketProduct.product.id;
       billProduct.status = basketProduct.status;

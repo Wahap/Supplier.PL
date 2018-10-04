@@ -4,6 +4,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { TableModule } from 'primeng/table';
+import {ChartModule} from 'primeng/chart';
 import {
     InputTextModule, DataTableModule, SharedModule, ButtonModule, DialogModule,
     StepsModule, DropdownModule,SliderModule,InputSwitchModule
@@ -54,6 +55,7 @@ import { FilterBillsComponent } from './bills/filter-bills/filter-bills.componen
         TranslateModule,
         NgbDropdownModule.forRoot(),
         FormsModule,
+        ChartModule,
         InputTextModule, DataTableModule, SharedModule, ButtonModule, DialogModule, CalendarModule,
         StepsModule, DropdownModule,TableModule,KeyFilterModule,SliderModule,InputSwitchModule,
         MaterialModule

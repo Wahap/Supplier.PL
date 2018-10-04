@@ -15,7 +15,7 @@ export class Product
     productName:string;
     netSalePrice: number;
     orderNumber:number;
-    purchasePrice:string;
+    purchasePrice:number;
     quantity:number;
     supplierId:number;
     tax:number;

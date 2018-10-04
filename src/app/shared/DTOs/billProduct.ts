@@ -8,6 +8,7 @@ export class BillProduct
     numberOfPackage:number;
     netSalePrice:number;
     tax:number;
+    purchasePrice:number;
     product:Product;
     status:string;
 }
