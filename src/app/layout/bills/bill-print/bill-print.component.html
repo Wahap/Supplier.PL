@@ -128,8 +128,30 @@
   width: 800px;
   height: 88px;
   border-top: 1px solid #ccc;">
-     <span>Zahlbar bis {{lastPaymentDate | date:'dd/MM/yyyy'}} ohne Abzug.</span> <br>
-     <span> OffenerBetrag {{billTotals?.totalGrossPrice | money}} EURO. Die Ware bleibt bis zur vollstandigen Bezahlung unser Eigentum.</span>
+  <div class="footer-text" style="font-size:0.8em;" >
+    <div class="bill-is-unpaid" *ngIf="selectedBill?.isPaid==false;else paid_content">
+    <p *ngIf="selectedBill?.discountRate.rate>0">
+      Bei Zahlung innerhalb von {{selectedBill?.discountRate.validDaysNumber}} Tagen gewahren wir {{selectedBill?.discountRate.rate}}% Skonto
+    </p>
+   
+        <p *ngIf="selectedBill?.discountRate.rate==0 && selectedBill?.discountRate.validDaysNumber>0 ">
+          Zahlbar bis {{lastPaymentDate | date:'dd/MM/yyyy'}} ohne Abzug.
+        </p>
+   
+    <p>
+        Offener Betrag {{billTotals?.totalGrossPrice | money}} EURO. Die Ware bleibt bis zur vollstandigen Bezahlung unser Eigentum.
+        <span *ngIf="selectedBill?.discountRate.rate>0">Skonto {{selectedBill?.discountRate.rate}}% ={{billTotals.discount | money}}</span>
+    </p>
+  </div>
+  <ng-template #paid_content> 
+    <p>Betrag {{billTotals?.totalGrossPrice | money}} EURO dankend erhalten.</p>
+  </ng-template>
+    <!--<div>
+      <span>Zahlbar bis {{lastPaymentDate | date:'dd/MM/yyyy'}} ohne Abzug.</span> <br>
+      <span> OffenerBetrag {{billTotals?.totalGrossPrice | money}} EURO. Die Ware bleibt bis zur vollstandigen Bezahlung unser Eigentum.</span>
+    </div> -->
+  </div>
+    
      
   </div>
 </div>
