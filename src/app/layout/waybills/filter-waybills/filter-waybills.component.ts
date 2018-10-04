@@ -17,6 +17,7 @@ filter:Filter=new Filter();
 config:IConfig;
 customers:Customer[]=[];
 selectedCustomer:Customer=new Customer();
+loading:boolean=false;
   constructor(private customerService:CustomersService,private configService:ConfigService,private waybillService:WaybillService) { }
 
   ngOnInit() {
@@ -33,9 +34,11 @@ selectedCustomer:Customer=new Customer();
 
   filterWaybills()
   {
+    this.loading=true;
     this.filter.customerId=this.selectedCustomer.id;
     this.waybillService.filterWaybills(this.config.filterWaybillsUrl,this.filter).subscribe(waybills=>{
       this.filteredWaybills=waybills;
+      this.loading=false;
     });
   }
 

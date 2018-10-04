@@ -40,3 +40,16 @@
     color: #555555;
 }
 
+
+button.disabled .fa-spinner
+{
+    display: inline-block;
+}
+
+button .fa-spinner
+{
+    display: none;
+}
+
+
+

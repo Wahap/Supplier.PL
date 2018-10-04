@@ -13,7 +13,10 @@
         <p-dropdown [options]="customers" optionLabel="companyName" placeholder="Müşteri" [(ngModel)]="selectedCustomer"  [filter]="true" [style]="{'width':'250px'}"></p-dropdown>
       </div>
       
-      <button class="btn btn-success ml-2" (click)="filterWaybills()">Ara</button>
+      <button class="btn btn-success ml-2" [class.disabled]="loading" (click)="filterWaybills()">
+        <i class="fa fa-spinner fa-spin" style="font-size:24px"></i>
+        Ara
+      </button>
 </div>
 <app-waybills-list [allWaybills]="filteredWaybills"></app-waybills-list>
 </div>
