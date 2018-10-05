@@ -31,6 +31,8 @@ export class BillListComponent implements OnInit {
   paymentTypes:PaymentType[]=[];
   paymentTotals:Totals=new Totals();
   today:Date=new Date();
+  selectedAnalyzedBill:Bill;//
+  showAnalyzedBillDialog:boolean=false;
   constructor(private configService: ConfigService,private commonService:CommonService, private billService:BillService,private customerService:CustomersService,public dialog: MatDialog) { }
 
   ngOnInit() {
@@ -153,6 +155,11 @@ deletePayment(payment)
     // this.waybillService.getWaybill(this.config.getWaybillUrl, waybill.id).subscribe(response=>{
       
     // });
+  }
+  analyzeBill(bill)
+  {
+    this.showAnalyzedBillDialog=true;
+    this.selectedAnalyzedBill=bill;
   }
   onCloseNewBillDialog()
   {

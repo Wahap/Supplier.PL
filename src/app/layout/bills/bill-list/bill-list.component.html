@@ -23,20 +23,21 @@
         <ng-template pTemplate="body" let-bill let-columns="columns">
             <tr>
                 <td *ngFor="let col of columns" [ngSwitch]="col.field">
-                    <span *ngSwitchCase="'billNumber'">{{bill.billNumber}} <span class="badge">(irsaliye:{{bill.waybillId}})</span>
+                   <button class="btn btn-info btn-sm" *ngSwitchCase="'billNumber'" (click)="analyzeBill(bill)"><i class="fa fa-line-chart" aria-hidden="true"></i></button>
+                    <span *ngSwitchCase="'billNumber'" class="font-weight-bold">{{bill.billNumber}} <span class="badge">(irsaliye:{{bill.waybillId}})</span>
                     </span>
                     <span *ngSwitchCase="'companyName'">{{bill.customer.companyName}}</span>
 
                     <span *ngSwitchCase="'isPaid'">
                         <p-inputSwitch [(ngModel)]="bill.isPaid" (onChange)="onIsPaidChange(bill)"></p-inputSwitch><span
                             class="isPaid" [ngClass]="bill.isPaid ? 'text-success' : 'text-danger'">{{bill.isPaid?'Ödendi':'Ödenmedi'}}</span>
-                        <button class="btn btn-primary" id="show-payment-dialog" (click)="openPaymentDialog(bill)"><i
+                        <button class="btn btn-primary btn-sm" id="show-payment-dialog" (click)="openPaymentDialog(bill)"><i
                                 class="fa fa-plus" aria-hidden="true"></i> <i class="fa fa-eur" aria-hidden="true"></i></button>
                     </span>
-                    <button *ngSwitchCase="'update'" class="btn btn-success" (click)="updateBill(bill)"><i class="fa fa-pencil"></i>Güncelle
+                    <button *ngSwitchCase="'update'" class="btn btn-success btn-sm" (click)="updateBill(bill)"><i class="fa fa-pencil"></i>Güncelle
                     </button>
-                    <button *ngSwitchCase="'print'" class="btn btn-primary" (click)="onBillPreview(bill)"><a class="fa fa-eye"></a>Önizleme</button>
-                    <button *ngSwitchCase="'delete'" class="btn btn-danger" (click)="deleteBill(bill)"><i class="fa fa-times"></i>Sil</button>
+                    <button *ngSwitchCase="'print'" class="btn btn-primary btn-sm" (click)="onBillPreview(bill)"><a class="fa fa-eye"></a>Önizleme</button>
+                    <button *ngSwitchCase="'delete'" class="btn btn-danger btn-sm" (click)="deleteBill(bill)"><i class="fa fa-times"></i>Sil</button>
                 </td>
             </tr>
         </ng-template>
@@ -109,6 +110,14 @@
     <div>
 
         <app-save-bill [selectedBill]="selectedBill"></app-save-bill>
+    </div>
+</p-dialog>
+
+<p-dialog [positionTop]="50" header="Fatura Analizi" maximizable="true" [(visible)]="showAnalyzedBillDialog" 
+    [responsive]="true" showEffect="fade" [modal]="true" width="95%">
+    <div>
+
+        <app-analyze-bill [bill]="selectedAnalyzedBill"></app-analyze-bill>
     </div>
 </p-dialog>
 
