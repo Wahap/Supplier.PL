@@ -119,7 +119,7 @@ export class SaveBillComponent implements OnInit {
         this.selectedDiscountRate = discountRates[0];
       }
 
-    });
+    });  
   }
 
   fillCategories() {

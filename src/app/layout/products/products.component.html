@@ -22,7 +22,17 @@
                     </button>
 
                     Ürün Listesi (Toplam Ürün Sayısı: {{products.length}})
-
+                    <div style="text-align: right">        
+                      
+                        <mat-select placeholder="Kategori Seçiniz" [(value)]="filteredCategoryId">
+                            <mat-option [value]="0">
+                                Tüm Kategoriler
+                            </mat-option>
+                            <mat-option *ngFor="let cat of categories" [value]="cat.id">
+                                {{cat.name}}
+                            </mat-option>
+                        </mat-select>
+                    </div>
                 </ng-template>
 
                 <ng-template pTemplate="header" let-columns>
@@ -49,7 +59,7 @@
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-pro let-columns="columns">
-                    <tr [pSelectableRow]="pro">
+                    <tr [pSelectableRow]="pro" *ngIf="filterProductsByCategory(filteredCategoryId,pro)">
                         <td *ngFor="let col of columns" [ngSwitch]="col.field" (click)="col.field!='resim'?onRowSelect(pro):''">
                             <img *ngSwitchCase="'resim'" class="product-image" (click)="showImgDialog(pro)" src="./assets/images/Products/{{pro.barcodeOfProduct}}.jpg"
                                 [alt]="pro.productName" onError="this.src='http://via.placeholder.com/500x500';">

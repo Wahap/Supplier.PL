@@ -271,6 +271,20 @@ export class ProductsComponent implements OnInit {
 
   }
   //==< Image funcs
+
+  filterProductsByCategory(filteredCategoryId, product:Product) {
+   
+    if (filteredCategoryId == undefined || filteredCategoryId == 0) {
+      return true;
+    }
+    else if (product.category == null) {
+      return false;
+    }
+   
+    else {
+      return product.categoryId == filteredCategoryId;
+    }
+  }
   getProducts() {
     this.loading = true;
     this.productsService.getProducts(this.config.getProductsUrl, null)
