@@ -5,6 +5,12 @@ import { DiscountRate } from "./discountRate";
 import { Payment } from "./payment";
 export class Bill
 {
+  
+    constructor() {
+      this.createdDate=new Date();
+      this.deliveryDate=new Date();
+        
+    }
     id:number;
     billNumber:number;   
     customerId:number;

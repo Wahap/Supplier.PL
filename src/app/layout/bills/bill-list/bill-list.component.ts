@@ -30,6 +30,7 @@ export class BillListComponent implements OnInit {
   payment:Payment=new Payment();
   paymentTypes:PaymentType[]=[];
   paymentTotals:Totals=new Totals();
+  today:Date=new Date();
   constructor(private configService: ConfigService,private commonService:CommonService, private billService:BillService,private customerService:CustomersService,public dialog: MatDialog) { }
 
   ngOnInit() {
@@ -107,7 +108,7 @@ deletePayment(payment)
 {
   
 
-    this.billService.deletePayment(this.config.deletePaymentUrl,this.payment).subscribe(response=>{
+    this.billService.deletePayment(this.config.deletePaymentUrl,payment).subscribe(response=>{
       //refresh payments table
     this.getBillPayments(this.selectedBill);
     this.payment=new Payment();

@@ -6,7 +6,7 @@ import { ProductsService } from './products.service';
 import { Product } from '../../shared/DTOs/product';
 import { brand } from '../../shared/DTOs/brand';
 import { CommonService } from '../../shared/common.service';
-import { category } from '../../shared/DTOs/category';
+import { Category } from '../../shared/DTOs/category';
 import { unit } from '../../shared/DTOs/unit';
 import { supplier } from '../../shared/DTOs/supplier';
 import 'jspdf';
@@ -33,8 +33,8 @@ export class ProductsComponent implements OnInit {
   displayChangeImg: boolean;
   brands: brand[];
   selectedBrand: brand;
-  categories: category[];
-  selectedCategory: category;
+  categories: Category[];
+  selectedCategory: Category;
   suppliers: supplier[];
   selectedSupplier: supplier;
   deleteButtonText: string
@@ -54,7 +54,7 @@ export class ProductsComponent implements OnInit {
     this.deleteButtonText = 'Pasif Et';
     this.loading = false;
     this.selectedBrand = new brand();
-    this.selectedCategory = new category();
+    this.selectedCategory = new Category();
     this.selectedUnit = new unit();
     this.selectedSupplier = new supplier();
     this.product = new Product();
@@ -87,7 +87,7 @@ export class ProductsComponent implements OnInit {
   showDialogToAdd() {
     this.newProduct = true;
     this.selectedBrand = new brand();
-    this.selectedCategory = new category();
+    this.selectedCategory = new Category();
     this.selectedUnit = new unit();
     this.selectedSupplier = new supplier();
     this.product = new Product();

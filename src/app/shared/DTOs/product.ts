@@ -1,4 +1,5 @@
 import { ProductPriceGroup } from "./productPriceGroup";
+import { Category } from "./category";
 
 export class Product
 {
@@ -24,6 +25,8 @@ export class Product
     updateDate:Date;
     productPriceGroups:ProductPriceGroup[];
 
+    //Navigation Properties
+    category:Category;
     //Using only UI Properties
     bronzePriceGroup:ProductPriceGroup;
     silverPriceGroup:ProductPriceGroup;

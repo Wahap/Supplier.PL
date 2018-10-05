@@ -72,6 +72,8 @@
         <tr>
           <th style="    text-align: left;border-bottom: 1px solid #ccc;">Pos</th>
           <th style="    text-align: left;border-bottom: 1px solid #ccc;">Artikel Bezeichnung</th>
+          <th style="    text-align: left;border-bottom: 1px solid #ccc;">Barcode</th>
+          <th style="    text-align: right;border-bottom: 1px solid #ccc;">Art.Nr.</th>
           <th style="    text-align: right;border-bottom: 1px solid #ccc;">Einheit</th>
           <th style="    text-align: right;border-bottom: 1px solid #ccc;">Menge</th>
           <th style="    text-align: right;border-bottom: 1px solid #ccc;" >Preis Stk</th>
@@ -83,10 +85,12 @@
         <tr *ngFor="let pro of selectedBill?.billProducts;let i=index;">
           <td>{{i+1}}</td>
           <td>{{pro.product.productName}}</td>
-          <td style="    text-align: right;">{{pro.numberOfPackage}}</td>
-          <td style="    text-align: right;">{{pro.numberOfPackage * pro.product.unitsInPackage}}</td>
-          <td style="    text-align: right;">{{pro.netSalePrice | money}} €</td>
-          <td style="    text-align: right;">{{(pro.numberOfPackage * pro.product.unitsInPackage * pro.netSalePrice) | money}} €</td>
+          <td>{{pro.product.barcodeOfProduct}}</td>
+          <td style="text-align: right;">{{pro.product.orderNumber}}</td>
+          <td style="text-align: right;">{{pro.numberOfPackage}}</td>
+          <td style="text-align: right;">{{pro.numberOfPackage * pro.product.unitsInPackage}}</td>
+          <td style="text-align: right;">{{pro.netSalePrice | money}} €</td>
+          <td style="text-align: right;">{{(pro.numberOfPackage * pro.product.unitsInPackage * pro.netSalePrice) | money}} €</td>
         </tr>
       </tbody>
     </table>
@@ -146,10 +150,7 @@
   <ng-template #paid_content> 
     <p>Betrag {{billTotals?.totalGrossPrice | money}} EURO dankend erhalten.</p>
   </ng-template>
-    <!--<div>
-      <span>Zahlbar bis {{lastPaymentDate | date:'dd/MM/yyyy'}} ohne Abzug.</span> <br>
-      <span> OffenerBetrag {{billTotals?.totalGrossPrice | money}} EURO. Die Ware bleibt bis zur vollstandigen Bezahlung unser Eigentum.</span>
-    </div> -->
+   
   </div>
     
      

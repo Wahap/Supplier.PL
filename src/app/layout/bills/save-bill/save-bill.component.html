@@ -8,7 +8,7 @@
                         <td>  <p-dropdown [options]="customers" (onChange)="onCustomerSelect()" [style]="{'width':'100%'}" [(ngModel)]="selectedCustomer" placeholder="Müşteri"
                             optionLabel="companyName" filter="true"></p-dropdown></td>
                             <td>Fiyat Tipi</td>
-                            <td> <select id="drpPriceType" class="form-control form-control-sm" [(ngModel)]="priceTypeId" (change)="getProducts()" (change)="getProducts()">
+                            <td> <select id="drpPriceType" class="form-control form-control-sm" [(ngModel)]="priceTypeId"  (change)="getProducts()">
                                     <option value="1">Müşteriye Özel</option>
                                     <option value="2">Sabit Fiyat</option>
                                     <option value="3">Bronz Fiyat</option>
@@ -50,9 +50,20 @@
             [scrollHeight]="windowsHeight()">
                 <ng-template pTemplate="caption">
                     Ürünler ({{basketProducts.length}})
+                    <div style="text-align: right">        
+                      
+                        <mat-select placeholder="Kategori Seçiniz" [(value)]="filteredCategoryId">
+                            <mat-option [value]="0">
+                                Tüm Kategoriler
+                            </mat-option>
+                            <mat-option *ngFor="let cat of categories" [value]="cat.id">
+                                {{cat.name}}
+                            </mat-option>
+                        </mat-select>
+                    </div>
                 </ng-template>
                 <ng-template pTemplate="header" let-columns>
-                    <tr>
+                    <tr >
                         <th *ngFor="let col of columns">
                             {{col.header}}
                         </th>
@@ -73,7 +84,7 @@
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-basketProduct let-columns="columns">
-                    <tr>
+                    <tr *ngIf="filterProductsByCategory(filteredCategoryId,basketProduct)">
                         <td *ngFor="let col of columns" [ngSwitch]="col.field">
                             <span *ngSwitchCase="'barcodeOfProduct'">{{basketProduct.product.barcodeOfProduct}}</span>
                             <span *ngSwitchCase="'orderNumber'">{{basketProduct.product.orderNumber}}</span>

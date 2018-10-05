@@ -18,6 +18,7 @@ import { ProductListOptions } from '../../../shared/DTOs/productListOptions';
 import { Totals } from '../../../shared/DTOs/totals';
 import { DiscountRate } from '../../../shared/DTOs/discountRate';
 import { CommonService } from '../../../shared/common.service';
+import { Category } from '../../../shared/DTOs/category';
 @Component({
   selector: 'app-new-waybill',
   templateUrl: './new-waybill.component.html',
@@ -35,8 +36,8 @@ export class NewWaybillComponent implements OnInit {
   selectedAddress: Address = new Address();
   deliveryAddress: Address = new Address();
   deletedBasketProducts: BasketProduct[] = [];
-  createdDate: Date;
-  deliveryDate: Date;
+  createdDate: Date=new Date();//Default value
+  deliveryDate: Date=new Date();
   productList: Product[] = [];
   loading: boolean;
   lastWaybill: Waybill;
@@ -44,6 +45,7 @@ export class NewWaybillComponent implements OnInit {
   productListCols: any[];
   convertedBillNumber:number;
 currentWaybillTotals:Totals=new Totals();
+categories: Category[] = [];
 @ViewChild('wayBillProductsContainer') private wayBillProductsContainer: ElementRef;
   @Input()
   selectedWayBill: Waybill;
@@ -68,6 +70,7 @@ currentWaybillTotals:Totals=new Totals();
     //this.getProducts();
     //  this.fillBasketProducts();
     this.fillCustomers();
+    this.fillCategories();
     this.fillDiscountRates();//Skonto
 
     //this.setLastWaybill();
@@ -308,24 +311,29 @@ currentWaybillTotals:Totals=new Totals();
       this.loading = false;
     });
   }
-  // fillBasketProducts() {
-  //   this.basketProducts = [];
-
-  //   this.productList.forEach(element => {
-  //     let basketProduct = new BasketProduct();
-
-  //     basketProduct.package = 0;
-  //     let productInCurrentWaybill = this.getProductFromCurrentWaybill(element.id);
-  //     if (productInCurrentWaybill) {
-  //       basketProduct.package = productInCurrentWaybill.package;
-  //     }
-  //     basketProduct.product = element;
-  //     this.basketProducts = [...this.basketProducts, basketProduct];
-  //   });
-  // }
-
+ 
+  filterProductsByCategory(filteredCategoryId, basketProduct:BasketProduct) {
+    console.log(basketProduct);
+    if (filteredCategoryId == undefined || filteredCategoryId == 0) {
+      return true;
+    }
+    else if (basketProduct.product.category == null) {
+      return false;
+    }
+   
+    else {
+      return basketProduct.product.categoryId == filteredCategoryId;
+    }
+  }
 
 
+  fillCategories() {
+    this.commonService.getCategories(this.config.getCategoriesUrl, null).subscribe(categories => {
+      this.categories = categories;
+
+
+    });
+  }
   windowsHeight() {
     return (window.screen.height - 325) + "px";
   }

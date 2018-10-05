@@ -5,7 +5,7 @@ import { ConfigService, IConfig } from '../../app.config';
 import { User } from '../../shared/DTOs/user';
 import { CommonService } from '../../shared/common.service';
 import { brand } from '../../shared/DTOs/brand';
-import { category } from '../../shared/DTOs/category';
+import { Category } from '../../shared/DTOs/category';
 import { NgForm } from '@angular/forms';
 import { rootRenderNodes } from '@angular/core/src/view/util';
 import { HttpClient, HttpRequest, HttpEventType, HttpResponse } from '@angular/common/http'
@@ -27,8 +27,8 @@ export class BlankPageComponent implements OnInit {
     user: User;
     brands: brand[];
     selectedBrand: any;
-    categories: category[];
-    selectedCategory: category;
+    categories: Category[];
+    selectedCategory: Category;
     model: any = [];
     items = [];
     public progress: number;

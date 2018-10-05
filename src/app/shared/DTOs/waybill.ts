@@ -4,6 +4,15 @@ import { DiscountRate } from "./discountRate";
 import { WaybillProduct } from "./waybillProduct";
 export class Waybill
 {
+    /**
+     *
+     */
+    constructor() {
+        //set dates default values
+      this.createdDate=new Date();
+      this.deliveryDate=new Date();
+        
+    }
     id:number;
     customerId:number;
     addressId:number;

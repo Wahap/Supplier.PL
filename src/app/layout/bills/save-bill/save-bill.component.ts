@@ -16,6 +16,7 @@ import { ProductListOptions } from '../../../shared/DTOs/productListOptions';
 import { Totals } from '../../../shared/DTOs/totals';
 import { DiscountRate } from '../../../shared/DTOs/discountRate';
 import { CommonService } from '../../../shared/common.service';
+import { Category } from '../../../shared/DTOs/category';
 @Component({
   selector: 'app-save-bill',
   templateUrl: './save-bill.component.html',
@@ -32,8 +33,8 @@ export class SaveBillComponent implements OnInit {
   selectedCustomer: Customer = new Customer();
   selectedAddress: Address = new Address();
   deliveryAddress: Address = new Address();
-  createdDate: Date;
-  deliveryDate: Date;
+  createdDate: Date = new Date();
+  deliveryDate: Date = new Date();
   billNumber: number;
   billNumberIsValid: boolean = true;
   discountRates: DiscountRate[] = [];
@@ -43,7 +44,8 @@ export class SaveBillComponent implements OnInit {
   priceTypeId: number;
   productListCols: any[];
   currentBillTotals: Totals = new Totals();
-  waybillId:number;
+  waybillId: number;
+  categories: Category[] = [];
   @ViewChild('billProductsContainer') private billProductsContainer: ElementRef;
   @Input()
   selectedBill: Bill;
@@ -57,7 +59,7 @@ export class SaveBillComponent implements OnInit {
     this.config = this.configService.getAppConfig();
     this.fillCustomers();
     this.fillDiscountRates();//Skonto
-
+    this.fillCategories();
     this.getNextBillNumber();
     this.productListCols = [
       { field: 'barcodeOfProduct', header: 'Barkod' },
@@ -79,7 +81,7 @@ export class SaveBillComponent implements OnInit {
       this.createdDate = new Date(this.selectedBill.createdDate);
       this.deliveryDate = new Date(this.selectedBill.deliveryDate);
       this.billNumber = this.selectedBill.billNumber;
-      this.waybillId=this.selectedBill.waybillId;
+      this.waybillId = this.selectedBill.waybillId;
       this.selectedCustomer.extraDiscount = this.selectedBill.extraDiscount;//discount sync
       this.selectedDiscountRate = this.discountRates.find(x => x.id == this.selectedBill.discountRateId);
       this.deletedBasketProducts = [];//reset at every new waybill selection
@@ -120,6 +122,14 @@ export class SaveBillComponent implements OnInit {
     });
   }
 
+  fillCategories() {
+    this.commonService.getCategories(this.config.getCategoriesUrl, null).subscribe(categories => {
+      this.categories = categories;
+
+
+    });
+  }
+
   getProductFromCurrentBill(id: number) {
     for (let i = 0; i < this.currentBill.length; i++)//check if product exist in bill
     {
@@ -136,14 +146,14 @@ export class SaveBillComponent implements OnInit {
     }
     else//New bill adding...
     {
-      bill.isPaid=false;
+      bill.isPaid = false;
     }
     // else if (this.lastWaybill != null) {
     //   waybill.id = this.lastWaybill.id;
     // }
     bill.addressId = this.selectedAddress.id;
     bill.billNumber = this.billNumber;
-    bill.waybillId=this.waybillId;
+    bill.waybillId = this.waybillId;
     bill.customerId = this.selectedCustomer.id;
     bill.extraDiscount = this.selectedCustomer.extraDiscount;
     bill.createdDate = this.createdDate;
@@ -155,11 +165,11 @@ export class SaveBillComponent implements OnInit {
     bill.discountRate = null;//No need to create a new Discount rate
     this.currentBill.forEach(basketProduct => {
       let billProduct = new BillProduct();
-      billProduct.id = basketProduct.id;  
+      billProduct.id = basketProduct.id;
       billProduct.billId = bill.id;
       billProduct.numberOfPackage = basketProduct.package;
       billProduct.netSalePrice = basketProduct.product.netSalePrice;
-      billProduct.purchasePrice=basketProduct.product.purchasePrice;
+      billProduct.purchasePrice = basketProduct.product.purchasePrice;
       billProduct.tax = basketProduct.product.tax;
       billProduct.productId = basketProduct.product.id;
       billProduct.status = basketProduct.status;
@@ -201,10 +211,9 @@ export class SaveBillComponent implements OnInit {
     }
 
   }
-  onCustomerSelect()
-  {
-    this.selectedAddress=this.selectedCustomer.addresses[0];
-    this.deliveryAddress=this.selectedCustomer.addresses[0];
+  onCustomerSelect() {
+    this.selectedAddress = this.selectedCustomer.addresses[0];
+    this.deliveryAddress = this.selectedCustomer.addresses[0];
   }
   getProducts() {
     if (!this.selectedCustomer.id) {
@@ -300,22 +309,35 @@ export class SaveBillComponent implements OnInit {
     });
     this.currentBillTotals.totalItems = this.currentBill.length;
   }
+  
 
-
-
-
-
-
-
-  fillCustomers() {
-    this.customerService.getCustomers(this.config.getCustomersUrl, null).subscribe(result => {
-      this.customers = result;
-    });
+  filterProductsByCategory(filteredCategoryId, basketProduct:BasketProduct) {
+    console.log(basketProduct);
+    if (filteredCategoryId == undefined || filteredCategoryId == 0) {
+      return true;
+    }
+    else if (basketProduct.product.category == null) {
+      return false;
+    }
+   
+    else {
+      return basketProduct.product.categoryId == filteredCategoryId;
+    }
   }
 
 
-  windowsHeight() {
-    return (window.screen.height - 325) + "px";
-  }
+
+
+
+fillCustomers() {
+  this.customerService.getCustomers(this.config.getCustomersUrl, null).subscribe(result => {
+    this.customers = result;
+  });
+}
+
+
+windowsHeight() {
+  return (window.screen.height - 325) + "px";
+}
 
 }
