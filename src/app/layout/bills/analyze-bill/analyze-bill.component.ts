@@ -13,7 +13,7 @@ import { BillProduct } from '../../../shared/DTOs/billProduct';
 export class AnalyzeBillComponent implements OnInit {
 @Input("bill") bill:Bill;
 config:IConfig;
-billTotals:Totals;
+billTotals:Totals=new Totals();
 billData:any;
   constructor(private configService:ConfigService,private billService:BillService) { }
 
@@ -58,7 +58,7 @@ billData:any;
       labels: ['Toplam Alış Fiyatı','Toplam Satış Fiyatı'],
       datasets: [
           {
-              data: [this.billTotals.totalPurchasePrice, this.billTotals.totalGrossPrice],
+              data: [this.billTotals.totalPurchasePrice.toFixed(2), this.billTotals.totalNetPrice.toFixed(2)],
               backgroundColor: [
                   "#FF6384",
                   "#36A2EB",

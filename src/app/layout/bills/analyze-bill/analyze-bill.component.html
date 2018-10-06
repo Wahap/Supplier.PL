@@ -1,1 +1,25 @@
-<p-chart type="pie" [data]="billData"></p-chart>
+<div class="row">
+  <div class="col-md-6">
+    <p-chart type="pie" [data]="billData"></p-chart>
+  </div>
+  <div class="col-md-6">
+<table class="table">
+  <tr>
+    <td>Ürün Sayısı</td>
+    <td>{{billTotals.totalItems}}</td>
+  </tr>
+  <tr>
+    <td>Toplam Alış Fiyatı</td>
+    <td>{{billTotals.totalPurchasePrice | money}}</td>
+  </tr>
+  <tr>
+    <td>Toplam Net Satış Fiyatı</td>
+    <td>{{billTotals.totalNetPrice | money}}</td>
+  </tr>
+  <tr>
+    <td>Kar %</td>
+    <td>{{((billTotals.totalNetPrice-billTotals.totalPurchasePrice) * 100/billTotals.totalNetPrice) | money}}</td>
+  </tr>
+</table>
+  </div>
+</div>
