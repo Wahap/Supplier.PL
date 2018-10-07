@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
     errorMessage: string;
     user: User;
     isRemembered : boolean;
-
+    loading:boolean=false;
     constructor(private loginService: LoginServiceService, private configService: ConfigService, public router: Router, public toastr: ToastsManager, vcr: ViewContainerRef) {
         //  this.user = { userName: "vahap", Password: "demir" };
          this.user =new User;
@@ -37,11 +37,13 @@ export class LoginComponent implements OnInit {
     }
 
     onLoggedin() {
+        this.loading=true;
         this.loginService.login(this.config.logInUrl, this.user)
-            .subscribe(items => {
-                if (items != null && items.length != 0) {
+            .subscribe(user => {
+                this.loading=false;
+                if (user != null && user.name) {
                     localStorage.setItem('isLoggedin', 'true');
-                    localStorage.setItem('userToken', items.token);
+                    localStorage.setItem('userToken', user.token);
                     //Remember me Conan..
                     this.rememberMe();
                     this.router.navigate(['/products']);

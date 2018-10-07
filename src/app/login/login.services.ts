@@ -11,20 +11,14 @@ export class LoginServiceService {
 
   } 
 
-  login(url: string, userState: any): any {
+  // login(url: string, userState: any): any {
  
-    return this.http.post(url, userState)
-      .map(this.extractDetailData);
+  //   return this.http.post(url, userState)
+  //     .map(this.extractDetailData);
+  // }
+  login(url: string, input: any): any {
+    return this.http.post(url, input)
+      .map((response: Response) => response.json());
   }
-  setGreetingMessage(name) {
-    this.name = name;
-  }
-  getGreetingMessage() {
-    return this.name;
-  }
-
-  private extractDetailData(res: Response) {
-    let body = res.json();
-    return body || [];
-  }
+ 
 }

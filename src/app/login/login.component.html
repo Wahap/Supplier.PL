@@ -19,9 +19,12 @@
                         </div>
 
                 </div>
-                <a class="btn rounded-btn"  (click)="onLoggedin()"> Giris Yap </a>
-                &nbsp;
-                <a class="btn rounded-btn" [routerLink]="['/signup']">Kayit Ol</a>
+              
+                <button class="btn rounded-btn" [class.disabled]="loading"  (click)="onLoggedin()">
+                    <i class="fa fa-spinner fa-spin" style="font-size:24px"></i>
+                    Giriş Yap
+                  </button>
+                <!-- <a class="btn rounded-btn" [routerLink]="['/signup']">Kayit Ol</a> -->
             </form>
         </div>
     </div>
