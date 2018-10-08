@@ -9,6 +9,7 @@ import {
     InputTextModule, DataTableModule, SharedModule, ButtonModule, DialogModule,
     StepsModule, DropdownModule,SliderModule,InputSwitchModule
 } from 'primeng/primeng';
+import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import { CalendarModule } from 'primeng/primeng';
 import {KeyFilterModule} from 'primeng/keyfilter';
 import { LayoutRoutingModule } from './layout-routing.module';
@@ -57,7 +58,7 @@ import { AnalyzeBillComponent } from './bills/analyze-bill/analyze-bill.componen
         NgbDropdownModule.forRoot(),
         FormsModule,
         ChartModule,
-        InputTextModule, DataTableModule, SharedModule, ButtonModule, DialogModule, CalendarModule,
+        InputTextModule, DataTableModule, SharedModule, ButtonModule, DialogModule, CalendarModule,ProgressSpinnerModule,
         StepsModule, DropdownModule,TableModule,KeyFilterModule,SliderModule,InputSwitchModule,
         MaterialModule
     ],

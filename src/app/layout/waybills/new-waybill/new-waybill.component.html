@@ -1,7 +1,7 @@
 <!-- <pdf-waybill [waybill]="selectedWayBill==null? lastWaybill:selectedWayBill">
 </pdf-waybill> -->
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-5">
             <div id="waybill-customer-selection">
                     <table class="table">
                         <tr>
@@ -70,13 +70,13 @@
 
                 </tr>
                 <tr>
-                    <th>
+                    <!-- <th>
                         <input placeholder="Barkod..." class="form-control form-control-sm" type="text" (input)="dtBasketProducts.filter($event.target.value, 'product.barcodeOfProduct','contains')">
-                    </th>
-                    <th>
+                    </th> -->
+                    <!-- <th>
                         <input placeholder="Siparis Numarası..." class="form-control form-control-sm" type="text"
                             (input)="dtBasketProducts.filter($event.target.value, 'product.orderNumber','contains')">
-                    </th>
+                    </th> -->
                     <th>
                         <input placeholder="Ürün..." class="form-control form-control-sm" type="text" (input)="dtBasketProducts.filter($event.target.value, 'product.productName','contains')">
                     </th>
@@ -85,15 +85,15 @@
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-basketProduct let-columns="columns">
-                <tr *ngIf="filterProductsByCategory(filteredCategoryId,basketProduct)">
+                <tr *ngIf="filterProductsByCategory(filteredCategoryId,basketProduct)" style="background-color:black;color:white;">
                     <td *ngFor="let col of columns" [ngSwitch]="col.field">
-                        <span *ngSwitchCase="'barcodeOfProduct'">{{basketProduct.product.barcodeOfProduct}}</span>
-                        <span *ngSwitchCase="'orderNumber'">{{basketProduct.product.orderNumber}}</span>
+                        <!-- <span *ngSwitchCase="'barcodeOfProduct'">{{basketProduct.product.barcodeOfProduct}}</span>
+                        <span *ngSwitchCase="'orderNumber'">{{basketProduct.product.orderNumber}}</span> -->
                         <span *ngSwitchCase="'productName'">{{basketProduct.product.productName}}</span>
-                        <input *ngSwitchCase="'netSalePrice'" [(ngModel)]="basketProduct.product.netSalePrice" class="form-control" />
+                        <input *ngSwitchCase="'netSalePrice'"  [(ngModel)]="basketProduct.product.netSalePrice" class="form-control netSalePrice" />
                         <div *ngSwitchCase="'package'" class="ui-inputgroup">
                             <button class="btnDecrease" (click)="decrease(basketProduct)">-</button>
-                            <input type="number" min="0" class="waybill-product-package" [(ngModel)]="basketProduct.package"
+                            <input type="number"  min="0" class="waybill-product-package" [(ngModel)]="basketProduct.package"
                                 (ngModelChange)="setPackage(basketProduct)" />
                             <button class="btnIncrease" (click)="increase(basketProduct)">+</button>
                         </div>
@@ -105,7 +105,7 @@
 
 
     </div>
-    <div class="col-md-6">
+    <div class="col-md-7">
         <div id="waybillContainer">
 
          
@@ -135,8 +135,8 @@
                         <tr>
                             <th>Pos</th>
                             <th>Menge</th>
-                            <th>Art.Nr.</th>
-                            <th>Barcode</th>
+                            <!-- <th>Art.Nr.</th>
+                            <th>Barcode</th> -->
                             <th>Text</th>
                             <th>Preis</th>
                             <th>MwSt</th>
@@ -151,8 +151,8 @@
                                     (ngModelChange)="setPackage(product)" />
                                 <button class="btnIncrease btn-success" (click)="increase(product)">+</button>
                             </td>
-                            <td>{{product.product.orderNumber}}</td>
-                            <td>{{product.product.barcodeOfProduct}}</td>
+                            <!-- <td>{{product.product.orderNumber}}</td>
+                            <td>{{product.product.barcodeOfProduct}}</td> -->
                             <td>{{product.product.productName}}</td>
 
                             <td><input type="number" class="form-control form-control-sm waybill-netSale-Price"
@@ -165,8 +165,7 @@
                         <tr>
                             <td></td>
                             <td> <mark>{{currentWaybillTotals.totalPackages}} Kolli</mark> </td>
-                            <td></td>
-                            <td></td>
+                            
                             <td> <mark>{{currentWaybillTotals.totalItems}} Artikel</mark> </td>
                             <td></td>
                             <td></td>
@@ -192,7 +191,7 @@
             </div>
             <div id="waybillOperations">
                 <button class="btn btn-success" [disabled]="currentWaybill.length==0 || selectedCustomer.id==null || selectedAddress.id==null || createdDate==null || deliveryDate==null"
-                    (click)="saveWaybill()">KAYDET</button>
+                    (click)="saveWaybill()"><p-progressSpinner *ngIf="isWaybillSaving" [style]="{width: '20px', height: '20px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner>KAYDET</button>
                 <button class="btn btn-danger" [disabled]="currentWaybill.length<1" (click)="clearProducts()">Temizle</button>
             </div>
         </div>

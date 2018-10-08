@@ -46,6 +46,7 @@ export class SaveBillComponent implements OnInit {
   currentBillTotals: Totals = new Totals();
   waybillId: number;
   categories: Category[] = [];
+  isBillSaving:boolean=false;
   @ViewChild('billProductsContainer') private billProductsContainer: ElementRef;
   @Input()
   selectedBill: Bill;
@@ -140,6 +141,7 @@ export class SaveBillComponent implements OnInit {
     return null;
   }
   saveBill() {
+    this.isBillSaving=true;
     let bill: Bill = new Bill();
     if (this.selectedBill != null) {//Bill Updating...
       bill.id = this.selectedBill.id;
@@ -188,6 +190,7 @@ export class SaveBillComponent implements OnInit {
 
     this.billService.saveBill(this.config.saveBillUrl, bill).subscribe(result => {
       this.toastr.success("Fatura başarıyla kaydedildi...");
+      this.isBillSaving=false;
       if (this.selectedBill == null)//new bill operation completed
       {
         this.router.navigateByUrl('thisMonthBills');

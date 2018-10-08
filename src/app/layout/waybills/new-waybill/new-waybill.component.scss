@@ -124,3 +124,36 @@ input[type="number"]::-webkit-inner-spin-button {
 input[type="number"] {
     -moz-appearance: textfield;
 }
+
+#waybillContainer
+{
+    color: black;
+}
+.ui-table .ui-table-tbody > tr:nth-child(even) {
+    background-color: black !important;
+}
+.ui-table .ui-table-tbody > tr {
+    background-color: black !important;
+    color: white !important;
+}
+.btnDecrease
+{
+    background-color: red;
+    padding: 2px 9px;
+    color: white;
+    font-weight: bold;
+}
+.btnIncrease
+{
+    background-color: green;
+    padding: 2px 9px;
+    color: white;
+    font-weight: bold;
+}
+.netSalePrice
+{
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.4em;
+    padding: 0px;
+}

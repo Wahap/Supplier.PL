@@ -30,7 +30,7 @@ export class NewWaybillComponent implements OnInit {
   currentWaybill: BasketProduct[] = [];
   customers: Customer[] = [];
   discountRates:DiscountRate[]=[];
-  priceTypeId: number;
+  priceTypeId: number=1;
   selectedCustomer: Customer = new Customer();
   selectedDiscountRate:DiscountRate=new DiscountRate();
   selectedAddress: Address = new Address();
@@ -46,6 +46,7 @@ export class NewWaybillComponent implements OnInit {
   convertedBillNumber:number;
 currentWaybillTotals:Totals=new Totals();
 categories: Category[] = [];
+isWaybillSaving:boolean=false;
 @ViewChild('wayBillProductsContainer') private wayBillProductsContainer: ElementRef;
   @Input()
   selectedWayBill: Waybill;
@@ -59,8 +60,8 @@ categories: Category[] = [];
     this.config = this.configService.getAppConfig();
     
     this.productListCols = [
-      { field: 'barcodeOfProduct', header: 'Barkod' },
-      { field: 'orderNumber', header: 'S.No' },
+      // { field: 'barcodeOfProduct', header: 'Barkod' },
+      // { field: 'orderNumber', header: 'S.No' },
       { field: 'productName', header: 'Ürün' },
       { field: 'netSalePrice', header: 'Fiyat' },
       { field: 'package', header: 'Koli' }
@@ -116,8 +117,10 @@ categories: Category[] = [];
   {
     this.selectedAddress=this.selectedCustomer.addresses[0];
     this.deliveryAddress=this.selectedCustomer.addresses[0];
+    this.getProducts();
   }
   saveWaybill() {
+    this.isWaybillSaving=true;
     let waybill: Waybill = new Waybill();
     if (this.selectedWayBill != null) {
       waybill.id = this.selectedWayBill.id;
@@ -161,6 +164,7 @@ categories: Category[] = [];
 
     this.waybillService.saveWaybill(this.config.saveWaybillUrl, waybill).subscribe(result => {
       this.toastr.success("irsaliye başarıyla kaydedildi...");
+      this.isWaybillSaving=false;
       if(this.selectedWayBill==null)//new waybill operation completed
       {
         this.router.navigateByUrl('thisMonthWaybills');
