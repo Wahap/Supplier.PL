@@ -180,6 +180,7 @@ export class SaveBillComponent implements OnInit {
     this.deletedBasketProducts.forEach(dltd => {
       let deletedBillProduct = new BillProduct();
       deletedBillProduct.id = dltd.id;
+      deletedBillProduct.productId = dltd.product.id;
       deletedBillProduct.status = 'deleted';
       bill.billProducts.push(deletedBillProduct);
 

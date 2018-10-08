@@ -13,7 +13,7 @@
           <p-dropdown [options]="customers" optionLabel="companyName" placeholder="Müşteri" [(ngModel)]="selectedCustomer"  [filter]="true" [style]="{'width':'250px'}"></p-dropdown>
         </div>
         <div class="form-group ml-2">
-          <select class="form-control" [(ngModel)]="filter.isPaid">
+          <select class="form-control form-control-sm" [(ngModel)]="filter.isPaid">
             <option value="" selected>Tümü</option>
             <option value="true" >Ödenenler</option>
             <option value="false">Ödenmeyenler</option>
