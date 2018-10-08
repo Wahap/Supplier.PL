@@ -34,8 +34,10 @@ export class FilterBillsComponent implements OnInit {
 
   filterBills()
   {
+
     this.loading=true;
     this.filter.customerId=this.selectedCustomer.id;
+  
     this.billService.filterBills(this.config.filterBillsUrl,this.filter).subscribe(bills=>{
       this.filteredBills=bills;
       this.loading=false;
