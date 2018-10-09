@@ -10,7 +10,7 @@ import { Payment } from '../../../shared/DTOs/payment';
 import { CommonService } from '../../../shared/common.service';
 import { PaymentType } from '../../../shared/DTOs/paymentType';
 import { Totals } from '../../../shared/DTOs/totals';
-
+ 
 @Component({
   selector: 'app-bill-list',
   templateUrl: './bill-list.component.html',

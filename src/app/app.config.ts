@@ -50,6 +50,17 @@ export interface IConfig {
 	getThisWeekBillsUrl:string;
 	getThisMonthBillsUrl:string;
 	filterBillsUrl:string;
+	
+	//VendorBillUrls
+	getVendorBillUrl:string;
+	saveVendorBillUrl:string;
+	getAllVendorBillsUrl:string;
+	deleteVendorBillUrl:string;
+	getVendorBillProductsUrl:string;
+	getThisWeekVendorBillsUrl:string;
+	getThisMonthVendorBillsUrl:string;
+	filterVendorBillsUrl:string;
+	
 	//DiscountRates
 	getAllDiscountRatesUrl:string;
 	//Common
@@ -131,6 +142,17 @@ export class ConfigService {
 		let getThisWeekBillsUrl = (debug ? serverLoginPathDebug + "bill/getThisWeekBills" : serverLoginPath + "bill/getThisWeekBills");
 		let getThisMonthBillsUrl = (debug ? serverLoginPathDebug + "bill/getThisMonthBills" : serverLoginPath + "bill/getThisMonthBills");
 		let filterBillsUrl = (debug ? serverLoginPathDebug + "bill/filterBills" : serverLoginPath + "bill/filterBills");
+
+		//Vendors Urls
+		let saveVendorBillUrl = (debug ? serverLoginPathDebug + "VendorBill/save" : serverLoginPath + "VendorBill/save");
+		let getAllVendorBillsUrl = (debug ? serverLoginPathDebug + "VendorBill/getallbills" : serverLoginPath + "VendorBill/getallbills");
+		let deleteVendorBillUrl = (debug ? serverLoginPathDebug + "VendorBill/deletebill" : serverLoginPath + "VendorBill/deletebill");
+		let getVendorBillUrl = (debug ? serverLoginPathDebug + "VendorBill/getbill" : serverLoginPath + "VendorBill/getbill");
+		let getVendorBillProductsUrl=(debug ? serverLoginPathDebug + "VendorBill/getBillproducts" : serverLoginPath + "VendorBill/getBillproducts");
+		let getThisWeekVendorBillsUrl = (debug ? serverLoginPathDebug + "VendorBill/getThisWeekBills" : serverLoginPath + "VendorBill/getThisWeekBills");
+		let getThisMonthVendorBillsUrl = (debug ? serverLoginPathDebug + "VendorBill/getThisMonthBills" : serverLoginPath + "VendorBill/getThisMonthBills");
+		let filterVendorBillsUrl = (debug ? serverLoginPathDebug + "VendorBill/filterBills" : serverLoginPath + "VendorBill/filterBills");
+
 		
 		let uploadImageUrl = (debug ? serverLoginPathDebug + "Uploader/Upload" : serverLoginPath + "Uploader/Upload");
 		//Common
@@ -192,6 +214,16 @@ export class ConfigService {
 			uploadImageUrl:uploadImageUrl,
 			savePaymentUrl:savePaymentUrl,
 			filterBillsUrl:filterBillsUrl,
+
+			//VendorBills
+			saveVendorBillUrl:saveVendorBillUrl,
+			getAllVendorBillsUrl:getAllVendorBillsUrl,
+			deleteVendorBillUrl:deleteVendorBillUrl,
+			getVendorBillUrl:getVendorBillUrl,
+			getVendorBillProductsUrl:getVendorBillProductsUrl,
+			getThisWeekVendorBillsUrl:getThisWeekVendorBillsUrl,
+			getThisMonthVendorBillsUrl:getThisMonthVendorBillsUrl,
+			filterVendorBillsUrl:filterVendorBillsUrl,
 			//Common
 			getAllDiscountRatesUrl:getAllDiscountRatesUrl,
 			getPaymentTypesUrl:getPaymentTypesUrl,

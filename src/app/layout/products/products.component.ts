@@ -8,7 +8,7 @@ import { brand } from '../../shared/DTOs/brand';
 import { CommonService } from '../../shared/common.service';
 import { Category } from '../../shared/DTOs/category';
 import { unit } from '../../shared/DTOs/unit';
-import { supplier } from '../../shared/DTOs/supplier';
+import { Supplier } from '../../shared/DTOs/supplier';
 import 'jspdf';
 declare var jsPDF: any; // Important 
 import 'html2canvas';
@@ -35,8 +35,8 @@ export class ProductsComponent implements OnInit {
   selectedBrand: brand;
   categories: Category[];
   selectedCategory: Category;
-  suppliers: supplier[];
-  selectedSupplier: supplier;
+  suppliers: Supplier[];
+  selectedSupplier: Supplier;
   deleteButtonText: string
   taxNumbers: Array<any> = [];
   selectedTax: any;
@@ -56,7 +56,7 @@ export class ProductsComponent implements OnInit {
     this.selectedBrand = new brand();
     this.selectedCategory = new Category();
     this.selectedUnit = new unit();
-    this.selectedSupplier = new supplier();
+    this.selectedSupplier = new Supplier();
     this.product = new Product();
     this.taxNumbers = [{ "data": "7" }, { "data": "19" }, { "data": "0" }];
     this.selectedTax = this.taxNumbers[0];
@@ -89,7 +89,7 @@ export class ProductsComponent implements OnInit {
     this.selectedBrand = new brand();
     this.selectedCategory = new Category();
     this.selectedUnit = new unit();
-    this.selectedSupplier = new supplier();
+    this.selectedSupplier = new Supplier();
     this.product = new Product();
     this.selectedTax = this.taxNumbers[0];
     this.displayDialog = true;

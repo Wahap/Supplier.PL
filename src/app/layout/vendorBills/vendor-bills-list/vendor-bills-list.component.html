@@ -1,0 +1,70 @@
+<div>
+  <p-table #dtBillList [columns]="billListColumns" [value]="allBills" [loading]="loading" [scrollable]="true"
+      [scrollHeight]="windowsHeight()">
+      <ng-template pTemplate="header" let-columns>
+          <tr>
+              <th *ngFor="let col of columns">
+                  {{col.header}}
+              </th>
+          </tr>
+          <tr>
+              <th>
+                  <input placeholder="Fatura.No..." class="form-control form-control-sm" type="text" (input)="dtBillList.filter($event.target.value, 'billNumber','contains')">
+              </th>
+              <th>
+                 
+              </th>
+
+              <th></th>
+              <th></th>
+              <th></th>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-bill let-columns="columns">
+          <tr>
+              <td *ngFor="let col of columns" [ngSwitch]="col.field">
+                 <!-- <button class="btn btn-info btn-sm" *ngSwitchCase="'billNumber'" (click)="analyzeBill(bill)"><i class="fa fa-line-chart" aria-hidden="true"></i></button> -->
+                  <span *ngSwitchCase="'billNumber'" class="font-weight-bold">{{bill.billNumber}}</span>
+                  <span *ngSwitchCase="'supplier'">{{bill.supplier.name}}</span>
+
+                  <span *ngSwitchCase="'isPaid'">
+                      <p-inputSwitch [(ngModel)]="bill.isPaid" (onChange)="onIsPaidChange(bill)"></p-inputSwitch><span
+                          class="isPaid" [ngClass]="bill.isPaid ? 'text-success' : 'text-danger'">{{bill.isPaid?'Ödendi':'Ödenmedi'}}</span>
+                      <button class="btn btn-primary btn-sm" id="show-payment-dialog" (click)="openPaymentDialog(bill)"><i
+                              class="fa fa-plus" aria-hidden="true"></i> <i class="fa fa-eur" aria-hidden="true"></i></button>
+                  </span>
+                  <button *ngSwitchCase="'update'" class="btn btn-success btn-sm" (click)="updateBill(bill)"><i class="fa fa-pencil"></i>Güncelle
+                  </button>
+                  <button *ngSwitchCase="'print'" class="btn btn-primary btn-sm" (click)="onBillPreview(bill)"><a class="fa fa-eye"></a>Önizleme</button>
+                  <button *ngSwitchCase="'delete'" class="btn btn-danger btn-sm" (click)="deleteBill(bill)"><i class="fa fa-times"></i>Sil</button>
+              </td>
+          </tr>
+      </ng-template>
+  </p-table>
+
+</div>
+
+
+<p-dialog [positionTop]="50" header="Fatura Detayları" maximizable="true" [(visible)]="showUpdateBillDialog" (onHide)="onCloseNewBillDialog()"
+  [responsive]="true" showEffect="fade" [modal]="true" width="95%">
+  <div>
+
+      <app-save-vendor-bill [selectedBill]="selectedBill"></app-save-vendor-bill>
+  </div>
+</p-dialog>
+
+<!-- <p-dialog [positionTop]="50" header="Fatura Analizi" maximizable="true" [(visible)]="showAnalyzedBillDialog" 
+  [responsive]="true" showEffect="fade" [modal]="true" width="1000">
+  <div>
+
+      <app-analyze-bill [bill]="selectedAnalyzedBill"></app-analyze-bill>
+  </div>
+</p-dialog> -->
+
+<p-dialog [positionTop]="50" header="Fatura önizleme" maximizable="true" [(visible)]="showPrintDialog" [responsive]="true"
+  showEffect="fade" [modal]="true" width="95%">
+  <div>
+      <app-vendor-bill-print [selectedBill]="selectedBill"></app-vendor-bill-print>
+
+  </div>
+</p-dialog>

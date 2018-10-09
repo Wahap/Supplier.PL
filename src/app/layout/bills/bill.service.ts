@@ -3,7 +3,7 @@ import { Http, Response, RequestOptions, Headers } from '@angular/http';
 import 'rxjs';
 import { Observable } from 'rxjs/Observable';
 import { Bill } from "../../shared/DTOs/Bill";
-
+ 
 @Injectable()
 export class BillService {
     options: any;

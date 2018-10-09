@@ -24,7 +24,7 @@ import { Category } from '../../../shared/DTOs/category';
 })
 export class SaveBillComponent implements OnInit {
   config: IConfig;
-  loading: boolean;
+  loading: boolean;  
   basketProducts: BasketProduct[] = [];
   productList: Product[] = [];
   currentBill: BasketProduct[] = [];
@@ -86,12 +86,12 @@ export class SaveBillComponent implements OnInit {
       this.selectedCustomer.extraDiscount = this.selectedBill.extraDiscount;//discount sync
       this.selectedDiscountRate = this.discountRates.find(x => x.id == this.selectedBill.discountRateId);
       this.deletedBasketProducts = [];//reset at every new waybill selection
-      this.mapSelectedBillProductsToCurrentWaybillProducts();
+      this.mapSelectedBillProductsToCurrentBillProducts();
     }
 
   }
 
-  mapSelectedBillProductsToCurrentWaybillProducts() {
+  mapSelectedBillProductsToCurrentBillProducts() {
     this.billService.getBillProducts(this.config.getBillProductsUrl, this.selectedBill).subscribe(billProducts => {
       this.currentBill = billProducts.map((billProduct: BillProduct) => {
         let basketProduct = new BasketProduct();

@@ -19,6 +19,11 @@ import { ThisWeekBillsComponent } from './bills/this-week-bills/this-week-bills.
 import { ThisMonthBillsComponent } from './bills/this-month-bills/this-month-bills.component';
 import { FilterWaybillsComponent } from './waybills/filter-waybills/filter-waybills.component';
 import { FilterBillsComponent } from './bills/filter-bills/filter-bills.component';
+import { FilterVendorBillsComponent } from './vendorBills/filter-vendor-bills/filter-vendor-bills.component';
+import { SaveVendorBillComponent } from './vendorBills/save-vendor-bill/save-vendor-bill.component';
+import { VendorBillsListComponent } from './vendorBills/vendor-bills-list/vendor-bills-list.component';
+import { ThisWeekVendorBillsComponent } from './vendorBills/this-week-vendor-bills/this-week-vendor-bills.component';
+import { ThisMonthVendorBillsComponent } from './vendorBills/this-month-vendor-bills/this-month-vendor-bills.component';
 
 
 const routes: Routes = [
@@ -36,14 +41,21 @@ const routes: Routes = [
             { path: 'newWaybill',component:NewWaybillComponent },
             { path: 'thisWeekWaybills',component:ThisWeekWaybillsComponent },
             { path: 'thisMonthWaybills',component:ThisMonthWaybillsComponent },
-            { path: 'thisWeekBills',component:ThisWeekBillsComponent },
-            { path: 'thisMonthBills',component:ThisMonthBillsComponent },
+           
             { path: 'waybills',component:WaybillsListComponent },
             { path: 'filteredWaybills',component:FilterWaybillsComponent },
             { path: 'filteredBills',component:FilterBillsComponent },
             { path: 'savebill',component:SaveBillComponent },
             { path: 'bills',component:BillListComponent },
-            { path: 'billList',component:BillListComponent },
+            { path: 'thisWeekBills',component:ThisWeekBillsComponent },
+            { path: 'thisMonthBills',component:ThisMonthBillsComponent },
+
+            { path: 'filteredVendorBills',component:FilterVendorBillsComponent },
+            { path: 'saveVendorBill',component:SaveVendorBillComponent },
+            { path: 'vendorBills',component:VendorBillsListComponent },
+            { path: 'thisWeekVendorBills',component:ThisWeekVendorBillsComponent },
+            { path: 'thisMonthVendorBills',component:ThisMonthVendorBillsComponent },
+
             { path: 'priceGroups',component:PriceGroupsComponent },
             { path: 'charts', loadChildren: './charts/charts.module#ChartsModule' },
             { path: 'tables', loadChildren: './tables/tables.module#TablesModule' },

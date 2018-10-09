@@ -1,0 +1,111 @@
+<button class="btn btn-primary" (click)="printPage()"><i class="fa fa-print" aria-hidden="true"></i>Yazdır</button>
+<br><br>
+<div id="all-page" style="height:800px; overflow:scroll;">
+<div id="page-container">
+  <div id="page-header" style="position: relative;
+  height: 300px;
+  width: 800px;">
+    <!-- <h1 style="    position: absolute;
+    text-align: center;
+    width: 80%;">GÖRAL Vertriebs GMBH</h1> -->
+    <!-- <img src="assets/images/goral.png" style="    position: absolute;
+    right: 0px;
+    top: 0px;" /> -->
+    <div id="waybill-infos" style="position: absolute;
+    height: 150px;
+    width: 800px;
+    top: 106px;">
+       
+        <span id="customer-company" style="    position: absolute;
+        top: 25px;
+        font-weight: bold;
+        left: 0px;">{{selectedBill?.supplier.name}}</span>
+        
+       
+            <h3 id="waybill-number" style="    position: absolute;
+            top: 119px;
+            left: 0px;">Rechnung Nr.:{{selectedBill?.billNumber }}</h3>
+            <table style="    position: absolute;
+            right: 50px;
+            top: 32px;">
+             
+             
+              <tr>
+                  <td>Datum:</td>
+                  <td>{{selectedBill?.billDate | date:'dd/MM/yyyy'}}</td>
+                </tr>
+            </table>
+           
+          
+           
+    </div>
+
+    
+  </div>
+  <div id="page-body">
+    <table style="    width: 800px;
+    font-weight: bold;">
+      <thead>
+        <tr>
+          <th style="    text-align: left;border-bottom: 1px solid #ccc;">Pos</th>
+          <th style="    text-align: left;border-bottom: 1px solid #ccc;">Artikel Bezeichnung</th>
+          <th style="    text-align: left;border-bottom: 1px solid #ccc;">Barcode</th>
+          <th style="    text-align: right;border-bottom: 1px solid #ccc;">Art.Nr.</th>
+          <th style="    text-align: right;border-bottom: 1px solid #ccc;">Einheit</th>
+          <th style="    text-align: right;border-bottom: 1px solid #ccc;">Menge</th>
+          <th style="    text-align: right;border-bottom: 1px solid #ccc;" >Preis Stk</th>
+          <th style="    text-align: right;border-bottom: 1px solid #ccc;">Preis Gesamt</th>
+        </tr>
+      </thead>
+      <tbody style="    font-size: 0.9em;">
+
+        <tr *ngFor="let pro of selectedBill?.vendorBillProducts;let i=index;">
+          <td>{{i+1}}</td>
+          <td>{{pro.product.productName}}</td>
+          <td>{{pro.product.barcodeOfProduct}}</td>
+          <td style="text-align: right;">{{pro.product.orderNumber}}</td>
+          <td style="text-align: right;">{{pro.numberOfPackage}}</td>
+          <td style="text-align: right;">{{pro.numberOfPackage * pro.product.unitsInPackage}}</td>
+          <td style="text-align: right;">{{pro.purchasePrice | money}} €</td>
+          <td style="text-align: right;">{{(pro.numberOfPackage * pro.product.unitsInPackage * pro.purchasePrice) | money}} €</td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <div id="totalsContainer" style="    font-weight: bold;
+    margin-top: 20px;
+    border-top: 1px solid #ccc;
+    width: 800px;
+    padding: 6px 0px;">
+      <div class="row">
+          <div style="width:590px; float: left;">Gesamt Netto</div>
+          <div style="width:200px; float: left; text-align: right;">{{billTotals?.totalPurchasePrice | money}} €</div>
+      </div>
+      <div class="row">
+          <div style="width:590px; float: left;">Mwst 7%</div>
+          <div style="width:200px; float: left;text-align: right;">{{billTotals?.totalTaxPrice | money}} €</div>
+      </div>
+    
+    
+      <div class="row">
+          <div style="width:590px; float: left;">Brutto Gesamt</div>
+          <div style="width:200px; float: left;text-align: right;">{{billTotals?.totalGrossPrice | money}} €</div>
+      </div>
+       
+     
+    </div>
+  
+  </div>
+  <div id="page-footer" style="    font-weight: bold;
+  margin-top: 87px;
+  padding-top: 21px;
+  page-break-inside: avoid;
+  width: 800px;
+  height: 88px;
+  border-top: 1px solid #ccc;">
+ 
+    
+     
+  </div>
+</div>
+</div>

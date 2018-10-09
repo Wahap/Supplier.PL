@@ -26,6 +26,7 @@ import { WaybillService } from './layout/waybills/waybill.service';
 import { ConfirmComponent } from './shared/components/confirm/confirm.component';
 import { BillService } from './layout/bills/bill.service';
 import { AuthService } from './shared/auth.service';
+import { VendorBillService } from './layout/vendorBills/vendor-bill.service';
 export class CustomOption extends ToastOptions {
   animate = 'flyRight'; // you can override any options available
   newestOnTop = false;
@@ -58,7 +59,7 @@ export function createTranslateLoader(http: HttpClient) {
     ],
     declarations: [AppComponent, ConfirmComponent],
     providers: [AuthGuard, LoginServiceService,AuthService, ConfigService,
-        BlankPageService, ProductsService, CommonService, CustomersService, OrderService, WaybillService, BillService,{provide: ToastOptions, useClass: CustomOption},
+        BlankPageService, ProductsService,VendorBillService, CommonService, CustomersService, OrderService, WaybillService, BillService,{provide: ToastOptions, useClass: CustomOption},
         [{provide: LocationStrategy, useClass: HashLocationStrategy}]
     ],
     entryComponents: [

@@ -45,6 +45,12 @@ import { NewCityComponent } from '../shared/components/new-city/new-city.compone
 import { FilterWaybillsComponent } from './waybills/filter-waybills/filter-waybills.component';
 import { FilterBillsComponent } from './bills/filter-bills/filter-bills.component';
 import { AnalyzeBillComponent } from './bills/analyze-bill/analyze-bill.component';
+import { SaveVendorBillComponent } from './vendorBills/save-vendor-bill/save-vendor-bill.component';
+import { VendorBillsListComponent } from './vendorBills/vendor-bills-list/vendor-bills-list.component';
+import { VendorBillPrintComponent } from './vendorBills/vendor-bill-print/vendor-bill-print.component';
+import { FilterVendorBillsComponent } from './vendorBills/filter-vendor-bills/filter-vendor-bills.component';
+import { ThisWeekVendorBillsComponent } from './vendorBills/this-week-vendor-bills/this-week-vendor-bills.component';
+import { ThisMonthVendorBillsComponent } from './vendorBills/this-month-vendor-bills/this-month-vendor-bills.component';
 
 
 
@@ -82,7 +88,13 @@ import { AnalyzeBillComponent } from './bills/analyze-bill/analyze-bill.componen
     NewCityComponent,
     FilterWaybillsComponent,
     FilterBillsComponent,
-    AnalyzeBillComponent
+    AnalyzeBillComponent,
+    SaveVendorBillComponent,
+    VendorBillsListComponent,
+    VendorBillPrintComponent,
+    FilterVendorBillsComponent,
+    ThisWeekVendorBillsComponent,
+    ThisMonthVendorBillsComponent
     ]
 })
 export class LayoutModule { }

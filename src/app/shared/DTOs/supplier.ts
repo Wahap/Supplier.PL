@@ -1,4 +1,4 @@
-export class supplier
+export class Supplier
 {
     id:number;
     eMail:string;
