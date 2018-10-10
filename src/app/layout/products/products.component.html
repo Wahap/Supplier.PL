@@ -319,8 +319,7 @@
                         icon="fa-check" (click)="save()" label="Kaydet"></button> -->
                     <button class="btn btn-success" [disabled]="!productForm.form.valid"
                         (click)="save(true)">Kaydet</button>
-                    <button class="btn btn-danger btn-sm" [disabled]="newProduct" (click)="delete(product)">Sil</button>
-
+                    <button class="btn btn-sm" [class.btn-danger]="product.isActive" [class.btn-primary]="!product.isActive" [disabled]="newProduct" (click)="toggleIsActiveProperty(product)">{{product.isActive?'Sil':'Aktif Et'}}</button>
                 </div>
             </p-footer>
         </p-dialog>

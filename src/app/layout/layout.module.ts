@@ -51,6 +51,7 @@ import { VendorBillPrintComponent } from './vendorBills/vendor-bill-print/vendor
 import { FilterVendorBillsComponent } from './vendorBills/filter-vendor-bills/filter-vendor-bills.component';
 import { ThisWeekVendorBillsComponent } from './vendorBills/this-week-vendor-bills/this-week-vendor-bills.component';
 import { ThisMonthVendorBillsComponent } from './vendorBills/this-month-vendor-bills/this-month-vendor-bills.component';
+import { PassiveProductsComponent } from './products/passive-products/passive-products.component';
 
 
 
@@ -94,7 +95,8 @@ import { ThisMonthVendorBillsComponent } from './vendorBills/this-month-vendor-b
     VendorBillPrintComponent,
     FilterVendorBillsComponent,
     ThisWeekVendorBillsComponent,
-    ThisMonthVendorBillsComponent
+    ThisMonthVendorBillsComponent,
+    PassiveProductsComponent
     ]
 })
 export class LayoutModule { }

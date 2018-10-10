@@ -24,12 +24,14 @@ export class Product
     unitsInPackage:number;
     updateDate:Date;
     productPriceGroups:ProductPriceGroup[];
-
+    
     //Navigation Properties
     category:Category;
     //Using only UI Properties
     bronzePriceGroup:ProductPriceGroup;
     silverPriceGroup:ProductPriceGroup;
     goldPriceGroup:ProductPriceGroup;
+    //using for which process is calling (adding,deleting or editing)
+    status:string;
 
 }

@@ -17,6 +17,11 @@ export class ProductsService {
     return this.http.post(url, input, this.options)
       .map((response: Response) => response.json());
   }
+
+  getPassiveProducts(url: string, input: any): any {
+    return this.http.post(url, input, this.options)
+      .map((response: Response) => response.json());
+  }
   saveProducts(url: string, input: any): any {
     return this.http.post(url, input, this.options)
       .map((response: Response) => response.json());

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, ViewChild, ViewEncapsulation, Input } from '@angular/core';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { NgForm } from '@angular/forms';
 import { ConfigService, IConfig } from '../../app.config';
@@ -24,7 +24,7 @@ export class ProductsComponent implements OnInit {
   units: unit[];
   selectedUnit: unit;
   config: IConfig;
-  products: Product[] = [];
+  @Input() products: Product[] = [];
   selectedProduct: Product;
   product: Product;
   newProduct: boolean;
@@ -37,7 +37,7 @@ export class ProductsComponent implements OnInit {
   selectedCategory: Category;
   suppliers: Supplier[];
   selectedSupplier: Supplier;
-  deleteButtonText: string
+
   taxNumbers: Array<any> = [];
   selectedTax: any;
   imageChangedEvent: any = '';
@@ -45,13 +45,12 @@ export class ProductsComponent implements OnInit {
   hideImageUrl: boolean;
   productListCols: any[];
   isShowBrochure: boolean = false;
-
+  existsInputData:boolean=false;
   @ViewChild("fileInput") fileInput;
 
   constructor(private commonServices: CommonService, private productsService: ProductsService, private configService: ConfigService, public toastr: ToastsManager, vcr: ViewContainerRef) {
     this.toastr.setRootViewContainerRef(vcr);
     this.product = new Product()
-    this.deleteButtonText = 'Pasif Et';
     this.loading = false;
     this.selectedBrand = new brand();
     this.selectedCategory = new Category();
@@ -65,7 +64,11 @@ export class ProductsComponent implements OnInit {
 
   ngOnInit() {
     this.config = this.configService.getAppConfig();
-    this.getProducts();
+    if(!this.existsInputData)
+    {
+      this.getProducts();
+    }
+    
      this.getAllBrands();
      this.getAllUnits();
      this.getCategories();
@@ -83,7 +86,11 @@ export class ProductsComponent implements OnInit {
       { field: 'brutPrice', header: 'Brüt Satış' }
     ];
   };
-
+ngOnChanges(){
+  //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+  //Add '${implements OnChanges}' to the class.
+  this.existsInputData=true;
+}
   showDialogToAdd() {
     this.newProduct = true;
     this.selectedBrand = new brand();
@@ -95,12 +102,13 @@ export class ProductsComponent implements OnInit {
     this.displayDialog = true;
   }
 
-  delete(product: Product) {
+  toggleIsActiveProperty(product: Product) {
 
-    if(confirm("Ürünü silmek istediğinize emin misiniz?"))
+    if(confirm(product.isActive?"Ürünü silmek istediğinize emin misiniz?":"Ürünü aktif etmek istediğize emin misiniz?"))
     {
-      this.product = product;
-      this.save(false);
+      this.product.isActive =!this.product.isActive;
+      this.product.status="toggled";
+      this.save(this.product.isActive);
     }
     
   }
@@ -118,14 +126,12 @@ export class ProductsComponent implements OnInit {
           if (this.newProduct) {
             this.getProducts();
           }
-          else {
-            if (!this.product.isActive)//if delete button clicks
-            {
-              this.getProducts();
-             // this.products.splice(this.findSelectedIndex(), 1);
-
-            }
-
+          else if(this.product.status=="toggled") {
+            //Remove product from current ProductList
+            let indis=this.products.findIndex((product:Product)=>{
+                return this.product.id==product.id;
+            });
+            this.products.splice(indis,1);
           }
           this.toastr.success('Urun Basariyla Kaydedildi.', 'Basarili !');
         }
@@ -172,7 +178,6 @@ export class ProductsComponent implements OnInit {
     this.selectedUnit = this.units.filter(x => x.id == this.product.unitId)[0];
     this.selectedSupplier = this.suppliers.filter(x => x.id == this.product.supplierId)[0];
     this.selectedTax = this.taxNumbers.filter(x => x.data == this.product.tax)[0];
-    this.deleteButtonText = this.product.isActive != false ? 'Pasif Et' : 'Aktif Et';
 
   }
   showImgDialog(product) {
