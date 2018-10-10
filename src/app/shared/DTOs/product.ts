@@ -23,6 +23,7 @@ export class Product
     unitId:number;
     unitsInPackage:number;
     updateDate:Date;
+    stockAmount:number;
     productPriceGroups:ProductPriceGroup[];
     
     //Navigation Properties

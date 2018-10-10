@@ -52,6 +52,7 @@ import { FilterVendorBillsComponent } from './vendorBills/filter-vendor-bills/fi
 import { ThisWeekVendorBillsComponent } from './vendorBills/this-week-vendor-bills/this-week-vendor-bills.component';
 import { ThisMonthVendorBillsComponent } from './vendorBills/this-month-vendor-bills/this-month-vendor-bills.component';
 import { PassiveProductsComponent } from './products/passive-products/passive-products.component';
+import { PassiveCustomersComponent } from './customers/passive-customers/passive-customers.component';
 
 
 
@@ -96,7 +97,8 @@ import { PassiveProductsComponent } from './products/passive-products/passive-pr
     FilterVendorBillsComponent,
     ThisWeekVendorBillsComponent,
     ThisMonthVendorBillsComponent,
-    PassiveProductsComponent
+    PassiveProductsComponent,
+    PassiveCustomersComponent
     ]
 })
 export class LayoutModule { }

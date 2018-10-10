@@ -54,6 +54,9 @@ isWaybillSaving:boolean=false;
   constructor(private customerService: CustomersService,private commonService:CommonService, public toastr: ToastsManager, vcr: ViewContainerRef, private waybillService: WaybillService, private productsService: ProductsService, private configService: ConfigService, public dialog: MatDialog, public router: Router) {
     this.toastr.setRootViewContainerRef(vcr);
     this.loading = false;
+   this.router.events.subscribe(value=>{
+    console.log(value);
+   });
     //this.isNewRecord = true;
   }
   ngOnInit() {
@@ -304,7 +307,7 @@ isWaybillSaving:boolean=false;
     productListOptions.customerId = this.selectedCustomer.id;
     productListOptions.priceTypeId = this.priceTypeId;
     this.productsService.getProducts(this.config.getProductsByPriceTypeUrl, productListOptions).subscribe(items => {
-      console.log(items);
+    
       this.basketProducts = items.map(product => {
         let basketProduct = new BasketProduct();
         basketProduct.product = product;
@@ -317,7 +320,7 @@ isWaybillSaving:boolean=false;
   }
  
   filterProductsByCategory(filteredCategoryId, basketProduct:BasketProduct) {
-    console.log(basketProduct);
+    
     if (filteredCategoryId == undefined || filteredCategoryId == 0) {
       return true;
     }

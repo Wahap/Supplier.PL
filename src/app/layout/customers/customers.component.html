@@ -120,7 +120,7 @@
                         </div>
                         <div class="form-group">
                                 <label for="cities"> Sehir <button class="btn btn-success btn-sm" (click)="newCityDialog=true" ><i class="fa fa-plus-circle"></i></button></label>
-                                <p-dropdown [options]="cities" [(ngModel)]="selectedCity" appendTo="body" name="cities" placeholder="Sehir Sec"
+                                <p-dropdown [options]="cities" [(ngModel)]="selectedCity"  [filter]="true" appendTo="body" name="cities" placeholder="Sehir Sec"
                                 optionLabel="name" [style]="{'width':'100%'}" styleClass="ui-column-filter"></p-dropdown>
                         </div>
                     </div>
@@ -130,8 +130,9 @@
     </div>
     <p-footer>
         <div class="ui-dialog-buttonpane ui-helper-clearfix">
-            <button type="button" class="btn btn-danger" [disabled]="newCustomer" (click)="delete()">{{activeButtonText}}</button>
-            <button type="button" class="btn btn-primary" (click)="save()">Kaydet</button>
+           
+            <button type="button" class="btn btn-success" (click)="save()">Kaydet</button>
+            <button type="button" class="btn" [class.btn-danger]="selectedCustomer.isActive" [class.btn-primary]="!selectedCustomer.isActive" [disabled]="newCustomer" (click)="toggleIsActive()">{{selectedCustomer.isActive?'Pasif Yap':'Aktif Yap'}}</button>
         </div>
     </p-footer>
 </p-dialog>
@@ -260,7 +261,7 @@
                 </div>
                 <div class="ui-grid-row">
                     <div class="ui-grid-col-4">
-                        <label for="cities"> Sehir<button class="btn btn-success btn-sm" (click)="newCityDialog=true" ><i class="fa fa-plus-circle"></i></button></label>
+                        <label for="cities"> Şehir<button class="btn btn-success btn-sm" (click)="newCityDialog=true" ><i class="fa fa-plus-circle"></i></button></label>
                         
                     </div>
                     <div class="ui-grid-col-8">

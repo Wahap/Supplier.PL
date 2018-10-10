@@ -25,6 +25,7 @@ import { VendorBillsListComponent } from './vendorBills/vendor-bills-list/vendor
 import { ThisWeekVendorBillsComponent } from './vendorBills/this-week-vendor-bills/this-week-vendor-bills.component';
 import { ThisMonthVendorBillsComponent } from './vendorBills/this-month-vendor-bills/this-month-vendor-bills.component';
 import { PassiveProductsComponent } from './products/passive-products/passive-products.component';
+import { PassiveCustomersComponent } from './customers/passive-customers/passive-customers.component';
 
 
 const routes: Routes = [
@@ -37,6 +38,7 @@ const routes: Routes = [
             { path: 'products',component:ProductsComponent },
             { path: 'passiveProducts',component:PassiveProductsComponent },
             { path: 'customers',component:CustomersComponent },
+            { path: 'passiveCustomers',component:PassiveCustomersComponent },
             { path: 'receivedOrders',component:ReceivedOrderComponent },
             { path: 'approvedOrders',component:ApprovedOrdersComponent },
             { path: 'cancelledOrders',component:CancelledOrderComponent },

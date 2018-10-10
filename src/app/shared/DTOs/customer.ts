@@ -22,4 +22,6 @@ export class Customer
     password:string;
     extraDiscount:number;
     addresses:Address[];
+    //Just for using detecting which CRUD opeation has been making
+    status:string;
 }

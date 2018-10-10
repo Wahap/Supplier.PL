@@ -10,18 +10,18 @@
 #btnExportProductsAsCsv
 {
   top:0;
-  left:105px;
+  left:104px;
 }
 #btnExportProductsAsPdf
 {
-  top:0;
-  left:180px;
+  top: 0;
+    left: 172px;
 }
 
 #btnBrochure
 {
-  top:0;
-  left:280px;
+  top: 0;
+  left: 238px;
 }
 #brochure {
   border: 2px solid #83186c;
@@ -62,6 +62,8 @@
 tr:hover img 
 {
     transform: scale(2);
+    position: relative;
+    left: 40px;
 }
 
 

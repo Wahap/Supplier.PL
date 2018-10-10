@@ -17,12 +17,15 @@ export interface IConfig {
 	getAllBrandsUrl: string;
 	getAllCitiesUrl: string;
 	getSuppliersUrl:string;
+	//CustomersUrls
 	getCustomersUrl:string;
+	getPassiveCustomersUrl:string;
 	getCustomerPricesUrl:string;
 	saveCustomerUrl:string;
 	saveCustomerProductPriceUrl:string;
 	saveAddressUrl:string;
 	deleteAddressUrl:string;
+
 	getAllOrderByStatusUrl:string;
 	getOrderDetails:string;
 	saveReceivedOrder:string;
@@ -109,8 +112,13 @@ export class ConfigService {
 		let getAllBrandsUrl = (debug ? serverLoginPathDebug + "Common/getallbrands" : serverLoginPath + "Common/getallbrands");
 		let getAllCitiesUrl = (debug ? serverLoginPathDebug + "Common/getallcities" : serverLoginPath + "Common/getallcities");
 		let getSuppliersUrl = (debug ? serverLoginPathDebug + "Common/getallsupplier" : serverLoginPath + "Common/getallsupplier");
+		
+		//Customers
 		let getCustomersUrl = (debug ? serverLoginPathDebug + "Customer/getallcustomers" : serverLoginPath + "Customer/getallcustomers");
+		let getPassiveCustomersUrl = (debug ? serverLoginPathDebug + "Customer/getPassivecustomers" : serverLoginPath + "Customer/getPassivecustomers");		
 		let getCustomerPricesUrl = (debug ? serverLoginPathDebug + "Customer/getcustomerprices" : serverLoginPath + "Customer/getcustomerprices");
+		
+		
 		let saveCustomerUrl = (debug ? serverLoginPathDebug + "Customer/savecustomer" : serverLoginPath + "Customer/savecustomer");
 		let saveCustomerProductPriceUrl = (debug ? serverLoginPathDebug + "Customer/savecustomerproductprice" : serverLoginPath + "Customer/savecustomerproductprice");
 		let saveAddressUrl = (debug ? serverLoginPathDebug + "Customer/saveAddress" : serverLoginPath + "Customer/saveAddress");
@@ -183,7 +191,9 @@ export class ConfigService {
 			getSuppliersUrl:getSuppliersUrl,
 			saveProductsUrl:saveProductsUrl,
 			saveProductGroupPricesUrl:saveProductGroupPricesUrl,
+			//Customers
 			getCustomersUrl:getCustomersUrl,
+			getPassiveCustomersUrl:getPassiveCustomersUrl,
 			getCustomerPricesUrl:getCustomerPricesUrl,
 			saveCustomerUrl:saveCustomerUrl,
 			saveCustomerProductPriceUrl:saveCustomerProductPriceUrl,

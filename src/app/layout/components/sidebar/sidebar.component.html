@@ -33,10 +33,33 @@
         <!-- <a [routerLink]="['/products']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;{{ 'Products' | translate }}
         </a> -->
-        <a [routerLink]="['/customers']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+        <!-- <a [routerLink]="['/customers']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-user"></i>&nbsp;{{ 'Müşteriler' | translate }}
-        </a>
+        </a> -->
+        <div class="nested-menu" *ngIf="currentUser.isAdmin=='True'">
+            <a class="list-group-item" (click)="addExpandClass('musteriler')">
+                <span><i class="fa fa-shopping-cart"></i>&nbsp; {{ 'Müşteriler' | translate }}</span>
+            </a>
+            <li class="nested" [class.expand]="showMenu === 'musteriler'">
+                <ul class="submenu">
+                        <li>
 
+                                <a [routerLink]="['/customers']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                                    <i class="fa fa-fw fa-list-alt "></i>&nbsp;{{ 'Güncel Müşteriler' | translate }}
+                                </a>
+                            </li>
+                    <li>
+
+                        <a [routerLink]="['/passiveCustomers']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                            <i class="fa fa-fw fa-list-alt "></i>&nbsp;{{ 'Pasif Müşteriler' | translate }}
+                        </a>
+                    </li>
+                   
+                   
+
+                </ul>
+            </li>
+        </div>
 
 
         <div *ngIf="currentUser.isAdmin=='True'" class="nested-menu">

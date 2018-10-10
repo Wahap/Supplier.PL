@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, Input } from '@angular/core';
 import { CommonService } from '../../shared/common.service';
 import { NgForm } from '@angular/forms';
 import { CustomersService } from './customers.service';
@@ -22,7 +22,7 @@ export class CustomersComponent implements OnInit {
   loading: boolean;
   customerPricesLoading:boolean=true;
   config: IConfig;
-  customers: Customer[]=[];
+  @Input() customers: Customer[]=[];
   selectedCustomer: Customer=new Customer();
   customerAddress: Address;
   selectedAddresses: Address[];
@@ -32,13 +32,12 @@ export class CustomersComponent implements OnInit {
   diplayCustomerPricesDialog: boolean;
   displayNewAddressDialog: boolean;
   newCityDialog:boolean=false;
-  activeButtonText: string;
   customerListColumns: any[];
   addressListColumns: any[];
   customerPrices:CustomerProductPrices[];
+  existsInputData:boolean=false;
   constructor(private commonServices: CommonService, private customersService: CustomersService, private configService: ConfigService, public toastr: ToastsManager, vcr: ViewContainerRef) {
     this.toastr.setRootViewContainerRef(vcr);
-    this.activeButtonText = "Pasif Et";
     this.customerAddress = new Address();
 
   }
@@ -46,7 +45,11 @@ export class CustomersComponent implements OnInit {
 
   ngOnInit() {
     this.config = this.configService.getAppConfig();
-    this.getCustomers();
+    if(!this.existsInputData)
+    {
+      this.getCustomers();
+    }
+   
     this.getCities();
 
     
@@ -75,7 +78,11 @@ export class CustomersComponent implements OnInit {
 
    
   }
-
+ngOnChanges(): void {
+  //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+  //Add '${implements OnChanges}' to the class.
+  this.existsInputData=true;
+}
   exportCustomersAsPdf()
   {
     var doc = new jsPDF('l', 'mm', 'a4');
@@ -142,7 +149,17 @@ export class CustomersComponent implements OnInit {
       .subscribe((customer:Customer) => {
         this.toastr.success('Müşteri Basariyla Kaydedildi.', 'OK !');
         this.displayCustomerDialog=false;
-        this.getCustomers();
+        if(this.selectedCustomer.status=="toggled")
+        {
+          //remove customer from current customers
+          let index=this.customers.findIndex(x=>x.id==this.selectedCustomer.id);
+          this.customers.splice(index,1);
+        }
+        else
+        {
+          this.getCustomers();
+        }
+      
         
       });
     }
@@ -159,8 +176,6 @@ export class CustomersComponent implements OnInit {
     this.customerAddress.cityId != null ? this.selectedCity = this.cities.filter(x => x.id == this.customerAddress.cityId)[0] : "";
     this.displayCustomerDialog = true;
 
-    //set selected dropdowns values
-    this.activeButtonText = this.selectedCustomer.isActive != false ? 'Pasif Et' : 'Aktif Et';
 
   }
   showDialogToAdd() {
@@ -170,8 +185,9 @@ export class CustomersComponent implements OnInit {
     this.selectedCity = new city();
     this.displayCustomerDialog = true;
   }
-  delete() {
+  toggleIsActive() {
     this.selectedCustomer.isActive = !this.selectedCustomer.isActive;
+    this.selectedCustomer.status="toggled";
     this.save();
   }
   //#endregion customer
