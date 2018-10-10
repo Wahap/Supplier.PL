@@ -26,6 +26,7 @@ import { ThisWeekVendorBillsComponent } from './vendorBills/this-week-vendor-bil
 import { ThisMonthVendorBillsComponent } from './vendorBills/this-month-vendor-bills/this-month-vendor-bills.component';
 import { PassiveProductsComponent } from './products/passive-products/passive-products.component';
 import { PassiveCustomersComponent } from './customers/passive-customers/passive-customers.component';
+import { CanDeactivateGuard } from '../shared/guard/can-deactivate-guard.service';
 
 
 const routes: Routes = [
@@ -42,14 +43,14 @@ const routes: Routes = [
             { path: 'receivedOrders',component:ReceivedOrderComponent },
             { path: 'approvedOrders',component:ApprovedOrdersComponent },
             { path: 'cancelledOrders',component:CancelledOrderComponent },
-            { path: 'newWaybill',component:NewWaybillComponent },
+            { path: 'newWaybill',component:NewWaybillComponent,canDeactivate: [CanDeactivateGuard] },
             { path: 'thisWeekWaybills',component:ThisWeekWaybillsComponent },
             { path: 'thisMonthWaybills',component:ThisMonthWaybillsComponent },
            
             { path: 'waybills',component:WaybillsListComponent },
             { path: 'filteredWaybills',component:FilterWaybillsComponent },
             { path: 'filteredBills',component:FilterBillsComponent },
-            { path: 'savebill',component:SaveBillComponent },
+            { path: 'savebill',component:SaveBillComponent,canDeactivate: [CanDeactivateGuard] },
             { path: 'bills',component:BillListComponent },
             { path: 'thisWeekBills',component:ThisWeekBillsComponent },
             { path: 'thisMonthBills',component:ThisMonthBillsComponent },

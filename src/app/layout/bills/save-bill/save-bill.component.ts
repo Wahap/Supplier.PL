@@ -47,6 +47,7 @@ export class SaveBillComponent implements OnInit {
   waybillId: number;
   categories: Category[] = [];
   isBillSaving:boolean=false;
+  isDirty:boolean=false;
   @ViewChild('billProductsContainer') private billProductsContainer: ElementRef;
   @Input()
   selectedBill: Bill;
@@ -189,6 +190,7 @@ export class SaveBillComponent implements OnInit {
     });
 
     this.billService.saveBill(this.config.saveBillUrl, bill).subscribe(result => {
+      this.isDirty=false;
       this.toastr.success("Fatura başarıyla kaydedildi...");
       this.isBillSaving=false;
       if (this.selectedBill == null)//new bill operation completed
@@ -272,7 +274,7 @@ export class SaveBillComponent implements OnInit {
 
   }
   saveProductToCurrentBill(basketProduct: BasketProduct) {
-
+    this.isDirty=true;
     let editedBasketProduct = this.currentBill.find(x => x.product.id == basketProduct.product.id);
     if (editedBasketProduct != undefined && basketProduct.package < 1)//Delete product from currentBill
     {

@@ -47,6 +47,7 @@ export class NewWaybillComponent implements OnInit {
 currentWaybillTotals:Totals=new Totals();
 categories: Category[] = [];
 isWaybillSaving:boolean=false;
+isDirty:boolean=false;//check is there a unsaved changes
 @ViewChild('wayBillProductsContainer') private wayBillProductsContainer: ElementRef;
   @Input()
   selectedWayBill: Waybill;
@@ -168,6 +169,7 @@ isWaybillSaving:boolean=false;
     this.waybillService.saveWaybill(this.config.saveWaybillUrl, waybill).subscribe(result => {
       this.toastr.success("irsaliye başarıyla kaydedildi...");
       this.isWaybillSaving=false;
+      this.isDirty=false;
       if(this.selectedWayBill==null)//new waybill operation completed
       {
         this.router.navigateByUrl('thisMonthWaybills');
@@ -245,7 +247,7 @@ isWaybillSaving:boolean=false;
   }
 
   saveProductToCurrentWaybill(basketProduct: BasketProduct) {
-
+    this.isDirty=true;
     let editedBasketProduct = this.currentWaybill.find(x => x.product.id == basketProduct.product.id);
     if (editedBasketProduct != undefined && basketProduct.package < 1)//Delete product from currentWayBill
     {
