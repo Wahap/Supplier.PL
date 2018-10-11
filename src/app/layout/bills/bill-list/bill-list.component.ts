@@ -32,6 +32,7 @@ export class BillListComponent implements OnInit {
   paymentTotals:Totals=new Totals();
   today:Date=new Date();
   selectedAnalyzedBill:Bill;//
+  selectedBillForPayment:Bill;//
   showAnalyzedBillDialog:boolean=false;
   constructor(private configService: ConfigService,private commonService:CommonService, private billService:BillService,private customerService:CustomersService,public dialog: MatDialog) { }
 
@@ -64,7 +65,7 @@ ngOnChanges() {
 }
 openPaymentDialog(bill)
 {
-  this.selectedBill=bill;
+  this.selectedBillForPayment=bill;
 this.showPaymentDialog=true;
 //get payment types
 if(this.paymentTypes.length<1)//Just fill once
@@ -88,7 +89,7 @@ setPayment(payment:Payment)
 getBillPayments(bill)
 {
   this.billService.getBillPayments(this.config.getBillPaymentsUrl,bill).subscribe((payments:Payment[])=>{
-    this.selectedBill.payments=payments;
+    this.selectedBillForPayment.payments=payments;
     this.paymentTotals=new Totals();//make all properties 0
     this.paymentTotals.totalItems=payments.length;
     payments.forEach(payment=>{
@@ -98,11 +99,12 @@ getBillPayments(bill)
 }
 savePayment()
 {
-  this.payment.billId=this.selectedBill.id;
+  this.payment.billId=this.selectedBillForPayment.id;
+  this.payment.documentType=1;
     this.billService.savePayment(this.config.savePaymentUrl,this.payment).subscribe(response=>{
       //refresh payments table
     this.payment=new Payment();//reset payment
-      this.getBillPayments(this.selectedBill);
+      this.getBillPayments(this.selectedBillForPayment);
     });
   
 }
@@ -112,7 +114,7 @@ deletePayment(payment)
 
     this.billService.deletePayment(this.config.deletePaymentUrl,payment).subscribe(response=>{
       //refresh payments table
-    this.getBillPayments(this.selectedBill);
+    this.getBillPayments(this.selectedBillForPayment);
     this.payment=new Payment();
   
     });

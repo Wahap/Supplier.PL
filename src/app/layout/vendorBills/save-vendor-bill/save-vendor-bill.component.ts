@@ -30,7 +30,7 @@ export class SaveVendorBillComponent implements OnInit {
   currentBill: BasketProduct[] = [];
   deletedBasketProducts: BasketProduct[] = [];
   isBillSaving:boolean=false;
-  billNumber: string;
+  billNumber: number;
   @ViewChild('billProductsContainer') private billProductsContainer: ElementRef;
   @Input()
   selectedBill: VendorBill;

@@ -53,13 +53,9 @@
   </div>
 </p-dialog>
 
-<!-- <p-dialog [positionTop]="50" header="Fatura Analizi" maximizable="true" [(visible)]="showAnalyzedBillDialog" 
-  [responsive]="true" showEffect="fade" [modal]="true" width="1000">
-  <div>
 
-      <app-analyze-bill [bill]="selectedAnalyzedBill"></app-analyze-bill>
-  </div>
-</p-dialog> -->
+ 
+ 
 
 <p-dialog [positionTop]="50" header="Fatura önizleme" maximizable="true" [(visible)]="showPrintDialog" [responsive]="true"
   showEffect="fade" [modal]="true" width="95%">
@@ -67,4 +63,65 @@
       <app-vendor-bill-print [selectedBill]="selectedBill"></app-vendor-bill-print>
 
   </div>
+</p-dialog>
+
+<p-dialog [positionTop]="50" header="Ödeme Yap" maximizable="true" [(visible)]="showPaymentDialog" [responsive]="true"
+    showEffect="fade" [modal]="true" width="1200">
+    <div class="row">
+        <div class="col-sm-4 border border-info rounded-top">
+
+            <div class="form-group">
+                <label>Ödeme Tipi</label>
+
+                <select class="form-control form-control-sm" [(ngModel)]="payment.paymentTypeId">
+                    <option *ngFor="let type of paymentTypes" value="{{type.id}}">{{type.type}}</option>
+
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Miktar</label>
+                <input type="text" class="form-control form-control-sm" [(ngModel)]="payment.amount">
+            </div>
+            <div class="form-group">
+                <label>Tarih</label><br>
+                <p-calendar [(ngModel)]="payment.paymentDate" dateFormat="dd.mm.yy"></p-calendar>
+
+            </div>
+
+            <div class="form-group">
+                <label>Açıklama</label>
+                <textarea type="text" class="form-control form-control-sm" [(ngModel)]="payment.description"></textarea>
+            </div>
+
+            <button class="btn btn-primary mb-2" (click)="savePayment()">Kaydet</button>
+            
+
+        </div>
+        <div class="col-sm-8">
+            <table class="table table-bordered table-sm">
+                    <caption>Alınan Ödemeler({{paymentTotals.totalItems}})</caption>
+                <thead>
+                    <tr>
+                        <th>Ödenen Miktar</th>
+                        <th>Tarih</th>
+                        <th>Ödeme Tipi</th>
+                        <th>Güncelle</th>
+                        <th>Sil</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="selectedBillForPayment!=null">
+                    <tr *ngFor="let payment of selectedBillForPayment.payments">
+                        <td>{{payment.amount}}</td>
+                        <td>{{payment.paymentDate | date:'dd/MM/yyyy'}}</td>
+                        <td>{{payment.paymentType.type}}</td>
+                        <td><button class="btn btn-success" (click)="setPayment(payment)">Güncelle</button></td>
+                        <td><button class="btn btn-danger" (click)="deletePayment(payment)"> <i class="fa fa-times"></i>
+                                Sil</button></td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>Toplam Yapılan Ödeme: <strong>{{paymentTotals.totalGrossPrice | money}} €</strong></p>
+        </div>
+
+    </div>
 </p-dialog>

@@ -72,6 +72,7 @@ export interface IConfig {
 	getPaymentTypesUrl:string;
 	savePaymentUrl:string;
 	getBillPaymentsUrl:string;
+	getVendorBillPaymentsUrl:string;
 	deletePaymentUrl:string;
 
 
@@ -171,6 +172,7 @@ export class ConfigService {
 		let getPaymentTypesUrl = (debug ? serverLoginPathDebug + "Common/getPaymentTypes" : serverLoginPath + "Common/getPaymentTypes");
 		let savePaymentUrl = (debug ? serverLoginPathDebug + "Bill/savePayment" : serverLoginPath + "Bill/savePayment");
 		let getBillPaymentsUrl = (debug ? serverLoginPathDebug + "Bill/getBillPayments" : serverLoginPath + "Bill/getBillPayments");
+		let getVendorBillPaymentsUrl = (debug ? serverLoginPathDebug + "VendorBill/getBillPayments" : serverLoginPath + "VendorBill/getBillPayments");
 		let deletePaymentUrl = (debug ? serverLoginPathDebug + "Bill/deletePayment" : serverLoginPath + "Bill/deletePayment");
 
 		return {
@@ -237,11 +239,13 @@ export class ConfigService {
 			getThisWeekVendorBillsUrl:getThisWeekVendorBillsUrl,
 			getThisMonthVendorBillsUrl:getThisMonthVendorBillsUrl,
 			filterVendorBillsUrl:filterVendorBillsUrl,
+			getVendorBillPaymentsUrl:getVendorBillPaymentsUrl,
 			//Common
 			getAllDiscountRatesUrl:getAllDiscountRatesUrl,
 			getPaymentTypesUrl:getPaymentTypesUrl,
 			getBillPaymentsUrl:getBillPaymentsUrl,
-			deletePaymentUrl:deletePaymentUrl
+			deletePaymentUrl:deletePaymentUrl,
+			
 
 		}
 	}

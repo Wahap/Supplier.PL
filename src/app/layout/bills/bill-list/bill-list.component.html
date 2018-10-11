@@ -89,8 +89,8 @@
                         <th>Sil</th>
                     </tr>
                 </thead>
-                <tbody *ngIf="selectedBill!=null">
-                    <tr *ngFor="let payment of selectedBill.payments">
+                <tbody *ngIf="selectedBillForPayment!=null">
+                    <tr *ngFor="let payment of selectedBillForPayment.payments">
                         <td>{{payment.amount}}</td>
                         <td>{{payment.paymentDate | date:'dd/MM/yyyy'}}</td>
                         <td>{{payment.paymentType.type}}</td>

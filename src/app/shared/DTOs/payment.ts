@@ -13,6 +13,7 @@ export class Payment
     id:number;
     paymentTypeId:number;
     billId:number;
+    documentType:number;//1:Bill 2:VendorBill
     amount:number;
     paymentDate:Date;
     description:string;

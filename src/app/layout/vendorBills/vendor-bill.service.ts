@@ -19,12 +19,27 @@ export class VendorBillService {
       .map((response: Response) => response.json());
   }
 
+  saveVendorBillPayment(url: string, input: any): any {
+    return this.http.post(url, input, this.options)
+      .map((response: Response) => response.json());
+  }
+
+  deleteVendorBillPayment(url: string, input: any): any {
+    return this.http.post(url, input, this.options)
+      .map((response: Response) => response.json());
+  }
+
   saveVendorBill(url: string, input: any): any {
     return this.http.post(url, input, this.options)
       .map((response: Response) => response.json());
   }
 
   getAllVendorBills(url: string, input: any): any {
+    return this.http.post(url, input, this.options)
+      .map((response: Response) => response.json());
+  }
+
+  getVendorBillPayments(url: string, input: any): any {
     return this.http.post(url, input, this.options)
       .map((response: Response) => response.json());
   }
