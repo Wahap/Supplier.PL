@@ -41,7 +41,7 @@ export class SaveBillComponent implements OnInit {
   selectedDiscountRate: DiscountRate = new DiscountRate();
   isNewRecord: boolean;
   lastBill: Bill;
-  priceTypeId: number;
+  priceTypeId: number=1;
   productListCols: any[];
   currentBillTotals: Totals = new Totals();
   waybillId: number;
@@ -88,6 +88,7 @@ export class SaveBillComponent implements OnInit {
       this.selectedDiscountRate = this.discountRates.find(x => x.id == this.selectedBill.discountRateId);
       this.deletedBasketProducts = [];//reset at every new waybill selection
       this.mapSelectedBillProductsToCurrentBillProducts();
+      this.getProducts();
     }
 
   }
@@ -220,6 +221,7 @@ export class SaveBillComponent implements OnInit {
   onCustomerSelect() {
     this.selectedAddress = this.selectedCustomer.addresses[0];
     this.deliveryAddress = this.selectedCustomer.addresses[0];
+    this.getProducts();
   }
   getProducts() {
     if (!this.selectedCustomer.id) {

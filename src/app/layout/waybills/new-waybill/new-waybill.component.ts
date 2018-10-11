@@ -252,7 +252,7 @@ isDirty:boolean=false;//check is there a unsaved changes
       
       let index = this.currentWaybill.findIndex(item => item.product.id == basketProduct.product.id);
       this.currentWaybill.splice(index, 1);
-      if(this.selectedWayBill!=null)//Update operation
+      if(this.selectedWayBill!=null && basketProduct.product.id!=0)//Update operation
       {
         this.deletedBasketProducts.push(basketProduct);
       }

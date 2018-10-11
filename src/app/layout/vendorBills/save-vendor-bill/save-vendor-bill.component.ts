@@ -223,6 +223,10 @@ export class SaveVendorBillComponent implements OnInit {
   fillSuppliers() {
     this.commonService.getSuppliers(this.config.getSuppliersUrl, null).subscribe(result => {
       this.suppliers = result;
+      if(this.suppliers.length>0)
+      {
+        this.selectedSupplier=this.suppliers[0];
+      }
     });
   }
   filterProductsByCategory(filteredCategoryId, basketProduct:BasketProduct) {
