@@ -1,3 +1,4 @@
+
 <button class="btn btn-primary" (click)="printPage()"><i class="fa fa-print" aria-hidden="true"></i>Yazdır</button>
 <div id="print-options">
     <p-inputSwitch [(ngModel)]="printPrices"></p-inputSwitch><span id="print-price-text">{{printPrices?'Fiyatları Yazdır':'Fiyatları Yazdırma'}}</span>
@@ -34,7 +35,7 @@
         <span id="customer-name" style="    position: absolute;
         top: 45px;
         left: 0px;
-        text-transform: capitalize;">{{selectedWaybill?.customer.customerName + ' ' + selectedWaybill?.customer.lastname }}</span>
+        text-transform: capitalize;">{{selectedWaybill?.customer.customerName==null?'':selectedWaybill?.customer.customerName + ' ' + selectedWaybill?.customer.lastname==null?'':selectedWaybill?.customer.lastname }}</span>
         <span id="customer-address" style="    position: absolute;
         top: 76px;
         left: 0px;
@@ -72,9 +73,12 @@
       <thead>
         <tr>
           <th style="    text-align: left;border-bottom: 1px solid #ccc;">POS</th>
-          <th style="    text-align: left;border-bottom: 1px solid #ccc;">ARTIKEL BEZEICHNUNG</th>
-          <th style="    text-align: right;border-bottom: 1px solid #ccc;">EINHEIT</th>
-          <th style="    text-align: right;border-bottom: 1px solid #ccc;">MENGE</th>
+          <th style="    text-align: left;border-bottom: 1px solid #ccc;">MENGE</th>
+          <th style="    text-align: left;border-bottom: 1px solid #ccc;">ART.NR.</th>
+          <th style="    text-align: left;border-bottom: 1px solid #ccc;">BARCODE</th>
+          <th style="    text-align: left;border-bottom: 1px solid #ccc;">TEXT</th>
+         
+        
           <th style="    text-align: right;border-bottom: 1px solid #ccc;" *ngIf="printPrices">PREIS STK</th>
           <th style="    text-align: right;border-bottom: 1px solid #ccc;" *ngIf="printPrices">PREIS GESAMT</th>
         </tr>
@@ -83,9 +87,12 @@
 
         <tr *ngFor="let pro of selectedWaybill?.waybillProducts;let i=index;">
           <td>{{i+1}}</td>
-          <td>{{pro.product.productName}}</td>
-          <td style="    text-align: right;">{{pro.numberOfPackage}}</td>
-          <td style="    text-align: right;">{{pro.numberOfPackage * pro.product.unitsInPackage}}</td>
+          <td style="    text-align: left;">{{pro.numberOfPackage}} KOLLI = {{pro.numberOfPackage * pro.product.unitsInPackage}} STK</td>
+          <td style="    text-align: left;">{{pro.product.orderNumber}}</td>
+          <td style="    text-align: left;">{{pro.product.barcodeOfProduct}}</td>
+          <td style="    text-align: left;">{{pro.product.productName}}</td>
+         
+         
           <td style="    text-align: right;" *ngIf="printPrices">{{pro.netSalePrice | money}} €</td>
           <td style="    text-align: right;" *ngIf="printPrices">{{(pro.numberOfPackage * pro.product.unitsInPackage * pro.netSalePrice) | money}} €</td>
         </tr>
@@ -105,11 +112,11 @@
           <div style="width:590px; float: left;">MwSt 7%</div>
           <div style="width:200px; float: left;text-align: right;">{{waybillTotals?.totalTaxPrice | money}} €</div>
       </div>
-      <div class="row">
+      <div class="row" *ngIf="selectedWaybill?.extraDiscount>0">
           <div style="width:590px; float: left;">Rabatt {{ selectedWaybill?.extraDiscount }}%</div>
           <div style="width:200px; float: left;text-align: right;">-{{waybillTotals?.extraDiscount | money}} €</div>
       </div>
-      <div class="row">
+      <div class="row" *ngIf="waybillTotals?.discount>0">
         <div style="width:590px; float: left;">Skonto {{ selectedWaybill?.discountRate.rate }}%</div>
         <div style="width:200px; float: left;text-align: right;">-{{waybillTotals?.discount | money}} €</div>
     </div>

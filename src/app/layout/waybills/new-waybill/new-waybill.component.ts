@@ -55,9 +55,7 @@ isDirty:boolean=false;//check is there a unsaved changes
   constructor(private customerService: CustomersService,private commonService:CommonService, public toastr: ToastsManager, vcr: ViewContainerRef, private waybillService: WaybillService, private productsService: ProductsService, private configService: ConfigService, public dialog: MatDialog, public router: Router) {
     this.toastr.setRootViewContainerRef(vcr);
     this.loading = false;
-   this.router.events.subscribe(value=>{
-    console.log(value);
-   });
+  
     //this.isNewRecord = true;
   }
   ngOnInit() {

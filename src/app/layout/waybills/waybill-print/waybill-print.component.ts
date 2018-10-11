@@ -59,7 +59,7 @@ export class WaybillPrintComponent implements OnInit {
   }
   printPage()
   {
-    var mywindow = window.open('', 'irsaliye yazdır', 'height='+window.outerHeight+',width='+window.outerWidth);
+    var mywindow = window.open('', '_blank');
     mywindow.document.write('<html><head><title></title>');
     mywindow.document.write('<style>body{ font-family: Arial, Helvetica, sans-serif; }</style>');
     mywindow.document.write('</head><body >');
@@ -67,7 +67,9 @@ export class WaybillPrintComponent implements OnInit {
     mywindow.document.write('</body></html>');
     mywindow.document.close();
     mywindow.focus();
-    setTimeout(function(){mywindow.print();},1000);
+    mywindow.print();
+  //   var win = window.open('http://google.com', '_blank');
+  // win.focus();
   }
 
 }

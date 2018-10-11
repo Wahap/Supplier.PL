@@ -63,7 +63,7 @@ export class BillPrintComponent implements OnInit {
   }
   printPage()
   {
-    var mywindow = window.open('', 'fatura yazdır', 'height='+window.outerHeight+',width='+window.outerWidth);
+    var mywindow = window.open('', '_blank');
     mywindow.document.write('<html><head><title></title>');
     mywindow.document.write(`<style>
     body{ font-family: Arial, Helvetica, sans-serif; }
@@ -80,7 +80,7 @@ export class BillPrintComponent implements OnInit {
     mywindow.document.write('</body></html>');
     mywindow.document.close();
     mywindow.focus();
-    setTimeout(function(){mywindow.print();},1000);
+    mywindow.print();
   }
 
 }
