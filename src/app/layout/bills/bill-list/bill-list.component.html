@@ -24,7 +24,7 @@
             <tr>
                 <td *ngFor="let col of columns" [ngSwitch]="col.field">
                    <button class="btn btn-info btn-sm" *ngSwitchCase="'billNumber'" (click)="analyzeBill(bill)"><i class="fa fa-line-chart" aria-hidden="true"></i></button>
-                    <span *ngSwitchCase="'billNumber'" class="font-weight-bold">{{bill.billNumber}} <span class="badge">(irsaliye:{{bill.waybillId}})</span>
+                    <span *ngSwitchCase="'billNumber'" class="font-weight-bold">{{bill.billNumber}} <span class="badge">({{bill.createdDate | date:'dd.MM.yyyy'}}) (irs:{{bill.waybillId}})</span>
                     </span>
                     <span *ngSwitchCase="'companyName'">{{bill.customer.companyName}}</span>
 
@@ -121,7 +121,7 @@
     </div>
 </p-dialog>
 
-<p-dialog [positionTop]="50" header="irsaliye önizleme" maximizable="true" [(visible)]="showPrintDialog" [responsive]="true"
+<p-dialog [positionTop]="50" header="Fatura önizleme" maximizable="true" [(visible)]="showPrintDialog" [responsive]="true"
     showEffect="fade" [modal]="true" width="95%">
     <div>
         <app-bill-print [selectedBill]="selectedBill"></app-bill-print>

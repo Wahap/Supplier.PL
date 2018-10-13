@@ -185,6 +185,46 @@
         </div>
 
         <div class="nested-menu" *ngIf="currentUser.isAdmin=='True'">
+            <a class="list-group-item" (click)="addExpandClass('iadefatura')">
+                <span><i class="fa fa-shopping-cart"></i>&nbsp; {{ 'Iade Faturaları' | translate }}</span>
+            </a>
+            <li class="nested" [class.expand]="showMenu === 'iadefatura'">
+                <ul class="submenu">
+                        <li>
+
+                                <a [routerLink]="['/saveReturnBill']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                                    <i class="fa fa-fw fa-list-alt "></i>&nbsp;{{ 'Iade Faturası Oluştur' | translate }}
+                                </a>
+                            </li>
+                    <li>
+
+                        <a [routerLink]="['/thisWeekReturnBills']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                            <i class="fa fa-fw fa-list-alt "></i>&nbsp;{{ 'Haftanın Iade Faturaları' | translate }}
+                        </a>
+                    </li>
+                    <li>
+
+                        <a [routerLink]="['/thisMonthReturnBills']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                            <i class="fa fa-fw fa-list-alt "></i>&nbsp;{{ 'Ayın Iade Faturaları' | translate }}
+                        </a>
+                    </li>
+                    <li>
+
+                            <a [routerLink]="['/filteredReturnBills']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                                <i class="fa fa-fw fa-list-alt "></i>&nbsp;{{ 'Iade Faturası Ara' | translate }}
+                            </a>
+                        </li>
+                    <li>
+                        <a [routerLink]="['/returnBills']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                            <i class="fa fa-fw fa-shopping-basket"></i>&nbsp;{{ 'Tüm Iade Faturaları' | translate }}
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+        </div>
+
+        <div class="nested-menu" *ngIf="currentUser.isAdmin=='True'">
             <a [routerLink]="['/priceGroups']" class="list-group-item">
                 <span><i class="fa fa-shopping-cart"></i>&nbsp; {{ 'Fiyat Grupları' | translate }}</span>
             </a>

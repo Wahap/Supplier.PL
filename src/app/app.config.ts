@@ -54,7 +54,8 @@ export interface IConfig {
 	getThisWeekBillsUrl:string;
 	getThisMonthBillsUrl:string;
 	filterBillsUrl:string;
-	
+	//ReturnBills
+	getNextReturnBillNumberUrl:string;
 	//VendorBillUrls
 	getVendorBillUrl:string;
 	saveVendorBillUrl:string;
@@ -85,12 +86,12 @@ export class ConfigService {
 	getAppConfig(): IConfig {
 
 	
-		//let serverLoginPath = 'https://supplier.azurewebsites.net/api/', serverLoginPathDebug = 'http://localhost:4315/api/';
-		let serverLoginPath = 'https://devsupplier.azurewebsites.net/api/', serverLoginPathDebug = 'http://localhost:4315/api/';
+		let serverLoginPath = 'https://supplier.azurewebsites.net/api/', serverLoginPathDebug = 'http://localhost:4315/api/';
+		//let serverLoginPath = 'https://devsupplier.azurewebsites.net/api/', serverLoginPathDebug = 'http://localhost:4315/api/';
 	
 
 		let serverUserNotificationPath = '';
-		let debug = true;
+		let debug = false;
 
 		let getUsers = (debug ? serverLoginPathDebug + "authentication/login" : serverLoginPath + "userCont/getusers");
 		//let logInUrl = (debug ? serverLoginPathDebug + "userCont/login" : serverLoginPath + "userCont/login");
@@ -153,6 +154,8 @@ export class ConfigService {
 		let getThisWeekBillsUrl = (debug ? serverLoginPathDebug + "bill/getThisWeekBills" : serverLoginPath + "bill/getThisWeekBills");
 		let getThisMonthBillsUrl = (debug ? serverLoginPathDebug + "bill/getThisMonthBills" : serverLoginPath + "bill/getThisMonthBills");
 		let filterBillsUrl = (debug ? serverLoginPathDebug + "bill/filterBills" : serverLoginPath + "bill/filterBills");
+		//Return Bill Urls
+		let getNextReturnBillNumberUrl=(debug ? serverLoginPathDebug + "returnBill/getNextBillNumber" : serverLoginPath + "returnBill/getNextBillNumber");
 
 		//Vendors Urls
 		let saveVendorBillUrl = (debug ? serverLoginPathDebug + "VendorBill/save" : serverLoginPath + "VendorBill/save");
@@ -229,7 +232,8 @@ export class ConfigService {
 			uploadImageUrl:uploadImageUrl,
 			savePaymentUrl:savePaymentUrl,
 			filterBillsUrl:filterBillsUrl,
-
+			//ReturnBill Urls
+			getNextReturnBillNumberUrl:getNextReturnBillNumberUrl,
 			//VendorBills
 			saveVendorBillUrl:saveVendorBillUrl,
 			getAllVendorBillsUrl:getAllVendorBillsUrl,

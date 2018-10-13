@@ -39,7 +39,6 @@ export class SaveBillComponent implements OnInit {
   billNumberIsValid: boolean = true;
   discountRates: DiscountRate[] = [];
   selectedDiscountRate: DiscountRate = new DiscountRate();
-  isNewRecord: boolean;
   lastBill: Bill;
   priceTypeId: number=1;
   productListCols: any[];
@@ -54,7 +53,7 @@ export class SaveBillComponent implements OnInit {
   constructor(private customerService: CustomersService, private commonService: CommonService, public toastr: ToastsManager, vcr: ViewContainerRef, private billService: BillService, private productsService: ProductsService, private configService: ConfigService, public dialog: MatDialog, public router: Router) {
     this.toastr.setRootViewContainerRef(vcr);
     this.loading = false;
-    this.isNewRecord = true;
+    
   }
 
   ngOnInit() {
@@ -203,7 +202,7 @@ export class SaveBillComponent implements OnInit {
       }
 
 
-    });
+    }); 
   }
   onBillNumberChange() {
     if (this.billNumber > 0) {
@@ -233,7 +232,7 @@ export class SaveBillComponent implements OnInit {
     productListOptions.customerId = this.selectedCustomer.id;
     productListOptions.priceTypeId = this.priceTypeId;
     this.productsService.getProducts(this.config.getProductsByPriceTypeUrl, productListOptions).subscribe(items => {
-      console.log(items);
+     
       this.basketProducts = items.map(product => {
         let basketProduct = new BasketProduct();
         basketProduct.product = product;
@@ -274,6 +273,16 @@ export class SaveBillComponent implements OnInit {
     }
 
 
+  }
+
+  onPriceChange(basketProduct:BasketProduct)
+  {
+    basketProduct.status="edited";
+  }
+
+  onTaxChange(basketProduct:BasketProduct)
+  {
+    basketProduct.status="edited";
   }
   saveProductToCurrentBill(basketProduct: BasketProduct) {
     this.isDirty=true;
@@ -320,7 +329,7 @@ export class SaveBillComponent implements OnInit {
   
 
   filterProductsByCategory(filteredCategoryId, basketProduct:BasketProduct) {
-    console.log(basketProduct);
+    
     if (filteredCategoryId == undefined || filteredCategoryId == 0) {
       return true;
     }

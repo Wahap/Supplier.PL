@@ -55,8 +55,8 @@ export class BillPrintComponent implements OnInit {
       this.billTotals.totalPieces+=numberOfPieces;
       this.billTotals.totalNetPrice+=numberOfPieces*pro.netSalePrice;
       this.billTotals.totalTaxPrice+=numberOfPieces*(pro.netSalePrice*pro.tax/100);
-      this.billTotals.extraDiscount=(this.billTotals.totalNetPrice+this.billTotals.totalTaxPrice)*this.selectedBill.extraDiscount/100;
-      this.billTotals.discount=(this.billTotals.totalNetPrice+this.billTotals.totalTaxPrice)*this.selectedBill.discountRate.rate/100;
+      this.billTotals.extraDiscount=(this.billTotals.totalNetPrice)*this.selectedBill.extraDiscount/100;
+      this.billTotals.discount=(this.billTotals.totalNetPrice)*this.selectedBill.discountRate.rate/100;
       this.billTotals.totalGrossPrice=this.billTotals.totalNetPrice+this.billTotals.totalTaxPrice-this.billTotals.extraDiscount-this.billTotals.discount;
     });
     this.billTotals.totalItems=this.selectedBill.billProducts.length;
@@ -69,8 +69,11 @@ export class BillPrintComponent implements OnInit {
     body{ font-family: Arial, Helvetica, sans-serif; }
     @page
     {
-      margin-top:200px;
-      margin-bottom:100px;
+      margin-top:45mm;
+      margin-bottom:35mm;
+      margin-left:18mm;
+      margin-right:18mm;
+      
     }
     </style>
     

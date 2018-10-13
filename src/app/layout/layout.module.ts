@@ -53,6 +53,12 @@ import { ThisWeekVendorBillsComponent } from './vendorBills/this-week-vendor-bil
 import { ThisMonthVendorBillsComponent } from './vendorBills/this-month-vendor-bills/this-month-vendor-bills.component';
 import { PassiveProductsComponent } from './products/passive-products/passive-products.component';
 import { PassiveCustomersComponent } from './customers/passive-customers/passive-customers.component';
+import { ReturnBillListComponent } from './returnBills/return-bill-list/return-bill-list.component';
+import { ReturnBillPrintComponent } from './returnBills/return-bill-print/return-bill-print.component';
+import { FilterReturnBillsComponent } from './returnBills/filter-return-bills/filter-return-bills.component';
+import { SaveReturnBillComponent } from './returnBills/save-return-bill/save-return-bill.component';
+import { ThisMonthReturnBillsComponent } from './returnBills/this-month-return-bills/this-month-return-bills.component';
+import { ThisWeekReturnBillsComponent } from './returnBills/this-week-return-bills/this-week-return-bills.component';
 
 
 
@@ -98,7 +104,13 @@ import { PassiveCustomersComponent } from './customers/passive-customers/passive
     ThisWeekVendorBillsComponent,
     ThisMonthVendorBillsComponent,
     PassiveProductsComponent,
-    PassiveCustomersComponent
+    PassiveCustomersComponent,
+    ReturnBillListComponent,
+    ReturnBillPrintComponent,
+    FilterReturnBillsComponent,
+    SaveReturnBillComponent,
+    ThisMonthReturnBillsComponent,
+    ThisWeekReturnBillsComponent
     ]
 })
 export class LayoutModule { }

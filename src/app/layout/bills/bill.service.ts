@@ -6,7 +6,7 @@ import { Bill } from "../../shared/DTOs/Bill";
  
 @Injectable()
 export class BillService {
-    options: any;
+    options: any; 
     constructor(private http: Http) {
         let token = localStorage.getItem('userToken');
         let headers = new Headers({ 'Content-Type': 'application/json' });

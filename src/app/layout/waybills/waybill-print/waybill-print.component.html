@@ -35,7 +35,7 @@
         <span id="customer-name" style="    position: absolute;
         top: 45px;
         left: 0px;
-        text-transform: capitalize;">{{selectedWaybill?.customer.customerName==null?'':selectedWaybill?.customer.customerName + ' ' + selectedWaybill?.customer.lastname==null?'':selectedWaybill?.customer.lastname }}</span>
+        text-transform: capitalize;" *ngIf="selectedWaybill?.customer.customerName!=null && selectedWaybill?.customer.lastname!=null">{{selectedWaybill?.customer.customerName+ ' ' + selectedWaybill?.customer.lastname }}</span>
         <span id="customer-address" style="    position: absolute;
         top: 76px;
         left: 0px;
@@ -51,15 +51,15 @@
             top: 61px;">
                 <tr>
                   <td>Kunden Nr:</td>
-                  <td>{{selectedWaybill?.customer.customerNumber==null?selectedWaybill?.customer.customerNumber:selectedWaybill?.customer.customerNumber }}</td>
+                  <td>{{selectedWaybill?.customer.customerNumber==null || selectedWaybill?.customer.customerNumber==''?selectedWaybill?.customer.id:selectedWaybill?.customer.customerNumber }}</td>
                 </tr>
-                <tr>
+                <tr *ngIf="selectedWaybill?.convertedBillNumber>0">
                   <td>Rechnung Nr:</td>
                   <td>{{selectedWaybill?.convertedBillNumber}}</td>
                 </tr>
                 <tr>
                   <td>Datum: </td>
-                  <td>{{selectedWaybill?.createdDate | date:'shortDate'}}</td>
+                  <td>{{selectedWaybill?.createdDate | date:'dd/MM/yyyy'}}</td>
                 </tr>
               </table>
          

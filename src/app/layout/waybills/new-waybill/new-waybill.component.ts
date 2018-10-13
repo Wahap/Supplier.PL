@@ -222,6 +222,16 @@ isDirty:boolean=false;//check is there a unsaved changes
 
   }
 
+  onPriceChange(basketProduct:BasketProduct)
+  {
+    basketProduct.status="edited";
+  }
+
+  onTaxChange(basketProduct:BasketProduct)
+  {
+    basketProduct.status="edited";
+  }
+
   decrease(basketProduct: BasketProduct) {
 
     if (basketProduct.package > 0)//prevent negative inputs

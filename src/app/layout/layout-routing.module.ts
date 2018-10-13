@@ -27,6 +27,11 @@ import { ThisMonthVendorBillsComponent } from './vendorBills/this-month-vendor-b
 import { PassiveProductsComponent } from './products/passive-products/passive-products.component';
 import { PassiveCustomersComponent } from './customers/passive-customers/passive-customers.component';
 import { CanDeactivateGuard } from '../shared/guard/can-deactivate-guard.service';
+import { FilterReturnBillsComponent } from './returnBills/filter-return-bills/filter-return-bills.component';
+import { SaveReturnBillComponent } from './returnBills/save-return-bill/save-return-bill.component';
+import { ReturnBillListComponent } from './returnBills/return-bill-list/return-bill-list.component';
+import { ThisWeekReturnBillsComponent } from './returnBills/this-week-return-bills/this-week-return-bills.component';
+import { ThisMonthReturnBillsComponent } from './returnBills/this-month-return-bills/this-month-return-bills.component';
 
 
 const routes: Routes = [
@@ -60,6 +65,13 @@ const routes: Routes = [
             { path: 'vendorBills',component:VendorBillsListComponent },
             { path: 'thisWeekVendorBills',component:ThisWeekVendorBillsComponent },
             { path: 'thisMonthVendorBills',component:ThisMonthVendorBillsComponent },
+
+            { path: 'filteredReturnBills',component:FilterReturnBillsComponent },
+            { path: 'saveReturnBill',component:SaveReturnBillComponent },
+            { path: 'returnBills',component:ReturnBillListComponent },
+            { path: 'thisWeekReturnBills',component:ThisWeekReturnBillsComponent },
+            { path: 'thisMonthReturnBills',component:ThisMonthReturnBillsComponent },
+
 
             { path: 'priceGroups',component:PriceGroupsComponent },
             { path: 'charts', loadChildren: './charts/charts.module#ChartsModule' },
