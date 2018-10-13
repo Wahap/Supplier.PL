@@ -3,7 +3,7 @@ import { Product } from "./product";
 export class ReturnBillProduct
 {
     id:number;
-    billId:number;
+    returnBillId:number;
     productId:number;
     numberOfPackage:number;
     netSalePrice:number;
@@ -11,4 +11,5 @@ export class ReturnBillProduct
     purchasePrice:number;
     product:Product;
     status:string;
+    
 }

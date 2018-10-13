@@ -1,13 +1,14 @@
 <!-- <pdf-bill [bill]="selectedBill==null? lastbill:selectedBill"></pdf-bill> -->
 
 <div class="row">
-  <div class="col-md-6">
+  <div class="col-md-6" style="min-height:600px;">
           <div id="bill-customer-selection">
               <table class="table">
                   <tr> 
                       <td>Müşteri</td>
+                     
                       <td>  <p-dropdown [options]="customers" (onChange)="onCustomerSelect()" [style]="{'width':'100%'}" [(ngModel)]="selectedCustomer" placeholder="Müşteri"
-                          optionLabel="companyName" filter="true"></p-dropdown></td>
+                          optionLabel="companyName" filter="true"></p-dropdown></td> 
                           <td>Fiyat Tipi</td>
                           <td> <select id="drpPriceType" class="form-control form-control-sm" [(ngModel)]="priceTypeId"  (change)="getProducts()">
                                   <option value="1">Müşteriye Özel</option>
@@ -33,12 +34,7 @@
                       <td>Dağıtım Tarihi</td>
                       <td><p-calendar [(ngModel)]="deliveryDate" dateFormat="dd.mm.yy" hideOnDateTimeSelect="true"></p-calendar></td>
                   </tr>
-                  <tr>
-                      <td>irsaliye Numarası</td>
-                      <td><input type="number" class="form-control form-control-sm" [(ngModel)]="waybillId" /></td>
-                      <td></td>
-                      <td></td>
-                  </tr>
+                
               </table>
                 
                 
@@ -47,7 +43,10 @@
                
                 
               </div>
-          <!-- <p-table [value]="basketProducts" #dtBasketProducts [columns]="productListCols" [loading]="loading" [scrollable]="true"
+
+              
+
+          <p-table [value]="basketProducts" #dtBasketProducts [columns]="productListCols" [loading]="loading" [scrollable]="true"
           [scrollHeight]="windowsHeight()">
               <ng-template pTemplate="caption">
                   Ürünler ({{basketProducts.length}})
@@ -100,11 +99,11 @@
                       </td>
                   </tr>
               </ng-template>
-          </p-table> -->
+          </p-table>
   </div>
 
   <div class="col-md-6">
-      <!-- <div id="billContainer">
+      <div id="billContainer">
 
          
           <div id="bill-preview">
@@ -178,7 +177,7 @@
                               <h3>Netto:{{currentBillTotals.totalNetPrice | money}} €</h3>
                               <h3>Mwst:{{currentBillTotals.totalTaxPrice | money}} €</h3>
                               <h3>Rabatt: <input id="billExtraDiscount" type="number" [(ngModel)]="selectedCustomer.extraDiscount" (keyup)="calculateCurrentBillPrices()" > % = -{{currentBillTotals.extraDiscount | money}} € </h3>
-                              <h3>Skonto: <p-dropdown [options]="discountRates" [(ngModel)]="selectedDiscountRate" optionLabel="definition" (onChange)="calculateCurrentBillPrices()"></p-dropdown>{{selectedDiscountRate?.rate}} % = -{{currentBillTotals.discount | money}} €</h3>
+                             
                               <h3>Brutto:{{currentBillTotals.totalGrossPrice | money}} €</h3>
                              
                               
@@ -190,6 +189,6 @@
                       (click)="saveBill()"><p-progressSpinner *ngIf="isBillSaving" [style]="{width: '20px', height: '20px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner>KAYDET</button>
                 
               </div>
-      </div> -->
+      </div>
   </div>
 </div>

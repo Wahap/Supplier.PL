@@ -19,4 +19,38 @@ export class ReturnBillService {
           .map((response: Response) => response.json());
   }
 
+  getAllReturnBills(url: string, input: any): any {//Returns maxBillNumber+1
+    return this.http.post(url, input, this.options)
+        .map((response: Response) => response.json());
+}
+
+  saveReturnBill(url: string, input: any): any {//Returns maxBillNumber+1
+    return this.http.post(url, input, this.options)
+        .map((response: Response) => response.json());
+}
+
+deleteReturnBill(url: string, input: any): any {//Returns maxBillNumber+1
+  return this.http.post(url, input, this.options)
+      .map((response: Response) => response.json());
+}
+
+getThisWeekReturnBills(url: string, input: any): any {//Returns maxBillNumber+1
+  return this.http.post(url, input, this.options)
+      .map((response: Response) => response.json());
+}
+
+getThisMonthReturnBills(url: string, input: any): any {//Returns maxBillNumber+1
+  return this.http.post(url, input, this.options)
+      .map((response: Response) => response.json());
+}
+
+getReturnBillProducts(url: string, input: any): any {//Returns maxBillNumber+1
+  return this.http.post(url, input, this.options)
+      .map((response: Response) => response.json());
+}
+
+filterReturnBills(url: string, input: any): any {//Returns maxBillNumber+1
+  return this.http.post(url, input, this.options)
+      .map((response: Response) => response.json());
+}
 }

@@ -56,6 +56,13 @@ export interface IConfig {
 	filterBillsUrl:string;
 	//ReturnBills
 	getNextReturnBillNumberUrl:string;
+	saveReturnBillUrl:string;
+	deleteReturnBillUrl:string;
+	getAllReturnBillsUrl:string;
+	getThisWeekReturnBillsUrl:string;
+	getThisMonthReturnBillsUrl:string;
+	filterReturnBillsUrl:string;
+	getReturnBillProductsUrl:string;
 	//VendorBillUrls
 	getVendorBillUrl:string;
 	saveVendorBillUrl:string;
@@ -79,19 +86,22 @@ export interface IConfig {
 
 };
 import { Injectable } from '@angular/core';
+import { TOOLTIP_PANEL_CLASS } from '@angular/material';
 @Injectable()
 export class ConfigService {
+
+
 
 
 	getAppConfig(): IConfig {
 
 	
-		let serverLoginPath = 'https://supplier.azurewebsites.net/api/', serverLoginPathDebug = 'http://localhost:4315/api/';
-		//let serverLoginPath = 'https://devsupplier.azurewebsites.net/api/', serverLoginPathDebug = 'http://localhost:4315/api/';
+		//let serverLoginPath = 'https://supplier.azurewebsites.net/api/', serverLoginPathDebug = 'http://localhost:4315/api/';
+		let serverLoginPath = 'https://devsupplier.azurewebsites.net/api/', serverLoginPathDebug = 'http://localhost:4315/api/';
 	
 
 		let serverUserNotificationPath = '';
-		let debug = false;
+		let debug = true;
 
 		let getUsers = (debug ? serverLoginPathDebug + "authentication/login" : serverLoginPath + "userCont/getusers");
 		//let logInUrl = (debug ? serverLoginPathDebug + "userCont/login" : serverLoginPath + "userCont/login");
@@ -156,7 +166,14 @@ export class ConfigService {
 		let filterBillsUrl = (debug ? serverLoginPathDebug + "bill/filterBills" : serverLoginPath + "bill/filterBills");
 		//Return Bill Urls
 		let getNextReturnBillNumberUrl=(debug ? serverLoginPathDebug + "returnBill/getNextBillNumber" : serverLoginPath + "returnBill/getNextBillNumber");
-
+		let saveReturnBillUrl = (debug ? serverLoginPathDebug + "returnBill/save" : serverLoginPath + "returnBill/save");
+		let deleteReturnBillUrl = (debug ? serverLoginPathDebug + "returnBill/delete" : serverLoginPath + "returnBill/delete");
+		let getAllReturnBillsUrl = (debug ? serverLoginPathDebug + "returnBill/getAllBills" : serverLoginPath + "returnBill/getAllBills");
+		let getThisWeekReturnBillsUrl = (debug ? serverLoginPathDebug + "returnBill/getThisWeekBills" : serverLoginPath + "returnBill/getThisWeekBills");
+		let getThisMonthReturnBillsUrl = (debug ? serverLoginPathDebug + "returnBill/getThisMonthBills" : serverLoginPath + "returnBill/getThisMonthBills");
+		let filterReturnBillsUrl = (debug ? serverLoginPathDebug + "returnBill/filterBills" : serverLoginPath + "returnBill/filterBills");
+		let getReturnBillProductsUrl = (debug ? serverLoginPathDebug + "returnBill/getBillproducts" : serverLoginPath + "returnBill/getBillproducts");
+		
 		//Vendors Urls
 		let saveVendorBillUrl = (debug ? serverLoginPathDebug + "VendorBill/save" : serverLoginPath + "VendorBill/save");
 		let getAllVendorBillsUrl = (debug ? serverLoginPathDebug + "VendorBill/getallbills" : serverLoginPath + "VendorBill/getallbills");
@@ -234,6 +251,13 @@ export class ConfigService {
 			filterBillsUrl:filterBillsUrl,
 			//ReturnBill Urls
 			getNextReturnBillNumberUrl:getNextReturnBillNumberUrl,
+			saveReturnBillUrl:saveReturnBillUrl,
+			deleteReturnBillUrl:deleteReturnBillUrl,
+			getAllReturnBillsUrl:getAllReturnBillsUrl,
+			getThisWeekReturnBillsUrl:getThisWeekReturnBillsUrl,
+			getThisMonthReturnBillsUrl:getThisMonthReturnBillsUrl,
+			filterReturnBillsUrl:filterReturnBillsUrl,
+			getReturnBillProductsUrl:getReturnBillProductsUrl,
 			//VendorBills
 			saveVendorBillUrl:saveVendorBillUrl,
 			getAllVendorBillsUrl:getAllVendorBillsUrl,

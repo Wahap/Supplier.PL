@@ -23,6 +23,6 @@ export class ReturnBill
     address:Address;
     isActive:boolean;
     isPaid:boolean;
-    billProducts:ReturnBillProduct[]=[];
+    returnBillProducts:ReturnBillProduct[]=[];
     payments:Payment[]=[];
 }

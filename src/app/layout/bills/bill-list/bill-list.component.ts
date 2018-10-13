@@ -19,7 +19,7 @@ import { Totals } from '../../../shared/DTOs/totals';
 export class BillListComponent implements OnInit {
   config: IConfig;
   loading:boolean=true;
-  @Input() allBills:Bill[]=[];
+  @Input() allBills:Bill[]=[];  
   selectedBill:Bill;
   allCustomers:Customer[]=[];
   showPrintDialog:boolean=false;
@@ -28,7 +28,7 @@ export class BillListComponent implements OnInit {
   billListColumns:any[];
   existsInputData:boolean=false;
   payment:Payment=new Payment();
-  paymentTypes:PaymentType[]=[];
+  paymentTypes:PaymentType[]=[];  
   paymentTotals:Totals=new Totals();
   today:Date=new Date();
   selectedAnalyzedBill:Bill;//

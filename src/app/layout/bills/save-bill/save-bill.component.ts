@@ -33,7 +33,7 @@ export class SaveBillComponent implements OnInit {
   selectedCustomer: Customer = new Customer();
   selectedAddress: Address = new Address();
   deliveryAddress: Address = new Address();
-  createdDate: Date = new Date();
+  createdDate: Date = new Date(); 
   deliveryDate: Date = new Date();
   billNumber: number;
   billNumberIsValid: boolean = true;

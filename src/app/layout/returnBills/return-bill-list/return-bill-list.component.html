@@ -1,3 +1,131 @@
-<p>
-  return-bill-list works!
-</p>
+<div>
+  <p-table #dtBillList [columns]="billListColumns" [value]="allBills" [loading]="loading" [scrollable]="true"
+      [scrollHeight]="windowsHeight()">
+      <ng-template pTemplate="header" let-columns>
+          <tr>
+              <th *ngFor="let col of columns">
+                  {{col.header}}
+              </th>
+          </tr>  
+          <tr>
+              <th>
+                  <input placeholder="Fatura.No..." class="form-control form-control-sm" type="text" (input)="dtBillList.filter($event.target.value, 'billNumber','contains')">
+              </th>
+              <th>
+                  <input placeholder="Firma..." class="form-control form-control-sm" type="text" (input)="dtBillList.filter($event.target.value, 'customer.companyName','contains')">
+              </th>
+
+              <th></th>
+              <th></th>
+              <th></th>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-bill let-columns="columns">
+          <tr>
+              <td *ngFor="let col of columns" [ngSwitch]="col.field">
+                 <button class="btn btn-info btn-sm" *ngSwitchCase="'billNumber'" (click)="analyzeBill(bill)"><i class="fa fa-line-chart" aria-hidden="true"></i></button>
+                  <span *ngSwitchCase="'billNumber'" class="font-weight-bold">{{bill.billNumber}} <span class="badge">({{bill.createdDate | date:'dd.MM.yyyy'}}) (irs:{{bill.waybillId}})</span>
+                  </span>
+                  <span *ngSwitchCase="'companyName'">{{bill.customer.companyName}}</span>
+
+                  <span *ngSwitchCase="'isPaid'">
+                      <p-inputSwitch [(ngModel)]="bill.isPaid" (onChange)="onIsPaidChange(bill)"></p-inputSwitch><span
+                          class="isPaid" [ngClass]="bill.isPaid ? 'text-success' : 'text-danger'">{{bill.isPaid?'Ödendi':'Ödenmedi'}}</span>
+                      <button class="btn btn-primary btn-sm" id="show-payment-dialog" (click)="openPaymentDialog(bill)"><i
+                              class="fa fa-plus" aria-hidden="true"></i> <i class="fa fa-eur" aria-hidden="true"></i></button>
+                  </span>
+                  <button *ngSwitchCase="'update'" class="btn btn-success btn-sm" (click)="updateBill(bill)"><i class="fa fa-pencil"></i>Güncelle
+                  </button>
+                  <button *ngSwitchCase="'print'" class="btn btn-primary btn-sm" (click)="onBillPreview(bill)"><a class="fa fa-eye"></a>Önizleme</button>
+                  <button *ngSwitchCase="'delete'" class="btn btn-danger btn-sm" (click)="deleteBill(bill)"><i class="fa fa-times"></i>Sil</button>
+              </td>
+          </tr>
+      </ng-template>
+  </p-table>
+
+</div>
+
+<!-- <p-dialog [positionTop]="50" header="Ödeme Al" maximizable="true" [(visible)]="showPaymentDialog" [responsive]="true"
+  showEffect="fade" [modal]="true" width="1200">
+  <div class="row">
+      <div class="col-sm-4 border border-info rounded-top">
+
+          <div class="form-group">
+              <label>Ödeme Tipi</label>
+
+              <select class="form-control form-control-sm" [(ngModel)]="payment.paymentTypeId">
+                  <option *ngFor="let type of paymentTypes" value="{{type.id}}">{{type.type}}</option>
+
+              </select>
+          </div>
+          <div class="form-group">
+              <label>Miktar</label>
+              <input type="text" class="form-control form-control-sm" [(ngModel)]="payment.amount">
+          </div>
+          <div class="form-group">
+              <label>Tarih</label><br>
+              <p-calendar [(ngModel)]="payment.paymentDate" dateFormat="dd.mm.yy"></p-calendar>
+
+          </div>
+
+          <div class="form-group">
+              <label>Açıklama</label>
+              <textarea type="text" class="form-control form-control-sm" [(ngModel)]="payment.description"></textarea>
+          </div>
+
+          <button class="btn btn-primary mb-2" (click)="savePayment()">Kaydet</button>
+          
+
+      </div>
+      <div class="col-sm-8">
+          <table class="table table-bordered table-sm">
+                  <caption>Alınan Ödemeler({{paymentTotals.totalItems}})</caption>
+              <thead>
+                  <tr>
+                      <th>Ödenen Miktar</th>
+                      <th>Tarih</th>
+                      <th>Ödeme Tipi</th>
+                      <th>Güncelle</th>
+                      <th>Sil</th>
+                  </tr>
+              </thead>
+              <tbody *ngIf="selectedBillForPayment!=null">
+                  <tr *ngFor="let payment of selectedBillForPayment.payments">
+                      <td>{{payment.amount}}</td>
+                      <td>{{payment.paymentDate | date:'dd/MM/yyyy'}}</td>
+                      <td>{{payment.paymentType.type}}</td>
+                      <td><button class="btn btn-success" (click)="setPayment(payment)">Güncelle</button></td>
+                      <td><button class="btn btn-danger" (click)="deletePayment(payment)"> <i class="fa fa-times"></i>
+                              Sil</button></td>
+                  </tr>
+              </tbody>
+          </table>
+          <p>Toplam Yapılan Ödeme: <strong>{{paymentTotals.totalGrossPrice | money}} €</strong></p>
+      </div>
+
+  </div>
+</p-dialog>
+ -->
+<p-dialog [positionTop]="50" header="Fatura Detayları" maximizable="true" [(visible)]="showUpdateBillDialog" (onHide)="onCloseNewBillDialog()"
+  [responsive]="true" showEffect="fade" [modal]="true" width="95%">
+  <div>
+
+      <app-save-return-bill [selectedBill]="selectedBill"></app-save-return-bill>
+  </div>
+</p-dialog>
+
+<!-- <p-dialog [positionTop]="50" header="Fatura Analizi" maximizable="true" [(visible)]="showAnalyzedBillDialog" 
+  [responsive]="true" showEffect="fade" [modal]="true" width="1000">
+  <div>
+
+      <app-analyze-bill [bill]="selectedAnalyzedBill"></app-analyze-bill>
+  </div>
+</p-dialog> -->
+
+<!-- <p-dialog [positionTop]="50" header="Fatura önizleme" maximizable="true" [(visible)]="showPrintDialog" [responsive]="true"
+  showEffect="fade" [modal]="true" width="95%">
+  <div>
+      <app-bill-print [selectedBill]="selectedBill"></app-bill-print>
+
+  </div>
+</p-dialog> -->
