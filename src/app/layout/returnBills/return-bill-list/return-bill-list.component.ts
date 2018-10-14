@@ -16,6 +16,7 @@ export class ReturnBillListComponent implements OnInit {
   loading:boolean=true;
   selectedBill:ReturnBill;
   showUpdateBillDialog:boolean=false;
+  showPrintDialog:boolean=false;
   constructor(private returnBillService:ReturnBillService,private configService: ConfigService) { }
   
   ngOnInit() {
@@ -76,7 +77,11 @@ this.loading=false;
      }
     
   }
-
+  onBillPreview(bill:ReturnBill)
+  {
+    this.selectedBill=bill;
+this.showPrintDialog=true;
+  }
   onCloseNewBillDialog()
   {
     this.selectedBill=null;

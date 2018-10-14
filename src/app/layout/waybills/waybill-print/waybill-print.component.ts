@@ -49,13 +49,17 @@ export class WaybillPrintComponent implements OnInit {
       let numberOfPieces=pro.numberOfPackage*pro.product.unitsInPackage;
       this.waybillTotals.totalPackages+=pro.numberOfPackage;
       this.waybillTotals.totalPieces+=numberOfPieces;
-      this.waybillTotals.totalNetPrice+=numberOfPieces*pro.netSalePrice;
-      this.waybillTotals.totalTaxPrice+=numberOfPieces*(pro.netSalePrice*pro.tax/100);
-      this.waybillTotals.extraDiscount=(this.waybillTotals.totalNetPrice+this.waybillTotals.totalTaxPrice)*this.selectedWaybill.extraDiscount/100;
-      this.waybillTotals.discount=(this.waybillTotals.totalNetPrice+this.waybillTotals.totalTaxPrice)*this.selectedWaybill.discountRate.rate/100;
-      this.waybillTotals.totalGrossPrice=this.waybillTotals.totalNetPrice+this.waybillTotals.totalTaxPrice-this.waybillTotals.extraDiscount-this.waybillTotals.discount;
+      this.waybillTotals.subNetTotalPrice+=numberOfPieces*pro.netSalePrice;
+     
     });
-    this.waybillTotals.totalItems=this.selectedWaybill.waybillProducts.length;
+    this.waybillTotals.extraDiscount=(this.waybillTotals.subNetTotalPrice)*this.selectedWaybill.extraDiscount/100;
+    this.waybillTotals.totalNetPrice=this.waybillTotals.subNetTotalPrice-this.waybillTotals.extraDiscount;
+    this.waybillTotals.totalTaxPrice=this.waybillTotals.totalNetPrice*0.07;
+    this.waybillTotals.subGrossTotalPrice=this.waybillTotals.totalNetPrice+this.waybillTotals.totalTaxPrice;
+    this.waybillTotals.discount=(this.waybillTotals.subGrossTotalPrice)*this.selectedWaybill.discountRate.rate/100;
+    this.waybillTotals.totalGrossPrice=this.waybillTotals.subGrossTotalPrice-this.waybillTotals.discount;
+   
+    // this.waybillTotals.totalItems=this.selectedBill.billProducts.length;
   }
   printPage()
   {

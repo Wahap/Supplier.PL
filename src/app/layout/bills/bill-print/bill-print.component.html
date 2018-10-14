@@ -101,7 +101,7 @@
 
           <tr *ngFor="let pro of selectedBill?.billProducts;let i=index;">
             <td>{{i+1}}</td>
-            <td>{{pro.product.productName}}</td>
+            <td>{{pro.product.productName}}</td> 
             <td>{{pro.product.barcodeOfProduct}}</td>
             <td style="text-align: right;">{{pro.product.orderNumber}}</td>
             <td style="text-align: right;">{{pro.numberOfPackage}} K = {{pro.numberOfPackage * pro.product.unitsInPackage}} STK</td>
@@ -142,26 +142,32 @@
         <div class="row" style="border-bottom: 1px solid black;
       height: 20px;">
           <div style="width:590px; float: left;">Gesamt Netto</div>
-          <div style="width:200px; float: left; text-align: right;">{{billTotals?.totalNetPrice | money}} €</div>
-        </div>
-        <div class="row" style="border-bottom: 1px solid black;
-      height: 20px;">
-          <div style="width:590px; float: left;">Mwst 7%</div>
-          <div style="width:200px; float: left;text-align: right;">{{billTotals?.totalTaxPrice | money}} €</div>
+          <div style="width:200px; float: left; text-align: right;">{{billTotals?.subNetTotalPrice | money}} €</div>
         </div>
         <div class="row" *ngIf="billTotals?.extraDiscount>0" style="border-bottom: 1px solid black;
           height: 20px;">
           <div style="width:590px; float: left;">Rabatt {{ selectedBill?.extraDiscount }}%</div>
           <div style="width:200px; float: left;text-align: right;">-{{billTotals?.extraDiscount | money}} €</div>
         </div>
-        <div class="row" *ngIf="billTotals?.discount>0" style="border-bottom: 1px solid black;
+        <div class="row" *ngIf="billTotals?.extraDiscount>0" style="border-bottom: 1px solid black;
+          height: 20px;">
+          <div style="width:590px; float: left;"></div>
+          <div style="width:200px; float: left;text-align: right;">{{billTotals?.totalNetPrice | money}} €</div>
+        </div>
+        <div class="row" style="border-bottom: 1px solid black;
+      height: 20px;">
+          <div style="width:590px; float: left;">Mwst 7%</div>
+          <div style="width:200px; float: left;text-align: right;">{{billTotals?.totalTaxPrice | money}} €</div>
+        </div>
+       
+        <!-- <div class="row" *ngIf="billTotals?.discount>0" style="border-bottom: 1px solid black;
           height: 20px;">
           <div style="width:590px; float: left;">Skonto {{ selectedBill?.discountRate.rate }}%</div>
           <div style="width:200px; float: left;text-align: right;">-{{billTotals?.discount | money}} €</div>
-        </div>
+        </div> -->
         <div class="row">
           <div style="width:590px; float: left;">Brutto Gesamt</div>
-          <div style="width:200px; float: left;text-align: right;">{{billTotals?.totalGrossPrice | money}} €</div>
+          <div style="width:200px; float: left;text-align: right;">{{billTotals?.subGrossTotalPrice | money}} €</div>
         </div>
 
 

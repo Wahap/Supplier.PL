@@ -6,128 +6,213 @@
 
 
 
+
 <br><br>
-<div id="all-page">
-<div id="page-container">
-  <div id="page-header" style="position: relative;
-  height: 300px;
+<div id="all-page" style="height:800px; overflow:scroll;">
+  <div id="page-container">
+    <div id="page-header" style="position: relative;
+  height: 290px;
   width: 800px;">
-    <h1 style="    position: absolute;
+      <!-- <h1 style="    position: absolute;
     text-align: center;
-    width: 80%;">GÖRAL Vertriebs GMBH</h1>
-    <img src="assets/images/goral.png" style="    position: absolute;
+    width: 80%;">GÖRAL Vertriebs GMBH</h1> -->
+      <!-- <img src="assets/images/goral.png" style="    position: absolute;
     right: 0px;
-    top: 0px;" />
-    <div id="waybill-infos" style="position: absolute;
-    height: 150px;
+    top: 0px;" /> -->
+      <div id="waybill-infos" style="position: absolute;
+    height: 290px;
     width: 800px;
-    top: 106px;">
+    top: 0px;">
         <span id="company-address" style="position: absolute;
         text-decoration: underline;
         font-size: 0.7em;
         font-style: italic;
         top: 0px;
-        left: 0px;">GÖRAL VertriebsGMBHKenan AydinOhligserStr. 22, 42329Wupperta</span>
-        <span id="customer-company" style="    position: absolute;
+        left: 0px;">GÖRAL
+          Vertriebs GMBH,Kenan Aydin,Ohligser Str. 22, 42329 Wuppertal</span>
+        <span id="customer-company" style="position: absolute;
         top: 25px;
         font-weight: bold;
-        left: 0px;">{{selectedWaybill?.customer.companyName}}</span>
+        left: 0px;
+        font-size: 0.9em;">{{selectedWaybill?.customer.companyName}}</span>
         <span id="customer-name" style="    position: absolute;
-        top: 45px;
+        top: 39px;
         left: 0px;
-        text-transform: capitalize;" *ngIf="selectedWaybill?.customer.customerName!=null && selectedWaybill?.customer.lastname!=null">{{selectedWaybill?.customer.customerName+ ' ' + selectedWaybill?.customer.lastname }}</span>
+        text-transform: capitalize;
+        font-size: 0.9em;"
+          *ngIf="selectedWaybill?.customer.customerName!=null && selectedWaybill?.customer.lastname!=null">{{selectedWaybill?.customer.customerName
+          + ' ' + selectedWaybill?.customer.lastname }}</span>
         <span id="customer-address" style="    position: absolute;
-        top: 76px;
+        top: 50px;
         left: 0px;
-        line-height: 20px;">{{selectedWaybill?.address.street}}<br>
-            {{selectedWaybill?.address.postCode}} {{selectedWaybill?.address.city.name}}
-            </span>
-           
-            <h3 id="waybill-number" style="    position: absolute;
-            top: 119px;
-            left: 0px;">Lieferschein Nr.:{{selectedWaybill?.id}}</h3>
-            <table  style="position: absolute;
+        line-height: 25px;
+        font-size: 0.9em;
+        font-weight: bold;">{{selectedWaybill?.address.street}}<br>
+          {{selectedWaybill?.address.postCode}} {{selectedWaybill?.address.city.name}}
+        </span>
+        <h3 id="waybill-number" style="position: absolute;
+            bottom: 20px;
+            left: 0px;">Lieferschein Nr:{{selectedWaybill?.id }}
+        </h3>
+        <p id="delivery-address" style="    position: absolute;
+        bottom: 9px;
+        left: 0px;
+        font-size: 0.8em;
+        padding: 0px;
+        margin: 0px;">Lieferung vom {{selectedWaybill?.deliveryDate | date:'dd/MM/yyyy'}} an {{selectedWaybill?.deliveryAddress.street}},  {{selectedWaybill?.deliveryAddress.postCode}}, {{selectedWaybill?.deliveryAddress.city.name}}</p>
+        <table style="    position: absolute;
             right: 50px;
-            top: 61px;">
-                <tr>
-                  <td>Kunden Nr:</td>
-                  <td>{{selectedWaybill?.customer.customerNumber==null || selectedWaybill?.customer.customerNumber==''?selectedWaybill?.customer.id:selectedWaybill?.customer.customerNumber }}</td>
-                </tr>
-                <tr *ngIf="selectedWaybill?.convertedBillNumber>0">
-                  <td>Rechnung Nr:</td>
-                  <td>{{selectedWaybill?.convertedBillNumber}}</td>
-                </tr>
-                <tr>
-                  <td>Datum: </td>
-                  <td>{{selectedWaybill?.createdDate | date:'dd/MM/yyyy'}}</td>
-                </tr>
-              </table>
-         
+            top: 32px;">
+          <tr>
+            <td>Kunden Nr:</td>
+            <td>{{selectedWaybill?.customer.customerNumber==null || selectedWaybill?.customer.customerNumber==''
+              ?selectedWaybill?.customer.id:selectedWaybill?.customer.customerNumber }}</td>
+          </tr>
+          <tr *ngIf="selectedWaybill?.convertedBillNumber>0">
+            <td>Rechnung Nr:</td>
+            <td>{{selectedWaybill?.convertedBillNumber }}</td>
+          </tr>
+          <tr>
+            <td>Lieferdatum:</td>
+            <td>{{selectedWaybill?.deliveryDate | date:'dd/MM/yyyy'}}</td>
+          </tr>
+          <tr>
+            <td>Datum:</td>
+            <td>{{selectedWaybill?.createdDate | date:'dd/MM/yyyy'}}</td>
+          </tr>
+        </table>
+
+
+
+      </div>
+
+
     </div>
-
-    
-  </div>
-  <div id="page-body">
-    <table style="    width: 800px;
+    <div id="page-body">
+      <table style="    width: 800px;
     font-weight: bold;">
-      <thead>
-        <tr>
-          <th style="    text-align: left;border-bottom: 1px solid #ccc;">POS</th>
-          <th style="    text-align: left;border-bottom: 1px solid #ccc;">MENGE</th>
-          <th style="    text-align: left;border-bottom: 1px solid #ccc;">ART.NR.</th>
-          <th style="    text-align: left;border-bottom: 1px solid #ccc;">BARCODE</th>
-          <th style="    text-align: left;border-bottom: 1px solid #ccc;">TEXT</th>
-         
-        
-          <th style="    text-align: right;border-bottom: 1px solid #ccc;" *ngIf="printPrices">PREIS STK</th>
-          <th style="    text-align: right;border-bottom: 1px solid #ccc;" *ngIf="printPrices">PREIS GESAMT</th>
-        </tr>
-      </thead>
-      <tbody style="    font-size: 0.9em;">
+        <thead>
+          <tr>
+            <th style="    text-align: left;border-bottom: 1px solid #ccc;">Pos</th>
+            <th style="    text-align: left;border-bottom: 1px solid #ccc;">Artikel Bezeichnung</th>
+            <th style="    text-align: left;border-bottom: 1px solid #ccc;">Barcode</th>
+            <th style="    text-align: right;border-bottom: 1px solid #ccc;">Art.Nr.</th>
+          
+            <th style="    text-align: right;border-bottom: 1px solid #ccc;">Menge</th>
+            <th style="    text-align: right;border-bottom: 1px solid #ccc;" *ngIf="printPrices">Preis/Stk</th>
+            <th style="    text-align: right;border-bottom: 1px solid #ccc;" *ngIf="printPrices">Preis Gesamt</th>
+          </tr>
+        </thead>
+        <tbody style="     font-size: 0.9em;
+      font-weight: normal;">
 
-        <tr *ngFor="let pro of selectedWaybill?.waybillProducts;let i=index;">
-          <td>{{i+1}}</td>
-          <td style="    text-align: left;">{{pro.numberOfPackage}} KOLLI = {{pro.numberOfPackage * pro.product.unitsInPackage}} STK</td>
-          <td style="    text-align: left;">{{pro.product.orderNumber}}</td>
-          <td style="    text-align: left;">{{pro.product.barcodeOfProduct}}</td>
-          <td style="    text-align: left;">{{pro.product.productName}}</td>
-         
-         
-          <td style="    text-align: right;" *ngIf="printPrices">{{pro.netSalePrice | money}} €</td>
-          <td style="    text-align: right;" *ngIf="printPrices">{{(pro.numberOfPackage * pro.product.unitsInPackage * pro.netSalePrice) | money}} €</td>
-        </tr>
-      </tbody>
-    </table>
-    
-    <div id="totalsContainer" *ngIf="printPrices" style="    font-weight: bold;
-    margin-top: 20px;
-    border-top: 1px solid #ccc;
-    width: 800px;
-    padding: 6px 0px;">
-      <div class="row">
+          <tr *ngFor="let pro of selectedWaybill?.waybillProducts;let i=index;">
+            <td>{{i+1}}</td>
+            <td>{{pro.product.productName}}</td> 
+            <td>{{pro.product.barcodeOfProduct}}</td>
+            <td style="text-align: right;">{{pro.product.orderNumber}}</td>
+            <td style="text-align: right;">{{pro.numberOfPackage}} K = {{pro.numberOfPackage * pro.product.unitsInPackage}} STK</td>
+           
+            <td style="text-align: right;" *ngIf="printPrices">{{pro.netSalePrice | money}} €</td>
+            <td style="text-align: right;" *ngIf="printPrices">{{(pro.numberOfPackage * pro.product.unitsInPackage * pro.netSalePrice) |
+              money}} €</td>
+          </tr>
+
+          <tr>
+            <td style="border-top: 1px solid black;"></td>
+            <td style="border-top: 1px solid black;"></td>
+            <td style="border-top: 1px solid black;"></td>
+            <td style="border-top: 1px solid black;"></td>
+            
+            <td style="    text-align: center;
+            font-weight: bold;
+            font-size: 0.8em;
+            border-top: 1px solid black;
+            line-height: 24px;">G.KOLLI:{{waybillTotals.totalPackages}}</td>
+          
+            <td style="border-top: 1px solid black;"  *ngIf="printPrices"></td>
+            <td style="border-top: 1px solid black;"  *ngIf="printPrices"></td>
+          </tr>
+        </tbody>
+      </table>
+     <div *ngIf="printPrices" id="footer-container" style="page-break-inside: avoid;">
+      <div id="totalsContainer" style="font-weight: bold;
+      margin-top: 20px;
+      border-top: 1px solid #ccc;
+      width: 791px;
+      min-height: 63px;
+      border: 1px solid black;
+      padding: 9px;
+      
+      padding-bottom: 23px;
+      padding-left: 14px;
+    ">
+        <div class="row" style="border-bottom: 1px solid black;
+      height: 20px;">
           <div style="width:590px; float: left;">Gesamt Netto</div>
-          <div style="width:200px; float: left; text-align: right;">{{waybillTotals?.totalNetPrice | money}} €</div>
-      </div>
-      <div class="row">
-          <div style="width:590px; float: left;">MwSt 7%</div>
-          <div style="width:200px; float: left;text-align: right;">{{waybillTotals?.totalTaxPrice | money}} €</div>
-      </div>
-      <div class="row" *ngIf="selectedWaybill?.extraDiscount>0">
+          <div style="width:200px; float: left; text-align: right;">{{waybillTotals?.subNetTotalPrice | money}} €</div>
+        </div>
+        <div class="row" *ngIf="waybillTotals?.extraDiscount>0" style="border-bottom: 1px solid black;
+          height: 20px;">
           <div style="width:590px; float: left;">Rabatt {{ selectedWaybill?.extraDiscount }}%</div>
           <div style="width:200px; float: left;text-align: right;">-{{waybillTotals?.extraDiscount | money}} €</div>
-      </div>
-      <div class="row" *ngIf="waybillTotals?.discount>0">
-        <div style="width:590px; float: left;">Skonto {{ selectedWaybill?.discountRate.rate }}%</div>
-        <div style="width:200px; float: left;text-align: right;">-{{waybillTotals?.discount | money}} €</div>
-    </div>
-      <div class="row">
-          <div style="width:590px; float: left;">Brutto Gesamt</div>
-          <div style="width:200px; float: left;text-align: right;">{{waybillTotals?.totalGrossPrice | money}} €</div>
-      </div>
+        </div>
+        <div class="row" *ngIf="waybillTotals?.extraDiscount>0" style="border-bottom: 1px solid black;
+          height: 20px;">
+          <div style="width:590px; float: left;"></div>
+          <div style="width:200px; float: left;text-align: right;">{{waybillTotals?.totalNetPrice | money}} €</div>
+        </div>
+        <div class="row" style="border-bottom: 1px solid black;
+      height: 20px;">
+          <div style="width:590px; float: left;">Mwst 7%</div>
+          <div style="width:200px; float: left;text-align: right;">{{waybillTotals?.totalTaxPrice | money}} €</div>
+        </div>
        
-     
+        <!-- <div class="row" *ngIf="waybillTotals?.discount>0" style="border-bottom: 1px solid black;
+          height: 20px;">
+          <div style="width:590px; float: left;">Skonto {{ selectedWaybill?.discountRate.rate }}%</div>
+          <div style="width:200px; float: left;text-align: right;">-{{waybillTotals?.discount | money}} €</div>
+        </div> -->
+        <div class="row">
+          <div style="width:590px; float: left;">Brutto Gesamt</div>
+          <div style="width:200px; float: left;text-align: right;">{{waybillTotals?.subGrossTotalPrice | money}} €</div>
+        </div>
+
+
+      </div>
+      <div id="page-footer" style="    font-weight: bold;
+      margin-top: 10px;
+      padding-top: 7px;
+      width: 800px;
+      border-top: 1px solid #ccc;">
+          <div class="footer-text" style="font-size:0.8em;">
+            <div class="bill-is-unpaid" *ngIf="selectedWaybill?.isPaid==false;else paid_content">
+              <p *ngIf="selectedWaybill?.discountRate.rate>0">
+                Bei Zahlung innerhalb von {{selectedWaybill?.discountRate.validDaysNumber}} Tagen gewahren wir
+                {{selectedWaybill?.discountRate.rate}}% Skonto
+              </p>
+    
+              <p *ngIf="selectedWaybill?.discountRate.rate==0 && selectedWaybill?.discountRate.validDaysNumber>0 ">
+                Zahlbar bis {{lastPaymentDate | date:'dd/MM/yyyy'}} ohne Abzug.
+              </p>
+    
+              <p>
+                Offener Betrag {{waybillTotals?.totalGrossPrice | money}} EURO. Die Ware bleibt bis zur vollstandigen
+                Bezahlung unser Eigentum.
+                <span *ngIf="selectedWaybill?.discountRate.rate>0">Skonto {{selectedWaybill?.discountRate.rate}}%
+                  ={{waybillTotals.discount | money}}</span>
+              </p>
+            </div>
+            <ng-template #paid_content>
+              <p>Betrag {{waybillTotals?.totalGrossPrice | money}} EURO dankend erhalten.</p>
+            </ng-template>
+    
+          </div>
+    
+    
+        </div>
     </div>
-  
+   
   </div>
-</div>
+  </div>
 </div>

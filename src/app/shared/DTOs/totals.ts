@@ -11,16 +11,20 @@ export class Totals
         this.totalItems=0;
         this.extraDiscount=0;
         this.discount=0;
+        this.subNetTotalPrice=0;
+        this.subGrossTotalPrice=0;
 
     }
 
     totalPackages:number;
     totalPieces:number;
-    totalNetPrice:number;
+    totalNetPrice:number;//netSubTotalPrice-extraDiscount
+    subNetTotalPrice:number;
     totalPurchasePrice:number;
     totalTaxPrice:number;
-    totalGrossPrice:number;//Brüt Fiyat
+    totalGrossPrice:number;//subGrossTotalPrice-discount
+    subGrossTotalPrice:number;//
     totalItems:number;
     extraDiscount:number;
-    discount:number;//iskonto
+    discount:number;//iskonto// subGrossTotalPrice*discountRate/100
 }

@@ -53,13 +53,17 @@ export class BillPrintComponent implements OnInit {
       let numberOfPieces=pro.numberOfPackage*pro.product.unitsInPackage;
       this.billTotals.totalPackages+=pro.numberOfPackage;
       this.billTotals.totalPieces+=numberOfPieces;
-      this.billTotals.totalNetPrice+=numberOfPieces*pro.netSalePrice;
-      this.billTotals.totalTaxPrice+=numberOfPieces*(pro.netSalePrice*pro.tax/100);
-      this.billTotals.extraDiscount=(this.billTotals.totalNetPrice)*this.selectedBill.extraDiscount/100;
-      this.billTotals.discount=(this.billTotals.totalNetPrice)*this.selectedBill.discountRate.rate/100;
-      this.billTotals.totalGrossPrice=this.billTotals.totalNetPrice+this.billTotals.totalTaxPrice-this.billTotals.extraDiscount-this.billTotals.discount;
+      this.billTotals.subNetTotalPrice+=numberOfPieces*pro.netSalePrice;
+     
     });
-    this.billTotals.totalItems=this.selectedBill.billProducts.length;
+    this.billTotals.extraDiscount=(this.billTotals.subNetTotalPrice)*this.selectedBill.extraDiscount/100;
+    this.billTotals.totalNetPrice=this.billTotals.subNetTotalPrice-this.billTotals.extraDiscount;
+    this.billTotals.totalTaxPrice=this.billTotals.totalNetPrice*0.07;
+    this.billTotals.subGrossTotalPrice=this.billTotals.totalNetPrice+this.billTotals.totalTaxPrice;
+    this.billTotals.discount=(this.billTotals.subGrossTotalPrice)*this.selectedBill.discountRate.rate/100;
+    this.billTotals.totalGrossPrice=this.billTotals.subGrossTotalPrice-this.billTotals.discount;
+   
+     this.billTotals.totalItems=this.selectedBill.billProducts.length;
   }
   printPage()
   {
