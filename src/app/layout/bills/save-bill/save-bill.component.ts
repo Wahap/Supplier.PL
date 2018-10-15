@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, Input, ViewChild, ElementRef, EventEmitter, Output } from '@angular/core';
 import { BasketProduct } from '../../../shared/DTOs/basketProduct';
 import { Product } from '../../../shared/DTOs/product';
 import { IConfig, ConfigService } from '../../../app.config';
@@ -47,6 +47,7 @@ export class SaveBillComponent implements OnInit {
   categories: Category[] = [];
   isBillSaving:boolean=false;
   isDirty:boolean=false;
+  @Output() onBillSaved=new EventEmitter();
   @ViewChild('billProductsContainer') private billProductsContainer: ElementRef;
   @Input()
   selectedBill: Bill;
@@ -79,8 +80,8 @@ export class SaveBillComponent implements OnInit {
       this.selectedCustomer = this.customers.find(x => x.id == this.selectedBill.customerId);
       this.selectedAddress = this.selectedCustomer.addresses.find(x => x.id == this.selectedBill.addressId);
       this.deliveryAddress = this.selectedCustomer.addresses.find(x => x.id == this.selectedBill.deliveryAddressId);
-      this.createdDate =new Date(this.selectedBill.createdDate.getFullYear(),this.selectedBill.createdDate.getMonth(),this.selectedBill.createdDate.getDate(),13,0);
-      this.deliveryDate = new Date(this.selectedBill.deliveryDate.getFullYear(),this.selectedBill.deliveryDate.getMonth(),this.selectedBill.deliveryDate.getDate(),13,0);
+      this.createdDate =new Date(this.selectedBill.createdDate);
+      this.deliveryDate = new Date(this.selectedBill.deliveryDate);
       this.billNumber = this.selectedBill.billNumber;
       this.waybillId = this.selectedBill.waybillId;
       this.selectedCustomer.extraDiscount = this.selectedBill.extraDiscount;//discount sync
@@ -189,7 +190,7 @@ export class SaveBillComponent implements OnInit {
 
     });
 
-    this.billService.saveBill(this.config.saveBillUrl, bill).subscribe(result => {
+    this.billService.saveBill(this.config.saveBillUrl, bill).subscribe((result:Bill) => {
       this.isDirty=false;
       this.toastr.success("Fatura başarıyla kaydedildi...");
       this.isBillSaving=false;
@@ -198,7 +199,8 @@ export class SaveBillComponent implements OnInit {
         this.router.navigateByUrl('thisMonthBills');
       }
       else {//update waybill operation completed
-        location.reload();
+        result.discountRate=this.discountRates.find(x=>x.id==result.discountRateId);
+        this.onBillSaved.emit(result);
       }
 
 

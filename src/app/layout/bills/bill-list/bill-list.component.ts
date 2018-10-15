@@ -172,6 +172,22 @@ deletePayment(payment)
     this.selectedBill=bill;
 this.showPrintDialog=true;
   }
+  onBillSaved(editedBill:Bill)
+  {
+    let bill = this.allBills.find(x => x.id == editedBill.id);
+    bill.createdDate = new Date(editedBill.createdDate);
+    bill.deliveryDate = new Date(editedBill.deliveryDate);
+    bill.customerId = editedBill.customerId;
+    bill.discountRateId = editedBill.discountRateId;
+    bill.discountRate=editedBill.discountRate;
+    bill.extraDiscount = editedBill.extraDiscount;
+    bill.addressId = editedBill.addressId;
+    bill.deliveryAddressId = editedBill.deliveryAddressId;
+    bill.waybillId=editedBill.waybillId;
+    
+
+    this.showUpdateBillDialog = false;
+  }
   windowsHeight() {
     return (window.screen.height * 0.80 - 120) + "px";
   }

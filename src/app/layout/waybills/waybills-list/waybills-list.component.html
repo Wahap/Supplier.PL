@@ -32,9 +32,12 @@
                     <span *ngSwitchCase="'customerName'">{{waybill.customer.customerName}} {{waybill.customer.lastname}}</span>
                     <span *ngSwitchCase="'address'">{{waybill.address.street}} {{waybill.address.postCode}} {{waybill.address.city.name}}</span>
                    <button *ngSwitchCase="'update'" class="btn btn-success" (click)="updateWaybill(waybill)"><i class="fa fa-pencil"></i> Güncelle</button>
-                   <button *ngSwitchCase="'convert'" class="btn btn-dark" (click)="convertWaybillToBill(waybill)"><i class="fa fa-refresh"></i> Fatura ({{waybill.convertedBillNumber}})</button>
-                   <button *ngSwitchCase="'print'" class="btn btn-primary" (click)="onWaybillPreview(waybill)"><a class="fa fa-eye"></a> Önizleme</button>
-                   <button *ngSwitchCase="'delete'" class="btn btn-danger" (click)="deleteWaybill(waybill)"><i class="fa fa-times"></i> Sil</button>
+                   <button *ngSwitchCase="'convert'" class="btn btn-dark" (click)="convertWaybillToBill(waybill)" [disabled]="disabledButtons">
+                       <i class="fa fa-refresh"></i> Fatura ({{waybill.convertedBillNumber}})
+                       <p-progressSpinner *ngIf="isWaybillConverting" [style]="{width: '20px', height: '20px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner>
+                    </button>
+                   <button *ngSwitchCase="'print'" class="btn btn-primary" (click)="onWaybillPreview(waybill)" ><i class="fa fa-eye"></i> Önizleme</button>
+                   <button *ngSwitchCase="'delete'" class="btn btn-danger" (click)="deleteWaybill(waybill)" [disabled]="disabledButtons"><i class="fa fa-times"></i> Sil</button>
                 </td>
             </tr>
         </ng-template>
@@ -46,7 +49,7 @@
 <p-dialog [positionTop]="50" header="Irsaliye Detayları" maximizable="true" [(visible)]="dialogVisible" (onHide)="onCloseNewWaybillDialog()" [responsive]="true" showEffect="fade" [modal]="true" width="95%" height="95%" >
     
       
-      <app-new-waybill [selectedWayBill]="selectedWayBill"></app-new-waybill>
+      <app-new-waybill [selectedWayBill]="selectedWayBill" (onWaybillSaved)="onWaybillSaved($event)"></app-new-waybill>
     
 </p-dialog>
 

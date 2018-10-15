@@ -65,7 +65,18 @@ tr:hover img
     position: relative;
     left: 40px;
 }
-
+.stock-amount
+{
+  position: relative;
+  left: 11px;
+  font-weight: bold;
+  top: 2px;
+  background-color: black;
+  padding: 2px;
+  color: white;
+  border-radius: 5px;
+  z-index: 99;
+}
 
 .btn-file {
     position: relative;

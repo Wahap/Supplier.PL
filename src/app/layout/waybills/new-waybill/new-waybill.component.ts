@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, Input, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
 import { BasketProduct } from '../../../shared/DTOs/basketProduct';
 import { ProductsService } from '../../products/products.service';
 import { IConfig, ConfigService } from '../../../app.config';
@@ -51,6 +51,7 @@ isDirty:boolean=false;//check is there a unsaved changes
 @ViewChild('wayBillProductsContainer') private wayBillProductsContainer: ElementRef;
   @Input()
   selectedWayBill: Waybill;
+  @Output() onWaybillSaved=new EventEmitter();
 
   constructor(private customerService: CustomersService,private commonService:CommonService, public toastr: ToastsManager, vcr: ViewContainerRef, private waybillService: WaybillService, private productsService: ProductsService, private configService: ConfigService, public dialog: MatDialog, public router: Router) {
     this.toastr.setRootViewContainerRef(vcr);
@@ -164,7 +165,7 @@ isDirty:boolean=false;//check is there a unsaved changes
 
     });
 
-    this.waybillService.saveWaybill(this.config.saveWaybillUrl, waybill).subscribe(result => {
+    this.waybillService.saveWaybill(this.config.saveWaybillUrl, waybill).subscribe((result:Waybill )=> {
       this.toastr.success("irsaliye başarıyla kaydedildi...");
       this.isWaybillSaving=false;
       this.isDirty=false;
@@ -173,7 +174,7 @@ isDirty:boolean=false;//check is there a unsaved changes
         this.router.navigateByUrl('thisMonthWaybills');
       }
       else{//update waybill operation completed
-        location.reload();
+        this.onWaybillSaved.emit(result);
       }
       //  this.selectedWayBill=null;
       //this.router.navigateByUrl('/waybills')
