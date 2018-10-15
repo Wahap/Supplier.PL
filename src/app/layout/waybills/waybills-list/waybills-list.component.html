@@ -27,7 +27,7 @@
         <ng-template pTemplate="body" let-waybill let-columns="columns">
             <tr>
                 <td *ngFor="let col of columns" [ngSwitch]="col.field">
-                    <span *ngSwitchCase="'id'">{{waybill.id}}</span>
+                    <span *ngSwitchCase="'id'">{{waybill.id}} <span class="badge">({{waybill.createdDate | date:'dd/MM/yyyy'}})</span></span>
                     <span *ngSwitchCase="'companyName'">{{waybill.customer.companyName}}</span>
                     <span *ngSwitchCase="'customerName'">{{waybill.customer.customerName}} {{waybill.customer.lastname}}</span>
                     <span *ngSwitchCase="'address'">{{waybill.address.street}} {{waybill.address.postCode}} {{waybill.address.city.name}}</span>

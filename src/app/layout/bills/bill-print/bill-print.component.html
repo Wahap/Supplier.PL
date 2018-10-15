@@ -151,8 +151,10 @@
         </div>
         <div class="row" *ngIf="billTotals?.extraDiscount>0" style="border-bottom: 1px solid black;
           height: 20px;">
-          <div style="width:590px; float: left;"></div>
-          <div style="width:200px; float: left;text-align: right;">{{billTotals?.totalNetPrice | money}} €</div>
+          <div style="width:590px; float: left;">Zwischensumme</div>
+          <div style="    width: 200px;
+          float: right;
+          text-align: right;">{{billTotals?.totalNetPrice | money}} €</div>
         </div>
         <div class="row" style="border-bottom: 1px solid black;
       height: 20px;">

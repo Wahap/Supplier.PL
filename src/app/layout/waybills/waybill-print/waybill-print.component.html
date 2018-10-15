@@ -16,9 +16,11 @@
       <!-- <h1 style="    position: absolute;
     text-align: center;
     width: 80%;">GÖRAL Vertriebs GMBH</h1> -->
-      <!-- <img src="assets/images/goral.png" style="    position: absolute;
-    right: 0px;
-    top: 0px;" /> -->
+      <img src="assets/images/goral.png" style="    position: absolute;
+      right: 60px;
+      top: 0px;
+      z-index: 99;
+      " />
       <div id="waybill-infos" style="position: absolute;
     height: 290px;
     width: 800px;
@@ -60,9 +62,9 @@
         font-size: 0.8em;
         padding: 0px;
         margin: 0px;">Lieferung vom {{selectedWaybill?.deliveryDate | date:'dd/MM/yyyy'}} an {{selectedWaybill?.deliveryAddress.street}},  {{selectedWaybill?.deliveryAddress.postCode}}, {{selectedWaybill?.deliveryAddress.city.name}}</p>
-        <table style="    position: absolute;
-            right: 50px;
-            top: 32px;">
+        <table style="position: absolute;
+        right: 50px;
+        top: 116px;">
           <tr>
             <td>Kunden Nr:</td>
             <td>{{selectedWaybill?.customer.customerNumber==null || selectedWaybill?.customer.customerNumber==''
@@ -124,7 +126,7 @@
             <td style="border-top: 1px solid black;"></td>
             <td style="border-top: 1px solid black;"></td>
             
-            <td style="    text-align: center;
+            <td style="    text-align: right;
             font-weight: bold;
             font-size: 0.8em;
             border-top: 1px solid black;

@@ -27,7 +27,7 @@ export class ReturnBillPrintComponent implements OnInit {
 
   ngOnChanges()
   {
-    console.log(this.selectedBill);
+    
     if(this.selectedBill!=null)
     {
       this.lastPaymentDate = new Date(this.selectedBill.createdDate);
@@ -61,7 +61,7 @@ export class ReturnBillPrintComponent implements OnInit {
     this.billTotals.totalNetPrice=this.billTotals.subNetTotalPrice-this.billTotals.extraDiscount;
     this.billTotals.totalTaxPrice=this.billTotals.totalNetPrice*0.07;
     this.billTotals.subGrossTotalPrice=this.billTotals.totalNetPrice+this.billTotals.totalTaxPrice;
-    this.billTotals.totalGrossPrice=this.billTotals.subGrossTotalPrice-this.billTotals.discount;
+    this.billTotals.totalGrossPrice=this.billTotals.subGrossTotalPrice+this.billTotals.discount;
    
      this.billTotals.totalItems=this.selectedBill.returnBillProducts.length;
   }
