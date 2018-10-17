@@ -17,6 +17,7 @@ import { Totals } from '../../../shared/DTOs/totals';
 import { DiscountRate } from '../../../shared/DTOs/discountRate';
 import { CommonService } from '../../../shared/common.service';
 import { Category } from '../../../shared/DTOs/category';
+import { Log } from '../../../shared/DTOs/log';
 @Component({
   selector: 'app-save-bill',
   templateUrl: './save-bill.component.html',
@@ -145,6 +146,7 @@ export class SaveBillComponent implements OnInit {
   saveBill() {
     this.isBillSaving=true;
     let bill: Bill = new Bill();
+    bill.grossPrice=this.currentBillTotals.totalGrossPrice;
     if (this.selectedBill != null) {//Bill Updating...
       bill.id = this.selectedBill.id;
     }
@@ -202,7 +204,19 @@ export class SaveBillComponent implements OnInit {
         result.discountRate=this.discountRates.find(x=>x.id==result.discountRateId);
         this.onBillSaved.emit(result);
       }
-
+      //also log saving process
+      this.commonService.getIpAddress(this.config.getIpAddressUrl).subscribe(response=>{
+        console.log(response);
+        let log=new Log();
+        log.ipAddress=response.ip;
+        log.DocumentType=1;
+        log.DocumentId=result.id;
+        log.identifier="db";
+        log.logDate=new Date();
+        log.operation=bill.billProducts.map(x=>x.id).join('-');
+        this.commonService.createLog(this.config.createLogUrl,log).subscribe(response=>{});
+      });
+     
 
     }); 
   }
@@ -314,21 +328,25 @@ export class SaveBillComponent implements OnInit {
     this.calculateCurrentBillPrices();
   }
 
-  calculateCurrentBillPrices() {
-    this.currentBillTotals = new Totals();
-    this.currentBill.forEach(basketProduct => {
-      let numberOfPieces = basketProduct.package * basketProduct.product.unitsInPackage;
-      this.currentBillTotals.totalPackages += basketProduct.package;
-      this.currentBillTotals.totalPieces += numberOfPieces;
-      this.currentBillTotals.totalNetPrice += numberOfPieces * basketProduct.product.netSalePrice;
-      this.currentBillTotals.totalTaxPrice += numberOfPieces * (basketProduct.product.netSalePrice * basketProduct.product.tax / 100);
-      this.currentBillTotals.extraDiscount = (this.currentBillTotals.totalNetPrice + this.currentBillTotals.totalTaxPrice) * this.selectedCustomer.extraDiscount / 100;
-      this.currentBillTotals.discount = (this.currentBillTotals.totalNetPrice + this.currentBillTotals.totalTaxPrice) * this.selectedDiscountRate.rate / 100;
-      this.currentBillTotals.totalGrossPrice = this.currentBillTotals.totalNetPrice + this.currentBillTotals.totalTaxPrice - this.currentBillTotals.extraDiscount - this.currentBillTotals.discount;
+  calculateCurrentBillPrices()
+  {
+    this.currentBillTotals=new Totals();
+    this.currentBill.forEach((pro:BasketProduct)=>{
+      let numberOfPieces=pro.package*pro.product.unitsInPackage;
+      this.currentBillTotals.totalPackages+=pro.package;
+      this.currentBillTotals.totalPieces+=numberOfPieces;
+      this.currentBillTotals.subNetTotalPrice+=numberOfPieces*pro.product.netSalePrice;
+     
     });
-    this.currentBillTotals.totalItems = this.currentBill.length;
+    this.currentBillTotals.extraDiscount=(this.currentBillTotals.subNetTotalPrice)*this.selectedCustomer.extraDiscount/100;
+    this.currentBillTotals.totalNetPrice=this.currentBillTotals.subNetTotalPrice-this.currentBillTotals.extraDiscount;
+    this.currentBillTotals.totalTaxPrice=this.currentBillTotals.totalNetPrice*0.07;
+    this.currentBillTotals.subGrossTotalPrice=this.currentBillTotals.totalNetPrice+this.currentBillTotals.totalTaxPrice;
+    this.currentBillTotals.discount=(this.currentBillTotals.subGrossTotalPrice)*this.selectedDiscountRate.rate/100;
+    this.currentBillTotals.totalGrossPrice=this.currentBillTotals.subGrossTotalPrice-this.currentBillTotals.discount;
+   
+     this.currentBillTotals.totalItems=this.currentBill.length;
   }
-  
 
   filterProductsByCategory(filteredCategoryId, basketProduct:BasketProduct) {
     

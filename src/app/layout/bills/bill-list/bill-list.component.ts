@@ -51,6 +51,7 @@ this.loading=false;
     this.billListColumns = [   
       { field: 'billNumber', header: 'Fatura.No' },
       { field: 'companyName', header: 'Firma' },
+      { field: 'grossPrice', header: 'Brüt' },
       { field: 'isPaid', header: 'Ödenme Durumu' },
       { field: 'update', header: 'Güncelle' },
       { field: 'print', header: 'Yazdır' },
@@ -184,6 +185,7 @@ this.showPrintDialog=true;
     bill.addressId = editedBill.addressId;
     bill.deliveryAddressId = editedBill.deliveryAddressId;
     bill.waybillId=editedBill.waybillId;
+    bill.grossPrice=editedBill.grossPrice;
     
 
     this.showUpdateBillDialog = false;

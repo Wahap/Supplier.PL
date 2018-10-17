@@ -42,6 +42,16 @@ export class CommonService {
       .map((response: Response) => response.json());
   }
 
+  getIpAddress(url: string): any {
+    return this.http.get(url)
+      .map((response: Response) => response.json());
+  }
+
+  createLog(url: string, units: any): any {
+    return this.http.post(url, units, this.options)
+      .map((response: Response) => response.json());
+  }
+
   getAllPaymentTypes(url: string, units: any): any {
     return this.http.post(url, units, this.options)
       .map((response: Response) => response.json());

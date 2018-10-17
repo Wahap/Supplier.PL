@@ -14,7 +14,7 @@
                 <th>
                     <input placeholder="Firma..." class="form-control form-control-sm" type="text" (input)="dtBillList.filter($event.target.value, 'customer.companyName','contains')">
                 </th>
-
+                <th></th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -27,6 +27,7 @@
                     <span *ngSwitchCase="'billNumber'" class="font-weight-bold">{{bill.billNumber}} <span class="badge">({{bill.createdDate | date:'dd.MM.yyyy'}}) (irs:{{bill.waybillId}})</span>
                     </span>
                     <span *ngSwitchCase="'companyName'">{{bill.customer.companyName}}</span>
+                    <span *ngSwitchCase="'grossPrice'">{{bill.grossPrice | money}} €</span>
 
                     <span *ngSwitchCase="'isPaid'">
                         <p-inputSwitch [(ngModel)]="bill.isPaid" (onChange)="onIsPaidChange(bill)"></p-inputSwitch><span

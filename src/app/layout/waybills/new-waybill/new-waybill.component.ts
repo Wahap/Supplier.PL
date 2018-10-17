@@ -19,6 +19,7 @@ import { Totals } from '../../../shared/DTOs/totals';
 import { DiscountRate } from '../../../shared/DTOs/discountRate';
 import { CommonService } from '../../../shared/common.service';
 import { Category } from '../../../shared/DTOs/category';
+import { Log } from '../../../shared/DTOs/log';
 @Component({
   selector: 'app-new-waybill',
   templateUrl: './new-waybill.component.html',
@@ -176,15 +177,18 @@ isDirty:boolean=false;//check is there a unsaved changes
       else{//update waybill operation completed
         this.onWaybillSaved.emit(result);
       }
-      //  this.selectedWayBill=null;
-      //this.router.navigateByUrl('/waybills')
-
-      // if (this.isNewRecord) {
-      //   // this.removeCurrentWaybill();
-      //   this.setLastWaybill();
-      // } else {
-      //   this.getWayBillById(waybill.id);
-      // }
+     //also log process
+      this.commonService.getIpAddress(this.config.getIpAddressUrl).subscribe(response=>{
+        console.log(response);
+        let log=new Log();
+        log.ipAddress=response.ip;
+        log.DocumentType=2;
+        log.DocumentId=result.id;
+        log.identifier="db";
+        log.logDate=new Date();
+        log.operation=waybill.waybillProducts.map(x=>x.id).join('-');
+        this.commonService.createLog(this.config.createLogUrl,log).subscribe(response=>{});
+      });
 
     });
   }

@@ -82,6 +82,8 @@ export interface IConfig {
 	getBillPaymentsUrl:string;
 	getVendorBillPaymentsUrl:string;
 	deletePaymentUrl:string;
+	createLogUrl:string;
+	getIpAddressUrl:string;
 
 
 };
@@ -96,8 +98,8 @@ export class ConfigService {
 	getAppConfig(): IConfig {
 
 	
-		let serverLoginPath = 'https://supplier.azurewebsites.net/api/', serverLoginPathDebug = 'http://localhost:4315/api/';
-		//let serverLoginPath = 'https://devsupplier.azurewebsites.net/api/', serverLoginPathDebug = 'http://localhost:4315/api/';
+		//let serverLoginPath = 'https://supplier.azurewebsites.net/api/', serverLoginPathDebug = 'http://localhost:4315/api/';
+		let serverLoginPath = 'https://devsupplier.azurewebsites.net/api/', serverLoginPathDebug = 'http://localhost:4315/api/';
 	
 
 		let serverUserNotificationPath = '';
@@ -194,7 +196,8 @@ export class ConfigService {
 		let getBillPaymentsUrl = (debug ? serverLoginPathDebug + "Bill/getBillPayments" : serverLoginPath + "Bill/getBillPayments");
 		let getVendorBillPaymentsUrl = (debug ? serverLoginPathDebug + "VendorBill/getBillPayments" : serverLoginPath + "VendorBill/getBillPayments");
 		let deletePaymentUrl = (debug ? serverLoginPathDebug + "Bill/deletePayment" : serverLoginPath + "Bill/deletePayment");
-
+		let createLogUrl = (debug ? serverLoginPathDebug + "Common/createLog" : serverLoginPath + "Common/createLog");
+		let getIpAddressUrl="http://api.ipify.org?format=json&callback=getIP";
 		return {
 			logInUrl: logInUrl,
 			saveCityUrl:saveCityUrl,
@@ -273,6 +276,9 @@ export class ConfigService {
 			getPaymentTypesUrl:getPaymentTypesUrl,
 			getBillPaymentsUrl:getBillPaymentsUrl,
 			deletePaymentUrl:deletePaymentUrl,
+			createLogUrl:createLogUrl,
+			getIpAddressUrl:getIpAddressUrl
+			
 			
 
 		}

@@ -9,6 +9,7 @@ export class Bill
     constructor() {
       this.createdDate=new Date();
       this.deliveryDate=new Date();
+
         
     }
     id:number;
@@ -25,7 +26,8 @@ export class Bill
     address:Address;
     isActive:boolean;
     isPaid:boolean;
-    waybillId:number;//No need to relation bill and waybill, its using just info
+    grossPrice:number;
+    waybillId:number;//No need to have relation bill and waybill, its using just info
     billProducts:BillProduct[]=[];
     discountRate:DiscountRate=new DiscountRate();
     payments:Payment[]=[];
