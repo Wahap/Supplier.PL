@@ -79,7 +79,8 @@ export interface IConfig {
 	saveCityUrl:string;
 	getPaymentTypesUrl:string;
 	savePaymentUrl:string;
-	getBillPaymentsUrl:string;
+	getBillPaymentsUrl:string;      
+	getReturnBillPaymentsUrl:string;
 	getVendorBillPaymentsUrl:string;
 	deletePaymentUrl:string;
 	createLogUrl:string;
@@ -175,7 +176,7 @@ export class ConfigService {
 		let getThisMonthReturnBillsUrl = (debug ? serverLoginPathDebug + "returnBill/getThisMonthBills" : serverLoginPath + "returnBill/getThisMonthBills");
 		let filterReturnBillsUrl = (debug ? serverLoginPathDebug + "returnBill/filterBills" : serverLoginPath + "returnBill/filterBills");
 		let getReturnBillProductsUrl = (debug ? serverLoginPathDebug + "returnBill/getBillproducts" : serverLoginPath + "returnBill/getBillproducts");
-		
+		  
 		//Vendors Urls
 		let saveVendorBillUrl = (debug ? serverLoginPathDebug + "VendorBill/save" : serverLoginPath + "VendorBill/save");
 		let getAllVendorBillsUrl = (debug ? serverLoginPathDebug + "VendorBill/getallbills" : serverLoginPath + "VendorBill/getallbills");
@@ -194,6 +195,8 @@ export class ConfigService {
 		let getPaymentTypesUrl = (debug ? serverLoginPathDebug + "Common/getPaymentTypes" : serverLoginPath + "Common/getPaymentTypes");
 		let savePaymentUrl = (debug ? serverLoginPathDebug + "Bill/savePayment" : serverLoginPath + "Bill/savePayment");
 		let getBillPaymentsUrl = (debug ? serverLoginPathDebug + "Bill/getBillPayments" : serverLoginPath + "Bill/getBillPayments");
+		let getReturnBillPaymentsUrl = (debug ? serverLoginPathDebug + "ReturnBill/getBillPayments" : serverLoginPath + "ReturnBill/getBillPayments");
+		
 		let getVendorBillPaymentsUrl = (debug ? serverLoginPathDebug + "VendorBill/getBillPayments" : serverLoginPath + "VendorBill/getBillPayments");
 		let deletePaymentUrl = (debug ? serverLoginPathDebug + "Bill/deletePayment" : serverLoginPath + "Bill/deletePayment");
 		let createLogUrl = (debug ? serverLoginPathDebug + "Common/createLog" : serverLoginPath + "Common/createLog");
@@ -275,6 +278,7 @@ export class ConfigService {
 			getAllDiscountRatesUrl:getAllDiscountRatesUrl,
 			getPaymentTypesUrl:getPaymentTypesUrl,
 			getBillPaymentsUrl:getBillPaymentsUrl,
+			getReturnBillPaymentsUrl:getReturnBillPaymentsUrl,
 			deletePaymentUrl:deletePaymentUrl,
 			createLogUrl:createLogUrl,
 			getIpAddressUrl:getIpAddressUrl
