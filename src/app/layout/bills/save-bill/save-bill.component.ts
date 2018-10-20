@@ -81,8 +81,10 @@ export class SaveBillComponent implements OnInit {
       this.selectedCustomer = this.customers.find(x => x.id == this.selectedBill.customerId);
       this.selectedAddress = this.selectedCustomer.addresses.find(x => x.id == this.selectedBill.addressId);
       this.deliveryAddress = this.selectedCustomer.addresses.find(x => x.id == this.selectedBill.deliveryAddressId);
-      this.createdDate =new Date(this.selectedBill.createdDate);
-      this.deliveryDate = new Date(this.selectedBill.deliveryDate);
+      let cd=new Date(this.selectedBill.createdDate);
+      this.createdDate=new Date(cd.getFullYear(),cd.getMonth(),cd.getDate());
+      let dd=new Date(this.selectedBill.deliveryDate);
+      this.deliveryDate=new Date(dd.getFullYear(),dd.getMonth(),dd.getDate());
       this.billNumber = this.selectedBill.billNumber;
       this.waybillId = this.selectedBill.waybillId;
       this.selectedCustomer.extraDiscount = this.selectedBill.extraDiscount;//discount sync
@@ -162,8 +164,8 @@ export class SaveBillComponent implements OnInit {
     bill.waybillId = this.waybillId;
     bill.customerId = this.selectedCustomer.id;
     bill.extraDiscount = this.selectedCustomer.extraDiscount;
-    bill.createdDate = new Date(this.createdDate);
-    bill.deliveryDate = new Date(this.deliveryDate);
+    bill.createdDate = new Date(this.createdDate.toDateString()+'Z');
+    bill.deliveryDate =new Date(this.deliveryDate.toDateString()+'Z');
     bill.deliveryAddressId = this.deliveryAddress.id;
     bill.billStatus = 1;
     bill.isActive = true;
@@ -236,6 +238,10 @@ export class SaveBillComponent implements OnInit {
   onCustomerSelect() {
     this.selectedAddress = this.selectedCustomer.addresses[0];
     this.deliveryAddress = this.selectedCustomer.addresses[0];
+    if(this.selectedCustomer.discountRateId!=null)
+    {
+      this.selectedDiscountRate=this.discountRates.find(x=>x.id==this.selectedCustomer.discountRateId);
+    }
     this.getProducts();
   }
   getProducts() {

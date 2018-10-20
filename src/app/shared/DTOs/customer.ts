@@ -11,6 +11,7 @@ export class Customer
         
     }
     id:number;
+    discountRateId:number;
     customerNumber:string;
     eMail:string;
     isActive:boolean;
@@ -24,4 +25,5 @@ export class Customer
     addresses:Address[];
     //Just for using detecting which CRUD opeation has been making
     status:string;
+
 }

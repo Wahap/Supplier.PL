@@ -186,7 +186,7 @@
                     </div>
                 </div>
                 <div id="billOperations">
-                    <button class="btn btn-success" [disabled]="currentBill.length==0 || selectedCustomer.id==null || selectedAddress.id==null || createdDate==null || deliveryDate==null"
+                    <button class="btn btn-success" [disabled]="currentBill.length==0 || isBillSaving"
                         (click)="saveBill()"><p-progressSpinner *ngIf="isBillSaving" [style]="{width: '20px', height: '20px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner>KAYDET</button>
                     <!-- <button class="btn btn-danger" [disabled]="currentBill.length<1 && billNumberIsValid" (click)="clearProducts()">Temizle</button> -->
                 </div>

@@ -45,6 +45,7 @@ export class NewWaybillComponent implements OnInit {
   isNewRecord: boolean;
   productListCols: any[];
   convertedBillNumber:number;
+ 
 currentWaybillTotals:Totals=new Totals();
 categories: Category[] = [];
 isWaybillSaving:boolean=false;
@@ -87,13 +88,16 @@ isDirty:boolean=false;//check is there a unsaved changes
       this.selectedCustomer=this.customers.find(x=>x.id==this.selectedWayBill.customerId);
       this.selectedAddress=this.selectedCustomer.addresses.find(x=>x.id==this.selectedWayBill.addressId);
       this.deliveryAddress=this.selectedCustomer.addresses.find(x=>x.id==this.selectedWayBill.deliveryAddressId);
-      this.createdDate=new Date(this.selectedWayBill.createdDate);
-      this.deliveryDate=new Date(this.selectedWayBill.deliveryDate);
+      let cd=new Date(this.selectedWayBill.createdDate);
+      this.createdDate=new Date(cd.getFullYear(),cd.getMonth(),cd.getDate());
+      let dd=new Date(this.selectedWayBill.deliveryDate);
+      this.deliveryDate=new Date(dd.getFullYear(),dd.getMonth(),dd.getDate());
       this.selectedCustomer.extraDiscount=this.selectedWayBill.extraDiscount;//discount sync
       this.selectedDiscountRate=this.discountRates.find(x=>x.id==this.selectedWayBill.discountRateId);
       this.deletedBasketProducts=[];//reset at every new waybill selection
       this.convertedBillNumber=this.selectedWayBill.convertedBillNumber;
       this.mapSelectedWaybillProductsToCurrentWaybillProducts();
+      this.getProducts();
     }
     
     // if (this.selectedWayBill != null) {
@@ -121,6 +125,10 @@ isDirty:boolean=false;//check is there a unsaved changes
   {
     this.selectedAddress=this.selectedCustomer.addresses[0];
     this.deliveryAddress=this.selectedCustomer.addresses[0];
+    if(this.selectedCustomer.discountRateId!=null)
+    {
+      this.selectedDiscountRate=this.discountRates.find(x=>x.id==this.selectedCustomer.discountRateId);
+    }
     this.getProducts();
   }
   saveWaybill() {
@@ -137,8 +145,8 @@ isDirty:boolean=false;//check is there a unsaved changes
     waybill.addressId = this.selectedAddress.id;
     waybill.customerId = this.selectedCustomer.id;
     waybill.extraDiscount=this.selectedCustomer.extraDiscount;
-    waybill.createdDate =new Date(this.createdDate.getFullYear(),this.createdDate.getMonth(),this.createdDate.getDate(),13,0);
-    waybill.deliveryDate = new Date(this.deliveryDate.getFullYear(),this.deliveryDate.getMonth(),this.deliveryDate.getDate(),13,0);
+    waybill.createdDate =new Date(this.createdDate.toDateString()+'Z');
+    waybill.deliveryDate = new Date(this.deliveryDate.toDateString()+'Z');
     waybill.deliveryAddressId = this.deliveryAddress.id;
     waybill.waybillStatus = 1;
     waybill.isActive = true;
@@ -267,7 +275,7 @@ isDirty:boolean=false;//check is there a unsaved changes
       
       let index = this.currentWaybill.findIndex(item => item.product.id == basketProduct.product.id);
       this.currentWaybill.splice(index, 1);
-      if(this.selectedWayBill!=null && basketProduct.product.id!=0)//Update operation
+      if(this.selectedWayBill!=null && basketProduct.product.id!=0)//Delete operation
       {
         this.deletedBasketProducts.push(basketProduct);
       }

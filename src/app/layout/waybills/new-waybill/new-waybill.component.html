@@ -192,9 +192,9 @@
                 </div>
             </div>
             <div id="waybillOperations">
-                <button class="btn btn-success" [disabled]="currentWaybill.length==0 || selectedCustomer.id==null || selectedAddress.id==null || createdDate==null || deliveryDate==null"
+                <button class="btn btn-success" [disabled]="currentWaybill.length<1 || isWaybillSaving"
                     (click)="saveWaybill()"><p-progressSpinner *ngIf="isWaybillSaving" [style]="{width: '20px', height: '20px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner>KAYDET</button>
-                <button class="btn btn-danger" [disabled]="currentWaybill.length<1" (click)="clearProducts()">Temizle</button>
+                <!-- <button class="btn btn-danger" [disabled]="currentWaybill.length<1 && isWaybillSaving" (click)="clearProducts()">Temizle</button> -->
             </div>
         </div>
     </div>

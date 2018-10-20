@@ -102,7 +102,7 @@ export class ConfigService {
 		//let serverLoginPath = 'https://supplier.azurewebsites.net/api/', serverLoginPathDebug = 'http://localhost:4315/api/';
 		let serverLoginPath = 'https://devsupplier.azurewebsites.net/api/', serverLoginPathDebug = 'http://localhost:4315/api/';
 	
-
+ 
 		let serverUserNotificationPath = '';
 		let debug = true;
 
