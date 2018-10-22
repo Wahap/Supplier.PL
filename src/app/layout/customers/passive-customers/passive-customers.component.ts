@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { Customer } from '../../../shared/DTOs/customer';
 import { CustomersService } from '../customers.service';
 import { ConfigService, IConfig } from '../../../app.config';
+import { ToastsManager } from 'ng2-toastr';
 
 @Component({
   selector: 'app-passive-customers',
@@ -11,7 +12,7 @@ import { ConfigService, IConfig } from '../../../app.config';
 export class PassiveCustomersComponent implements OnInit {
   customers: Customer[]=[];
   config: IConfig;
-  constructor( private customersService: CustomersService, private configService: ConfigService) { }
+  constructor(public toastr: ToastsManager, vcr: ViewContainerRef, private customersService: CustomersService, private configService: ConfigService) { }
 
   ngOnInit() {
     this.config = this.configService.getAppConfig();
@@ -25,6 +26,8 @@ export class PassiveCustomersComponent implements OnInit {
           this.customers = items;
 
         
+      },error=>{
+        this.toastr.error("Müşteriler Getirilirken Bir Hata Meydana Geldi...");
       });
   }
 

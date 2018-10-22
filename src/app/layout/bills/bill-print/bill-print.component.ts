@@ -1,9 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewContainerRef } from '@angular/core';
 import { Bill } from '../../../shared/DTOs/Bill';
 import { IConfig, ConfigService } from '../../../app.config';
 import { Totals } from '../../../shared/DTOs/totals';
 import { BillService } from '../bill.service';
 import { BillProduct } from '../../../shared/DTOs/billProduct';
+import { ToastsManager } from 'ng2-toastr';
 
 @Component({
   selector: 'app-bill-print',
@@ -17,7 +18,10 @@ export class BillPrintComponent implements OnInit {
   lastPaymentDate:Date;
 
   
-  constructor(private configService: ConfigService,private billService:BillService) { }
+  constructor(public toastr: ToastsManager, vcr: ViewContainerRef,private configService: ConfigService,private billService:BillService) 
+  {
+    this.toastr.setRootViewContainerRef(vcr);
+   }
 
   ngOnInit() {
     this.config = this.configService.getAppConfig();
@@ -43,6 +47,8 @@ export class BillPrintComponent implements OnInit {
       
       this.selectedBill.billProducts=billProducts;
       this.calculateBillPrices();
+    },error=>{
+      this.toastr.error("Faturanın Ürünleri Getirilirken Bir Hata Meydana Geldi...");
     });
   }
 

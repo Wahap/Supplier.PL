@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { Bill } from '../../../shared/DTOs/Bill';
 import { Filter } from '../../../shared/DTOs/filter';
 import { IConfig, ConfigService } from '../../../app.config';
 import { Customer } from '../../../shared/DTOs/customer';
 import { CustomersService } from '../../customers/customers.service';
 import { BillService } from '../bill.service';
+import { ToastsManager } from 'ng2-toastr';
 
 @Component({
   selector: 'app-filter-bills',
@@ -18,7 +19,10 @@ export class FilterBillsComponent implements OnInit {
   customers:Customer[]=[];
   selectedCustomer:Customer=new Customer();
   loading=false;
-  constructor(private customerService:CustomersService,private configService:ConfigService,private billService:BillService) { }
+  constructor(public toastr: ToastsManager, vcr: ViewContainerRef,private customerService:CustomersService,private configService:ConfigService,private billService:BillService) 
+  {
+    this.toastr.setRootViewContainerRef(vcr);
+   }
 
   ngOnInit() {
     this.config=this.configService.getAppConfig();
@@ -29,6 +33,8 @@ export class FilterBillsComponent implements OnInit {
   {
     this.customerService.getCustomers(this.config.getCustomersUrl,null).subscribe(customers=>{
       this.customers=customers;
+    },error=>{
+      this.toastr.error("Müşteriler Getirilirken Bir Hata Meydana Geldi...");
     });
   }
 
@@ -41,6 +47,8 @@ export class FilterBillsComponent implements OnInit {
     this.billService.filterBills(this.config.filterBillsUrl,this.filter).subscribe(bills=>{
       this.filteredBills=bills;
       this.loading=false;
+    },error=>{
+      this.toastr.error("Faturalar Getirilirken Bir Hata Meydana Geldi...");
     });
   }
 

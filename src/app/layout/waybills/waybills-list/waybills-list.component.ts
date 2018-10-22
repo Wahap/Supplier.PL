@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewContainerRef } from '@angular/core';
 import { IConfig, ConfigService } from '../../../app.config';
 import { Waybill } from '../../../shared/DTOs/wayBill';
 import { WaybillService } from '../waybill.service';
@@ -7,6 +7,7 @@ import { CustomersService } from '../../customers/customers.service';
 import { MatDialog } from '@angular/material';
 import { Bill } from '../../../shared/DTOs/Bill';
 import { Router } from '@angular/router';
+import { ToastsManager } from 'ng2-toastr';
 
 @Component({
   selector: 'app-waybills-list',
@@ -25,7 +26,10 @@ export class WaybillsListComponent implements OnInit {
   existsInputData: boolean = false;
   isWaybillConverting: boolean = false;
   disabledButtons: boolean = false;
-  constructor(private configService: ConfigService, private waybillService: WaybillService, private customerService: CustomersService, public dialog: MatDialog, public router: Router) { }
+  constructor(public toastr: ToastsManager, vcr: ViewContainerRef,private configService: ConfigService, private waybillService: WaybillService, private customerService: CustomersService, public dialog: MatDialog, public router: Router) 
+  {
+    this.toastr.setRootViewContainerRef(vcr);
+   }
 
   ngOnInit() {
     this.config = this.configService.getAppConfig();
@@ -63,6 +67,8 @@ export class WaybillsListComponent implements OnInit {
       this.allWaybills = waybills;
       console.log(waybills);
       this.loading = false;
+    },error=>{
+      this.toastr.error("irsaliyeler getirilirken bir hata meydana geldi...");
     });
   }
 
@@ -70,17 +76,17 @@ export class WaybillsListComponent implements OnInit {
     this.customerService.getCustomers(this.config.getCustomersUrl, null).subscribe(customers => {
       this.allCustomers = customers;
 
+    },error=>{
+      this.toastr.error("Müşteriler getirilirken bir hata meydana geldi...");
     });
   }
 
   deleteWaybill(waybill) {
-
-
-
     if (confirm("irsaliyeyi Silmek istediğinize Emin Misiniz?")) {
       this.disabledButtons = true;
       this.waybillService.deleteWaybill(this.config.deleteWaybillUrl, waybill).subscribe(result => {
-        this.fillAllWaybills();
+        let indis=this.allWaybills.findIndex(x=>x.id==waybill.id);
+        this.allWaybills.splice(indis,1);
         this.disabledButtons = false;
       });
     }
@@ -94,6 +100,8 @@ export class WaybillsListComponent implements OnInit {
         waybill.convertedBillNumber = bill.billNumber;
         this.isWaybillConverting = false;
         this.disabledButtons = false;
+      },error=>{
+        this.toastr.error("irsaliye faturaya dönüştürülürken bir hata meydana geldi...");
       });
     }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit,Input } from '@angular/core';
+import { Component, OnInit,Input, ViewContainerRef } from '@angular/core';
 import { IConfig, ConfigService } from '../../../app.config';
 import { Bill } from '../../../shared/DTOs/Bill';
 import { Customer } from '../../../shared/DTOs/customer';
@@ -10,6 +10,7 @@ import { Payment } from '../../../shared/DTOs/payment';
 import { CommonService } from '../../../shared/common.service';
 import { PaymentType } from '../../../shared/DTOs/paymentType';
 import { Totals } from '../../../shared/DTOs/totals';
+import { ToastsManager } from 'ng2-toastr';
  
 @Component({
   selector: 'app-bill-list',
@@ -34,7 +35,10 @@ export class BillListComponent implements OnInit {
   selectedAnalyzedBill:Bill;//
   selectedBillForPayment:Bill;//
   showAnalyzedBillDialog:boolean=false;
-  constructor(private configService: ConfigService,private commonService:CommonService, private billService:BillService,private customerService:CustomersService,public dialog: MatDialog) { }
+  constructor(public toastr: ToastsManager, vcr: ViewContainerRef,private configService: ConfigService,private commonService:CommonService, private billService:BillService,private customerService:CustomersService,public dialog: MatDialog) 
+  {
+    this.toastr.setRootViewContainerRef(vcr);
+   }
 
   ngOnInit() {
     this.config = this.configService.getAppConfig();
@@ -73,6 +77,8 @@ if(this.paymentTypes.length<1)//Just fill once
 {
   this.commonService.getAllPaymentTypes(this.config.getPaymentTypesUrl,null).subscribe(paymentTypes=>{
     this.paymentTypes=paymentTypes;
+  },error=>{
+    this.toastr.error("Ödeme Tipleri Getirilirken Bir Hata Meydana Geldi...");
   });
 }
 
@@ -96,6 +102,8 @@ getBillPayments(bill)
     payments.forEach(payment=>{
       this.paymentTotals.totalGrossPrice+=payment.amount;
     });
+  },error=>{
+    this.toastr.error("Faturanın Ödemeleri Getirilirken Bir Hata Meydana Geldi...");
   });
 }
 savePayment()
@@ -118,6 +126,8 @@ deletePayment(payment)
     this.getBillPayments(this.selectedBillForPayment);
     this.payment=new Payment();
   
+    },error=>{
+      this.toastr.error("Ödeme Silinirken Bir Hata Meydana Geldi...");
     });
   
 }
@@ -126,6 +136,8 @@ deletePayment(payment)
     this.billService.getAllBills(this.config.getAllBillsUrl,null).subscribe(bills=>{
       this.allBills=bills;
       this.loading=false;
+    },error=>{
+      this.toastr.error("Fatura Ödemeleri Getirilirken Bir Hata Meydana Geldi...");
     });
   }
   onIsPaidChange(bill)
@@ -133,18 +145,21 @@ deletePayment(payment)
     this.billService.saveBill(this.config.saveBillUrl,bill).subscribe(response=>{
 
 
+    },error=>{
+      this.toastr.error("Ödeme Durumu Değiştirilirken Bir Hata Meydana Geldi...");
     });
   }
   deleteBill(bill:Bill)
   {
-   
-    
-    
+
      if(confirm("Faturayı Silmek istediğinize emin misiniz?"))
      {
        this.loading=true;
       this.billService.deleteBill(this.config.deleteBillUrl,bill).subscribe(result=>{
-        this.fillAllBills();
+        let indis=this.allBills.findIndex(x=>x.id==bill.id);
+        this.allBills.splice(indis,1);
+      },error=>{
+        this.toastr.error("Fatura Silinirken Bir Hata Meydana Geldi...");
       });
      }
     

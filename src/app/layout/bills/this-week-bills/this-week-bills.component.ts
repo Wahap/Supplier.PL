@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { Bill } from '../../../shared/DTOs/Bill';
 import { IConfig, ConfigService } from '../../../app.config';
 import { BillService } from '../bill.service';
+import { ToastsManager } from 'ng2-toastr';
 
 @Component({
   selector: 'app-this-week-bills',
@@ -11,7 +12,7 @@ import { BillService } from '../bill.service';
 export class ThisWeekBillsComponent implements OnInit {
   config:IConfig;
   bills:Bill[]=[]; 
-  constructor(private billService:BillService,private configService: ConfigService) { }
+  constructor(public toastr: ToastsManager, vcr: ViewContainerRef,private billService:BillService,private configService: ConfigService) { }
 
   ngOnInit() {
     this.config=this.configService.getAppConfig();
@@ -23,6 +24,8 @@ export class ThisWeekBillsComponent implements OnInit {
     this.billService.getThisWeekBills(this.config.getThisWeekBillsUrl,null).subscribe(bills=>{
       this.bills=bills;
 
+    },error=>{
+      this.toastr.error("Faturalar Getirilirken Bir Hata Meydana Geldi...");
     });
   }
 

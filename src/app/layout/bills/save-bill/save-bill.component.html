@@ -85,12 +85,12 @@
                     </tr>  
                 </ng-template>
                 <ng-template pTemplate="body" let-basketProduct let-columns="columns">
-                    <tr *ngIf="filterProductsByCategory(filteredCategoryId,basketProduct)">
+                    <tr *ngIf="filterProductsByCategory(filteredCategoryId,basketProduct)" style="background-color:black; color:white;">
                         <td *ngFor="let col of columns" [ngSwitch]="col.field">
                             <span *ngSwitchCase="'barcodeOfProduct'">{{basketProduct.product.barcodeOfProduct}}</span>
                             <span *ngSwitchCase="'orderNumber'">{{basketProduct.product.orderNumber}}</span>
                             <span *ngSwitchCase="'productName'">{{basketProduct.product.productName}}</span>
-                            <input *ngSwitchCase="'netSalePrice'" [(ngModel)]="basketProduct.product.netSalePrice" class="form-control" />
+                            <input *ngSwitchCase="'netSalePrice'" [(ngModel)]="basketProduct.product.netSalePrice" class="form-control netSalePrice" />
                             <div *ngSwitchCase="'package'" class="ui-inputgroup">
                                 <button class="btnDecrease" (click)="decrease(basketProduct)">-</button>
                                 <input type="number" min="0" class="bill-product-package" [(ngModel)]="basketProduct.package"

@@ -198,12 +198,16 @@ isDirty:boolean=false;//check is there a unsaved changes
         this.commonService.createLog(this.config.createLogUrl,log).subscribe(response=>{});
       });
 
+    },error=>{
+      this.toastr.error("irsaliye Kaydedilirken bir hata oluştu...");
     });
   }
 
   fillCustomers() {
     this.customerService.getCustomers(this.config.getCustomersUrl, null).subscribe(result => {
       this.customers = result;
+    },error=>{
+      this.toastr.error("Müşteriler Getirilirken Bir Hata Oluştu...");
     });
   }
 
@@ -215,6 +219,8 @@ isDirty:boolean=false;//check is there a unsaved changes
         this.selectedDiscountRate=result[0];
       }
       
+    },error=>{
+      this.toastr.error("iskonto Oranları Getirilirken Bir Hata Oluştu...");
     });
   }
   increase(basketProduct: BasketProduct) {
@@ -339,6 +345,8 @@ isDirty:boolean=false;//check is there a unsaved changes
       });
       //this.fillBasketProducts();
       this.loading = false;
+    },error=>{
+      this.toastr.error("Ürünler Getirilirken Bir Hata Oluştu...");
     });
   }
  
@@ -362,6 +370,8 @@ isDirty:boolean=false;//check is there a unsaved changes
       this.categories = categories;
 
 
+    },error=>{
+      this.toastr.error("Kategoriler Getirilirken Bir Hata Oluştu...");
     });
   }
   windowsHeight() {

@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { Waybill } from '../../../shared/DTOs/wayBill';
 import { Filter } from '../../../shared/DTOs/filter';
 import { CustomersService } from '../../customers/customers.service';
 import { Customer } from '../../../shared/DTOs/customer';
 import { ConfigService, IConfig } from '../../../app.config';
 import { WaybillService } from '../waybill.service';
+import { ToastsManager } from 'ng2-toastr';
 
 @Component({
   selector: 'app-filter-waybills',
@@ -18,9 +19,14 @@ config:IConfig;
 customers:Customer[]=[];
 selectedCustomer:Customer=new Customer();
 loading:boolean=false;
-  constructor(private customerService:CustomersService,private configService:ConfigService,private waybillService:WaybillService) { }
+  constructor(public toastr: ToastsManager, vcr: ViewContainerRef,private customerService:CustomersService,private configService:ConfigService,private waybillService:WaybillService) 
+  {
+
+    this.toastr.setRootViewContainerRef(vcr);
+   }
 
   ngOnInit() {
+   
     this.config=this.configService.getAppConfig();
    this.getCustomers();
   }
@@ -29,6 +35,8 @@ loading:boolean=false;
   {
     this.customerService.getCustomers(this.config.getCustomersUrl,null).subscribe(customers=>{
       this.customers=customers;
+    },error=>{
+      this.toastr.error("Müşteriler getirilirken bir hata meydana geldi...");
     });
   }
 
@@ -39,6 +47,8 @@ loading:boolean=false;
     this.waybillService.filterWaybills(this.config.filterWaybillsUrl,this.filter).subscribe(waybills=>{
       this.filteredWaybills=waybills;
       this.loading=false;
+    },error=>{
+      this.toastr.error("irsaliyeler getirilirken bir hata meydana geldi...");
     });
   }
 

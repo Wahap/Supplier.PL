@@ -161,6 +161,8 @@ ngOnChanges(): void {
         }
       
         
+      },error=>{
+        this.toastr.error("Müşteri Kaydedilirken Bir Hata Meydana Geldi...");
       });
     }
         
@@ -213,6 +215,8 @@ ngOnChanges(): void {
       this.customerPricesLoading=false;
       this.customerPrices=response;
       
+    },error=>{
+      this.toastr.error("Müşteri Fiyatları Getirilirken Bir Hata Meydana Geldi...");
     });
   }
 
@@ -251,6 +255,8 @@ ngOnChanges(): void {
         //Address Updating...
       }
       this.toastr.success("Adres Kaydedildi...")
+    },error=>{
+      this.toastr.error("Adres Kaydedilirken Bir Hata Meydana Geldi...");
     });
   }
 
@@ -259,6 +265,8 @@ ngOnChanges(): void {
       this.customersService.deleteCustomerAddress(this.config.deleteAddressUrl,address).subscribe(response=>{
         //hide deleted address
         this.selectedAddresses=this.selectedAddresses.filter(x=>x.id!=address.id);
+      },error=>{
+        this.toastr.error("Adres Siinirken Bir Hata Meydana Geldi...");
       });
     }
     

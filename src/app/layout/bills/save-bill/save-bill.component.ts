@@ -107,12 +107,16 @@ export class SaveBillComponent implements OnInit {
         return basketProduct;
       });
       this.calculateCurrentBillPrices();
+    },error=>{
+      this.toastr.error("Faturanın Ürünleri Getirilirken Bir Hata Meydana Geldi...");
     });
   }
 
   getNextBillNumber() {
     this.billService.getNextBillNumber(this.config.getNextBillNumberUrl, null).subscribe(billNumber => {
       this.billNumber = billNumber;
+    },error=>{
+      this.toastr.error("Fatura Numarası Getirilirken Bir Hata Meydana Geldi...");
     });
 
   }
@@ -125,6 +129,8 @@ export class SaveBillComponent implements OnInit {
         this.selectedDiscountRate = discountRates[0];
       }
 
+    },error=>{
+      this.toastr.error("iskontolar Getirilirken Bir Hata Meydana Geldi...");
     });  
   }
 
@@ -133,6 +139,8 @@ export class SaveBillComponent implements OnInit {
       this.categories = categories;
 
 
+    },error=>{
+      this.toastr.error("Kategoriler Getirilirken Bir Hata Meydana Geldi...");
     });
   }
 
@@ -220,6 +228,8 @@ export class SaveBillComponent implements OnInit {
       });
      
 
+    },error=>{
+      this.toastr.error("Fatura Kaydedilirken Bir Hata Meydana Geldi...");
     }); 
   }
   onBillNumberChange() {
@@ -263,6 +273,8 @@ export class SaveBillComponent implements OnInit {
       });
       //this.fillBasketProducts();
       this.loading = false;
+    },error=>{
+      this.toastr.error("Ürünler Getirilirken Bir Hata Meydana Geldi...");
     });
   }
 
@@ -375,6 +387,8 @@ export class SaveBillComponent implements OnInit {
 fillCustomers() {
   this.customerService.getCustomers(this.config.getCustomersUrl, null).subscribe(result => {
     this.customers = result;
+  },error=>{
+    this.toastr.error("Müşteriler Getirilirken Bir Hata Meydana Geldi...");
   });
 }
 

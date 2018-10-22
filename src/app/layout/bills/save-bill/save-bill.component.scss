@@ -141,3 +141,27 @@ input[type="number"] {
 {
     color: black;
 }
+
+.btnDecrease
+{
+    background-color: red;
+    padding: 2px 9px;
+    color: white;
+    font-weight: bold;
+}
+.btnIncrease
+{
+    background-color: green;
+    padding: 2px 9px;
+    color: white;
+    font-weight: bold;
+}
+
+.netSalePrice
+{
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.4em;
+    padding: 0px;
+}
+

@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { Waybill } from '../../../shared/DTOs/wayBill';
 import { WaybillService } from '../waybill.service';
 import { IConfig, ConfigService } from '../../../app.config';
+import { ToastsManager } from 'ng2-toastr';
 
 @Component({
   selector: 'app-this-week-waybills',
@@ -11,7 +12,10 @@ import { IConfig, ConfigService } from '../../../app.config';
 export class ThisWeekWaybillsComponent implements OnInit {
   config:IConfig;
 waybills:Waybill[]=[];  
-  constructor(private waybillService:WaybillService,private configService: ConfigService) { }
+  constructor(public toastr: ToastsManager, vcr: ViewContainerRef,private waybillService:WaybillService,private configService: ConfigService) 
+  {
+    this.toastr.setRootViewContainerRef(vcr);
+   }
 
   ngOnInit() {
     this.config=this.configService.getAppConfig();
@@ -22,6 +26,8 @@ waybills:Waybill[]=[];
     this.waybillService.getThisWeekWaybills(this.config.getThisWeekWaybillsUrl,null).subscribe(waybills=>{
       this.waybills=waybills;
 
+    },error=>{
+      this.toastr.error("irsaliyeler getirilirken bir hata meydana geldi...");
     });
   }
 }
