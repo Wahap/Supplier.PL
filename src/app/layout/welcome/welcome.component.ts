@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { BillService } from '../bills/bill.service';
 
 @Component({
   selector: 'app-welcome',
@@ -7,11 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WelcomeComponent implements OnInit {
 
-  constructor() {
+  numberOfUnpaidBills:number;
+  constructor(private billService:BillService) {
    
   }
 
   ngOnInit() {
+  }
+
+  getNumberOfUnpaidBills()
+  {
+
   }
 
 }

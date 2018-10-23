@@ -59,6 +59,7 @@ import { FilterReturnBillsComponent } from './returnBills/filter-return-bills/fi
 import { SaveReturnBillComponent } from './returnBills/save-return-bill/save-return-bill.component';
 import { ThisMonthReturnBillsComponent } from './returnBills/this-month-return-bills/this-month-return-bills.component';
 import { ThisWeekReturnBillsComponent } from './returnBills/this-week-return-bills/this-week-return-bills.component';
+import { UnpaidBillsComponent } from './bills/unpaid-bills/unpaid-bills.component';
 
 
 
@@ -110,7 +111,8 @@ import { ThisWeekReturnBillsComponent } from './returnBills/this-week-return-bil
     FilterReturnBillsComponent,
     SaveReturnBillComponent,
     ThisMonthReturnBillsComponent,
-    ThisWeekReturnBillsComponent
+    ThisWeekReturnBillsComponent,
+    UnpaidBillsComponent
     ]
 })
 export class LayoutModule { }

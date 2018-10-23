@@ -11,4 +11,5 @@ export class BillProduct
     purchasePrice:number;
     product:Product;
     status:string;
+   
 }

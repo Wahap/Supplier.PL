@@ -54,6 +54,7 @@ export interface IConfig {
 	getThisWeekBillsUrl:string;
 	getThisMonthBillsUrl:string;
 	filterBillsUrl:string;
+	getUnpaidBillsUrl:string;
 	//ReturnBills
 	getNextReturnBillNumberUrl:string;
 	saveReturnBillUrl:string;
@@ -167,6 +168,9 @@ export class ConfigService {
 		let getThisWeekBillsUrl = (debug ? serverLoginPathDebug + "bill/getThisWeekBills" : serverLoginPath + "bill/getThisWeekBills");
 		let getThisMonthBillsUrl = (debug ? serverLoginPathDebug + "bill/getThisMonthBills" : serverLoginPath + "bill/getThisMonthBills");
 		let filterBillsUrl = (debug ? serverLoginPathDebug + "bill/filterBills" : serverLoginPath + "bill/filterBills");
+		
+		let getUnpaidBillsUrl = (debug ? serverLoginPathDebug + "bill/getunpaidbills" : serverLoginPath + "bill/getunpaidbills");
+		
 		//Return Bill Urls
 		let getNextReturnBillNumberUrl=(debug ? serverLoginPathDebug + "returnBill/getNextBillNumber" : serverLoginPath + "returnBill/getNextBillNumber");
 		let saveReturnBillUrl = (debug ? serverLoginPathDebug + "returnBill/save" : serverLoginPath + "returnBill/save");
@@ -255,6 +259,7 @@ export class ConfigService {
 			uploadImageUrl:uploadImageUrl,
 			savePaymentUrl:savePaymentUrl,
 			filterBillsUrl:filterBillsUrl,
+			getUnpaidBillsUrl:getUnpaidBillsUrl,
 			//ReturnBill Urls
 			getNextReturnBillNumberUrl:getNextReturnBillNumberUrl,
 			saveReturnBillUrl:saveReturnBillUrl,
