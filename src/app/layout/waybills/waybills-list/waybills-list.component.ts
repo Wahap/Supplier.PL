@@ -16,7 +16,7 @@ import { ToastsManager } from 'ng2-toastr';
 })
 export class WaybillsListComponent implements OnInit {
   config: IConfig;
-  loading: boolean = true;
+  @Input() loading: boolean = true;
   @Input() allWaybills: Waybill[] = [];
   selectedWayBill: Waybill;
   allCustomers: Customer[] = [];
@@ -37,10 +37,7 @@ export class WaybillsListComponent implements OnInit {
     {
       this.fillAllWaybills();
     }
-    else//Data coming from another component
-    {
-      this.loading = false;
-    }
+    
 
     this.waybillListColumns = [
       { field: 'id', header: 'Irs.No' },

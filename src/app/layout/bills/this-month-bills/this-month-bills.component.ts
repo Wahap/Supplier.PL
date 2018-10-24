@@ -13,6 +13,7 @@ export class ThisMonthBillsComponent implements OnInit {
 
   config:IConfig;
   bills:Bill[]=[]; 
+  loading:boolean=true;
   constructor(public toastr: ToastsManager, vcr: ViewContainerRef,private billService:BillService,private configService: ConfigService) 
   {
     this.toastr.setRootViewContainerRef(vcr);
@@ -31,6 +32,8 @@ export class ThisMonthBillsComponent implements OnInit {
 
     },error=>{
       this.toastr.error("Faturalar Getirilirken Bir Hata Meydana Geldi...");
+    },()=>{
+      this.loading=false;
     });
   }
 

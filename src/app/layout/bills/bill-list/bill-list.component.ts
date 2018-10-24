@@ -19,7 +19,7 @@ import { ToastsManager } from 'ng2-toastr';
 })
 export class BillListComponent implements OnInit {
   config: IConfig;
-  loading:boolean=true;
+  @Input() loading:boolean=true;
   @Input() allBills:Bill[]=[];  
   selectedBill:Bill;
   allCustomers:Customer[]=[];
@@ -47,10 +47,7 @@ export class BillListComponent implements OnInit {
       this.fillAllBills();
 
     }
-    else//Data coming from another component
-    {
-this.loading=false;
-    }
+   
     
     this.billListColumns = [   
       { field: 'billNumber', header: 'Fatura.No' },

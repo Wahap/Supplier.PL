@@ -12,6 +12,7 @@ import { ToastsManager } from 'ng2-toastr';
 export class ThisMonthWaybillsComponent implements OnInit {
 
   config:IConfig;
+  loading:boolean=true;
   waybills:Waybill[]=[];
     constructor(public toastr: ToastsManager, vcr: ViewContainerRef,private waybillService:WaybillService,private configService: ConfigService) 
     {
@@ -29,6 +30,8 @@ export class ThisMonthWaybillsComponent implements OnInit {
 
     },error=>{
       this.toastr.error("irsaliyeler getirilirken bir hata meydana geldi...");
+    },()=>{
+      this.loading=false;
     });
   }
 

@@ -46,9 +46,11 @@ loading:boolean=false;
     this.filter.customerId=this.selectedCustomer.id;
     this.waybillService.filterWaybills(this.config.filterWaybillsUrl,this.filter).subscribe(waybills=>{
       this.filteredWaybills=waybills;
-      this.loading=false;
+     
     },error=>{
       this.toastr.error("irsaliyeler getirilirken bir hata meydana geldi...");
+    },()=>{
+      this.loading=false;
     });
   }
 

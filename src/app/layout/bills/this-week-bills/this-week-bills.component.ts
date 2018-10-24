@@ -12,6 +12,7 @@ import { ToastsManager } from 'ng2-toastr';
 export class ThisWeekBillsComponent implements OnInit {
   config:IConfig;
   bills:Bill[]=[]; 
+  loading:boolean=true;
   constructor(public toastr: ToastsManager, vcr: ViewContainerRef,private billService:BillService,private configService: ConfigService) { }
 
   ngOnInit() {
@@ -26,6 +27,8 @@ export class ThisWeekBillsComponent implements OnInit {
 
     },error=>{
       this.toastr.error("Faturalar Getirilirken Bir Hata Meydana Geldi...");
+    },()=>{
+      this.loading=false;
     });
   }
 

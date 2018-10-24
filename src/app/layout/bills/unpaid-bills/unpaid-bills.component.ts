@@ -11,6 +11,7 @@ import { ToastsManager } from 'ng2-toastr';
 })
 export class UnpaidBillsComponent implements OnInit {
 unpaidBills:Bill[]=[];
+loading:boolean=true;
 config:IConfig;
   constructor(public toastr: ToastsManager, vcr: ViewContainerRef,private billService:BillService,private configService:ConfigService) { }
 
@@ -21,6 +22,8 @@ config:IConfig;
 this.unpaidBills=bills;
     }, error=>{
       this.toastr.error("Faturalar Getirilirken Hata oluştu...");
+    },()=>{
+      this.loading=false;
     });
   }
 

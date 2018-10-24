@@ -18,7 +18,7 @@ export class FilterBillsComponent implements OnInit {
   config:IConfig;
   customers:Customer[]=[];
   selectedCustomer:Customer=new Customer();
-  loading=false;
+  loading:boolean=false;
   constructor(public toastr: ToastsManager, vcr: ViewContainerRef,private customerService:CustomersService,private configService:ConfigService,private billService:BillService) 
   {
     this.toastr.setRootViewContainerRef(vcr);
@@ -46,9 +46,11 @@ export class FilterBillsComponent implements OnInit {
   
     this.billService.filterBills(this.config.filterBillsUrl,this.filter).subscribe(bills=>{
       this.filteredBills=bills;
-      this.loading=false;
+     
     },error=>{
       this.toastr.error("Faturalar Getirilirken Bir Hata Meydana Geldi...");
+    },()=>{
+      this.loading=false;
     });
   }
 
