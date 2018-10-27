@@ -1,0 +1,53 @@
+<form #supplierForm="ngForm">
+  <div class="form-group">
+    <label for="companyName">Firma</label>
+    <input  class="form-control" #companyName="ngModel"  name="companyName" [(ngModel)]="supplier.companyName"  required
+    [class.is-invalid]="companyName.errors && companyName.touched"
+    >
+    <div class="invalid-feedback" [hidden]="!companyName.errors?.required" >
+      Firma Zorunludur
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="name">Yönetici Adı</label>
+    <input  class="form-control"  name="name" [(ngModel)]="supplier.name">
+  </div>
+
+  <div class="form-group">
+    <label for="lastname">Yönetici Soyadı</label>
+    <input  class="form-control"  name="lastname" [(ngModel)]="supplier.lastname">
+  </div>
+
+  <div class="form-group">
+    <label for="phone">Telefon</label>
+    <input  class="form-control"  name="phone" [(ngModel)]="supplier.phone">
+  </div>
+
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input  class="form-control"  name="email" [(ngModel)]="supplier.email">
+  </div>
+
+  <div class="form-group">
+    <label for="street">Sokak</label>
+    <input  class="form-control"  name="street" [(ngModel)]="supplier.street">
+  </div>
+
+  <div class="form-group">
+    <label for="postCode">Posta Kodu</label>
+    <input  class="form-control"  name="postCode" [(ngModel)]="supplier.postCode">
+  </div>
+
+  <div class="form-group">
+    <label for="cities"> Sehir <button class="btn btn-success btn-sm" (click)="newCityDialog=true" ><i class="fa fa-plus-circle"></i></button></label>
+    <p-dropdown [options]="cities" [(ngModel)]="selectedCity"  [filter]="true" appendTo="body" name="cities" placeholder="Sehir Sec"
+    optionLabel="name" [style]="{'width':'100%'}" styleClass="ui-column-filter"></p-dropdown>
+  </div>
+ 
+  <button type="submit" class="btn btn-success" [disabled]="!supplierForm.form.valid" (click)="saveSupplier()">Kaydet</button>
+</form>
+<p-dialog header="Yeni Şehir" [(visible)]="newCityDialog" [responsive]="true" [width]="400" showEffect="fade"
+[modal]="true">
+<app-new-city (onCitySaved)="onNewCitySaved($event)"></app-new-city>
+</p-dialog>

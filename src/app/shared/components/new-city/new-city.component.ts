@@ -1,5 +1,5 @@
 import { Component, OnInit,EventEmitter,Output } from '@angular/core';
-import { city } from '../../DTOs/city';
+import { City } from '../../DTOs/city';
 import { CommonService } from '../../common.service';
 import { IConfig, ConfigService } from '../../../app.config';
 
@@ -12,7 +12,7 @@ export class NewCityComponent implements OnInit {
 
   @Output() onCitySaved=new EventEmitter();
   config: IConfig;
-  city:city=new city();
+  city:City=new City();
   constructor(private commonService:CommonService,private configService: ConfigService) { }
 
   ngOnInit() {

@@ -55,6 +55,7 @@ export interface IConfig {
 	getThisMonthBillsUrl:string;
 	filterBillsUrl:string;
 	getUnpaidBillsUrl:string;
+	getOverDueBillsUrl:string;
 	//ReturnBills
 	getNextReturnBillNumberUrl:string;
 	saveReturnBillUrl:string;
@@ -78,6 +79,10 @@ export interface IConfig {
 	getAllDiscountRatesUrl:string;
 	//Common
 	saveCityUrl:string;
+	saveBrandUrl:string;
+	saveUnitUrl:string;
+	saveSupplierUrl:string;
+	saveCategoryUrl:string;
 	getPaymentTypesUrl:string;
 	savePaymentUrl:string;
 	getBillPaymentsUrl:string;      
@@ -86,6 +91,7 @@ export interface IConfig {
 	deletePaymentUrl:string;
 	createLogUrl:string;
 	getIpAddressUrl:string;
+	getDashBoardDataUrl:string;
 
 
 };
@@ -100,8 +106,8 @@ export class ConfigService {
 	getAppConfig(): IConfig {
 
 	
-		//let serverLoginPath = 'https://supplier.azurewebsites.net/api/', serverLoginPathDebug = 'http://localhost:4315/api/';
-		let serverLoginPath = 'https://devsupplier.azurewebsites.net/api/', serverLoginPathDebug = 'http://localhost:4315/api/';
+		let serverLoginPath = 'https://supplier.azurewebsites.net/api/', serverLoginPathDebug = 'http://localhost:4315/api/';
+		//let serverLoginPath = 'https://devsupplier.azurewebsites.net/api/', serverLoginPathDebug = 'http://localhost:4315/api/';
 	
  
 		let serverUserNotificationPath = '';
@@ -168,6 +174,7 @@ export class ConfigService {
 		let getThisWeekBillsUrl = (debug ? serverLoginPathDebug + "bill/getThisWeekBills" : serverLoginPath + "bill/getThisWeekBills");
 		let getThisMonthBillsUrl = (debug ? serverLoginPathDebug + "bill/getThisMonthBills" : serverLoginPath + "bill/getThisMonthBills");
 		let filterBillsUrl = (debug ? serverLoginPathDebug + "bill/filterBills" : serverLoginPath + "bill/filterBills");
+		let getOverDueBillsUrl = (debug ? serverLoginPathDebug + "bill/getOverDueBills" : serverLoginPath + "bill/getOverDueBills");
 		
 		let getUnpaidBillsUrl = (debug ? serverLoginPathDebug + "bill/getunpaidbills" : serverLoginPath + "bill/getunpaidbills");
 		
@@ -196,6 +203,10 @@ export class ConfigService {
 		//Common
 		let getAllDiscountRatesUrl = (debug ? serverLoginPathDebug + "Common/getAllDiscountRates" : serverLoginPath + "Common/getAllDiscountRates");
 		let saveCityUrl = (debug ? serverLoginPathDebug + "Common/saveCity" : serverLoginPath + "Common/saveCity");
+		let saveBrandUrl = (debug ? serverLoginPathDebug + "Common/saveBrand" : serverLoginPath + "Common/saveBrand");
+		let saveUnitUrl = (debug ? serverLoginPathDebug + "Common/saveUnit" : serverLoginPath + "Common/saveUnit");
+		let saveCategoryUrl = (debug ? serverLoginPathDebug + "Common/saveCategory" : serverLoginPath + "Common/saveCategory");
+		let saveSupplierUrl = (debug ? serverLoginPathDebug + "Common/saveSupplier" : serverLoginPath + "Common/saveSupplier");
 		let getPaymentTypesUrl = (debug ? serverLoginPathDebug + "Common/getPaymentTypes" : serverLoginPath + "Common/getPaymentTypes");
 		let savePaymentUrl = (debug ? serverLoginPathDebug + "Bill/savePayment" : serverLoginPath + "Bill/savePayment");
 		let getBillPaymentsUrl = (debug ? serverLoginPathDebug + "Bill/getBillPayments" : serverLoginPath + "Bill/getBillPayments");
@@ -204,10 +215,16 @@ export class ConfigService {
 		let getVendorBillPaymentsUrl = (debug ? serverLoginPathDebug + "VendorBill/getBillPayments" : serverLoginPath + "VendorBill/getBillPayments");
 		let deletePaymentUrl = (debug ? serverLoginPathDebug + "Bill/deletePayment" : serverLoginPath + "Bill/deletePayment");
 		let createLogUrl = (debug ? serverLoginPathDebug + "Common/createLog" : serverLoginPath + "Common/createLog");
+		let getDashBoardDataUrl = (debug ? serverLoginPathDebug + "Common/getDashBoardData" : serverLoginPath + "Common/getDashBoardData");
+		
 		let getIpAddressUrl="http://api.ipify.org?format=json&callback=getIP";
 		return {
 			logInUrl: logInUrl,
 			saveCityUrl:saveCityUrl,
+			saveBrandUrl:saveBrandUrl,
+			saveUnitUrl:saveUnitUrl,
+			saveCategoryUrl:saveCategoryUrl,
+			saveSupplierUrl:saveSupplierUrl,
 			getUsers: getUsers,
 			calculate: calculate,
 			getProductsUrl: getProductsUrl,
@@ -260,6 +277,7 @@ export class ConfigService {
 			savePaymentUrl:savePaymentUrl,
 			filterBillsUrl:filterBillsUrl,
 			getUnpaidBillsUrl:getUnpaidBillsUrl,
+			getOverDueBillsUrl:getOverDueBillsUrl,
 			//ReturnBill Urls
 			getNextReturnBillNumberUrl:getNextReturnBillNumberUrl,
 			saveReturnBillUrl:saveReturnBillUrl,
@@ -286,7 +304,8 @@ export class ConfigService {
 			getReturnBillPaymentsUrl:getReturnBillPaymentsUrl,
 			deletePaymentUrl:deletePaymentUrl,
 			createLogUrl:createLogUrl,
-			getIpAddressUrl:getIpAddressUrl
+			getIpAddressUrl:getIpAddressUrl,
+			getDashBoardDataUrl:getDashBoardDataUrl
 			
 			
 

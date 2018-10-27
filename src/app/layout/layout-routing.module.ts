@@ -33,6 +33,7 @@ import { ReturnBillListComponent } from './returnBills/return-bill-list/return-b
 import { ThisWeekReturnBillsComponent } from './returnBills/this-week-return-bills/this-week-return-bills.component';
 import { ThisMonthReturnBillsComponent } from './returnBills/this-month-return-bills/this-month-return-bills.component';
 import { UnpaidBillsComponent } from './bills/unpaid-bills/unpaid-bills.component';
+import { OverDueBillsComponent } from './bills/over-due-bills/over-due-bills.component';
 
 
 const routes: Routes = [
@@ -61,6 +62,7 @@ const routes: Routes = [
             { path: 'thisWeekBills',component:ThisWeekBillsComponent },
             { path: 'thisMonthBills',component:ThisMonthBillsComponent },
             { path: 'unpaidBills',component:UnpaidBillsComponent },
+            { path: 'overDueBills',component:OverDueBillsComponent },
 
             { path: 'filteredVendorBills',component:FilterVendorBillsComponent },
             { path: 'saveVendorBill',component:SaveVendorBillComponent },

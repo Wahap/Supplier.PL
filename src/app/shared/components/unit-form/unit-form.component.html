@@ -1,0 +1,13 @@
+<form #unitForm="ngForm">
+  <div class="form-group">
+    <label for="Unit">Birim</label>
+    <input  class="form-control" #unitName="ngModel" id="unit" name="unit" [(ngModel)]="unit.name" placeholder="Birim..." required
+    [class.is-invalid]="unitName.errors && unitName.touched"
+    >
+    <div class="invalid-feedback" [hidden]="!unitName.errors?.required" >
+      Birim Adı Zorunludur
+    </div>
+  </div>
+  
+  <button type="submit" class="btn btn-success" [disabled]="!unitForm.form.valid" (click)="saveUnit()">Kaydet</button>
+</form>

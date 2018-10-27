@@ -1,0 +1,13 @@
+<form #brandForm="ngForm">
+  <div class="form-group">
+    <label for="Marka">Marka</label>
+    <input  class="form-control" #brandName="ngModel" id="brand" name="brand" [(ngModel)]="brand.name" placeholder="Marka..." required
+    [class.is-invalid]="brandName.errors && brandName.touched"
+    >
+    <div class="invalid-feedback" [hidden]="!brandName.errors?.required" >
+      Marka Adı Zorunludur
+    </div>
+  </div>
+  
+  <button type="submit" class="btn btn-success" [disabled]="!brandForm.form.valid" (click)="saveBrand()">Kaydet</button>
+</form>

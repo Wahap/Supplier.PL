@@ -1,0 +1,143 @@
+<div>
+  <form class="" #productForm="ngForm">
+      <div class="row">
+          <div class="col-sm-7 border-right">
+              <div class="form-group row">
+                  <label for="barcodeOfProduct" class="col-sm-3 col-form-label">Barkod</label>
+                  <div class="col-sm-9">
+                      <input pInputText pKeyFilter="pint" id="barcodeOfProduct" name="barcodeOfProduct"
+                          [(ngModel)]="product.barcodeOfProduct" #barcodeOfProduct="ngModel" required
+                          class="form-control form-control-sm" />
+                  </div>
+              </div>
+              <div class="form-group row">
+                  <label for="productName" class="col-sm-3">Ürün Adı</label>
+                  <div class="col-sm-9">
+                      <input pInputText id="productName" name="productName" [(ngModel)]="product.productName"
+                          class="form-control form-control-sm " required />
+                  </div>
+
+              </div>
+              <div class="form-group row">
+                  <label for="orderNumber" class="col-sm-3">Sipariş No</label>
+                  <div class="col-sm-9">
+                      <input pInputText id="orderNumber" name="orderNumber" [(ngModel)]="product.orderNumber"
+                          class="form-control form-control-sm" required />
+                  </div>
+              </div>
+
+              <div class="form-group row">
+                  <label for="purchasePrice" class="col-sm-3">Alış Fiyatı</label>
+                  <div class="col-sm-9">
+                      <input pKeyFilter="money" pInputText id="purchasePrice" name="purchasePrice"
+                          [(ngModel)]="product.purchasePrice " class="form-control form-control-sm" />
+                  </div>
+              </div>
+              <div class="form-group row">
+                  <label for="netSalePrice" class="col-sm-3">Satış Fiyatı</label>
+                  <div class="col-sm-9">
+                      <input pKeyFilter="money" pInputText id="netSalePrice" name="netSalePrice"
+                          [(ngModel)]="product.netSalePrice" class="form-control form-control-sm" />
+                  </div>
+              </div>
+              <div class="form-group row">
+                  <label for="barcodeOfPackage" class="col-sm-3">K.Barkodu</label>
+                  <div class="col-sm-9">
+                      <input pKeyFilter="pint" pInputText id="barcodeOfPackage" #barcodeOfPackage="ngModel"
+                          name="barcodeOfPackage" [(ngModel)]="product.barcodeOfPackage" class="form-control form-control-sm" />
+                  </div>
+              </div>
+              <div class="form-group row">
+                  <label for="descripton" class="col-sm-3">Açıklama</label>
+                  <div class="col-sm-9">
+                      <textarea [(ngModel)]="product.descripton" name="descripton" class="form-control"></textarea>
+                  </div>
+              </div>
+
+
+
+          </div>
+          <div class="col-sm-5">
+
+              <div class="form-group row">
+                  <label for="brands" class="col-sm-3">Marka</label>
+                  <div class="col-sm-9">
+                      <p-dropdown [options]="brands" [(ngModel)]="selectedBrand" name="brands" [filter]="true"
+                          appendTo="body" placeholder="Marka sec" optionLabel="name" [style]="{'width':'100%'}"
+                          styleClass="ui-column-filter"></p-dropdown>
+                  </div>
+              </div>
+              <div class="form-group row">
+                  <label for="categories" class="col-sm-3">Kategori</label>
+                  <div class="col-sm-9">
+                      <p-dropdown [options]="categories" [filter]="true" appendTo="body" [(ngModel)]="selectedCategory"
+                          name="categories" placeholder="Kategori" optionLabel="name" [style]="{'width':'100%'}"
+                          styleClass="ui-column-filter"></p-dropdown>
+                  </div>
+              </div>
+              <div class="form-group row">
+                  <label for="taxNumbers" class="col-sm-3">Vergi</label>
+                  <div class="col-sm-9">
+                      <p-dropdown [options]="taxNumbers" [filter]="true" appendTo="body" name="taxNumbers"
+                          [(ngModel)]="selectedTax" placeholder="Vergi Sec" optionLabel="data" [style]="{'width':'100%'}"
+                          styleClass="ui-column-filter"></p-dropdown>
+                  </div>
+
+              </div>
+              <div class="form-group row">
+                  <label for="suppliers" class="col-sm-3">Toptancı</label>
+                  <div class="col-sm-9">
+                      <p-dropdown [options]="suppliers" [filter]="true" appendTo="body" name="suppliers"
+                          [(ngModel)]="selectedSupplier" placeholder="Tedarikci Sec" optionLabel="name"
+                          [style]="{'width':'100%'}" styleClass="ui-column-filter"></p-dropdown>
+                  </div>
+              </div>
+              <div class="form-group row">
+                  <label for="units" class="col-sm-3">Birim</label>
+                  <div class="col-sm-9">
+                      <div class="row">
+                          <div class="col-sm-6">
+                              <input pKeyFilter="money" pInputText id="quantity" name="quantity"
+                                  [(ngModel)]="product.quantity" class="form-control form-control-sm" />
+                          </div>
+                          <div class="col-sm-6">
+                              <p-dropdown [options]="units" name="units" [filter]="true" appendTo="body"
+                                  [(ngModel)]="selectedUnit" placeholder="g,kg,l,ml" optionLabel="name"
+                                  [style]="{'width':'100%'}" styleClass="ui-column-filter"></p-dropdown>
+                          </div>
+                      </div>
+
+
+
+                  </div>
+              </div>
+              <div class="form-group row">
+                  <label for="unitsInPackage" class="col-sm-3">K.Adet</label>
+                  <div class="col-sm-9">
+                      <input pInputText id="unitsInPackage" name="unitsInPackage" [(ngModel)]="product.unitsInPackage"
+                          class="form-control form-control-sm" />
+                  </div>
+              </div>
+
+              <div class="form-group row">
+                  <label for="unitsInPackage" class="col-sm-3">Stok</label>
+                  <div class="col-sm-9">
+                      <input pInputText id="stockAmount" name="stockAmount" [(ngModel)]="product.stockAmount"
+                          class="form-control form-control-sm" />
+                  </div>
+              </div>
+          </div>
+
+      </div>
+  </form>
+</div>
+<p-footer>
+  <div class="ui-dialog-buttonpane ui-helper-clearfix">
+      <!-- <button type="button" class="ui-button-danger" [disabled]="newProduct" pButton icon="fa-close" (click)="delete()" label="Sil"></button>
+      <button type="button" class="ui-button-success" [disabled]="!productForm.form.valid    ||selectedCategory.name==null" pButton
+          icon="fa-check" (click)="save()" label="Kaydet"></button> -->
+      <button class="btn btn-success" [disabled]="!productForm.form.valid"
+          (click)="save(true)">Kaydet</button>
+      <button class="btn btn-sm" [class.btn-danger]="product.isActive" [class.btn-primary]="!product.isActive" [disabled]="newProduct" (click)="toggleIsActiveProperty(product)">{{product.isActive?'Sil':'Aktif Et'}}</button>
+  </div>
+</p-footer>

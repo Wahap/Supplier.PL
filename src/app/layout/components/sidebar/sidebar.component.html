@@ -63,39 +63,39 @@
 
 
         <div *ngIf="currentUser.isAdmin=='True'" class="nested-menu">
-            <a class="list-group-item" (click)="addExpandClass('irsaliye')">
+            <a class="list-group-item" style="background-color: yellow; color:black;" (click)="addExpandClass('irsaliye')">
                 <span><i class="fa fa-shopping-cart"></i>&nbsp; {{ 'irsaliyeler' | translate }}</span>
             </a>
             <li class="nested" [class.expand]="showMenu === 'irsaliye'">
-                <ul class="submenu">
+                <ul class="submenu bg-yellow">
                         <li>
 
-                                <a [routerLink]="['/newWaybill']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                                <a [routerLink]="['/newWaybill']" [routerLinkActive]="['router-link-active']" class="list-group-item bg-yellow">
                                     <i class="fa fa-fw fa-list-alt "></i>&nbsp;{{ 'Yeni irsaliye' | translate }}
                                 </a>
                             </li>
                     <li>
 
-                        <a [routerLink]="['/thisWeekWaybills']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                        <a [routerLink]="['/thisWeekWaybills']" [routerLinkActive]="['router-link-active']" class="list-group-item bg-yellow">
                             <i class="fa fa-fw fa-list-alt "></i>&nbsp;{{ 'Haftanın irsaliyeleri' | translate }}
                         </a>
                     </li>
                     <li>
                     <li>
 
-                        <a [routerLink]="['/thisMonthWaybills']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                        <a [routerLink]="['/thisMonthWaybills']" [routerLinkActive]="['router-link-active']" class="list-group-item bg-yellow">
                             <i class="fa fa-fw fa-list-alt "></i>&nbsp;{{ 'Ayın irsaliyeleri' | translate }}
                         </a>
                     </li>
                     <li>
 
-                            <a [routerLink]="['/filteredWaybills']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                            <a [routerLink]="['/filteredWaybills']" [routerLinkActive]="['router-link-active']" class="list-group-item bg-yellow">
                                 <i class="fa fa-fw fa-list-alt "></i>&nbsp;{{ 'irsaliye ara' | translate }}
                             </a>
                         </li>
                    
                     <li>
-                        <a [routerLink]="['/waybills']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                        <a [routerLink]="['/waybills']" [routerLinkActive]="['router-link-active']" class="list-group-item bg-yellow">
                             <i class="fa fa-fw fa-shopping-basket"></i>&nbsp;{{ 'Tüm irsaliyeler' | translate }}
                         </a>
                     </li>
@@ -105,37 +105,37 @@
         </div>
 
         <div class="nested-menu" *ngIf="currentUser.isAdmin=='True'">
-            <a class="list-group-item" (click)="addExpandClass('fatura')">
+            <a class="list-group-item bg-red" (click)="addExpandClass('fatura')">
                 <span><i class="fa fa-shopping-cart"></i>&nbsp; {{ 'Faturalar' | translate }}</span>
             </a>
             <li class="nested" [class.expand]="showMenu === 'fatura'">
-                <ul class="submenu">
+                <ul class="submenu bg-red">
                         <li>
 
-                                <a [routerLink]="['/savebill']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                                <a [routerLink]="['/savebill']" [routerLinkActive]="['router-link-active']" class="list-group-item bg-red">
                                     <i class="fa fa-fw fa-list-alt "></i>&nbsp;{{ 'Yeni Fatura' | translate }}
                                 </a>
                             </li>
                     <li>
 
-                        <a [routerLink]="['/thisWeekBills']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                        <a [routerLink]="['/thisWeekBills']" [routerLinkActive]="['router-link-active']" class="list-group-item bg-red">
                             <i class="fa fa-fw fa-list-alt "></i>&nbsp;{{ 'Haftanın Faturaları' | translate }}
                         </a>
                     </li>
                     <li>
 
-                        <a [routerLink]="['/thisMonthBills']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                        <a [routerLink]="['/thisMonthBills']" [routerLinkActive]="['router-link-active']" class="list-group-item bg-red">
                             <i class="fa fa-fw fa-list-alt "></i>&nbsp;{{ 'Ayın Faturaları' | translate }}
                         </a>
                     </li>
                     <li>
 
-                            <a [routerLink]="['/filteredBills']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                            <a [routerLink]="['/filteredBills']" [routerLinkActive]="['router-link-active']" class="list-group-item bg-red">
                                 <i class="fa fa-fw fa-list-alt "></i>&nbsp;{{ 'Fatura Ara' | translate }}
                             </a>
                         </li>
                     <li>
-                        <a [routerLink]="['/bills']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                        <a [routerLink]="['/bills']" [routerLinkActive]="['router-link-active']" class="list-group-item bg-red">
                             <i class="fa fa-fw fa-shopping-basket"></i>&nbsp;{{ 'Tüm Faturalar' | translate }}
                         </a>
                     </li>

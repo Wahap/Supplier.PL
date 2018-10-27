@@ -1,4 +1,4 @@
-export class unit
+export class Unit
 {
     id:number;
     isActive:boolean;

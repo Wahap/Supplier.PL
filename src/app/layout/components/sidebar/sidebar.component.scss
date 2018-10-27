@@ -94,6 +94,18 @@ $topnav-background-color:#83186c;
         }
     }
 }
+
+.bg-yellow
+{
+    background-color: yellow !important;
+    color:black !important;
+}
+
+.bg-red
+{
+    background-color: red !important;
+}
+
 .nested-menu {
     .list-group-item {
         cursor: pointer;

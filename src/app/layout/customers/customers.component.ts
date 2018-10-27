@@ -6,7 +6,7 @@ import { ConfigService, IConfig } from '../../app.config';
 import { ToastsManager } from 'ng2-toastr';
 import { Customer } from '../../shared/DTOs/customer';
 import { Address } from '../../shared/DTOs/address';
-import { city } from '../../shared/DTOs/city';
+import { City } from '../../shared/DTOs/city';
 import { CustomerProductPrices } from '../../shared/DTOs/customerProductPrices';
 import 'jspdf';
 import { findIndex } from 'rxjs/operators';
@@ -17,8 +17,8 @@ declare var jsPDF: any; // Important
   styleUrls: ['./customers.component.scss']
 })
 export class CustomersComponent implements OnInit {
-  cities: city[];
-  selectedCity: city;
+  cities: City[];
+  selectedCity: City;
   loading: boolean;
   customerPricesLoading:boolean=true;
   config: IConfig;
@@ -169,7 +169,7 @@ ngOnChanges(): void {
   onRowSelect(cust) {
     this.newCustomer = false;
     this.selectedCustomer = Object.assign({}, cust);
-    this.selectedCity = new city();
+    this.selectedCity = new City();
     this.customerAddress = cust.addresses[0];
 
     if (cust.addresses[0] == null) {
@@ -184,7 +184,7 @@ ngOnChanges(): void {
     this.newCustomer = true;
     this.selectedCustomer = new Customer();
     this.customerAddress = new Address();
-    this.selectedCity = new city();
+    this.selectedCity = new City();
     this.displayCustomerDialog = true;
   }
   toggleIsActive() {
@@ -202,7 +202,7 @@ ngOnChanges(): void {
     this.selectedAddresses = customer.addresses;
     this.selectedCustomer = customer;
     this.selectedAddresses.forEach((address) => {
-      address.city = new city();
+      address.city = new City();
       address.city = this.cities.filter(x => x.id == address.cityId)[0];
 
     });

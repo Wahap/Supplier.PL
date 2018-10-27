@@ -1,8 +1,8 @@
-<div class="card border-primary mb-3" >
-        <div class="card-header">Faturalar</div>
-        <div class="card-body text-primary">
-          <p class="card-text">Toplam 9 adet ödenmemiş fatura bulunmaktadır. </p>
-          <a   [routerLink]="['/unpaidBills']" class="btn btn-primary">Görüntüle</a> 
-        </div>
-      </div>
-     
+<div class="card border-primary mb-3">
+  <div class="card-header">Ödenmemiş Faturalar</div>
+  <div class="card-body">
+    <p class="card-text">Ödenmeyen Faturalar : <a class="badge" [routerLink]="['/unpaidBills']">{{dashBoard.numberOfUnpaidBills}}</a></p>
+    <p class="card-text">Son Ödemesi Geçmiş Faturalar : <a class="badge" [routerLink]="['/overDueBills']">{{dashBoard.numberOfOverDueBills}}</a></p>
+  </div>
+</div>
+

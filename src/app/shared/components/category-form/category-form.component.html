@@ -1,0 +1,13 @@
+<form #categoryForm="ngForm">
+  <div class="form-group">
+    <label for="Category">Kategori</label>
+    <input  class="form-control" #categoryName="ngModel" id="category" name="category" [(ngModel)]="category.name" placeholder="Kategori..." required
+    [class.is-invalid]="categoryName.errors && categoryName.touched"
+    >
+    <div class="invalid-feedback" [hidden]="!categoryName.errors?.required" >
+      Kategori Adı Zorunludur
+    </div>
+  </div>
+  
+  <button type="submit" class="btn btn-success" [disabled]="!categoryForm.form.valid" (click)="saveCategory()">Kaydet</button>
+</form>

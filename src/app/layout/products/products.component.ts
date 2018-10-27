@@ -4,10 +4,10 @@ import { NgForm } from '@angular/forms';
 import { ConfigService, IConfig } from '../../app.config';
 import { ProductsService } from './products.service';
 import { Product } from '../../shared/DTOs/product';
-import { brand } from '../../shared/DTOs/brand';
+import { Brand } from '../../shared/DTOs/brand';
 import { CommonService } from '../../shared/common.service';
 import { Category } from '../../shared/DTOs/category';
-import { unit } from '../../shared/DTOs/unit';
+import { Unit } from '../../shared/DTOs/unit';
 import { Supplier } from '../../shared/DTOs/supplier';
 import 'jspdf';
 declare var jsPDF: any; // Important 
@@ -21,8 +21,8 @@ declare var html2canvas: any; // Important
   encapsulation: ViewEncapsulation.None//For using this component css styles globally
 })
 export class ProductsComponent implements OnInit {
-  units: unit[];
-  selectedUnit: unit;
+  units: Unit[];
+  selectedUnit: Unit;
   config: IConfig;
   @Input() products: Product[] = [];
   selectedProduct: Product;
@@ -31,8 +31,8 @@ export class ProductsComponent implements OnInit {
   loading: boolean;
   displayDialog: boolean;
   displayChangeImg: boolean;
-  brands: brand[];
-  selectedBrand: brand;
+  brands: Brand[];
+  selectedBrand: Brand;
   categories: Category[];
   selectedCategory: Category;
   suppliers: Supplier[];
@@ -46,15 +46,19 @@ export class ProductsComponent implements OnInit {
   productListCols: any[];
   isShowBrochure: boolean = false;
   existsInputData:boolean=false;
+  displayBrandDialog:boolean=false;
+  displayCategoryDialog:boolean=false;
+  displaySupplierDialog:boolean=false;
+  displayUnitDialog:boolean=false;
   @ViewChild("fileInput") fileInput;
 
   constructor(private commonServices: CommonService, private productsService: ProductsService, private configService: ConfigService, public toastr: ToastsManager, vcr: ViewContainerRef) {
     this.toastr.setRootViewContainerRef(vcr);
     this.product = new Product()
     this.loading = false;
-    this.selectedBrand = new brand();
+    this.selectedBrand = new Brand();
     this.selectedCategory = new Category();
-    this.selectedUnit = new unit();
+    this.selectedUnit = new Unit();
     this.selectedSupplier = new Supplier();
     this.product = new Product();
     this.taxNumbers = [{ "data": "7" }, { "data": "19" }, { "data": "0" }];
@@ -93,9 +97,9 @@ ngOnChanges(){
 }
   showDialogToAdd() {
     this.newProduct = true;
-    this.selectedBrand = new brand();
+    this.selectedBrand = new Brand();
     this.selectedCategory = new Category();
-    this.selectedUnit = new unit();
+    this.selectedUnit = new Unit();
     this.selectedSupplier = new Supplier();
     this.product = new Product();
     this.selectedTax = this.taxNumbers[0];
@@ -343,18 +347,40 @@ ngOnChanges(){
           this.units = items;
         }
       },
-        error => this.toastr.error('Tum Unitler getirilirken hata ile karsilasildi.', 'Error!')
+        error => this.toastr.error('Birimler getirilirken hata ile karsilasildi.', 'Error!')
       );
   }
   getAllBrands() {
     this.commonServices.getAllBrands(this.config.getAllBrandsUrl, this.brands)
-      .subscribe(items => {
-        if (items != null && items.length != 0) {
-          this.brands = items;
-        }
+      .subscribe(brands => {
+       this.brands=brands;
       },
-        error => this.toastr.error('Tum Unitler getirilirken hata ile karsilasildi.', 'Error!')
+        error => this.toastr.error('Markalar getirilirken hata ile karsilasildi.', 'Error!')
       );
+  }
+  onBrandSaved(brand)
+  {
+    this.displayBrandDialog=false;
+    this.brands=[brand,...this.brands];
+    this.selectedBrand=brand;
+  }
+  onCategorySaved(category)
+  {
+    this.displayCategoryDialog=false;
+    this.categories=[category,...this.categories];
+    this.selectedCategory=category;
+  }
+  onSupplierSaved(supplier)
+  {
+    this.displaySupplierDialog=false;
+    this.suppliers=[supplier,...this.suppliers];
+    this.selectedSupplier=supplier;
+  }
+  onUnitSaved(unit)
+  {
+    this.displayUnitDialog=false;
+    this.units=[unit,...this.units];
+    this.selectedUnit=unit;
   }
   customize(rowData, rowIndex): string {
     return rowData.isActive ? "" : "inactive-row";

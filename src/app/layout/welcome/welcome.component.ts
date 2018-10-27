@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { BillService } from '../bills/bill.service';
+import { CommonService } from '../../shared/common.service';
+import { ConfigService, IConfig } from '../../app.config';
+import { DashBoard } from '../../shared/DTOs/dashBoard';
 
 @Component({
   selector: 'app-welcome',
@@ -8,17 +11,25 @@ import { BillService } from '../bills/bill.service';
 })
 export class WelcomeComponent implements OnInit {
 
-  numberOfUnpaidBills:number;
-  constructor(private billService:BillService) {
+  dashBoard:DashBoard=new DashBoard();
+  config:IConfig;
+  constructor(private billService:BillService, private commonService:CommonService,private configService:ConfigService) {
    
   }
 
   ngOnInit() {
+    this.config=this.configService.getAppConfig();
+    this.getDashBoardData();
   }
 
-  getNumberOfUnpaidBills()
+  getDashBoardData()
   {
+    this.commonService.getDashBoardData(this.config.getDashBoardDataUrl,null).subscribe(data=>{
 
+     this.dashBoard.numberOfUnpaidBills=data.numberOfUnpaidBills;
+     this.dashBoard.numberOfOverDueBills=data.overDueBills;
+     console.log(data);
+    });
   }
 
 }

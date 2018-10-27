@@ -42,8 +42,30 @@ export class CommonService {
       .map((response: Response) => response.json());
   }
 
+  saveBrand(url: string, units: any): any {
+    return this.http.post(url, units, this.options)
+      .map((response: Response) => response.json());
+  }
+  saveCategory(url: string, units: any): any {
+    return this.http.post(url, units, this.options)
+      .map((response: Response) => response.json());
+  }
+  saveSupplier(url: string, units: any): any {
+    return this.http.post(url, units, this.options)
+      .map((response: Response) => response.json());
+  }
+  saveUnit(url: string, units: any): any {
+    return this.http.post(url, units, this.options)
+      .map((response: Response) => response.json());
+  }
+
   getIpAddress(url: string): any {
     return this.http.get(url)
+      .map((response: Response) => response.json());
+  }
+
+  getDashBoardData(url: string,parameters:any): any {
+    return this.http.post(url,parameters, this.options)
       .map((response: Response) => response.json());
   }
 

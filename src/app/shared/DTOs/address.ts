@@ -1,4 +1,4 @@
-import { city } from "./city";
+import { City } from "./city";
 
 export  class Address
 {
@@ -12,7 +12,7 @@ export  class Address
     id:number;
     customerId:number;
     cityId:number;
-    city:city;
+    city:City;
     postCode:string;
     street:string;
     branchName:string;

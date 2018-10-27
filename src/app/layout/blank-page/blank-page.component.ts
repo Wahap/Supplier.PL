@@ -4,7 +4,7 @@ import { BlankPageService } from './blank-page.service';
 import { ConfigService, IConfig } from '../../app.config';
 import { User } from '../../shared/DTOs/user';
 import { CommonService } from '../../shared/common.service';
-import { brand } from '../../shared/DTOs/brand';
+import { Brand } from '../../shared/DTOs/brand';
 import { Category } from '../../shared/DTOs/category';
 import { NgForm } from '@angular/forms';
 import { rootRenderNodes } from '@angular/core/src/view/util';
@@ -25,7 +25,7 @@ declare var jsPDF: any; // Important
 export class BlankPageComponent implements OnInit {
     config: IConfig;
     user: User;
-    brands: brand[];
+    brands: Brand[];
     selectedBrand: any;
     categories: Category[];
     selectedCategory: Category;

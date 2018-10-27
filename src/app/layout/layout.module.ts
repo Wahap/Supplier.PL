@@ -60,6 +60,12 @@ import { SaveReturnBillComponent } from './returnBills/save-return-bill/save-ret
 import { ThisMonthReturnBillsComponent } from './returnBills/this-month-return-bills/this-month-return-bills.component';
 import { ThisWeekReturnBillsComponent } from './returnBills/this-week-return-bills/this-week-return-bills.component';
 import { UnpaidBillsComponent } from './bills/unpaid-bills/unpaid-bills.component';
+import { OverDueBillsComponent } from './bills/over-due-bills/over-due-bills.component';
+import { ProductFormComponent } from './products/product-form/product-form.component';
+import { BrandFormComponent } from '../shared/components/brand-form/brand-form.component';
+import { CategoryFormComponent } from '../shared/components/category-form/category-form.component';
+import { UnitFormComponent } from '../shared/components/unit-form/unit-form.component';
+import { SupplierFormComponent } from '../shared/components/supplier-form/supplier-form.component';
 
 
 
@@ -112,7 +118,10 @@ import { UnpaidBillsComponent } from './bills/unpaid-bills/unpaid-bills.componen
     SaveReturnBillComponent,
     ThisMonthReturnBillsComponent,
     ThisWeekReturnBillsComponent,
-    UnpaidBillsComponent
+    UnpaidBillsComponent,
+    OverDueBillsComponent,
+    ProductFormComponent,
+    BrandFormComponent, CategoryFormComponent, UnitFormComponent, SupplierFormComponent
     ]
 })
 export class LayoutModule { }
