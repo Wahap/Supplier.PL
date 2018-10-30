@@ -89,9 +89,9 @@ isDirty:boolean=false;//check is there a unsaved changes
       this.selectedAddress=this.selectedCustomer.addresses.find(x=>x.id==this.selectedWayBill.addressId);
       this.deliveryAddress=this.selectedCustomer.addresses.find(x=>x.id==this.selectedWayBill.deliveryAddressId);
       let cd=new Date(this.selectedWayBill.createdDate);
-      this.createdDate=new Date(cd.getFullYear(),cd.getMonth(),cd.getDate());
+      this.createdDate=new Date(cd.getFullYear(),cd.getMonth(),cd.getDate(),8,0,0);
       let dd=new Date(this.selectedWayBill.deliveryDate);
-      this.deliveryDate=new Date(dd.getFullYear(),dd.getMonth(),dd.getDate());
+      this.deliveryDate=new Date(dd.getFullYear(),dd.getMonth(),dd.getDate(),8,0,0);
       this.selectedCustomer.extraDiscount=this.selectedWayBill.extraDiscount;//discount sync
       this.selectedDiscountRate=this.discountRates.find(x=>x.id==this.selectedWayBill.discountRateId);
       this.deletedBasketProducts=[];//reset at every new waybill selection
@@ -145,8 +145,9 @@ isDirty:boolean=false;//check is there a unsaved changes
     waybill.addressId = this.selectedAddress.id;
     waybill.customerId = this.selectedCustomer.id;
     waybill.extraDiscount=this.selectedCustomer.extraDiscount;
-    waybill.createdDate =new Date(this.createdDate.toDateString()+'Z');
-    waybill.deliveryDate = new Date(this.deliveryDate.toDateString()+'Z');
+    
+    waybill.createdDate =new Date(this.createdDate.getFullYear(),this.createdDate.getMonth(),this.createdDate.getDate(),8,0,0);
+    waybill.deliveryDate =new Date(this.deliveryDate.getFullYear(),this.deliveryDate.getMonth(),this.deliveryDate.getDate(),8,0,0);
     waybill.deliveryAddressId = this.deliveryAddress.id;
     waybill.waybillStatus = 1;
     waybill.isActive = true;
@@ -186,17 +187,17 @@ isDirty:boolean=false;//check is there a unsaved changes
         this.onWaybillSaved.emit(result);
       }
      //also log process
-      this.commonService.getIpAddress(this.config.getIpAddressUrl).subscribe(response=>{
-        console.log(response);
-        let log=new Log();
-        log.ipAddress=response.ip;
-        log.DocumentType=2;
-        log.DocumentId=result.id;
-        log.identifier="db";
-        log.logDate=new Date();
-        log.operation=waybill.waybillProducts.map(x=>x.id).join('-');
-        this.commonService.createLog(this.config.createLogUrl,log).subscribe(response=>{});
-      });
+      // this.commonService.getIpAddress(this.config.getIpAddressUrl).subscribe(response=>{
+      //   console.log(response);
+      //   let log=new Log();
+      //   log.ipAddress=response.ip;
+      //   log.DocumentType=2;
+      //   log.DocumentId=result.id;
+      //   log.identifier="db";
+      //   log.logDate=new Date();
+      //   log.operation=waybill.waybillProducts.map(x=>x.id).join('-');
+      //   this.commonService.createLog(this.config.createLogUrl,log).subscribe(response=>{});
+      // });
 
     },error=>{
       this.toastr.error("irsaliye Kaydedilirken bir hata oluştu...");

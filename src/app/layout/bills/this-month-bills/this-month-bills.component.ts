@@ -29,6 +29,7 @@ export class ThisMonthBillsComponent implements OnInit {
   {
     this.billService.getThisMonthBills(this.config.getThisMonthBillsUrl,null).subscribe(bills=>{
       this.bills=bills;
+      console.log(bills);
 
     },error=>{
       this.toastr.error("Faturalar Getirilirken Bir Hata Meydana Geldi...");
