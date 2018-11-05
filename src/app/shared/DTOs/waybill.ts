@@ -28,5 +28,6 @@ export class Waybill
     extraDiscount:number;
     waybillProducts:WaybillProduct[]=[];
     discountRate:DiscountRate=new DiscountRate();
+    priceTypeId:number;
     
 }

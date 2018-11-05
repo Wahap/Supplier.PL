@@ -23,8 +23,10 @@
         <ng-template pTemplate="body" let-bill let-columns="columns">
             <tr>
                 <td *ngFor="let col of columns" [ngSwitch]="col.field">
-                   <button class="btn btn-info btn-sm" *ngSwitchCase="'billNumber'" (click)="analyzeBill(bill)"><i class="fa fa-line-chart" aria-hidden="true"></i></button>
-                    <span *ngSwitchCase="'billNumber'" class="font-weight-bold">{{bill.billNumber}} <span class="badge">({{bill.createdDate | date:'dd.MM.yyyy'}}) (irs:{{bill.waybillId}})</span>
+                    <button class="btn btn-info btn-sm" *ngSwitchCase="'billNumber'" (click)="analyzeBill(bill)"><i
+                            class="fa fa-line-chart" aria-hidden="true"></i></button>
+                    <span *ngSwitchCase="'billNumber'" class="font-weight-bold">{{bill.billNumber}} <span class="badge">({{bill.createdDate
+                            | date:'dd.MM.yyyy'}}) (irs:{{bill.waybillId}})</span>
                     </span>
                     <span *ngSwitchCase="'companyName'">{{bill.customer.companyName}}</span>
                     <span *ngSwitchCase="'grossPrice'">{{bill.grossPrice | money}} €</span>
@@ -37,7 +39,8 @@
                     </span>
                     <button *ngSwitchCase="'update'" class="btn btn-success btn-sm" (click)="updateBill(bill)"><i class="fa fa-pencil"></i>Güncelle
                     </button>
-                    <button *ngSwitchCase="'print'" class="btn btn-primary btn-sm" (click)="onBillPreview(bill)"><a class="fa fa-eye"></a>Önizleme</button>
+                    <button *ngSwitchCase="'print'" class="btn btn-primary btn-sm" (click)="onBillPreview(bill)"><a
+                            class="fa fa-eye"></a>Önizleme</button>
                     <button *ngSwitchCase="'delete'" class="btn btn-danger btn-sm" (click)="deleteBill(bill)"><i class="fa fa-times"></i>Sil</button>
                 </td>
             </tr>
@@ -50,37 +53,51 @@
     showEffect="fade" [modal]="true" width="1200">
     <div class="row">
         <div class="col-sm-4 border border-info rounded-top">
+            <form #billPaymentForm="ngForm">
+                <div class="form-group">
+                    <label>Ödeme Tipi</label>
 
-            <div class="form-group">
-                <label>Ödeme Tipi</label>
+                    <select class="form-control form-control-sm" #paymentTypeId="ngModel" name="paymentTypeId"
+                        [(ngModel)]="payment.paymentTypeId" [class.is-invalid]="paymentTypeId.errors && paymentTypeId.touched"
+                        required>
+                        <option *ngFor="let type of paymentTypes" value="{{type.id}}">{{type.type}}</option>
 
-                <select class="form-control form-control-sm" [(ngModel)]="payment.paymentTypeId">
-                    <option *ngFor="let type of paymentTypes" value="{{type.id}}">{{type.type}}</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Ödeme Tipini Seçiniz...
+                    </div>
+                </div>
 
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Miktar</label>
-                <input type="text" class="form-control form-control-sm" [(ngModel)]="payment.amount">
-            </div>
-            <div class="form-group">
-                <label>Tarih</label><br>
-                <p-calendar [(ngModel)]="payment.paymentDate" dateFormat="dd.mm.yy"></p-calendar>
+                <div class="form-group">
+                    <label>Miktar</label>
+                    <input type="text" class="form-control form-control-sm" #amount="ngModel" name="amount" [(ngModel)]="payment.amount"
+                        [class.is-invalid]="amount.errors && amount.touched" required>
+                    <div class="invalid-feedback">
+                        Miktar Giriniz...
+                    </div>
+                </div>
 
-            </div>
+                <div class="form-group">
+                    <label>Tarih</label><br>
+                    <p-calendar name="paymentDate" [(ngModel)]="payment.paymentDate" dateFormat="dd.mm.yy"></p-calendar>
 
-            <div class="form-group">
-                <label>Açıklama</label>
-                <textarea type="text" class="form-control form-control-sm" [(ngModel)]="payment.description"></textarea>
-            </div>
+                </div>
 
-            <button class="btn btn-primary mb-2" (click)="savePayment()">Kaydet</button>
-            
+                <div class="form-group">
+                    <label>Açıklama</label>
+                    <textarea type="text" class="form-control form-control-sm" name="description" [(ngModel)]="payment.description"></textarea>
+                </div>
+
+                <button class="btn btn-primary mb-2" (click)="savePayment()" [disabled]="!billPaymentForm.form.valid">Kaydet</button>
+            </form>
+
+
+
 
         </div>
         <div class="col-sm-8">
             <table class="table table-bordered table-sm">
-                    <caption>Alınan Ödemeler({{paymentTotals.totalItems}})</caption>
+                <caption>Alınan Ödemeler({{paymentTotals.totalItems}})</caption>
                 <thead>
                     <tr>
                         <th>Ödenen Miktar</th>
@@ -114,7 +131,7 @@
     </div>
 </p-dialog>
 
-<p-dialog [positionTop]="50" header="Fatura Analizi" maximizable="true" [(visible)]="showAnalyzedBillDialog" 
+<p-dialog [positionTop]="50" header="Fatura Analizi" maximizable="true" [(visible)]="showAnalyzedBillDialog"
     [responsive]="true" showEffect="fade" [modal]="true" width="1000">
     <div>
 

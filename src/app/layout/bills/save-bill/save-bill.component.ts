@@ -79,6 +79,7 @@ export class SaveBillComponent implements OnInit {
     if (this.selectedBill != null && this.customers.length > 0) {
 
       this.selectedCustomer = this.customers.find(x => x.id == this.selectedBill.customerId);
+      this.priceTypeId=this.selectedBill.priceTypeId==null?1:this.selectedBill.priceTypeId;
       this.selectedAddress = this.selectedCustomer.addresses.find(x => x.id == this.selectedBill.addressId);
       this.deliveryAddress = this.selectedCustomer.addresses.find(x => x.id == this.selectedBill.deliveryAddressId);
       let cd=new Date(this.selectedBill.createdDate);
@@ -168,6 +169,7 @@ export class SaveBillComponent implements OnInit {
     //   waybill.id = this.lastWaybill.id;
     // }
     bill.addressId = this.selectedAddress.id;
+    bill.priceTypeId=this.priceTypeId;
     bill.billNumber = this.billNumber;
     bill.waybillId = this.waybillId;
     bill.customerId = this.selectedCustomer.id;
@@ -251,6 +253,10 @@ export class SaveBillComponent implements OnInit {
     if(this.selectedCustomer.discountRateId!=null)
     {
       this.selectedDiscountRate=this.discountRates.find(x=>x.id==this.selectedCustomer.discountRateId);
+    }
+    if(this.selectedCustomer.priceTypeId!=null)
+    { 
+      this.priceTypeId=this.selectedCustomer.priceTypeId;
     }
     this.getProducts();
   }

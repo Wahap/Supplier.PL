@@ -68,6 +68,7 @@ ngOnChanges() {
 openPaymentDialog(bill)
 {
   this.selectedBillForPayment=bill;
+  this.payment=new Payment();//reset payment
 this.showPaymentDialog=true;
 //get payment types
 if(this.paymentTypes.length<1)//Just fill once

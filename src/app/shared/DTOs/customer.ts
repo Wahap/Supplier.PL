@@ -22,6 +22,7 @@ export class Customer
     userName:string;
     password:string;
     extraDiscount:number;
+    priceTypeId:number;//Default Price Type
     addresses:Address[];
     //Just for using detecting which CRUD opeation has been making
     status:string;

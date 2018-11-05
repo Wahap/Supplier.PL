@@ -85,6 +85,7 @@ isDirty:boolean=false;//check is there a unsaved changes
     if(this.selectedWayBill != null && this.customers.length>0)
     {
       let a=this.selectedWayBill;
+      this.priceTypeId=this.selectedWayBill.priceTypeId==null?1:this.selectedWayBill.priceTypeId;
       this.selectedCustomer=this.customers.find(x=>x.id==this.selectedWayBill.customerId);
       this.selectedAddress=this.selectedCustomer.addresses.find(x=>x.id==this.selectedWayBill.addressId);
       this.deliveryAddress=this.selectedCustomer.addresses.find(x=>x.id==this.selectedWayBill.deliveryAddressId);
@@ -126,8 +127,12 @@ isDirty:boolean=false;//check is there a unsaved changes
     this.selectedAddress=this.selectedCustomer.addresses[0];
     this.deliveryAddress=this.selectedCustomer.addresses[0];
     if(this.selectedCustomer.discountRateId!=null)
-    {
+    { 
       this.selectedDiscountRate=this.discountRates.find(x=>x.id==this.selectedCustomer.discountRateId);
+    }
+    if(this.selectedCustomer.priceTypeId!=null)
+    { 
+      this.priceTypeId=this.selectedCustomer.priceTypeId;
     }
     this.getProducts();
   }
@@ -145,7 +150,7 @@ isDirty:boolean=false;//check is there a unsaved changes
     waybill.addressId = this.selectedAddress.id;
     waybill.customerId = this.selectedCustomer.id;
     waybill.extraDiscount=this.selectedCustomer.extraDiscount;
-    
+    waybill.priceTypeId=this.priceTypeId;//Which Price Type Used
     waybill.createdDate =new Date(this.createdDate.getFullYear(),this.createdDate.getMonth(),this.createdDate.getDate(),8,0,0);
     waybill.deliveryDate =new Date(this.deliveryDate.getFullYear(),this.deliveryDate.getMonth(),this.deliveryDate.getDate(),8,0,0);
     waybill.deliveryAddressId = this.deliveryAddress.id;

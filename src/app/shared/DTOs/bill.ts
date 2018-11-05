@@ -31,4 +31,5 @@ export class Bill
     billProducts:BillProduct[]=[];
     discountRate:DiscountRate=new DiscountRate();
     payments:Payment[]=[];
+    priceTypeId:number;//Not Mapped in Db
 }
