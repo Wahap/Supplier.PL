@@ -6,6 +6,7 @@ export class ReturnBillProduct
     returnBillId:number;
     productId:number;
     numberOfPackage:number;
+    unitsInPackage:number;
     netSalePrice:number;
     tax:number;
     purchasePrice:number;

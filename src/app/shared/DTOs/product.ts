@@ -29,6 +29,7 @@ export class Product
     //Navigation Properties
     category:Category;
     //Using only UI Properties
+    package:number;//using how many package is adding to waybill,bill...
     bronzePriceGroup:ProductPriceGroup;
     silverPriceGroup:ProductPriceGroup;
     goldPriceGroup:ProductPriceGroup;

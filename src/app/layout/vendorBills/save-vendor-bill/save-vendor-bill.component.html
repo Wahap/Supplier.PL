@@ -25,10 +25,10 @@
                
                 
               </div>
-          <p-table [value]="basketProducts" #dtBasketProducts [columns]="productListCols" [loading]="loading" [scrollable]="true"
+          <p-table [value]="products" #dtProducts [columns]="productListCols" [loading]="loading" [scrollable]="true"
           [scrollHeight]="windowsHeight()">
               <ng-template pTemplate="caption">
-                  Ürünler ({{basketProducts.length}})
+                  Ürünler ({{products.length}})
                   <div style="text-align: right">        
                     
                       <mat-select placeholder="Kategori Seçiniz" [(value)]="filteredCategoryId">
@@ -50,30 +50,30 @@
                   </tr>
                   <tr>
                       <th>
-                          <input placeholder="Barkod..." class="form-control form-control-sm" type="text" (input)="dtBasketProducts.filter($event.target.value, 'product.barcodeOfProduct','contains')">
+                          <input placeholder="Barkod..." class="form-control form-control-sm" type="text" (input)="dtProducts.filter($event.target.value, 'barcodeOfProduct','contains')">
                       </th>
                       <th>
-                          <input placeholder="Siparis Numarası..." class="form-control form-control-sm" type="text" (input)="dtBasketProducts.filter($event.target.value, 'product.orderNumber','contains')">
+                          <input placeholder="Siparis Numarası..." class="form-control form-control-sm" type="text" (input)="dtProducts.filter($event.target.value, 'orderNumber','contains')">
                       </th>
                       <th>
-                          <input placeholder="Ürün..." class="form-control form-control-sm" type="text" (input)="dtBasketProducts.filter($event.target.value, 'product.productName','contains')">
+                          <input placeholder="Ürün..." class="form-control form-control-sm" type="text" (input)="dtProducts.filter($event.target.value, 'productName','contains')">
                       </th>
                       <th></th>
                       <th></th>
                   </tr>  
               </ng-template>
-              <ng-template pTemplate="body" let-basketProduct let-columns="columns">
-                  <tr *ngIf="filterProductsByCategory(filteredCategoryId,basketProduct)">
+              <ng-template pTemplate="body" let-product let-columns="columns">
+                  <tr *ngIf="filterProductsByCategory(filteredCategoryId,product)">
                       <td *ngFor="let col of columns" [ngSwitch]="col.field">
-                          <span *ngSwitchCase="'barcodeOfProduct'">{{basketProduct.product.barcodeOfProduct}}</span>
-                          <span *ngSwitchCase="'orderNumber'">{{basketProduct.product.orderNumber}}</span>
-                          <span *ngSwitchCase="'productName'">{{basketProduct.product.productName}}</span>
-                          <input *ngSwitchCase="'purchasePrice'" [(ngModel)]="basketProduct.product.purchasePrice" class="form-control" />
+                          <span *ngSwitchCase="'barcodeOfProduct'">{{product.barcodeOfProduct}}</span>
+                          <span *ngSwitchCase="'orderNumber'">{{product.orderNumber}}</span>
+                          <span *ngSwitchCase="'productName'">{{product.productName}}</span>
+                          <input *ngSwitchCase="'purchasePrice'" [(ngModel)]="product.purchasePrice" class="form-control" />
                           <div *ngSwitchCase="'package'" class="ui-inputgroup">
-                              <button class="btnDecrease" (click)="decrease(basketProduct)">-</button>
-                              <input type="number" min="0" class="bill-product-package" [(ngModel)]="basketProduct.package"
-                                  (ngModelChange)="setPackage(basketProduct)" />
-                              <button class="btnIncrease" (click)="increase(basketProduct)">+</button>
+                              <button class="btnDecrease" (click)="decrease(product)">-</button>
+                              <input type="number" min="0" class="bill-product-package" [(ngModel)]="product.package"
+                                  (ngModelChange)="setPackage(product)" />
+                              <button class="btnIncrease" (click)="increase(product)">+</button>
                           </div>
                       </td>
                   </tr>
@@ -101,6 +101,7 @@
                         <tr>
                             <th>Pos</th>
                             <th>Menge</th>
+                            <th>Einheit</th>
                             <th>Art.Nr.</th>
                             <th>Barcode</th>
                             <th>Text</th>
@@ -108,22 +109,24 @@
                             <th>MwSt</th>
                             <th>Stück</th>
                         </tr>
-                        <tr *ngFor="let product of currentBill;index as i;" [ngStyle]="{ 'background-color': (product.product.netSalePrice<=0 ? 'red' : '') }" >
+                        <tr *ngFor="let product of currentBill.vendorBillProducts;index as i;" [ngStyle]="{ 'background-color': (product.netSalePrice<=0 ? 'red' : '') }" >
                             <td>{{i+1}}</td>
                             <td>
-                                <button class="btnDecrease btn-danger" (click)="removeProductToCurrentBill(product)">X</button>
-                                <button class="btnDecrease btn-warning" (click)="decrease(product)">-</button>
-                                <input type="number" class="bill-product-package" [(ngModel)]="product.package"
+                                <button class="btnDecrease btn-danger" (click)="removeBillProduct(product)">X</button>
+                                <button class="btnDecrease btn-warning" (click)="decreaseBillProduct(product)">-</button>
+                                <input type="number" class="bill-product-package" [(ngModel)]="product.numberOfPackage"
                                     (ngModelChange)="setPackage(product)" />
-                                <button class="btnIncrease btn-success" (click)="increase(product)">+</button>
+                                <button class="btnIncrease btn-success" (click)="increaseBillProduct(product)">+</button>
                             </td>
+                            <td>  <input type="number" class="bill-product-package" [(ngModel)]="product.unitsInPackage"
+                                (ngModelChange)="product.status='edited'" /></td>
                             <td>{{product.product.orderNumber}}</td>
                             <td>{{product.product.barcodeOfProduct}}</td>
                             <td>{{product.product.productName}}</td>
                            
-                            <td><input type="number" class="form-control form-control-sm bill-netSale-Price" [(ngModel)]="product.product.purchasePrice" (keyup)="calculateCurrentBillPrices()" /></td>
-                            <td><input type="number" class="form-control form-control-sm bill-tax" [(ngModel)]="product.product.tax" (keyup)="calculateCurrentBillPrices()" /></td>
-                            <td>{{product.package}} Kolli X {{ product.product.unitsInPackage }} Stk = {{product.package*product.product.unitsInPackage}} </td>
+                            <td><input type="number" class="form-control form-control-sm bill-netSale-Price" [(ngModel)]="product.purchasePrice" (keyup)="calculateCurrentBillPrices()" /></td>
+                            <td><input type="number" class="form-control form-control-sm bill-tax" [(ngModel)]="product.tax" (keyup)="calculateCurrentBillPrices()" /></td>
+                            <td>{{product.numberOfPackage}} Kolli X {{ product.unitsInPackage }} Stk = {{product.numberOfPackage*product.unitsInPackage}} </td>
                         </tr>
                        
                         <tr>

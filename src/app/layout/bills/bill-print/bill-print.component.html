@@ -104,12 +104,12 @@
             <td>{{i+1}}</td>
             <td>{{pro.product.barcodeOfProduct}}</td>
             <td style="text-align: left;">{{pro.product.orderNumber}}</td>
-            <td style="text-align: left;">{{pro.numberOfPackage}} K = {{pro.numberOfPackage * pro.product.unitsInPackage}} STK</td>
+            <td style="text-align: left;">{{pro.numberOfPackage}} K = {{pro.numberOfPackage * pro.unitsInPackage}} STK</td>
             <td style="text-align: left;">{{pro.product.productName}}</td> 
            
            
             <td style="text-align: right;">{{pro.netSalePrice | money}} €</td>
-            <td style="text-align: right;">{{(pro.numberOfPackage * pro.product.unitsInPackage * pro.netSalePrice) |
+            <td style="text-align: right;">{{(pro.numberOfPackage * pro.unitsInPackage * pro.netSalePrice) |
               money}} €</td>
           </tr>
 

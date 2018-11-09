@@ -1,8 +1,16 @@
-<div class="card border-primary mb-3">
-  <div class="card-header">Ödenmemiş Faturalar</div>
-  <div class="card-body">
-    <p class="card-text">Ödenmeyen Faturalar : <a class="badge" [routerLink]="['/unpaidBills']">{{dashBoard.numberOfUnpaidBills}}</a></p>
-    <p class="card-text">Son Ödemesi Geçmiş Faturalar : <a class="badge" [routerLink]="['/overDueBills']">{{dashBoard.numberOfOverDueBills}}</a></p>
+
+
+<div class="row">
+  <div class="col-md-4 chart-container">
+    <p class="text-center font-italic">Ödenmeyen Faturalar</p>
+    <app-unpaid-bills-chart [unPaidBillsData]="unPaidBillsData"></app-unpaid-bills-chart>
   </div>
+
+  <div class="col-md-4 chart-container">
+      <p class="text-center font-italic">Ayın Satış Grafiği</p>
+      <app-this-month-bills-chart [thisMonthBillsData]="thisMonthBillsData"></app-this-month-bills-chart>
+    </div>
 </div>
+
+
 

@@ -52,24 +52,43 @@ export class BillPrintComponent implements OnInit {
     });
   }
 
+  // calculateBillPrices()
+  // {
+  //   this.billTotals=new Totals();
+  //   this.selectedBill.billProducts.forEach((pro:BillProduct)=>{
+  //     let numberOfPieces=pro.numberOfPackage*pro.unitsInPackage;
+  //     this.billTotals.totalPackages+=pro.numberOfPackage;
+  //     this.billTotals.totalPieces+=numberOfPieces;
+  //     this.billTotals.subNetTotalPrice+=numberOfPieces*pro.netSalePrice;
+     
+  //   });
+  //   this.billTotals.extraDiscount=(this.billTotals.subNetTotalPrice)*this.selectedBill.extraDiscount/100;
+  //   this.billTotals.totalNetPrice=this.billTotals.subNetTotalPrice-this.billTotals.extraDiscount;
+  //   this.billTotals.totalTaxPrice=this.billTotals.totalNetPrice*0.07;
+  //   this.billTotals.subGrossTotalPrice=this.billTotals.totalNetPrice+this.billTotals.totalTaxPrice;
+  //   this.billTotals.discount=(this.billTotals.subGrossTotalPrice)*this.selectedBill.discountRate.rate/100;
+  //   this.billTotals.totalGrossPrice=this.billTotals.subGrossTotalPrice-this.billTotals.discount;
+   
+  //    this.billTotals.totalItems=this.selectedBill.billProducts.length;
+  // }
+
   calculateBillPrices()
   {
     this.billTotals=new Totals();
-    this.selectedBill.billProducts.forEach((pro:BillProduct)=>{
-      let numberOfPieces=pro.numberOfPackage*pro.product.unitsInPackage;
-      this.billTotals.totalPackages+=pro.numberOfPackage;
-      this.billTotals.totalPieces+=numberOfPieces;
-      this.billTotals.subNetTotalPrice+=numberOfPieces*pro.netSalePrice;
-     
+    this.selectedBill.billProducts.forEach(bProduct=>{  
+      let pieces = bProduct.unitsInPackage * bProduct.numberOfPackage;
+      let subNetPrice = pieces * bProduct.netSalePrice;
+      this.billTotals.totalPackages += bProduct.numberOfPackage;
+      this.billTotals.totalPieces += pieces;
+      this.billTotals.subNetTotalPrice += subNetPrice;//net ara toplam
+                                           //Calculate total tax after discount
+      this.billTotals.totalTaxPrice += (subNetPrice - (subNetPrice * this.selectedBill.extraDiscount / 100)) * bProduct.tax / 100;
     });
-    this.billTotals.extraDiscount=(this.billTotals.subNetTotalPrice)*this.selectedBill.extraDiscount/100;
-    this.billTotals.totalNetPrice=this.billTotals.subNetTotalPrice-this.billTotals.extraDiscount;
-    this.billTotals.totalTaxPrice=this.billTotals.totalNetPrice*0.07;
-    this.billTotals.subGrossTotalPrice=this.billTotals.totalNetPrice+this.billTotals.totalTaxPrice;
-    this.billTotals.discount=(this.billTotals.subGrossTotalPrice)*this.selectedBill.discountRate.rate/100;
+    this.billTotals.extraDiscount = this.billTotals.subNetTotalPrice * this.selectedBill.extraDiscount / 100;//total discount
+    this.billTotals.totalNetPrice = this.billTotals.subNetTotalPrice - this.billTotals.extraDiscount;//total net price
+    this.billTotals.subGrossTotalPrice = this.billTotals.totalNetPrice + this.billTotals.totalTaxPrice;
+      this.billTotals.discount=(this.billTotals.subGrossTotalPrice)*this.selectedBill.discountRate.rate/100;
     this.billTotals.totalGrossPrice=this.billTotals.subGrossTotalPrice-this.billTotals.discount;
-   
-     this.billTotals.totalItems=this.selectedBill.billProducts.length;
   }
   printPage()
   {

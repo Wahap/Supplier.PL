@@ -19,6 +19,7 @@ export class WaybillsListComponent implements OnInit {
   @Input() loading: boolean = true;
   @Input() allWaybills: Waybill[] = [];
   selectedWayBill: Waybill;
+  printedWaybill:Waybill;
   allCustomers: Customer[] = [];
   dialogVisible: boolean = false;
   showPrintDialog: boolean = false;
@@ -124,7 +125,7 @@ export class WaybillsListComponent implements OnInit {
     // });
   }
   onWaybillPreview(waybill: Waybill) {
-    this.selectedWayBill = waybill;
+    this.printedWaybill = waybill;
     this.showPrintDialog = true;
   }
   onCloseNewWaybillDialog() {

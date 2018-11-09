@@ -22,6 +22,7 @@ export class BillListComponent implements OnInit {
   @Input() loading:boolean=true;
   @Input() allBills:Bill[]=[];  
   selectedBill:Bill;
+  printedBill:Bill;
   allCustomers:Customer[]=[];
   showPrintDialog:boolean=false;
   showPaymentDialog:boolean=false;
@@ -183,7 +184,7 @@ deletePayment(payment)
   }
   onBillPreview(bill:Bill)
   {
-    this.selectedBill=bill;
+    this.printedBill=bill;
 this.showPrintDialog=true;
   }
   onBillSaved(editedBill:Bill)

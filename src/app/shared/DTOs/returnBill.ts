@@ -8,6 +8,7 @@ export class ReturnBill
     constructor() {
       this.createdDate=new Date();
       this.deliveryDate=new Date();
+      this.id=0;
         
     }
     id:number;

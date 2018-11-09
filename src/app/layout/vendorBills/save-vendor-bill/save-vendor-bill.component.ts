@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ElementRef, ViewChild, Output, EventEmitter, ViewContainerRef } from '@angular/core';
 import { Supplier } from '../../../shared/DTOs/supplier';
 import { CommonService } from '../../../shared/common.service';
 import { ConfigService, IConfig } from '../../../app.config';
@@ -11,6 +11,7 @@ import { VendorBillService } from '../vendor-bill.service';
 import { VendorBillProduct } from '../../../shared/DTOs/vendorBillProduct';
 import { ToastsManager } from 'ng2-toastr';
 import { Router } from '@angular/router';
+import { Product } from '../../../shared/DTOs/product';
 
 @Component({
   selector: 'app-save-vendor-bill',
@@ -22,19 +23,23 @@ export class SaveVendorBillComponent implements OnInit {
   selectedSupplier:Supplier;
   config: IConfig;
   billDate: Date = new Date();
-  basketProducts: BasketProduct[] = [];
+  products: Product[] = [];
   productListCols: any[];
   loading: boolean;  
   categories: Category[] = [];
   currentBillTotals: Totals = new Totals();
-  currentBill: BasketProduct[] = [];
-  deletedBasketProducts: BasketProduct[] = [];
+  currentBill: VendorBill=new VendorBill();
+  deletedBillProducts: VendorBillProduct[] = [];
   isBillSaving:boolean=false;
   billNumber: number;
+  @Output() onBillSaved=new EventEmitter();
   @ViewChild('billProductsContainer') private billProductsContainer: ElementRef;
   @Input()
   selectedBill: VendorBill;
-  constructor(private vendorBillService:VendorBillService, private commonService: CommonService,private configService: ConfigService,private productsService:ProductsService, public toastr: ToastsManager,public router: Router) { }
+  constructor(private vendorBillService:VendorBillService, private commonService: CommonService,private configService: ConfigService,private productsService:ProductsService, public toastr: ToastsManager,vcr: ViewContainerRef,public router: Router) 
+  {
+    this.toastr.setRootViewContainerRef(vcr);
+   }
 
   ngOnInit() {
     this.config=this.configService.getAppConfig();
@@ -53,12 +58,12 @@ export class SaveVendorBillComponent implements OnInit {
   ngOnChanges() {
     if (this.selectedBill != null && this.suppliers.length > 0) {
 
-     
+     this.currentBill.id=this.selectedBill.id;
       this.billDate = new Date(this.selectedBill.billDate);
       this.selectedSupplier = this.suppliers.find(x => x.id == this.selectedBill.supplierId);
       this.billNumber = this.selectedBill.billNumber;
       this.billDate=new Date(this.selectedBill.billDate);
-      this.deletedBasketProducts = [];//reset at every new waybill selection
+      this.deletedBillProducts = [];//reset at every new waybill selection
       this.mapSelectedBillProductsToCurrentBillProducts();
     }
 
@@ -66,53 +71,30 @@ export class SaveVendorBillComponent implements OnInit {
 
   mapSelectedBillProductsToCurrentBillProducts() {
     this.vendorBillService.getVendorBillProducts(this.config.getVendorBillProductsUrl, this.selectedBill).subscribe(billProducts => {
-      this.currentBill = billProducts.map((billProduct: VendorBillProduct) => {
-        let basketProduct = new BasketProduct();
-        basketProduct.id = billProduct.id;
-        basketProduct.package = billProduct.numberOfPackage;
-        basketProduct.product = billProduct.product;
-        basketProduct.product.purchasePrice = billProduct.purchasePrice;
-        return basketProduct;
-      });
+      this.currentBill.vendorBillProducts=billProducts;
       this.calculateCurrentBillPrices();
     });
   }
   saveBill() {
     this.isBillSaving=true;
-    let bill: VendorBill = new VendorBill();
-    if (this.selectedBill != null) {//Bill Updating...
-      bill.id = this.selectedBill.id;
+ 
+    if (this.currentBill.id ==0) {//Bill Updating...
+      this.currentBill.isPaid=false;
     }
-    else//New bill adding...
-    {
-      bill.isPaid = false;
-    }
-    bill.billNumber = this.billNumber;
-    bill.supplierId = this.selectedSupplier.id;
-    bill.billDate = this.billDate;
-    this.currentBill.forEach(basketProduct => {
-      let billProduct = new VendorBillProduct();
-      billProduct.id = basketProduct.id;
-      billProduct.vendorBillId = bill.id;
-      billProduct.numberOfPackage = basketProduct.package;
-      billProduct.purchasePrice = basketProduct.product.purchasePrice;
-      billProduct.tax = basketProduct.product.tax;
-      billProduct.status=basketProduct.status;
-      billProduct.productId = basketProduct.product.id;
-      bill.vendorBillProducts.push(billProduct);
-    });
+    
+    this.currentBill.billNumber = this.billNumber;
+    this.currentBill.supplierId = this.selectedSupplier.id;
+    this.currentBill.billDate = this.billDate;
+   
 
     // add also removed/deleted product with "deleted" flag/status
-    this.deletedBasketProducts.forEach(dltd => {
-      let deletedBillProduct = new VendorBillProduct();
-      deletedBillProduct.id = dltd.id;
-      deletedBillProduct.productId = dltd.product.id;
-      deletedBillProduct.status = 'deleted';
-      bill.vendorBillProducts.push(deletedBillProduct);
+    this.deletedBillProducts.forEach(dltd => {
+     
+      this.currentBill.vendorBillProducts.push(dltd);
 
     });
 
-    this.vendorBillService.saveVendorBill(this.config.saveVendorBillUrl, bill).subscribe(result => {
+    this.vendorBillService.saveVendorBill(this.config.saveVendorBillUrl, this.currentBill).subscribe(result => {
       this.toastr.success("Fatura başarıyla kaydedildi...");
       this.isBillSaving=false;
       if (this.selectedBill == null)//new bill operation completed
@@ -120,96 +102,144 @@ export class SaveVendorBillComponent implements OnInit {
         this.router.navigateByUrl('thisMonthVendorBills');
       }
       else {//update waybill operation completed
-        location.reload();
+        this.onBillSaved.emit(result);
       }
 
 
+    },error=>{
+      this.toastr.error("Geliş Faturası Kaydedilirken Hata  meydana geldi");
     });
   }
-  increase(basketProduct: BasketProduct) {
-    basketProduct.package++;
-    basketProduct.status = "edited";
-    this.saveProductToCurrentBill(basketProduct);
+  increase(product: Product) {
+    product.package++;
+    product.status = "edited";
+    this.saveProductToCurrentBill(product);
   }
-  decrease(basketProduct: BasketProduct) {
+  decrease(product: Product) {
 
-    if (basketProduct.package > 0)//prevent negative inputs
+    if (product.package > 0)//prevent negative inputs
     {
-      basketProduct.package--;
-      basketProduct.status = "edited";
-      this.saveProductToCurrentBill(basketProduct);
+      product.package--;
+      product.status = "edited";
+      this.saveProductToCurrentBill(product);
     }
 
 
     // this.getProductsInBasket();
   }
-  removeProductToCurrentBill(billProduct: BasketProduct) {
-    billProduct.package = 0;
-    this.saveProductToCurrentBill(billProduct);
+  increaseBillProduct(billProduct:VendorBillProduct)
+  {
+    billProduct.numberOfPackage++;
+    billProduct.status="edited";
+    this.calculateCurrentBillPrices();
   }
-  setPackage(basketProduct: BasketProduct, type) {
+  decreaseBillProduct(billProduct:VendorBillProduct)
+  {
+    if(billProduct.numberOfPackage<=1)//delete from CurrentWaybill
+    {
+      let indis=this.currentBill.vendorBillProducts.findIndex(x=>x.productId==billProduct.productId);
+      this.currentBill.vendorBillProducts.splice(indis,1);
+      if(billProduct.id>0)
+      {
+        billProduct.status="deleted";
+        this.deletedBillProducts.push(billProduct);
+      }
+      
+    }
+    else
+    {
+      billProduct.numberOfPackage--;
+      billProduct.status="edited";
+    }
+    this.calculateCurrentBillPrices();
+   
+  }
+  removeBillProduct(billProduct:VendorBillProduct)
+  {
+    let indis=this.currentBill.vendorBillProducts.findIndex(x=>x.productId==billProduct.productId);
+    this.currentBill.vendorBillProducts.splice(indis,1);
+    if(billProduct.id>0)
+      {
+        billProduct.status="deleted";
+        this.deletedBillProducts.push(billProduct);
+      }
+    this.calculateCurrentBillPrices();
+  }
+  setPackage(product: Product) {
 
-    if (basketProduct.package > 0) {
-      basketProduct.status = "edited";
-      this.saveProductToCurrentBill(basketProduct);
+    if (product.package > 0) {
+      product.status = "edited";
+      this.saveProductToCurrentBill(product);
     }
 
 
   }
-  saveProductToCurrentBill(basketProduct: BasketProduct) {
 
-    let editedBasketProduct = this.currentBill.find(x => x.product.id == basketProduct.product.id);
-    if (editedBasketProduct != undefined && basketProduct.package < 1)//Delete product from currentBill
+  saveProductToCurrentBill(product: Product) {
+   
+    let editedBillProduct = this.currentBill.vendorBillProducts.find(x => x.productId == product.id);
+    if (editedBillProduct != undefined && product.package < 1)//Delete product from currentBill
     {
 
-      let index = this.currentBill.findIndex(item => item.product.id == basketProduct.product.id);
-      this.currentBill.splice(index, 1);
+      let index = this.currentBill.vendorBillProducts.findIndex(item => item.productId == product.id);
+      this.currentBill.vendorBillProducts.splice(index, 1);
       if (this.selectedBill != null)//Update operation
       {
-        this.deletedBasketProducts.push(basketProduct);
+        editedBillProduct.status="deleted";
+        this.deletedBillProducts.push(editedBillProduct);
       }
 
     }
-    else if (editedBasketProduct == undefined)//product will be added first time
+    else if (editedBillProduct == undefined)//product will be added first time
     {
-      this.currentBill.push(basketProduct);
+      let billProduct=new VendorBillProduct();
+      billProduct.id=0;
+     
+      billProduct.numberOfPackage=product.package;
+      billProduct.product=product;
+      billProduct.productId=product.id;
+      billProduct.purchasePrice=product.purchasePrice;
+      billProduct.status="edited";
+      billProduct.tax=product.tax;
+      billProduct.unitsInPackage =product.unitsInPackage;
+      billProduct.vendorBillId=this.currentBill.id;
+      
+      this.currentBill.vendorBillProducts.push(billProduct);
       //scroll bottom 
       this.billProductsContainer.nativeElement.scrollTop = this.billProductsContainer.nativeElement.scrollHeight;
 
     }
     else//product exist in waybill, update the package
     {
-      editedBasketProduct.package = basketProduct.package;
+      editedBillProduct.purchasePrice=product.purchasePrice;
+      editedBillProduct.numberOfPackage = product.package;
     }
     this.calculateCurrentBillPrices();
   }
 
   calculateCurrentBillPrices() {
     this.currentBillTotals = new Totals();
-    this.currentBill.forEach(basketProduct => {
-      let numberOfPieces = basketProduct.package * basketProduct.product.unitsInPackage;
-      this.currentBillTotals.totalPackages += basketProduct.package;
+    this.currentBill.vendorBillProducts.forEach(billProduct => {
+      let numberOfPieces = billProduct.numberOfPackage * billProduct.unitsInPackage;
+      this.currentBillTotals.totalPackages += billProduct.numberOfPackage;
       this.currentBillTotals.totalPieces += numberOfPieces;
-      this.currentBillTotals.totalNetPrice += numberOfPieces * basketProduct.product.netSalePrice;
-      this.currentBillTotals.totalTaxPrice += numberOfPieces * (basketProduct.product.netSalePrice * basketProduct.product.tax / 100);
+      this.currentBillTotals.totalNetPrice += numberOfPieces * billProduct.purchasePrice;
+      this.currentBillTotals.totalTaxPrice += numberOfPieces * (billProduct.purchasePrice * billProduct.tax / 100);
     
       this.currentBillTotals.totalGrossPrice = this.currentBillTotals.totalNetPrice + this.currentBillTotals.totalTaxPrice;
     });
-    this.currentBillTotals.totalItems = this.currentBill.length;
+    this.currentBillTotals.totalItems = this.currentBill.vendorBillProducts.length;
   }
   getProducts() {
    
     this.loading = true;
     this.productsService.getProducts(this.config.getProductsUrl,null).subscribe(items => {
      
-      this.basketProducts = items.data.map(product => {
-        let basketProduct = new BasketProduct();
-        basketProduct.product = product;
-        basketProduct.package = 0;
-        return basketProduct;
-      });
+     this.products=items.data;
       //this.fillBasketProducts();
       this.loading = false;
+    },error=>{
+      this.toastr.error("Ürünler Getirilirken hata meydana geldi");
     });
   }
 
@@ -218,6 +248,8 @@ export class SaveVendorBillComponent implements OnInit {
       this.categories = categories;
 
 
+    },error=>{
+      this.toastr.error("Kategoriler Getirilirken hata meydana geldi");
     });
   }
   fillSuppliers() {
@@ -227,6 +259,8 @@ export class SaveVendorBillComponent implements OnInit {
       {
         this.selectedSupplier=this.suppliers[0];
       }
+    },error=>{
+      this.toastr.error("Toptancılar Getirilirken hata meydana geldi");
     });
   }
   filterProductsByCategory(filteredCategoryId, basketProduct:BasketProduct) {

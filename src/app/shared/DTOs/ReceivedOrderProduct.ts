@@ -7,4 +7,5 @@ export class receivedOrderProduct
    productId:number;
 
    numberOfPackage:number;
+   unitsInPackage:number;
 }

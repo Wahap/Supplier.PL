@@ -4,6 +4,7 @@ export class VendorBillProduct
 {
     id:number;
     numberOfPackage:number;
+    unitsInPackage:number;
     productId:number;
     vendorBillId:number;
     purchasePrice:number;

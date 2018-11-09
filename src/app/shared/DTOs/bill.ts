@@ -9,6 +9,9 @@ export class Bill
     constructor() {
       this.createdDate=new Date();
       this.deliveryDate=new Date();
+      this.id=0;
+      this.waybillId=0;
+      this.billNumber=0;
 
         
     }

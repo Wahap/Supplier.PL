@@ -13,6 +13,8 @@ export class WelcomeComponent implements OnInit {
 
   dashBoard:DashBoard=new DashBoard();
   config:IConfig;
+  unPaidBillsData:any=[0,0];
+  thisMonthBillsData:any=[0,0,0,0];
   constructor(private billService:BillService, private commonService:CommonService,private configService:ConfigService) {
    
   }
@@ -25,11 +27,23 @@ export class WelcomeComponent implements OnInit {
   getDashBoardData()
   {
     this.commonService.getDashBoardData(this.config.getDashBoardDataUrl,null).subscribe(data=>{
+      console.log(data);
+    //  this.dashBoard.numberOfUnpaidBills=data.numberOfUnpaidBills;
+    //  this.dashBoard.numberOfOverDueBills=data.overDueBills;
+      this.unPaidBillsData=[data.numberOfUnpaidBills,data.overDueBills];
+      this.thisMonthBillsData=[
+        data.thisMonthBillsTotal.netSalePrice,
+        data.thisMonthBillsTotal.tax,
+        data.thisMonthBillsTotal.grossPrice,
+        data.thisMonthBillsTotal.purchasePrice
+      
+      ];
+     
 
-     this.dashBoard.numberOfUnpaidBills=data.numberOfUnpaidBills;
-     this.dashBoard.numberOfOverDueBills=data.overDueBills;
-     console.log(data);
+    
     });
   }
+
+
 
 }

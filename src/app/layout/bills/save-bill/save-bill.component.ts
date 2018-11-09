@@ -26,17 +26,16 @@ import { Log } from '../../../shared/DTOs/log';
 export class SaveBillComponent implements OnInit {
   config: IConfig;
   loading: boolean;  
-  basketProducts: BasketProduct[] = [];
+  products: Product[] = [];
   productList: Product[] = [];
-  currentBill: BasketProduct[] = [];
-  deletedBasketProducts: BasketProduct[] = [];
+  currentBill: Bill=new Bill();
+  deletedBillProducts: BillProduct[] = [];
   customers: Customer[] = [];
   selectedCustomer: Customer = new Customer();
   selectedAddress: Address = new Address();
   deliveryAddress: Address = new Address();
   createdDate: Date = new Date(); 
   deliveryDate: Date = new Date();
-  billNumber: number;
   billNumberIsValid: boolean = true;
   discountRates: DiscountRate[] = [];
   selectedDiscountRate: DiscountRate = new DiscountRate();
@@ -44,7 +43,6 @@ export class SaveBillComponent implements OnInit {
   priceTypeId: number=1;
   productListCols: any[];
   currentBillTotals: Totals = new Totals();
-  waybillId: number;
   categories: Category[] = [];
   isBillSaving:boolean=false;
   isDirty:boolean=false;
@@ -57,7 +55,7 @@ export class SaveBillComponent implements OnInit {
     this.loading = false;
     
   }
-
+ 
   ngOnInit() {
     this.config = this.configService.getAppConfig();
     this.fillCustomers();
@@ -77,7 +75,10 @@ export class SaveBillComponent implements OnInit {
 
   ngOnChanges() {
     if (this.selectedBill != null && this.customers.length > 0) {
-
+      this.currentBill.id=this.selectedBill.id;
+      this.currentBill.waybillId = this.selectedBill.waybillId;
+      this.currentBill.billNumber = this.selectedBill.billNumber;
+      this.currentBill.extraDiscount=this.selectedBill.extraDiscount;
       this.selectedCustomer = this.customers.find(x => x.id == this.selectedBill.customerId);
       this.priceTypeId=this.selectedBill.priceTypeId==null?1:this.selectedBill.priceTypeId;
       this.selectedAddress = this.selectedCustomer.addresses.find(x => x.id == this.selectedBill.addressId);
@@ -86,11 +87,8 @@ export class SaveBillComponent implements OnInit {
       this.createdDate=new Date(cd.getFullYear(),cd.getMonth(),cd.getDate(),8,0,0);
       let dd=new Date(this.selectedBill.deliveryDate);
       this.deliveryDate=new Date(dd.getFullYear(),dd.getMonth(),dd.getDate(),8,0,0);
-      this.billNumber = this.selectedBill.billNumber;
-      this.waybillId = this.selectedBill.waybillId;
-      this.selectedCustomer.extraDiscount = this.selectedBill.extraDiscount;//discount sync
       this.selectedDiscountRate = this.discountRates.find(x => x.id == this.selectedBill.discountRateId);
-      this.deletedBasketProducts = [];//reset at every new waybill selection
+      this.deletedBillProducts = [];//reset at every new waybill selection
       this.mapSelectedBillProductsToCurrentBillProducts();
       this.getProducts();
     }
@@ -99,14 +97,7 @@ export class SaveBillComponent implements OnInit {
 
   mapSelectedBillProductsToCurrentBillProducts() {
     this.billService.getBillProducts(this.config.getBillProductsUrl, this.selectedBill).subscribe(billProducts => {
-      this.currentBill = billProducts.map((billProduct: BillProduct) => {
-        let basketProduct = new BasketProduct();
-        basketProduct.id = billProduct.id;
-        basketProduct.package = billProduct.numberOfPackage;
-        basketProduct.product = billProduct.product;
-        basketProduct.product.netSalePrice = billProduct.netSalePrice;
-        return basketProduct;
-      });
+      this.currentBill.billProducts = billProducts; 
       this.calculateCurrentBillPrices();
     },error=>{
       this.toastr.error("Faturanın Ürünleri Getirilirken Bir Hata Meydana Geldi...");
@@ -115,7 +106,7 @@ export class SaveBillComponent implements OnInit {
 
   getNextBillNumber() {
     this.billService.getNextBillNumber(this.config.getNextBillNumberUrl, null).subscribe(billNumber => {
-      this.billNumber = billNumber;
+      this.currentBill.billNumber = billNumber;
     },error=>{
       this.toastr.error("Fatura Numarası Getirilirken Bir Hata Meydana Geldi...");
     });
@@ -145,66 +136,37 @@ export class SaveBillComponent implements OnInit {
     });
   }
 
-  getProductFromCurrentBill(id: number) {
-    for (let i = 0; i < this.currentBill.length; i++)//check if product exist in bill
-    {
-      if (this.currentBill[i].product.id == id) {
-        return this.currentBill[i];
-      }
-    }
-    return null;
-  }
+ 
   saveBill() {
     this.isBillSaving=true;
-    let bill: Bill = new Bill();
-    bill.grossPrice=this.currentBillTotals.totalGrossPrice;
-    if (this.selectedBill != null) {//Bill Updating...
-      bill.id = this.selectedBill.id;
+    
+    this.currentBill.grossPrice=this.currentBillTotals.totalGrossPrice;
+    if (this.currentBill.id==0) {//Bill Updating...
+      this.currentBill.isPaid = false;
     }
-    else//New bill adding...
-    {
-      bill.isPaid = false;
-    }
-    // else if (this.lastWaybill != null) {
-    //   waybill.id = this.lastWaybill.id;
-    // }
-    bill.addressId = this.selectedAddress.id;
-    bill.priceTypeId=this.priceTypeId;
-    bill.billNumber = this.billNumber;
-    bill.waybillId = this.waybillId;
-    bill.customerId = this.selectedCustomer.id;
-    bill.extraDiscount = this.selectedCustomer.extraDiscount;
-    bill.createdDate = new Date(this.createdDate.getFullYear(),this.createdDate.getMonth(),this.createdDate.getDate(),8,0,0);
-    bill.deliveryDate =new Date(this.deliveryDate.getFullYear(),this.deliveryDate.getMonth(),this.deliveryDate.getDate(),8,0,0);
-    bill.deliveryAddressId = this.deliveryAddress.id;
-    bill.billStatus = 1;
-    bill.isActive = true;
-    bill.discountRateId = this.selectedDiscountRate.id;
-    bill.discountRate = null;//No need to create a new Discount rate
-    this.currentBill.forEach(basketProduct => {
-      let billProduct = new BillProduct();
-      billProduct.id = basketProduct.id;
-      billProduct.billId = bill.id;
-      billProduct.numberOfPackage = basketProduct.package;
-      billProduct.netSalePrice = basketProduct.product.netSalePrice;
-      billProduct.purchasePrice = basketProduct.product.purchasePrice;
-      billProduct.tax = basketProduct.product.tax;
-      billProduct.productId = basketProduct.product.id;
-      billProduct.status = basketProduct.status;
-      bill.billProducts.push(billProduct);
-    });
+   
+    
+    this.currentBill.addressId = this.selectedAddress.id;
+    this.currentBill.priceTypeId=this.priceTypeId;
+    this.currentBill.customerId = this.selectedCustomer.id;
+    this.currentBill.extraDiscount = this.selectedCustomer.extraDiscount;
+    this.currentBill.createdDate = new Date(this.createdDate.getFullYear(),this.createdDate.getMonth(),this.createdDate.getDate(),8,0,0);
+    this.currentBill.deliveryDate =new Date(this.deliveryDate.getFullYear(),this.deliveryDate.getMonth(),this.deliveryDate.getDate(),8,0,0);
+    this.currentBill.deliveryAddressId = this.deliveryAddress.id;
+    this.currentBill.billStatus = 1;
+    this.currentBill.isActive = true;
+    this.currentBill.discountRateId = this.selectedDiscountRate.id;
+    this.currentBill.discountRate = null;//No need to create a new Discount rate
+   
 
     // add also removed/deleted product with "deleted" flag/status
-    this.deletedBasketProducts.forEach(dltd => {
-      let deletedBillProduct = new BillProduct();
-      deletedBillProduct.id = dltd.id;
-      deletedBillProduct.productId = dltd.product.id;
-      deletedBillProduct.status = 'deleted';
-      bill.billProducts.push(deletedBillProduct);
+    this.deletedBillProducts.forEach(dltd => {
+     
+      this.currentBill.billProducts.push(dltd);
 
     });
 
-    this.billService.saveBill(this.config.saveBillUrl, bill).subscribe((result:Bill) => {
+    this.billService.saveBill(this.config.saveBillUrl, this.currentBill).subscribe((result:Bill) => {
       this.isDirty=false;
       this.toastr.success("Fatura başarıyla kaydedildi...");
       this.isBillSaving=false;
@@ -217,17 +179,17 @@ export class SaveBillComponent implements OnInit {
         this.onBillSaved.emit(result);
       }
       //also log saving process
-      this.commonService.getIpAddress(this.config.getIpAddressUrl).subscribe(response=>{
-        console.log(response);
-        let log=new Log();
-        log.ipAddress=response.ip;
-        log.DocumentType=1;
-        log.DocumentId=result.id;
-        log.identifier="db";
-        log.logDate=new Date();
-        log.operation=bill.billProducts.map(x=>x.id).join('-');
-        this.commonService.createLog(this.config.createLogUrl,log).subscribe(response=>{});
-      });
+      // this.commonService.getIpAddress(this.config.getIpAddressUrl).subscribe(response=>{
+      //   console.log(response);
+      //   let log=new Log();
+      //   log.ipAddress=response.ip;
+      //   log.DocumentType=1;
+      //   log.DocumentId=result.id;
+      //   log.identifier="db";
+      //   log.logDate=new Date();
+      //   log.operation=bill.billProducts.map(x=>x.id).join('-');
+      //   this.commonService.createLog(this.config.createLogUrl,log).subscribe(response=>{});
+      // });
      
 
     },error=>{
@@ -235,12 +197,12 @@ export class SaveBillComponent implements OnInit {
     }); 
   }
   onBillNumberChange() {
-    if (this.billNumber > 0) {
+    if (this.currentBill.billNumber > 0) {
       let bill = new Bill();
       if (this.selectedBill != null) {
         bill.id = this.selectedBill.id;
       }
-      bill.billNumber = this.billNumber;
+      bill.billNumber = this.currentBill.billNumber;
       this.billService.checkBillNumberIsValid(this.config.checkBillNumberIsValidUrl, bill).subscribe((isValid) => {
         this.billNumberIsValid = isValid;
       });
@@ -258,6 +220,7 @@ export class SaveBillComponent implements OnInit {
     { 
       this.priceTypeId=this.selectedCustomer.priceTypeId;
     }
+    this.currentBill.extraDiscount=this.selectedCustomer.extraDiscount;
     this.getProducts();
   }
   getProducts() {
@@ -271,45 +234,79 @@ export class SaveBillComponent implements OnInit {
     productListOptions.priceTypeId = this.priceTypeId;
     this.productsService.getProducts(this.config.getProductsByPriceTypeUrl, productListOptions).subscribe(items => {
      
-      this.basketProducts = items.map(product => {
-        let basketProduct = new BasketProduct();
-        basketProduct.product = product;
-        basketProduct.package = 0;
-        return basketProduct;
-      });
+      this.products = items;
       //this.fillBasketProducts();
       this.loading = false;
     },error=>{
       this.toastr.error("Ürünler Getirilirken Bir Hata Meydana Geldi...");
     });
   }
-
-  increase(basketProduct: BasketProduct) {
-    basketProduct.package++;
-    basketProduct.status = "edited";
-    this.saveProductToCurrentBill(basketProduct);
+  changeStatus(billProduct:BillProduct)
+  {
+    billProduct.status='edited';
+    this.calculateCurrentBillPrices();
   }
-  decrease(basketProduct: BasketProduct) {
+  increase(product: Product) {
+    product.package++;
+    product.status = "edited";
+    this.saveProductToCurrentBill(product);
+  }
+  decrease(product: Product) {
 
-    if (basketProduct.package > 0)//prevent negative inputs
+    if (product.package > 0)//prevent negative inputs
     {
-      basketProduct.package--;
-      basketProduct.status = "edited";
-      this.saveProductToCurrentBill(basketProduct);
+      product.package--;
+      product.status = "edited";
+      this.saveProductToCurrentBill(product);
     }
 
 
     // this.getProductsInBasket();
   }
-  removeProductToCurrentBill(billProduct: BasketProduct) {
-    billProduct.package = 0;
-    this.saveProductToCurrentBill(billProduct);
-  }
-  setPackage(basketProduct: BasketProduct, type) {
 
-    if (basketProduct.package > 0) {
-      basketProduct.status = "edited";
-      this.saveProductToCurrentBill(basketProduct);
+  increaseBillProduct(billProduct:BillProduct)
+  {
+    billProduct.numberOfPackage++;
+    billProduct.status="edited";
+    this.calculateCurrentBillPrices();
+  }
+  decreaseBillProduct(billProduct:BillProduct)
+  {
+    if(billProduct.numberOfPackage<=1)//delete from CurrentWaybill
+    {
+      let indis=this.currentBill.billProducts.findIndex(x=>x.productId==billProduct.productId);
+      this.currentBill.billProducts.splice(indis,1);
+      if(billProduct.id>0)
+      {
+        billProduct.status="deleted";
+        this.deletedBillProducts.push(billProduct);
+      }
+      
+    }
+    else
+    {
+      billProduct.numberOfPackage--;
+      billProduct.status="edited";
+    }
+    this.calculateCurrentBillPrices();
+   
+  }
+  removeBillProduct(billProduct:BillProduct)
+  {
+    let indis=this.currentBill.billProducts.findIndex(x=>x.productId==billProduct.productId);
+    this.currentBill.billProducts.splice(indis,1);
+    if(billProduct.id>0)
+      {
+        billProduct.status="deleted";
+        this.deletedBillProducts.push(billProduct);
+      }
+    this.calculateCurrentBillPrices();
+  }
+  setPackage(product: Product) {
+
+    if (product.package > 0) {
+      product.status = "edited";
+      this.saveProductToCurrentBill(product);
     }
 
 
@@ -324,30 +321,44 @@ export class SaveBillComponent implements OnInit {
   {
     basketProduct.status="edited";
   }
-  saveProductToCurrentBill(basketProduct: BasketProduct) {
+  saveProductToCurrentBill(product: Product) {
     this.isDirty=true;
-    let editedBasketProduct = this.currentBill.find(x => x.product.id == basketProduct.product.id);
-    if (editedBasketProduct != undefined && basketProduct.package < 1)//Delete product from currentBill
+    let editedBillProduct = this.currentBill.billProducts.find(x => x.productId == product.id);
+    if (editedBillProduct != undefined && product.package < 1)//Delete product from currentBill
     {
 
-      let index = this.currentBill.findIndex(item => item.product.id == basketProduct.product.id);
-      this.currentBill.splice(index, 1);
+      let index = this.currentBill.billProducts.findIndex(item => item.productId == product.id);
+      this.currentBill.billProducts.splice(index, 1);
       if (this.selectedBill != null)//Update operation
       {
-        this.deletedBasketProducts.push(basketProduct);
+        editedBillProduct.status="deleted";
+        this.deletedBillProducts.push(editedBillProduct);
       }
 
     }
-    else if (editedBasketProduct == undefined)//product will be added first time
+    else if (editedBillProduct == undefined)//product will be added first time
     {
-      this.currentBill.push(basketProduct);
+      let billProduct=new BillProduct();
+      billProduct.id=0;
+      billProduct.netSalePrice=product.netSalePrice;
+      billProduct.numberOfPackage=product.package;
+      billProduct.product=product;
+      billProduct.productId=product.id;
+      billProduct.purchasePrice=product.purchasePrice;
+      billProduct.status="edited";
+      billProduct.tax=product.tax;
+      billProduct.unitsInPackage=product.unitsInPackage;
+      billProduct.billId=this.currentBill.id;
+      
+      this.currentBill.billProducts.push(billProduct);
       //scroll bottom 
       this.billProductsContainer.nativeElement.scrollTop = this.billProductsContainer.nativeElement.scrollHeight;
 
     }
     else//product exist in waybill, update the package
     {
-      editedBasketProduct.package = basketProduct.package;
+      editedBillProduct.netSalePrice=product.netSalePrice;
+      editedBillProduct.numberOfPackage = product.package;
     }
     this.calculateCurrentBillPrices();
   }
@@ -355,40 +366,35 @@ export class SaveBillComponent implements OnInit {
   calculateCurrentBillPrices()
   {
     this.currentBillTotals=new Totals();
-    this.currentBill.forEach((pro:BasketProduct)=>{
-      let numberOfPieces=pro.package*pro.product.unitsInPackage;
-      this.currentBillTotals.totalPackages+=pro.package;
-      this.currentBillTotals.totalPieces+=numberOfPieces;
-      this.currentBillTotals.subNetTotalPrice+=numberOfPieces*pro.product.netSalePrice;
-     
+    this.currentBill.billProducts.forEach(bProduct=>{  
+      let pieces = bProduct.unitsInPackage * bProduct.numberOfPackage;
+      let subNetPrice = pieces * bProduct.netSalePrice;
+      this.currentBillTotals.totalPackages += bProduct.numberOfPackage;
+      this.currentBillTotals.totalPieces += pieces;
+      this.currentBillTotals.subNetTotalPrice += subNetPrice;//net ara toplam
+                                           //Calculate total tax after discount
+      this.currentBillTotals.totalTaxPrice += (subNetPrice - (subNetPrice * this.currentBill.extraDiscount / 100)) * bProduct.tax / 100;
     });
-    this.currentBillTotals.extraDiscount=(this.currentBillTotals.subNetTotalPrice)*this.selectedCustomer.extraDiscount/100;
-    this.currentBillTotals.totalNetPrice=this.currentBillTotals.subNetTotalPrice-this.currentBillTotals.extraDiscount;
-    this.currentBillTotals.totalTaxPrice=this.currentBillTotals.totalNetPrice*0.07;
-    this.currentBillTotals.subGrossTotalPrice=this.currentBillTotals.totalNetPrice+this.currentBillTotals.totalTaxPrice;
-    this.currentBillTotals.discount=(this.currentBillTotals.subGrossTotalPrice)*this.selectedDiscountRate.rate/100;
-    this.currentBillTotals.totalGrossPrice=this.currentBillTotals.subGrossTotalPrice-this.currentBillTotals.discount;
-   
-     this.currentBillTotals.totalItems=this.currentBill.length;
+    this.currentBillTotals.extraDiscount = this.currentBillTotals.subNetTotalPrice * this.currentBill.extraDiscount / 100;//total discount
+    this.currentBillTotals.totalNetPrice = this.currentBillTotals.subNetTotalPrice - this.currentBillTotals.extraDiscount;//total net price
+    this.currentBillTotals.subGrossTotalPrice = this.currentBillTotals.totalNetPrice + this.currentBillTotals.totalTaxPrice;
+    this.currentBillTotals.discount=(this.currentBillTotals.subGrossTotalPrice)*this.selectedBill.discountRate.rate/100;
+  this.currentBillTotals.totalGrossPrice=this.currentBillTotals.subGrossTotalPrice-this.currentBillTotals.discount;
   }
 
-  filterProductsByCategory(filteredCategoryId, basketProduct:BasketProduct) {
+  filterProductsByCategory(filteredCategoryId, product:Product) {
     
     if (filteredCategoryId == undefined || filteredCategoryId == 0) {
       return true;
     }
-    else if (basketProduct.product.category == null) {
+    else if (product.category == null) {
       return false;
     }
    
     else {
-      return basketProduct.product.categoryId == filteredCategoryId;
+      return product.categoryId == filteredCategoryId;
     }
   }
-
-
-
-
 
 fillCustomers() {
   this.customerService.getCustomers(this.config.getCustomersUrl, null).subscribe(result => {

@@ -44,12 +44,12 @@
 
 </div>
 
-
+ 
 <p-dialog [positionTop]="50" header="Fatura Detayları" maximizable="true" [(visible)]="showUpdateBillDialog" (onHide)="onCloseNewBillDialog()"
   [responsive]="true" showEffect="fade" [modal]="true" width="95%">
   <div>
 
-      <app-save-vendor-bill [selectedBill]="selectedBill"></app-save-vendor-bill>
+      <app-save-vendor-bill [selectedBill]="selectedBill" (onBillSaved)="onBillSaved($event)"></app-save-vendor-bill>
   </div>
 </p-dialog>
 

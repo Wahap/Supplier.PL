@@ -11,6 +11,9 @@ export class Waybill
         //set dates default values
       this.createdDate=new Date();
       this.deliveryDate=new Date();
+      this.convertedBillNumber=0;
+      this.id=0;
+      this.extraDiscount=0;
         
     }
     id:number;

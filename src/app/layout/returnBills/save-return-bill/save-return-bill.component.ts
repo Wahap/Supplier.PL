@@ -14,6 +14,7 @@ import { BasketProduct } from '../../../shared/DTOs/basketProduct';
 import { Totals } from '../../../shared/DTOs/totals';
 import { ReturnBill } from '../../../shared/DTOs/returnBill';
 import { ReturnBillProduct } from '../../../shared/DTOs/returnBillProduct';
+import { Product } from '../../../shared/DTOs/product';
 
 @Component({
   selector: 'app-save-return-bill',
@@ -33,12 +34,12 @@ export class SaveReturnBillComponent implements OnInit {
   selectedAddress: Address = new Address();
   deliveryAddress: Address = new Address();
   selectedCustomer: Customer = new Customer();
-  basketProducts: BasketProduct[] = [];
+  products: Product[] = [];
   isDirty:boolean=false;
   billNumberIsValid: boolean = true;
   currentBillTotals: Totals = new Totals();
-  currentBill: BasketProduct[] = [];
-  deletedBasketProducts: BasketProduct[] = [];
+  currentBill: ReturnBill=new ReturnBill();
+  deletedBillProducts: ReturnBillProduct[] = [];
   isBillSaving:boolean=false;
   @ViewChild('billProductsContainer') private billProductsContainer: ElementRef;
   @Input()
@@ -65,7 +66,7 @@ export class SaveReturnBillComponent implements OnInit {
 
   ngOnChanges() {
     if (this.selectedBill != null && this.customers.length > 0) {
-
+      this.currentBill.id=this.selectedBill.id;
       this.selectedCustomer = this.customers.find(x => x.id == this.selectedBill.customerId);
       this.selectedAddress = this.selectedCustomer.addresses.find(x => x.id == this.selectedBill.addressId);
       this.deliveryAddress = this.selectedCustomer.addresses.find(x => x.id == this.selectedBill.deliveryAddressId);
@@ -73,7 +74,7 @@ export class SaveReturnBillComponent implements OnInit {
       this.deliveryDate = new Date(this.selectedBill.deliveryDate);
       this.billNumber = this.selectedBill.billNumber;
       this.selectedCustomer.extraDiscount = this.selectedBill.extraDiscount;//discount sync
-      this.deletedBasketProducts = [];//reset at every new waybill selection
+      this.deletedBillProducts = [];//reset at every new waybill selection
       this.mapSelectedBillProductsToCurrentBillProducts();
       this.getProducts();
     }
@@ -82,64 +83,37 @@ export class SaveReturnBillComponent implements OnInit {
 
   mapSelectedBillProductsToCurrentBillProducts() {
     this.returnBillService.getReturnBillProducts(this.config.getReturnBillProductsUrl, this.selectedBill).subscribe(billProducts => {
-      this.currentBill = billProducts.map((billProduct: ReturnBillProduct) => {
-        let basketProduct = new BasketProduct();
-        basketProduct.id = billProduct.id;
-        basketProduct.package = billProduct.numberOfPackage;
-        basketProduct.product = billProduct.product;
-        basketProduct.product.netSalePrice = billProduct.netSalePrice;
-        return basketProduct;
-      });
+      this.currentBill.returnBillProducts=billProducts;
       this.calculateCurrentBillPrices();
     });
   }
 
   saveBill() {
     this.isBillSaving=true;
-    let bill: ReturnBill = new ReturnBill();
-    if (this.selectedBill != null) {//Bill Updating...
-      bill.id = this.selectedBill.id;
+   
+    if (this.currentBill.id == 0) {//Bill Updating...
+     this.currentBill.isPaid=false;
     }
-    else//New bill adding...
-    {
-      bill.isPaid = false;
-    }
-    // else if (this.lastWaybill != null) {
-    //   waybill.id = this.lastWaybill.id;
-    // }
-    bill.addressId = this.selectedAddress.id;
-    bill.billNumber = this.billNumber;
-    bill.customerId = this.selectedCustomer.id;
-    bill.extraDiscount = this.selectedCustomer.extraDiscount;
-    bill.createdDate = this.createdDate;
-    bill.deliveryDate = this.deliveryDate;
-    bill.deliveryAddressId = this.deliveryAddress.id;
-    bill.billStatus = 1;
-    bill.isActive = true;
-    this.currentBill.forEach(basketProduct => {
-      let billProduct = new ReturnBillProduct();
-      billProduct.id = basketProduct.id;
-      billProduct.returnBillId = bill.id;
-      billProduct.numberOfPackage = basketProduct.package;
-      billProduct.netSalePrice = basketProduct.product.netSalePrice;
-      billProduct.purchasePrice = basketProduct.product.purchasePrice;
-      billProduct.tax = basketProduct.product.tax;
-      billProduct.productId = basketProduct.product.id;
-      billProduct.status = basketProduct.status;
-      bill.returnBillProducts.push(billProduct);
-    });
+   
+    this.currentBill.addressId = this.selectedAddress.id;
+    this.currentBill.billNumber = this.billNumber;
+    this.currentBill.customerId = this.selectedCustomer.id;
+    this.currentBill.extraDiscount = this.selectedCustomer.extraDiscount;
+    this.currentBill.createdDate = this.createdDate;
+    this.currentBill.deliveryDate = this.deliveryDate;
+    this.currentBill.deliveryAddressId = this.deliveryAddress.id;
+    this.currentBill.billStatus = 1;
+    this.currentBill.isActive = true;
+   
 
     // add also removed/deleted product with "deleted" flag/status
-    this.deletedBasketProducts.forEach(dltd => {
-      let deletedBillProduct = new ReturnBillProduct();
-      deletedBillProduct.id = dltd.id;
-      deletedBillProduct.productId = dltd.product.id;
-      deletedBillProduct.status = 'deleted';
-      bill.returnBillProducts.push(deletedBillProduct);
+    this.deletedBillProducts.forEach(dltd => {
+     
+      this.currentBill.returnBillProducts.push(dltd);
 
     });
 
-    this.returnBillService.saveReturnBill(this.config.saveReturnBillUrl, bill).subscribe(result => {
+    this.returnBillService.saveReturnBill(this.config.saveReturnBillUrl, this.currentBill).subscribe(result => {
       this.isDirty=false;
       this.toastr.success("Fatura başarıyla kaydedildi..."); 
       this.isBillSaving=false;
@@ -187,17 +161,50 @@ export class SaveReturnBillComponent implements OnInit {
     let productListOptions = new ProductListOptions();
     productListOptions.customerId = this.selectedCustomer.id;
     productListOptions.priceTypeId = this.priceTypeId;
-    this.productsService.getProducts(this.config.getProductsByPriceTypeUrl, productListOptions).subscribe(items => {
-     
-      this.basketProducts = items.map(product => {
-        let basketProduct = new BasketProduct();
-        basketProduct.product = product;
-        basketProduct.package = 0;
-        return basketProduct;
-      });
+    this.productsService.getProducts(this.config.getProductsUrl, productListOptions).subscribe(items => {
+     this.products=items.data;
       //this.fillBasketProducts();
       this.loading = false;
     });
+  }
+
+  increaseBillProduct(billProduct:ReturnBillProduct)
+  {
+    billProduct.numberOfPackage++;
+    billProduct.status="edited";
+    this.calculateCurrentBillPrices();
+  }
+  decreaseBillProduct(billProduct:ReturnBillProduct)
+  {
+    if(billProduct.numberOfPackage<=1)//delete from CurrentWaybill
+    {
+      let indis=this.currentBill.returnBillProducts.findIndex(x=>x.productId==billProduct.productId);
+      this.currentBill.returnBillProducts.splice(indis,1);
+      if(billProduct.id>0)
+      {
+        billProduct.status="deleted";
+        this.deletedBillProducts.push(billProduct);
+      }
+      
+    }
+    else
+    {
+      billProduct.numberOfPackage--;
+      billProduct.status="edited";
+    }
+    this.calculateCurrentBillPrices();
+   
+  }
+  removeBillProduct(billProduct:ReturnBillProduct)
+  {
+    let indis=this.currentBill.returnBillProducts.findIndex(x=>x.productId==billProduct.productId);
+    this.currentBill.returnBillProducts.splice(indis,1);
+    if(billProduct.id>0)
+      {
+        billProduct.status="deleted";
+        this.deletedBillProducts.push(billProduct);
+      }
+    this.calculateCurrentBillPrices();
   }
   filterProductsByCategory(filteredCategoryId, basketProduct:BasketProduct) {
     
@@ -213,32 +220,32 @@ export class SaveReturnBillComponent implements OnInit {
     }
   }
 
-  increase(basketProduct: BasketProduct) {
-    basketProduct.package++;
-    basketProduct.status = "edited";
-    this.saveProductToCurrentBill(basketProduct);
+  increase(product: Product) {
+    product.package++;
+    product.status = "edited";
+    this.saveProductToCurrentBill(product);
   }
-  decrease(basketProduct: BasketProduct) {
+  decrease(product: Product) {
 
-    if (basketProduct.package > 0)//prevent negative inputs
+    if (product.package > 0)//prevent negative inputs
     {
-      basketProduct.package--;
-      basketProduct.status = "edited";
-      this.saveProductToCurrentBill(basketProduct);
+      product.package--;
+      product.status = "edited";
+      this.saveProductToCurrentBill(product);
     }
 
 
     // this.getProductsInBasket();
   }
-  removeProductToCurrentBill(billProduct: BasketProduct) {
-    billProduct.package = 0;
-    this.saveProductToCurrentBill(billProduct);
+  removeProductToCurrentBill(product: Product) {
+    product.package = 0;
+    this.saveProductToCurrentBill(product);
   }
-  setPackage(basketProduct: BasketProduct, type) {
+  setPackage(product: Product) {
 
-    if (basketProduct.package > 0) {
-      basketProduct.status = "edited";
-      this.saveProductToCurrentBill(basketProduct);
+    if (product.package > 0) {
+      product.status = "edited";
+      this.saveProductToCurrentBill(product);
     }
 
 
@@ -253,47 +260,60 @@ export class SaveReturnBillComponent implements OnInit {
   {
     basketProduct.status="edited";
   }
-  saveProductToCurrentBill(basketProduct: BasketProduct) {
+  saveProductToCurrentBill(product: Product) {
     this.isDirty=true;
-    let editedBasketProduct = this.currentBill.find(x => x.product.id == basketProduct.product.id);
-    if (editedBasketProduct != undefined && basketProduct.package < 1)//Delete product from currentBill
+    let editedBillProduct = this.currentBill.returnBillProducts.find(x => x.productId == product.id);
+    if (editedBillProduct != undefined && product.package < 1)//Delete product from currentBill
     {
 
-      let index = this.currentBill.findIndex(item => item.product.id == basketProduct.product.id);
-      this.currentBill.splice(index, 1);
+      let index = this.currentBill.returnBillProducts.findIndex(item => item.productId == product.id);
+      this.currentBill.returnBillProducts.splice(index, 1);
       if (this.selectedBill != null)//Update operation
       {
-        this.deletedBasketProducts.push(basketProduct);
+        editedBillProduct.status="deleted";
+        this.deletedBillProducts.push(editedBillProduct);
       }
 
     }
-    else if (editedBasketProduct == undefined)//product will be added first time
+    else if (editedBillProduct == undefined)//product will be added first time
     {
-      this.currentBill.push(basketProduct);
+      let billProduct=new ReturnBillProduct();
+      billProduct.id=0;
+      billProduct.netSalePrice=product.netSalePrice;
+      billProduct.numberOfPackage=product.package;
+      billProduct.product=product;
+      billProduct.productId=product.id;
+      billProduct.purchasePrice=product.purchasePrice;
+      billProduct.status="edited";
+      billProduct.tax=product.tax;
+      billProduct.unitsInPackage=product.unitsInPackage;
+      billProduct.returnBillId=this.currentBill.id;
+      
+      this.currentBill.returnBillProducts.push(billProduct);
       //scroll bottom 
       this.billProductsContainer.nativeElement.scrollTop = this.billProductsContainer.nativeElement.scrollHeight;
 
     }
     else//product exist in waybill, update the package
     {
-      editedBasketProduct.package = basketProduct.package;
+      editedBillProduct.netSalePrice=product.netSalePrice;
+      editedBillProduct.numberOfPackage = product.package;
     }
     this.calculateCurrentBillPrices();
   }
-
   calculateCurrentBillPrices() {
     this.currentBillTotals = new Totals();
-    this.currentBill.forEach(basketProduct => {
-      let numberOfPieces = basketProduct.package * basketProduct.product.unitsInPackage;
-      this.currentBillTotals.totalPackages += basketProduct.package;
+    this.currentBill.returnBillProducts.forEach(billProduct => {
+      let numberOfPieces = billProduct.numberOfPackage * billProduct.unitsInPackage;
+      this.currentBillTotals.totalPackages += billProduct.numberOfPackage;
       this.currentBillTotals.totalPieces += numberOfPieces;
-      this.currentBillTotals.totalNetPrice += numberOfPieces * basketProduct.product.netSalePrice;
-      this.currentBillTotals.totalTaxPrice += numberOfPieces * (basketProduct.product.netSalePrice * basketProduct.product.tax / 100);
+      this.currentBillTotals.totalNetPrice += numberOfPieces * billProduct.netSalePrice;
+      this.currentBillTotals.totalTaxPrice += numberOfPieces * (billProduct.netSalePrice * billProduct.tax / 100);
       this.currentBillTotals.extraDiscount = (this.currentBillTotals.totalNetPrice + this.currentBillTotals.totalTaxPrice) * this.selectedCustomer.extraDiscount / 100;
       this.currentBillTotals.discount = (this.currentBillTotals.totalNetPrice + this.currentBillTotals.totalTaxPrice);
       this.currentBillTotals.totalGrossPrice = this.currentBillTotals.totalNetPrice + this.currentBillTotals.totalTaxPrice - this.currentBillTotals.extraDiscount - this.currentBillTotals.discount;
     });
-    this.currentBillTotals.totalItems = this.currentBill.length;
+    this.currentBillTotals.totalItems = this.currentBill.returnBillProducts.length;
   }
   windowsHeight() {
     return (window.screen.height - 325) + "px";

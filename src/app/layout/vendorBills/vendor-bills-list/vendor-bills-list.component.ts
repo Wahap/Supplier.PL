@@ -94,7 +94,15 @@ export class VendorBillsListComponent implements OnInit {
   onCloseNewBillDialog() {
     this.selectedBill = null;
   }
+  onBillSaved(editedBill:VendorBill)
+  {
+    let bill = this.allBills.find(x => x.id == editedBill.id);
+  bill.billNumber=editedBill.billNumber;
+  bill.supplierId=editedBill.supplierId;
+    
 
+    this.showUpdateBillDialog = false;
+  }
   openPaymentDialog(vendorbill) {
     this.selectedBillForPayment = vendorbill;
     this.showPaymentDialog = true;
