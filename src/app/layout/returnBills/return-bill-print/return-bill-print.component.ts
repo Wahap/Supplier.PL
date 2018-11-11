@@ -51,7 +51,7 @@ export class ReturnBillPrintComponent implements OnInit {
   {
     this.billTotals=new Totals();
     this.selectedBill.returnBillProducts.forEach((pro:ReturnBillProduct)=>{
-      let numberOfPieces=pro.numberOfPackage*pro.product.unitsInPackage;
+      let numberOfPieces=pro.numberOfPackage*pro.unitsInPackage;
       this.billTotals.totalPackages+=pro.numberOfPackage;
       this.billTotals.totalPieces+=numberOfPieces;
       this.billTotals.subNetTotalPrice+=numberOfPieces*pro.netSalePrice;

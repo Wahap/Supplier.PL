@@ -100,10 +100,10 @@
             <td>{{pro.product.productName}}</td> 
             <td>{{pro.product.barcodeOfProduct}}</td>
             <td style="text-align: right;">{{pro.product.orderNumber}}</td>
-            <td style="text-align: right;">{{pro.numberOfPackage}} K = {{pro.numberOfPackage * pro.product.unitsInPackage}} STK</td>
+            <td style="text-align: right;">{{pro.numberOfPackage}} K = {{pro.numberOfPackage * pro.unitsInPackage}} STK</td>
            
             <td style="text-align: right;">{{pro.netSalePrice | money}} €</td>
-            <td style="text-align: right;">{{(pro.numberOfPackage * pro.product.unitsInPackage * pro.netSalePrice) |
+            <td style="text-align: right;">{{(pro.numberOfPackage * pro.unitsInPackage * pro.netSalePrice) |
               money}} €</td>
           </tr>
 
@@ -164,31 +164,23 @@
 
 
       </div>
-      <!-- <div id="page-footer" style="    font-weight: bold;
+      <div id="page-footer" style="    font-weight: bold;
       margin-top: 10px;
       padding-top: 7px;
       width: 800px;
       border-top: 1px solid #ccc;">
           <div class="footer-text" style="font-size:0.8em;">
-            <div class="bill-is-unpaid" *ngIf="selectedBill?.isPaid==false;else paid_content">
-            
-    
-         
-    
+            <div class="bill-is-unpaid">
               <p>
-                Offener Betrag {{billTotals?.totalGrossPrice | money}} EURO. Die Ware bleibt bis zur vollstandigen
-                Bezahlung unser Eigentum.
-              
+                Gutschrift zur Verrechnung mit der nächsten Rechnung.
               </p>
             </div>
-            <ng-template #paid_content>
-              <p>Betrag {{billTotals?.totalGrossPrice | money}} EURO dankend erhalten.</p>
-            </ng-template>
+         
     
           </div>
     
     
-        </div> -->
+        </div>
     </div>
    
   </div>

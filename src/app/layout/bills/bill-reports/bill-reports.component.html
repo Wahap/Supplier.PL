@@ -1,0 +1,13 @@
+<div id="bill-report-container">
+  <div class="btn-group" role="group">
+    <a [routerLink]="['/billReports/yearly']" [routerLinkActive]="['router-link-active']" class="btn btn-dark">Yıllık</a>
+    <a [routerLink]="['/billReports/monthly']" [routerLinkActive]="['router-link-active']" class="btn btn-dark">Aylık</a>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <router-outlet></router-outlet>
+    </div>
+
+  </div>
+</div>

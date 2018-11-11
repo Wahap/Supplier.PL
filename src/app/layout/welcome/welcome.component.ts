@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { BillService } from '../bills/bill.service';
 import { CommonService } from '../../shared/common.service';
 import { ConfigService, IConfig } from '../../app.config';
 import { DashBoard } from '../../shared/DTOs/dashBoard';
+import { ToastsManager } from 'ng2-toastr';
 
 @Component({
   selector: 'app-welcome',
@@ -15,8 +16,8 @@ export class WelcomeComponent implements OnInit {
   config:IConfig;
   unPaidBillsData:any=[0,0];
   thisMonthBillsData:any=[0,0,0,0];
-  constructor(private billService:BillService, private commonService:CommonService,private configService:ConfigService) {
-   
+  constructor(private billService:BillService, private commonService:CommonService,private configService:ConfigService,public toastr: ToastsManager, vcr: ViewContainerRef) {
+   this.toastr.setRootViewContainerRef(vcr);
   }
 
   ngOnInit() {
@@ -41,6 +42,8 @@ export class WelcomeComponent implements OnInit {
      
 
     
+    },error=>{
+      this.toastr.error("Veriler Getirilirken Hata Meydana geldi...");
     });
   }
 

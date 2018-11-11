@@ -153,7 +153,7 @@
                                   <button class="btnIncrease btn-success" (click)="increaseBillProduct(product)">+</button>
                               </td>
                               <td>  <input type="number" class="bill-product-package" [(ngModel)]="product.unitsInPackage"
-                                (ngModelChange)="setPackage(product)" /></td>
+                                (ngModelChange)="calculateCurrentBillPrices()" /></td>
                               <td>{{product.product.orderNumber}}</td>
                               <td>{{product.product.barcodeOfProduct}}</td>
                               <td>{{product.product.productName}}</td>

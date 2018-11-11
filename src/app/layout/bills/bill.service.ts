@@ -29,6 +29,16 @@ export class BillService {
             .map((response: Response) => response.json());
     }
 
+    getYearlyBillReport(url: string, input: any): any {
+        return this.http.post(url, input, this.options)
+            .map((response: Response) => response.json());
+    }
+
+    getMonthlyBillReport(url: string, input: any): any {
+        return this.http.post(url, input, this.options)
+            .map((response: Response) => response.json());
+    }
+
     getBillProducts(url: string, input: any): any {
         return this.http.post(url, input, this.options)
             .map((response: Response) => response.json());

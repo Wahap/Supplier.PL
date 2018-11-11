@@ -68,6 +68,9 @@ import { UnitFormComponent } from '../shared/components/unit-form/unit-form.comp
 import { SupplierFormComponent } from '../shared/components/supplier-form/supplier-form.component';
 import { UnpaidBillsChartComponent } from './appCharts/unpaid-bills-chart/unpaid-bills-chart.component';
 import { ThisMonthBillsChartComponent } from './appCharts/this-month-bills-chart/this-month-bills-chart.component';
+import { BillReportsComponent } from './bills/bill-reports/bill-reports.component';
+import { YearlyBillReportComponent } from './bills/yearly-bill-report/yearly-bill-report.component';
+import { MonthlyBillReportComponent } from './bills/monthly-bill-report/monthly-bill-report.component';
 
 
 
@@ -123,7 +126,7 @@ import { ThisMonthBillsChartComponent } from './appCharts/this-month-bills-chart
     UnpaidBillsComponent,
     OverDueBillsComponent,
     ProductFormComponent,
-    BrandFormComponent, CategoryFormComponent, UnitFormComponent, SupplierFormComponent, UnpaidBillsChartComponent, ThisMonthBillsChartComponent
+    BrandFormComponent, CategoryFormComponent, UnitFormComponent, SupplierFormComponent, UnpaidBillsChartComponent, ThisMonthBillsChartComponent, BillReportsComponent, YearlyBillReportComponent, MonthlyBillReportComponent
     ]
 })
 export class LayoutModule { }

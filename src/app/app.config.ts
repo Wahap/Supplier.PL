@@ -56,6 +56,8 @@ export interface IConfig {
 	filterBillsUrl:string;
 	getUnpaidBillsUrl:string;
 	getOverDueBillsUrl:string;
+	getYearlyBillReportUrl:string;
+	getMonthlyBillReportUrl:string;
 	//ReturnBills
 	getNextReturnBillNumberUrl:string;
 	saveReturnBillUrl:string;
@@ -111,7 +113,7 @@ export class ConfigService {
 	
  
 		let serverUserNotificationPath = '';
-		let debug = true;
+		let debug = false;
 
 		let getUsers = (debug ? serverLoginPathDebug + "authentication/login" : serverLoginPath + "userCont/getusers");
 		//let logInUrl = (debug ? serverLoginPathDebug + "userCont/login" : serverLoginPath + "userCont/login");
@@ -177,6 +179,8 @@ export class ConfigService {
 		let getOverDueBillsUrl = (debug ? serverLoginPathDebug + "bill/getOverDueBills" : serverLoginPath + "bill/getOverDueBills");
 		
 		let getUnpaidBillsUrl = (debug ? serverLoginPathDebug + "bill/getunpaidbills" : serverLoginPath + "bill/getunpaidbills");
+		let getYearlyBillReportUrl = (debug ? serverLoginPathDebug + "bill/getYearlyBillReport" : serverLoginPath + "bill/getYearlyBillReport");
+		let getMonthlyBillReportUrl = (debug ? serverLoginPathDebug + "bill/getMonthlyBillReport" : serverLoginPath + "bill/getMonthlyBillReport");
 		
 		//Return Bill Urls
 		let getNextReturnBillNumberUrl=(debug ? serverLoginPathDebug + "returnBill/getNextBillNumber" : serverLoginPath + "returnBill/getNextBillNumber");
@@ -278,6 +282,8 @@ export class ConfigService {
 			filterBillsUrl:filterBillsUrl,
 			getUnpaidBillsUrl:getUnpaidBillsUrl,
 			getOverDueBillsUrl:getOverDueBillsUrl,
+			getYearlyBillReportUrl:getYearlyBillReportUrl,
+			getMonthlyBillReportUrl:getMonthlyBillReportUrl,
 			//ReturnBill Urls
 			getNextReturnBillNumberUrl:getNextReturnBillNumberUrl,
 			saveReturnBillUrl:saveReturnBillUrl,

@@ -64,7 +64,7 @@ export class SaveBillComponent implements OnInit {
     this.getNextBillNumber();
     this.productListCols = [
       { field: 'barcodeOfProduct', header: 'Barkod' },
-      { field: 'orderNumber', header: 'S.No' },
+      // { field: 'orderNumber', header: 'S.No' },
       { field: 'productName', header: 'Ürün' },
       { field: 'netSalePrice', header: 'Fiyat' },
       { field: 'package', header: 'Koli' }
@@ -406,7 +406,7 @@ fillCustomers() {
 
 
 windowsHeight() {
-  return (window.screen.height - 325) + "px";
+  return (window.screen.height * 0.5) + "px";
 }
 
 }

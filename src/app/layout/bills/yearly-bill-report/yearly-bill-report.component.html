@@ -1,0 +1,22 @@
+<div class="col-md-8" style="float:left;">
+    <p-chart type="bar" [data]="data"></p-chart>
+</div>
+<div class="col-md-4" style="float:left;">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th *ngFor="let label of labels">{{label}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td *ngFor="let data of reportData">{{data | number: '.2'}} €</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+
+
+

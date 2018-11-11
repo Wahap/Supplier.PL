@@ -1,7 +1,7 @@
 <!-- <pdf-bill [bill]="selectedBill==null? lastbill:selectedBill"></pdf-bill> -->
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-5">
             <div id="bill-customer-selection">
                 <table class="table">
                     <tr>
@@ -74,9 +74,9 @@
                         <th>
                             <input placeholder="Barkod..." class="form-control form-control-sm" type="text" (input)="dtProducts.filter($event.target.value, 'barcodeOfProduct','contains')">
                         </th>
-                        <th>
+                        <!-- <th>
                             <input placeholder="Siparis Numarası..." class="form-control form-control-sm" type="text" (input)="dtProducts.filter($event.target.value, 'orderNumber','contains')">
-                        </th>
+                        </th> -->
                         <th>
                             <input placeholder="Ürün..." class="form-control form-control-sm" type="text" (input)="dtProducts.filter($event.target.value, 'productName','contains')">
                         </th>
@@ -88,7 +88,7 @@
                     <tr *ngIf="filterProductsByCategory(filteredCategoryId,product)" style="background-color:black; color:white;">
                         <td *ngFor="let col of columns" [ngSwitch]="col.field">
                             <span *ngSwitchCase="'barcodeOfProduct'">{{product.barcodeOfProduct}}</span>
-                            <span *ngSwitchCase="'orderNumber'">{{product.orderNumber}}</span>
+                            <!-- <span *ngSwitchCase="'orderNumber'">{{product.orderNumber}}</span> -->
                             <span *ngSwitchCase="'productName'">{{product.productName}}</span>
                             <input *ngSwitchCase="'netSalePrice'" [(ngModel)]="product.netSalePrice" class="form-control netSalePrice" />
                             <div *ngSwitchCase="'package'" class="ui-inputgroup">
@@ -103,7 +103,7 @@
             </p-table>
     </div>
 
-    <div class="col-md-6">
+    <div class="col-md-7">
         <div id="billContainer">
 
            

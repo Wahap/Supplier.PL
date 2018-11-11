@@ -34,6 +34,9 @@ import { ThisWeekReturnBillsComponent } from './returnBills/this-week-return-bil
 import { ThisMonthReturnBillsComponent } from './returnBills/this-month-return-bills/this-month-return-bills.component';
 import { UnpaidBillsComponent } from './bills/unpaid-bills/unpaid-bills.component';
 import { OverDueBillsComponent } from './bills/over-due-bills/over-due-bills.component';
+import { BillReportsComponent } from './bills/bill-reports/bill-reports.component';
+import { YearlyBillReportComponent } from './bills/yearly-bill-report/yearly-bill-report.component';
+import { MonthlyBillReportComponent } from './bills/monthly-bill-report/monthly-bill-report.component';
 
 
 const routes: Routes = [
@@ -63,6 +66,13 @@ const routes: Routes = [
             { path: 'thisMonthBills',component:ThisMonthBillsComponent },
             { path: 'unpaidBills',component:UnpaidBillsComponent },
             { path: 'overDueBills',component:OverDueBillsComponent },
+            { path: 'billReports',component:BillReportsComponent,
+            children:[
+                { path:'yearly',component:YearlyBillReportComponent },
+                { path:'monthly',component:MonthlyBillReportComponent }
+            ]
+        
+        },
 
             { path: 'filteredVendorBills',component:FilterVendorBillsComponent },
             { path: 'saveVendorBill',component:SaveVendorBillComponent },
