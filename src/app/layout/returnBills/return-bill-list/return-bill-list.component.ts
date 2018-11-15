@@ -58,6 +58,20 @@ export class ReturnBillListComponent implements OnInit {
 
     this.existsInputData = true;
   }
+
+  onBillSaved(editedBill:ReturnBill)
+  {
+    let bill = this.allBills.find(x => x.id == editedBill.id);
+    let cd=new Date(editedBill.createdDate);
+    bill.createdDate=new Date(cd.getFullYear(),cd.getMonth(),cd.getDate(),8,0,0);
+    let dd=new Date(editedBill.deliveryDate);
+    bill.deliveryDate=new Date(dd.getFullYear(),dd.getMonth(),dd.getDate(),8,0,0);
+    bill.customerId = editedBill.customerId;
+    bill.extraDiscount = editedBill.extraDiscount;
+    bill.addressId = editedBill.addressId;
+    bill.deliveryAddressId = editedBill.deliveryAddressId;
+    this.showUpdateBillDialog = false;
+  }
   updateBill(bill: ReturnBill) {
 
     this.selectedBill = bill;

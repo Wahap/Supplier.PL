@@ -190,11 +190,13 @@ this.showPrintDialog=true;
   onBillSaved(editedBill:Bill)
   {
     let bill = this.allBills.find(x => x.id == editedBill.id);
-    bill.createdDate = new Date(editedBill.createdDate);
-    bill.deliveryDate = new Date(editedBill.deliveryDate);
+    let cd=new Date(editedBill.createdDate);
+    bill.createdDate=new Date(cd.getFullYear(),cd.getMonth(),cd.getDate(),8,0,0);
+    let dd=new Date(editedBill.deliveryDate);
+    bill.deliveryDate=new Date(dd.getFullYear(),dd.getMonth(),dd.getDate(),8,0,0);
     bill.customerId = editedBill.customerId;
     bill.discountRateId = editedBill.discountRateId;
-    bill.discountRate=editedBill.discountRate;
+    bill.discountRate=editedBill.discountRate; 
     bill.extraDiscount = editedBill.extraDiscount;
     bill.addressId = editedBill.addressId;
     bill.deliveryAddressId = editedBill.deliveryAddressId;

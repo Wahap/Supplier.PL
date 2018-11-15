@@ -1,8 +1,4 @@
-<div class="btn-group mb-1" role="group">
-    <button type="button" class="btn btn-dark" (click)="showGroupPrices(1)">Bronz Fiyatlar</button>
-    <button type="button" class="btn btn-secondary" (click)="showGroupPrices(2)">Gümüş Fiyatlar</button>
-    <button type="button" class="btn btn-warning" (click)="showGroupPrices(3)">Altın Fiyatlar</button>
-</div>
+
 
 <p-table #dt [value]="allGroupsPrices" [loading]="isAllGroupsPricesLoading" [scrollable]="true" [scrollHeight]="windowsHeight()"
     resizableColumns="true">
@@ -62,7 +58,7 @@
                 </p-cellEditor>
             </td>
             <td>
-                <button (click)="saveGroupPrices(product)" type="button" class="btn btn-primary btn-sm">Kaydet</button>
+                <button (click)="saveGroupPrices(product)" type="button" class="btn btn-success btn-sm">Kaydet</button>
             </td>
 
         </tr>

@@ -6,6 +6,7 @@ export class VendorBillProduct
     numberOfPackage:number;
     unitsInPackage:number;
     productId:number;
+    wareHouseId:number;
     vendorBillId:number;
     purchasePrice:number;
     tax:number;

@@ -71,6 +71,10 @@ import { ThisMonthBillsChartComponent } from './appCharts/this-month-bills-chart
 import { BillReportsComponent } from './bills/bill-reports/bill-reports.component';
 import { YearlyBillReportComponent } from './bills/yearly-bill-report/yearly-bill-report.component';
 import { MonthlyBillReportComponent } from './bills/monthly-bill-report/monthly-bill-report.component';
+import { TopCustomersReportComponent } from './customers/top-customers-report/top-customers-report.component';
+import { WareHouseListComponent } from './wareHouses/ware-house-list/ware-house-list.component';
+import { SaveWareHouseComponent } from './wareHouses/save-ware-house/save-ware-house.component';
+import { WareHouseDetailsComponent } from './wareHouses/ware-house-details/ware-house-details.component';
 
 
 
@@ -126,7 +130,7 @@ import { MonthlyBillReportComponent } from './bills/monthly-bill-report/monthly-
     UnpaidBillsComponent,
     OverDueBillsComponent,
     ProductFormComponent,
-    BrandFormComponent, CategoryFormComponent, UnitFormComponent, SupplierFormComponent, UnpaidBillsChartComponent, ThisMonthBillsChartComponent, BillReportsComponent, YearlyBillReportComponent, MonthlyBillReportComponent
+    BrandFormComponent, CategoryFormComponent, UnitFormComponent, SupplierFormComponent, UnpaidBillsChartComponent, ThisMonthBillsChartComponent, BillReportsComponent, YearlyBillReportComponent, MonthlyBillReportComponent, TopCustomersReportComponent, WareHouseListComponent, SaveWareHouseComponent, WareHouseDetailsComponent
     ]
 })
 export class LayoutModule { }

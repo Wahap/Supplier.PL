@@ -18,6 +18,20 @@
                                     <i class="fa fa-fw fa-list-alt "></i>&nbsp;{{ 'Güncel Ürünler' | translate }}
                                 </a>
                             </li>
+                            <li>
+
+                                <a [routerLink]="['/priceGroups']" class="list-group-item">
+                                    <span><i class="fa fa-eur fa-fw"></i>&nbsp; {{ 'Fiyat Listeleri' | translate }}</span>
+                                </a>
+                            </li>
+
+                            <li>
+
+                                <a [routerLink]="['/wareHouses']" class="list-group-item">
+                                    <span><i class="fa fa-home fa-fw"></i>&nbsp; {{ 'Depolar' | translate }}</span>
+                                </a>
+                            </li>
+                          
                     <li>
 
                         <a [routerLink]="['/passiveProducts']" [routerLinkActive]="['router-link-active']" class="list-group-item">
@@ -229,12 +243,7 @@
             </li>
         </div>
 
-        <div class="nested-menu" *ngIf="currentUser.isAdmin=='True'">
-            <a [routerLink]="['/priceGroups']" class="list-group-item">
-                <span><i class="fa fa-eur fa-2x"></i>&nbsp; {{ 'Fiyat Grupları' | translate }}</span>
-            </a>
-
-        </div>
+      
 
         <div class="nested-menu">
             <a class="list-group-item" (click)="addExpandClass('siparis')">

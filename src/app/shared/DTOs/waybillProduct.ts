@@ -6,6 +6,7 @@ export class WaybillProduct
     id:number;
     waybillId:number;
     productId:number;
+    wareHouseId:number;
     numberOfPackage:number;
     unitsInPackage:number;
     netSalePrice:number;

@@ -12,6 +12,8 @@ import { VendorBillProduct } from '../../../shared/DTOs/vendorBillProduct';
 import { ToastsManager } from 'ng2-toastr';
 import { Router } from '@angular/router';
 import { Product } from '../../../shared/DTOs/product';
+import { WareHouse } from '../../../shared/DTOs/wareHouse';
+import { StockService } from '../../stock/stock.service';
 
 @Component({
   selector: 'app-save-vendor-bill',
@@ -20,6 +22,8 @@ import { Product } from '../../../shared/DTOs/product';
 })
 export class SaveVendorBillComponent implements OnInit {
   suppliers: Supplier[] = [];
+  wareHouses:WareHouse[]=[];
+  primaryWareHouseId:number;
   selectedSupplier:Supplier;
   config: IConfig;
   billDate: Date = new Date();
@@ -36,7 +40,7 @@ export class SaveVendorBillComponent implements OnInit {
   @ViewChild('billProductsContainer') private billProductsContainer: ElementRef;
   @Input()
   selectedBill: VendorBill;
-  constructor(private vendorBillService:VendorBillService, private commonService: CommonService,private configService: ConfigService,private productsService:ProductsService, public toastr: ToastsManager,vcr: ViewContainerRef,public router: Router) 
+  constructor(private vendorBillService:VendorBillService,private stockService:StockService, private commonService: CommonService,private configService: ConfigService,private productsService:ProductsService, public toastr: ToastsManager,vcr: ViewContainerRef,public router: Router) 
   {
     this.toastr.setRootViewContainerRef(vcr);
    }
@@ -46,6 +50,7 @@ export class SaveVendorBillComponent implements OnInit {
     this.fillSuppliers();
     this.fillCategories();
     this.getProducts();
+    this.getWareHouses();
     this.productListCols = [
       { field: 'barcodeOfProduct', header: 'Barkod' },
       { field: 'orderNumber', header: 'S.No' },
@@ -62,7 +67,8 @@ export class SaveVendorBillComponent implements OnInit {
       this.billDate = new Date(this.selectedBill.billDate);
       this.selectedSupplier = this.suppliers.find(x => x.id == this.selectedBill.supplierId);
       this.billNumber = this.selectedBill.billNumber;
-      this.billDate=new Date(this.selectedBill.billDate);
+      let cd=new Date(this.selectedBill.billDate);
+      this.billDate=new Date(cd.getFullYear(),cd.getMonth(),cd.getDate(),8,0,0);
       this.deletedBillProducts = [];//reset at every new waybill selection
       this.mapSelectedBillProductsToCurrentBillProducts();
     }
@@ -75,6 +81,17 @@ export class SaveVendorBillComponent implements OnInit {
       this.calculateCurrentBillPrices();
     });
   }
+
+  getWareHouses() {
+    this.stockService.getWareHouses(this.config.getWareHousesUrl, null).subscribe(result => {
+      this.wareHouses = result;
+      let primary=this.wareHouses.find(x=>x.isPrimary==true);
+      this.primaryWareHouseId=primary==undefined?result[0].id:primary.id;
+     
+    },error=>{
+      this.toastr.error("Depolar Getirilirken Bir Hata Oluştu...");
+    });
+  }
   saveBill() {
     this.isBillSaving=true;
  
@@ -84,7 +101,8 @@ export class SaveVendorBillComponent implements OnInit {
     
     this.currentBill.billNumber = this.billNumber;
     this.currentBill.supplierId = this.selectedSupplier.id;
-    this.currentBill.billDate = this.billDate;
+    this.currentBill.billDate = new Date(this.billDate.getFullYear(),this.billDate.getMonth(),this.billDate.getDate(),8,0,0);
+   
    
 
     // add also removed/deleted product with "deleted" flag/status
@@ -194,7 +212,7 @@ export class SaveVendorBillComponent implements OnInit {
     {
       let billProduct=new VendorBillProduct();
       billProduct.id=0;
-     
+     billProduct.wareHouseId=this.primaryWareHouseId;
       billProduct.numberOfPackage=product.package;
       billProduct.product=product;
       billProduct.productId=product.id;
@@ -216,7 +234,11 @@ export class SaveVendorBillComponent implements OnInit {
     }
     this.calculateCurrentBillPrices();
   }
-
+  changeStatus(billProduct:VendorBillProduct)
+  {
+    billProduct.status='edited';
+    this.calculateCurrentBillPrices();
+  }
   calculateCurrentBillPrices() {
     this.currentBillTotals = new Totals();
     this.currentBill.vendorBillProducts.forEach(billProduct => {

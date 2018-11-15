@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, Input, ViewChild, ElementRef, Output,EventEmitter } from '@angular/core';
 import { IConfig, ConfigService } from '../../../app.config';
 import { CustomersService } from '../../customers/customers.service';
 import { ToastsManager } from 'ng2-toastr';
@@ -41,12 +41,15 @@ export class SaveReturnBillComponent implements OnInit {
   currentBill: ReturnBill=new ReturnBill();
   deletedBillProducts: ReturnBillProduct[] = [];
   isBillSaving:boolean=false;
+  @Output() onReturnBillSaved=new EventEmitter();
   @ViewChild('billProductsContainer') private billProductsContainer: ElementRef;
   @Input()
   selectedBill: ReturnBill;
+ 
   constructor(private customerService: CustomersService,private commonService: CommonService, public toastr: ToastsManager,vcr: ViewContainerRef, private returnBillService: ReturnBillService, private productsService: ProductsService, private configService: ConfigService, public router: Router) 
   {
     this.toastr.setRootViewContainerRef(vcr);
+    
    
    }
  
@@ -70,8 +73,10 @@ export class SaveReturnBillComponent implements OnInit {
       this.selectedCustomer = this.customers.find(x => x.id == this.selectedBill.customerId);
       this.selectedAddress = this.selectedCustomer.addresses.find(x => x.id == this.selectedBill.addressId);
       this.deliveryAddress = this.selectedCustomer.addresses.find(x => x.id == this.selectedBill.deliveryAddressId);
-      this.createdDate = new Date(this.selectedBill.createdDate);
-      this.deliveryDate = new Date(this.selectedBill.deliveryDate);
+      let cd=new Date(this.selectedBill.createdDate);
+      this.createdDate=new Date(cd.getFullYear(),cd.getMonth(),cd.getDate(),8,0,0);
+      let dd=new Date(this.selectedBill.deliveryDate);
+      this.deliveryDate=new Date(dd.getFullYear(),dd.getMonth(),dd.getDate(),8,0,0);
       this.billNumber = this.selectedBill.billNumber;
       this.selectedCustomer.extraDiscount = this.selectedBill.extraDiscount;//discount sync
       this.deletedBillProducts = [];//reset at every new waybill selection
@@ -99,8 +104,8 @@ export class SaveReturnBillComponent implements OnInit {
     this.currentBill.billNumber = this.billNumber;
     this.currentBill.customerId = this.selectedCustomer.id;
     this.currentBill.extraDiscount = this.selectedCustomer.extraDiscount;
-    this.currentBill.createdDate = this.createdDate;
-    this.currentBill.deliveryDate = this.deliveryDate;
+    this.currentBill.createdDate = new Date(this.createdDate.getFullYear(),this.createdDate.getMonth(),this.createdDate.getDate(),8,0,0);
+    this.currentBill.deliveryDate =new Date(this.deliveryDate.getFullYear(),this.deliveryDate.getMonth(),this.deliveryDate.getDate(),8,0,0);
     this.currentBill.deliveryAddressId = this.deliveryAddress.id;
     this.currentBill.billStatus = 1;
     this.currentBill.isActive = true;
@@ -122,7 +127,7 @@ export class SaveReturnBillComponent implements OnInit {
         this.router.navigateByUrl('thisMonthReturnBills');
       }
       else {//update waybill operation completed
-        location.reload();
+        this.onReturnBillSaved.emit(result);
       }
 
 
@@ -301,7 +306,7 @@ export class SaveReturnBillComponent implements OnInit {
     }
     this.calculateCurrentBillPrices();
   }
-  calculateCurrentBillPrices() {
+  calculateCurrentBillPrices() { 
     this.currentBillTotals = new Totals();
     this.currentBill.returnBillProducts.forEach(billProduct => {
       let numberOfPieces = billProduct.numberOfPackage * billProduct.unitsInPackage;

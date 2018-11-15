@@ -1,0 +1,125 @@
+<div class="row">
+  <div class="col-md-3">
+      <div class="card">
+          <div class="card-header">
+            {{wareHouse.name}}
+          </div>
+          <div class="card-body">
+            <h5 class="card-title"><i class="fa fa-money"></i> Stok Değeri: {{wareHouseStockValue | money}}€</h5>
+            
+            <button  class="btn btn-primary mb-1" (click)="showWareHouseForm=true;"><i class="fa fa-pencil" aria-hidden="true"></i>Güncelle</button>
+            <button  class="btn btn-success mb-1" (click)="takeStock()"><i class="fa fa-list-ol" aria-hidden="true"></i>Stok Sayımı Yap</button>
+          </div>
+        </div>
+  </div>
+ 
+  <div class="col-md-9">
+    <div *ngIf="!stockTaking">
+        <div *ngIf="productsInWareHouse.length<1" class="alert alert-danger" role="alert">
+            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Bu depoda ürün bulunmuyor. Depoya ürün eklemek için stok sayımı yapmalısınız.
+          </div>
+        <p-table #dt [columns]="productListCols" [value]="productsInWareHouse" id="product-list" [loading]="loading"
+        [scrollable]="true" [scrollHeight]="windowsHeight()" rowHover="true">
+        <ng-template pTemplate="caption">
+            Depodaki Ürünler ({{productsInWareHouse.length}})
+           
+        </ng-template>
+  
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of columns">
+                    {{col.header}}
+                </th>
+            </tr>
+            <tr>
+               
+                <th>
+                    <input placeholder="Barkod..." pInputText type="text" (input)="dt.filter($event.target.value, 'product.barcodeOfProduct','contains')">
+                </th>
+               
+                <th>
+                    <input placeholder="Ürün Adı..." pInputText type="text" (input)="dt.filter($event.target.value, 'product.productName','contains')">
+                </th>
+                <th></th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-pro let-columns="columns">
+            <tr>
+                <td *ngFor="let col of columns" [ngSwitch]="col.field">
+                   
+                    <span *ngSwitchCase="'barcodeOfProduct'">{{pro.product.barcodeOfProduct}}</span>
+                    <span *ngSwitchCase="'productName'">{{pro.product.productName}}</span>
+                    <span *ngSwitchCase="'package'">{{pro.package}}K({{pro.package * pro.unitsInPackage}} Adet)</span>
+                    <span *ngSwitchCase="'value'">{{(pro.package * pro.product.unitsInPackage * pro.product.netSalePrice) | money}}</span>
+                  
+  
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+    </div>
+     
+<div *ngIf="stockTaking">
+  <div class="mb-1">
+      <button class="btn btn-success" (click)="saveWareHouseProducts()"><i class="fa fa-check" aria-hidden="true"></i> Kaydet</button>
+      <button class="btn btn-primary" (click)="stockTaking=false;"><i class="fa fa-reply" aria-hidden="true"></i> iptal</button>
+  </div>
+ 
+    <p-table  #dtWareHouseProducts [columns]="wareHouseProductsCols" [value]="wareHouse.wareHouseProducts" id="product-list" [loading]="loading"
+    [scrollable]="true" [scrollHeight]="windowsHeight()" rowHover="true">
+    <ng-template pTemplate="caption">
+        {{wareHouse.name}} Sayılan Ürünler
+       
+    </ng-template>
+  
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th *ngFor="let col of columns">
+                {{col.header}}
+            </th>
+        </tr>
+        <tr>
+           
+            <th>
+                <input placeholder="Barkod..." pInputText type="text" (input)="dtWareHouseProducts.filter($event.target.value, 'product.barcodeOfProduct','contains')">
+            </th>
+           
+            <th>
+                <input placeholder="Ürün Adı..." pInputText type="text" (input)="dtWareHouseProducts.filter($event.target.value, 'product.productName','contains')">
+            </th>
+            <th></th>
+            <th></th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-pro let-columns="columns">
+        <tr>
+            <td *ngFor="let col of columns" [ngSwitch]="col.field">
+               
+                <span *ngSwitchCase="'barcodeOfProduct'">{{pro.product.barcodeOfProduct}}</span>
+                <span *ngSwitchCase="'productName'">{{pro.product.productName}}</span>
+                <span *ngSwitchCase="'systemStock'">{{pro.product.stockAmount}}K</span>
+                <span *ngSwitchCase="'countingStock'">
+                    <button class="btnDecrease btn-warning" (click)="decreaseWareHouseProduct(pro)">-</button>
+                    <input  type="number" class="product-package" [(ngModel)]="pro.package" (onModelChange)="setPackage(pro)" />
+                    <button class="btnIncrease btn-success" (click)="increaseWareHouseProduct(pro)">+</button>
+                </span>
+               
+  
+            </td>
+        </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+  </div>
+  
+</div>
+
+<p-dialog [positionTop]="50" header="Depo Tanımı" maximizable="true" [(visible)]="showWareHouseForm"
+  [responsive]="true" showEffect="fade" [modal]="true" width="95%">
+  <div>
+
+      <app-save-ware-house [wareHouse]="wareHouse" (onWareHouseSaved)="onWareHouseSaved($event)"></app-save-ware-house>
+  </div>
+</p-dialog>

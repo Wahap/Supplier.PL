@@ -39,8 +39,12 @@
                         <tr>
                             <td>  <label>Fatura Numarası</label></td>
                             <td> <input type="number" class="form-control form-control-sm" [(ngModel)]="currentWaybill.convertedBillNumber" /></td>
-                            <td></td>
-                            <td></td>
+                            <td>Depo</td>
+                            <td>
+                                <select [(ngModel)]="primaryWareHouseId">
+                                    <option *ngFor="let wareHouse of wareHouses" [value]="wareHouse.id">{{wareHouse.name}}</option>
+                                </select>
+                            </td>
                         </tr>
                     </table>
                     
@@ -144,6 +148,7 @@
                             <th>Preis</th>
                             <th>MwSt</th>
                             <th>Stück</th>
+                            <th>Warenhaus</th>
                         </tr>
                         <tr *ngFor="let product of currentWaybill.waybillProducts;index as i;" [ngStyle]="{ 'background-color': (product.netSalePrice<=0 ? 'red' : '') }">
                             <td>{{i+1}}</td>
@@ -166,6 +171,11 @@
                             <td><input type="number" class="form-control form-control-sm waybill-tax" [(ngModel)]="product.tax" (ngModelChange)="changeStatus(product)" /></td>
                             <td>{{product.numberOfPackage}} Kolli X {{product.unitsInPackage }} Stk =
                                 {{product.numberOfPackage*product.unitsInPackage}} </td>
+                                <td> 
+                                    <select [(ngModel)]="product.wareHouseId" (ngModelChange)="changeStatus(product)">
+                                        <option *ngFor="let wareHouse of wareHouses" [value]="wareHouse.id">{{wareHouse.name}}</option>
+                                    </select>
+                                     </td>
                         </tr>
 
                         <tr>
@@ -176,6 +186,7 @@
                             <td></td>
                             <td></td>
                             <td> <mark>{{currentWaybillTotals.totalPieces}} Stk</mark> </td>
+                            <td></td>
                         </tr>
                     </table>
 

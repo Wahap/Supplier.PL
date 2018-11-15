@@ -29,6 +29,7 @@ import { AuthService } from './shared/auth.service';
 import { VendorBillService } from './layout/vendorBills/vendor-bill.service';
 import { CanDeactivateGuard } from './shared/guard/can-deactivate-guard.service';
 import { ReturnBillService } from './layout/returnBills/return-bill.service';
+import { StockService } from './layout/stock/stock.service';
 export class CustomOption extends ToastOptions {
   animate = 'flyRight'; // you can override any options available
   newestOnTop = false;
@@ -61,7 +62,7 @@ export function createTranslateLoader(http: HttpClient) {
     ],
     declarations: [AppComponent, ConfirmComponent],
     providers: [AuthGuard, CanDeactivateGuard,ReturnBillService, LoginServiceService,AuthService, ConfigService,
-        BlankPageService, ProductsService,VendorBillService, CommonService, CustomersService, OrderService, WaybillService, BillService,{provide: ToastOptions, useClass: CustomOption},
+        BlankPageService, ProductsService,VendorBillService, CommonService, CustomersService, OrderService, WaybillService, BillService,StockService,{provide: ToastOptions, useClass: CustomOption},
         [{provide: LocationStrategy, useClass: HashLocationStrategy}]
     ],
     entryComponents: [

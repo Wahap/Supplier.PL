@@ -1,0 +1,45 @@
+.card
+{
+    color:black;
+}
+
+.btnDecrease
+{
+    background-color: #eb4d4b;
+    padding: 2px 15px;
+    color: white;
+    font-weight: bold;
+    border: 2px solid white;
+    border-right: none;
+    border-top-left-radius: 9px;
+}
+.btnIncrease
+{
+    background-color: #2ecc71;
+    padding: 2px 15px;
+    color: white;
+    font-weight: bold;
+    border: 2px solid white;
+    border-left: none;
+    border-top-right-radius: 9px;
+}
+
+.product-package
+{
+    width: 45px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1em;
+    border: 2px solid white;
+    border-left: none;
+    border-right: none;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
+}

@@ -18,6 +18,8 @@ import { DiscountRate } from '../../../shared/DTOs/discountRate';
 import { CommonService } from '../../../shared/common.service';
 import { Category } from '../../../shared/DTOs/category';
 import { Log } from '../../../shared/DTOs/log';
+import { WareHouse } from '../../../shared/DTOs/wareHouse';
+import { StockService } from '../../stock/stock.service';
 @Component({
   selector: 'app-save-bill',
   templateUrl: './save-bill.component.html',
@@ -27,6 +29,8 @@ export class SaveBillComponent implements OnInit {
   config: IConfig;
   loading: boolean;  
   products: Product[] = [];
+  wareHouses:WareHouse[]=[];
+  primaryWareHouseId:number;
   productList: Product[] = [];
   currentBill: Bill=new Bill();
   deletedBillProducts: BillProduct[] = [];
@@ -50,7 +54,7 @@ export class SaveBillComponent implements OnInit {
   @ViewChild('billProductsContainer') private billProductsContainer: ElementRef;
   @Input()
   selectedBill: Bill;
-  constructor(private customerService: CustomersService, private commonService: CommonService, public toastr: ToastsManager, vcr: ViewContainerRef, private billService: BillService, private productsService: ProductsService, private configService: ConfigService, public dialog: MatDialog, public router: Router) {
+  constructor(private stockService:StockService, private customerService: CustomersService, private commonService: CommonService, public toastr: ToastsManager, vcr: ViewContainerRef, private billService: BillService, private productsService: ProductsService, private configService: ConfigService, public dialog: MatDialog, public router: Router) {
     this.toastr.setRootViewContainerRef(vcr);
     this.loading = false;
     
@@ -62,6 +66,7 @@ export class SaveBillComponent implements OnInit {
     this.fillDiscountRates();//Skonto
     this.fillCategories();
     this.getNextBillNumber();
+    this.getWareHouses();
     this.productListCols = [
       { field: 'barcodeOfProduct', header: 'Barkod' },
       // { field: 'orderNumber', header: 'S.No' },
@@ -75,6 +80,7 @@ export class SaveBillComponent implements OnInit {
 
   ngOnChanges() {
     if (this.selectedBill != null && this.customers.length > 0) {
+      console.log(this.selectedBill);
       this.currentBill.id=this.selectedBill.id;
       this.currentBill.waybillId = this.selectedBill.waybillId;
       this.currentBill.billNumber = this.selectedBill.billNumber;
@@ -103,7 +109,16 @@ export class SaveBillComponent implements OnInit {
       this.toastr.error("Faturanın Ürünleri Getirilirken Bir Hata Meydana Geldi...");
     });
   }
-
+  getWareHouses() {
+    this.stockService.getWareHouses(this.config.getWareHousesUrl, null).subscribe(result => {
+      this.wareHouses = result;
+      let primary=this.wareHouses.find(x=>x.isPrimary==true);
+      this.primaryWareHouseId=primary==undefined?result[0].id:primary.id;
+     
+    },error=>{
+      this.toastr.error("Depolar Getirilirken Bir Hata Oluştu...");
+    });
+  }
   getNextBillNumber() {
     this.billService.getNextBillNumber(this.config.getNextBillNumberUrl, null).subscribe(billNumber => {
       this.currentBill.billNumber = billNumber;
@@ -249,6 +264,7 @@ export class SaveBillComponent implements OnInit {
   increase(product: Product) {
     product.package++;
     product.status = "edited";
+    
     this.saveProductToCurrentBill(product);
   }
   decrease(product: Product) {
@@ -268,6 +284,8 @@ export class SaveBillComponent implements OnInit {
   {
     billProduct.numberOfPackage++;
     billProduct.status="edited";
+    this.products.find(x=>x.id==billProduct.productId).package=billProduct.numberOfPackage;//sync packages
+    
     this.calculateCurrentBillPrices();
   }
   decreaseBillProduct(billProduct:BillProduct)
@@ -281,12 +299,13 @@ export class SaveBillComponent implements OnInit {
         billProduct.status="deleted";
         this.deletedBillProducts.push(billProduct);
       }
-      
+      this.products.find(x=>x.id==billProduct.productId).package=0;//sync packages
     }
     else
     {
       billProduct.numberOfPackage--;
       billProduct.status="edited";
+      this.products.find(x=>x.id==billProduct.productId).package=billProduct.numberOfPackage;//sync packages
     }
     this.calculateCurrentBillPrices();
    
@@ -295,6 +314,7 @@ export class SaveBillComponent implements OnInit {
   {
     let indis=this.currentBill.billProducts.findIndex(x=>x.productId==billProduct.productId);
     this.currentBill.billProducts.splice(indis,1);
+    this.products.find(x=>x.id==billProduct.productId).package=0;//sync packages
     if(billProduct.id>0)
       {
         billProduct.status="deleted";
@@ -340,6 +360,7 @@ export class SaveBillComponent implements OnInit {
     {
       let billProduct=new BillProduct();
       billProduct.id=0;
+      billProduct.wareHouseId=this.primaryWareHouseId;
       billProduct.netSalePrice=product.netSalePrice;
       billProduct.numberOfPackage=product.package;
       billProduct.product=product;
@@ -378,7 +399,7 @@ export class SaveBillComponent implements OnInit {
     this.currentBillTotals.extraDiscount = this.currentBillTotals.subNetTotalPrice * this.currentBill.extraDiscount / 100;//total discount
     this.currentBillTotals.totalNetPrice = this.currentBillTotals.subNetTotalPrice - this.currentBillTotals.extraDiscount;//total net price
     this.currentBillTotals.subGrossTotalPrice = this.currentBillTotals.totalNetPrice + this.currentBillTotals.totalTaxPrice;
-    this.currentBillTotals.discount=(this.currentBillTotals.subGrossTotalPrice)*this.selectedBill.discountRate.rate/100;
+    this.currentBillTotals.discount=(this.currentBillTotals.subGrossTotalPrice)*this.selectedDiscountRate.rate/100;
   this.currentBillTotals.totalGrossPrice=this.currentBillTotals.subGrossTotalPrice-this.currentBillTotals.discount;
   }
 

@@ -91,9 +91,10 @@ export class WaybillsListComponent implements OnInit {
 
   }
   convertWaybillToBill(waybill: Waybill) {
-    this.isWaybillConverting = true;
-    this.disabledButtons = true;
+   
     if (confirm("irsaliyeyi Faturaya Dönüştürülecek. Devam etmek istiyor musunuz?")) {
+      this.isWaybillConverting = true;
+      this.disabledButtons = true;
       this.waybillService.convertWaybillToBill(this.config.convertWaybillToBillUrl, waybill).subscribe((bill: Bill) => {
         waybill.convertedBillNumber = bill.billNumber;
         this.isWaybillConverting = false;
@@ -106,8 +107,10 @@ export class WaybillsListComponent implements OnInit {
   }
   onWaybillSaved(editedWaybill: Waybill) {
     let waybill = this.allWaybills.find(x => x.id == editedWaybill.id);
-    waybill.createdDate = new Date(editedWaybill.createdDate);
-    waybill.deliveryDate = new Date(editedWaybill.deliveryDate);
+    let cd=new Date(editedWaybill.createdDate);
+    waybill.createdDate=new Date(cd.getFullYear(),cd.getMonth(),cd.getDate(),8,0,0);
+    let dd=new Date(editedWaybill.deliveryDate);
+    waybill.deliveryDate=new Date(dd.getFullYear(),dd.getMonth(),dd.getDate(),8,0,0);
     waybill.customerId = editedWaybill.customerId;
     waybill.discountRateId = editedWaybill.discountRateId;
     waybill.extraDiscount = editedWaybill.extraDiscount;

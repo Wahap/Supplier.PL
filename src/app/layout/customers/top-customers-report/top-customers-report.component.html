@@ -1,0 +1,8 @@
+<div>
+    <button class="btn btn-link" (click)="getTopCustomersByTotals()" [disabled]="loading">Genel Toplam</button>
+    <button class="btn btn-link" (click)="getTopCustomersByYear()"  [disabled]="loading">Yıllara Göre</button>
+</div>
+<div class="col-md-12" style="float:left;">
+        <p-progressSpinner *ngIf="loading"></p-progressSpinner>
+    <p-chart [type]="chartType" [data]="data" [options]="options"></p-chart>
+</div>

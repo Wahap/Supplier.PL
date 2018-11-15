@@ -18,6 +18,8 @@ import { Totals } from '../../../shared/DTOs/totals';
 import { DiscountRate } from '../../../shared/DTOs/discountRate';
 import { CommonService } from '../../../shared/common.service';
 import { Category } from '../../../shared/DTOs/category';
+import { WareHouse } from '../../../shared/DTOs/wareHouse';
+import { StockService } from '../../stock/stock.service';
 @Component({
   selector: 'app-new-waybill',
   templateUrl: './new-waybill.component.html',
@@ -26,6 +28,8 @@ import { Category } from '../../../shared/DTOs/category';
 export class NewWaybillComponent implements OnInit {
   config: IConfig;
   products: Product[] = [];
+  wareHouses:WareHouse[]=[];
+  primaryWareHouseId:number;
   currentWaybill:Waybill=new Waybill();
   customers: Customer[] = [];
   discountRates:DiscountRate[]=[];
@@ -51,7 +55,7 @@ isDirty:boolean=false;//check is there a unsaved changes
   selectedWayBill: Waybill;
   @Output() onWaybillSaved=new EventEmitter();
 
-  constructor(private customerService: CustomersService,private commonService:CommonService, public toastr: ToastsManager, vcr: ViewContainerRef, private waybillService: WaybillService, private productsService: ProductsService, private configService: ConfigService, public dialog: MatDialog, public router: Router) {
+  constructor(private customerService: CustomersService,private commonService:CommonService, public toastr: ToastsManager, vcr: ViewContainerRef, private waybillService: WaybillService, private productsService: ProductsService, private configService: ConfigService, public dialog: MatDialog, public router: Router,private stockService:StockService) {
     this.toastr.setRootViewContainerRef(vcr);
     this.loading = false;
   
@@ -74,6 +78,7 @@ isDirty:boolean=false;//check is there a unsaved changes
     this.fillCustomers();
     this.fillCategories();
     this.fillDiscountRates();//Skonto
+    this.getWareHouses();
 
    
   }
@@ -192,6 +197,17 @@ isDirty:boolean=false;//check is there a unsaved changes
     });
   }
 
+  getWareHouses() {
+    this.stockService.getWareHouses(this.config.getWareHousesUrl, null).subscribe(result => {
+      this.wareHouses = result;
+      let primary=this.wareHouses.find(x=>x.isPrimary==true);
+      this.primaryWareHouseId=primary==undefined?result[0].id:primary.id;
+     
+    },error=>{
+      this.toastr.error("Depolar Getirilirken Bir Hata Oluştu...");
+    });
+  }
+
   fillDiscountRates() {
     this.commonService.getAllDiscountRates(this.config.getAllDiscountRatesUrl, null).subscribe(result => {
       this.discountRates = result;
@@ -268,6 +284,7 @@ setPackage(product: Product) {
     {
       let waybillProduct=new WaybillProduct();
       waybillProduct.id=0;
+      waybillProduct.wareHouseId=this.primaryWareHouseId;
       waybillProduct.netSalePrice=product.netSalePrice;
       waybillProduct.numberOfPackage=product.package;
       waybillProduct.product=product;
@@ -293,6 +310,7 @@ setPackage(product: Product) {
   {
     waybillProduct.numberOfPackage++;
     waybillProduct.status="edited";
+    this.products.find(x=>x.id==waybillProduct.productId).package=waybillProduct.numberOfPackage;//sync packages
     this.calculateCurrentWaybillPrices();
   }
   decreaseWaybillProduct(waybillProduct:WaybillProduct)
@@ -306,12 +324,13 @@ setPackage(product: Product) {
         waybillProduct.status="deleted";
         this.deletedWaybillProducts.push(waybillProduct);
       }
-      
+      this.products.find(x=>x.id==waybillProduct.productId).package=0;//sync packages
     }
     else
     {
       waybillProduct.numberOfPackage--;
       waybillProduct.status="edited";
+      this.products.find(x=>x.id==waybillProduct.productId).package=waybillProduct.numberOfPackage;//sync packages
     }
     this.calculateCurrentWaybillPrices();
    
@@ -320,6 +339,7 @@ setPackage(product: Product) {
   {
     let indis=this.currentWaybill.waybillProducts.findIndex(x=>x.productId==waybillProduct.productId);
     this.currentWaybill.waybillProducts.splice(indis,1);
+    this.products.find(x=>x.id==waybillProduct.productId).package=0;//sync packages
     if(waybillProduct.id>0)
       {
         waybillProduct.status="deleted";

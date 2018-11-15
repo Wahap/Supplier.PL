@@ -1,0 +1,8 @@
+<form #wareHouseForm="ngForm">
+  <div class="form-group">
+    <label for="name">Depo Adı</label>
+    <input type="text" class="form-control" [class.is-invalid]="name.errors && name.touched" name="name" #name="ngModel"  [(ngModel)]="wareHouse.name"  required>
+    <div class="invalid-feedback">Depo adı boş geçilemez...</div>
+  </div>
+  <button class="btn btn-success" [disabled]="!wareHouseForm.form.valid" (click)="saveWareHouse()">Kaydet</button>
+</form>

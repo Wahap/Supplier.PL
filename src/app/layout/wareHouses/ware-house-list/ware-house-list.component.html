@@ -1,0 +1,12 @@
+<button class="btn btn-success" (click)="showWareHouseForm=true;"> <i class="fa fa-plus"></i> Yeni Depo</button>
+<div class="clearfix"></div>
+<div class="wareHouse" *ngFor="let wareHouse of wareHouses" (click)="onWareHouseClick(wareHouse)">
+<p class="ware-house-name">{{wareHouse.name}}</p>
+</div>
+<p-dialog [positionTop]="50" header="Depo Tanımı" maximizable="true" [(visible)]="showWareHouseForm"
+  [responsive]="true" showEffect="fade" [modal]="true" width="95%">
+  <div>
+
+      <app-save-ware-house (onWareHouseSaved)="onWareHouseSaved($event)"></app-save-ware-house>
+  </div>
+</p-dialog>

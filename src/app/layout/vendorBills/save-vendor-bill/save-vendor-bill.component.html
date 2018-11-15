@@ -1,20 +1,27 @@
 <!-- <pdf-bill [bill]="selectedBill==null? lastbill:selectedBill"></pdf-bill> -->
 
 <div class="row">
-  <div class="col-md-6">
+  <div class="col-md-5">
           <div id="bill-customer-selection">
               <table class="table">
                   <tr>
                       <td>Toptancı</td>
                       <td>  <p-dropdown [options]="suppliers"  [style]="{'width':'100%'}" [(ngModel)]="selectedSupplier" placeholder="Toptancı"
                           optionLabel="name" filter="true"></p-dropdown></td>
+                          <td></td>
+                        <td></td>
                           
                   </tr>
                  
                   <tr>
                       <td>Oluşturulma Tarihi</td>
                       <td> <p-calendar [(ngModel)]="billDate" dateFormat="dd.mm.yy"></p-calendar></td>
-                      
+                      <td>Depo</td>
+                      <td>
+                            <select [(ngModel)]="primaryWareHouseId">
+                                <option *ngFor="let wareHouse of wareHouses" [value]="wareHouse.id">{{wareHouse.name}}</option>
+                            </select>
+                        </td>
                   </tr>
                  
               </table>
@@ -80,7 +87,7 @@
               </ng-template>
           </p-table>
   </div>
-  <div class="col-md-6">
+  <div class="col-md-7">
     <div id="billContainer">
         <div id="bill-preview">
 
@@ -103,11 +110,12 @@
                             <th>Menge</th>
                             <th>Einheit</th>
                             <th>Art.Nr.</th>
-                            <th>Barcode</th>
+                            <!-- <th>Barcode</th> -->
                             <th>Text</th>
                             <th>EKP</th>
                             <th>MwSt</th>
                             <th>Stück</th>
+                            <th>Warenhaus</th>
                         </tr>
                         <tr *ngFor="let product of currentBill.vendorBillProducts;index as i;" [ngStyle]="{ 'background-color': (product.netSalePrice<=0 ? 'red' : '') }" >
                             <td>{{i+1}}</td>
@@ -119,14 +127,19 @@
                                 <button class="btnIncrease btn-success" (click)="increaseBillProduct(product)">+</button>
                             </td>
                             <td>  <input type="number" class="bill-product-package" [(ngModel)]="product.unitsInPackage"
-                                (ngModelChange)="product.status='edited'" /></td>
+                                (ngModelChange)="changeStatus(product)" /></td>
                             <td>{{product.product.orderNumber}}</td>
-                            <td>{{product.product.barcodeOfProduct}}</td>
+                            <!-- <td>{{product.product.barcodeOfProduct}}</td> -->
                             <td>{{product.product.productName}}</td>
                            
-                            <td><input type="number" class="form-control form-control-sm bill-netSale-Price" [(ngModel)]="product.purchasePrice" (keyup)="calculateCurrentBillPrices()" /></td>
-                            <td><input type="number" class="form-control form-control-sm bill-tax" [(ngModel)]="product.tax" (keyup)="calculateCurrentBillPrices()" /></td>
+                            <td><input type="number" class="form-control form-control-sm bill-netSale-Price" [(ngModel)]="product.purchasePrice" (ngModelChange)="changeStatus(product)" /></td>
+                            <td><input type="number" class="form-control form-control-sm bill-tax" [(ngModel)]="product.tax" (ngModelChange)="changeStatus(product)" /></td>
                             <td>{{product.numberOfPackage}} Kolli X {{ product.unitsInPackage }} Stk = {{product.numberOfPackage*product.unitsInPackage}} </td>
+                            <td> 
+                                    <select [(ngModel)]="product.wareHouseId" (ngModelChange)="changeStatus(product)">
+                                        <option *ngFor="let wareHouse of wareHouses" [value]="wareHouse.id">{{wareHouse.name}}</option>
+                                    </select>
+                            </td>
                         </tr>
                        
                         <tr>
@@ -138,6 +151,7 @@
                             <td></td>
                             <td></td>
                             <td> <mark>{{currentBillTotals.totalPieces}} Stk</mark> </td>
+                            <td></td>
                         </tr>
                     </table>
 

@@ -1,3 +1,26 @@
+<div class="text-center">
+        <button class="btn btn-link" (click)="changeChartType('bar')" [class.active]="chartType=='bar'" >Sütun</button>
+        <button class="btn btn-link" (click)="changeChartType('line')" [class.active]="chartType=='line'">Çizgi</button>
+        <button class="btn btn-link" (click)="changeChartType('radar')" [class.active]="chartType=='radar'">Radar</button>
+</div>
+
 <div class="col-md-12" style="float:left;">
-    <p-chart type="bar" [data]="data"></p-chart>
+    <p-chart [type]="chartType" [data]="data"></p-chart>
+</div>
+
+<div class="col-md-12" style="float:left;">
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th>Yıl</th>
+            <th *ngFor="let month of labels">
+                {{month}}
+            </th>
+        </tr>
+        <tr *ngFor="let dataset of dataSets">
+            <td>{{dataset.label}}</td>
+            <td *ngFor="let data of dataset.data">
+                {{data | number:'.2'}}€
+            </td> 
+        </tr>
+    </table>
 </div>

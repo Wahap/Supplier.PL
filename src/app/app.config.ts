@@ -25,6 +25,8 @@ export interface IConfig {
 	saveCustomerProductPriceUrl:string;
 	saveAddressUrl:string;
 	deleteAddressUrl:string;
+	getTopCustomersUrl:string;
+	getTopCustomersByYearUrl:string;
 
 	getAllOrderByStatusUrl:string;
 	getOrderDetails:string;
@@ -76,7 +78,11 @@ export interface IConfig {
 	getThisWeekVendorBillsUrl:string;
 	getThisMonthVendorBillsUrl:string;
 	filterVendorBillsUrl:string;
-	
+	//StockUrls
+	saveWareHouseUrl:string;
+	getWareHousesUrl:string;
+	getWareHouseUrl:string;
+	saveWareHouseProductsUrl:string;
 	//DiscountRates
 	getAllDiscountRatesUrl:string;
 	//Common
@@ -113,7 +119,7 @@ export class ConfigService {
 	
  
 		let serverUserNotificationPath = '';
-		let debug = false;
+		let debug = true;
 
 		let getUsers = (debug ? serverLoginPathDebug + "authentication/login" : serverLoginPath + "userCont/getusers");
 		//let logInUrl = (debug ? serverLoginPathDebug + "userCont/login" : serverLoginPath + "userCont/login");
@@ -141,7 +147,8 @@ export class ConfigService {
 		let getCustomersUrl = (debug ? serverLoginPathDebug + "Customer/getallcustomers" : serverLoginPath + "Customer/getallcustomers");
 		let getPassiveCustomersUrl = (debug ? serverLoginPathDebug + "Customer/getPassivecustomers" : serverLoginPath + "Customer/getPassivecustomers");		
 		let getCustomerPricesUrl = (debug ? serverLoginPathDebug + "Customer/getcustomerprices" : serverLoginPath + "Customer/getcustomerprices");
-		
+		let getTopCustomersUrl= (debug ? serverLoginPathDebug + "Customer/getTopCustomers" : serverLoginPath + "Customer/getTopCustomers");
+		let getTopCustomersByYearUrl= (debug ? serverLoginPathDebug + "Customer/getTopCustomersByYear" : serverLoginPath + "Customer/getTopCustomersByYear");
 		
 		let saveCustomerUrl = (debug ? serverLoginPathDebug + "Customer/savecustomer" : serverLoginPath + "Customer/savecustomer");
 		let saveCustomerProductPriceUrl = (debug ? serverLoginPathDebug + "Customer/savecustomerproductprice" : serverLoginPath + "Customer/savecustomerproductprice");
@@ -201,7 +208,11 @@ export class ConfigService {
 		let getThisWeekVendorBillsUrl = (debug ? serverLoginPathDebug + "VendorBill/getThisWeekBills" : serverLoginPath + "VendorBill/getThisWeekBills");
 		let getThisMonthVendorBillsUrl = (debug ? serverLoginPathDebug + "VendorBill/getThisMonthBills" : serverLoginPath + "VendorBill/getThisMonthBills");
 		let filterVendorBillsUrl = (debug ? serverLoginPathDebug + "VendorBill/filterBills" : serverLoginPath + "VendorBill/filterBills");
-
+		//Stock Urls
+		let saveWareHouseUrl = (debug ? serverLoginPathDebug + "Stock/saveWareHouse" : serverLoginPath + "Stock/saveWareHouse");
+		let getWareHousesUrl = (debug ? serverLoginPathDebug + "Stock/getWareHouses" : serverLoginPath + "Stock/getWareHouses");
+		let getWareHouseUrl = (debug ? serverLoginPathDebug + "Stock/getWareHouse" : serverLoginPath + "Stock/getWareHouse");
+		let saveWareHouseProductsUrl = (debug ? serverLoginPathDebug + "Stock/saveWareHouseProducts" : serverLoginPath + "Stock/saveWareHouseProducts");
 		
 		let uploadImageUrl = (debug ? serverLoginPathDebug + "Uploader/Upload" : serverLoginPath + "Uploader/Upload");
 		//Common
@@ -255,6 +266,8 @@ export class ConfigService {
 			getAllOrderByStatusUrl:getAllOrderByStatusUrl,
 			getOrderDetails:getOrderDetails,
 			saveReceivedOrder:saveReceivedOrder,
+			getTopCustomersUrl:getTopCustomersUrl,
+			getTopCustomersByYearUrl:getTopCustomersByYearUrl,
 			//Waybills
 			getLastWaybillUrl:getLastWaybillUrl,
 			saveWaybillUrl:saveWaybillUrl,
@@ -303,6 +316,13 @@ export class ConfigService {
 			getThisMonthVendorBillsUrl:getThisMonthVendorBillsUrl,
 			filterVendorBillsUrl:filterVendorBillsUrl,
 			getVendorBillPaymentsUrl:getVendorBillPaymentsUrl,
+
+			//Stock
+			saveWareHouseUrl:saveWareHouseUrl,
+			getWareHousesUrl:getWareHousesUrl,
+			getWareHouseUrl:getWareHouseUrl,
+			saveWareHouseProductsUrl:saveWareHouseProductsUrl,
+
 			//Common
 			getAllDiscountRatesUrl:getAllDiscountRatesUrl,
 			getPaymentTypesUrl:getPaymentTypesUrl,

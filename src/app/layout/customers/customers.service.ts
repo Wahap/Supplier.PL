@@ -18,6 +18,17 @@ export class CustomersService {
       .map((response: Response) => response.json());
   }
 
+  
+  getTopCustomers(url: string, input: any): any {
+    return this.http.post(url, input, this.options)
+      .map((response: Response) => response.json());
+  }
+
+  getTopCustomersByYear(url: string, input: any): any {
+    return this.http.post(url, input, this.options)
+      .map((response: Response) => response.json());
+  }
+
   getPassiveCustomers(url: string, input: any): any {
     return this.http.post(url, input, this.options)
       .map((response: Response) => response.json());

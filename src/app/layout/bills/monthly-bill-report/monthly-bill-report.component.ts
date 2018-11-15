@@ -10,8 +10,10 @@ import { ConfigService, IConfig } from '../../../app.config';
 })
 export class MonthlyBillReportComponent implements OnInit {
  config:IConfig;
+ chartType='bar';
  data:any;
  labels=['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
+ dataSets:any[]=[];
   constructor(public toastr: ToastsManager, vcr: ViewContainerRef, private billService: BillService,private configService: ConfigService) 
   {
     this.toastr.setRootViewContainerRef(vcr);
@@ -21,26 +23,43 @@ export class MonthlyBillReportComponent implements OnInit {
     this.config=this.configService.getAppConfig();
     this.billService.getMonthlyBillReport(this.config.getMonthlyBillReportUrl,null).subscribe(report=>{
       console.log(report);
-      let colors=['#006266','#1B1464','#6F1E51'];
+      let colors=['#006266','#1B1464','#6F1E51','#2f3542'];
       let counter=-1;
-      let dataSets=report.map(item=>{
+      this.dataSets=report.map(item=>{
         counter++;
         return {
           label:item.label,
           data:item.data,
           backgroundColor: colors[counter],
-          borderColor: '#1E88E5',
+          borderColor: colors[counter],
+          fill:true
         };
       });
       this.data = {
         labels: this.labels,
-        datasets: dataSets
+        datasets: this.dataSets
         
     }
     },error=>{
       this.toastr.error("Aylık Rapor Getirilirken Hata Meydana Geldi");
     });
 
+  }
+
+  changeChartType(type)
+  {
+    if(this.chartType!=type)
+    {
+      this.chartType=type;
+      this.data = {
+        labels: this.labels,
+        datasets: this.dataSets
+        
+    }
+    }
+    
+
+   
   }
 
 }

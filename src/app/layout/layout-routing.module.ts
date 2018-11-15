@@ -37,6 +37,9 @@ import { OverDueBillsComponent } from './bills/over-due-bills/over-due-bills.com
 import { BillReportsComponent } from './bills/bill-reports/bill-reports.component';
 import { YearlyBillReportComponent } from './bills/yearly-bill-report/yearly-bill-report.component';
 import { MonthlyBillReportComponent } from './bills/monthly-bill-report/monthly-bill-report.component';
+import { TopCustomersReportComponent } from './customers/top-customers-report/top-customers-report.component';
+import { WareHouseListComponent } from './wareHouses/ware-house-list/ware-house-list.component';
+import { WareHouseDetailsComponent } from './wareHouses/ware-house-details/ware-house-details.component';
 
 
 const routes: Routes = [
@@ -69,10 +72,13 @@ const routes: Routes = [
             { path: 'billReports',component:BillReportsComponent,
             children:[
                 { path:'yearly',component:YearlyBillReportComponent },
-                { path:'monthly',component:MonthlyBillReportComponent }
+                { path:'monthly',component:MonthlyBillReportComponent },
+                { path:'topCustomers',component:TopCustomersReportComponent }
             ]
         
         },
+        { path: 'wareHouses',component:WareHouseListComponent },
+        { path: 'wareHouse/details/:id',component:WareHouseDetailsComponent },
 
             { path: 'filteredVendorBills',component:FilterVendorBillsComponent },
             { path: 'saveVendorBill',component:SaveVendorBillComponent },

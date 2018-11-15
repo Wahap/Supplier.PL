@@ -36,8 +36,12 @@
                     <tr>
                         <td>irsaliye Numarası</td>
                         <td><input type="number" class="form-control form-control-sm" [(ngModel)]="currentBill.waybillId" /></td>
-                        <td></td>
-                        <td></td>
+                        <td>Depo</td>
+                        <td>
+                            <select [(ngModel)]="primaryWareHouseId">
+                                <option *ngFor="let wareHouse of wareHouses" [value]="wareHouse.id">{{wareHouse.name}}</option>
+                            </select>
+                        </td>
                     </tr>
                 </table>
                    
@@ -138,11 +142,12 @@
                                 <th>Menge</th>
                                 <th>Einheit</th>
                                 <th>Art.Nr.</th>
-                                <th>Barcode</th>
+                                <!-- <th>Barcode</th> -->
                                 <th>Text</th>
                                 <th>Preis</th>
                                 <th>MwSt</th>
                                 <th>Stück</th>
+                                <th>Warenhaus</th>
                             </tr>
                             <tr *ngFor="let product of currentBill.billProducts;index as i;" [ngStyle]="{ 'background-color': (product.netSalePrice<=0 ? 'red' : '') }" >
                                 <td>{{i+1}}</td>
@@ -156,12 +161,17 @@
                                 <td> <input type="number" class="bill-product-package" [(ngModel)]="product.unitsInPackage"
                                     (ngModelChange)="changeStatus(product)" /></td>
                                 <td>{{product.product.orderNumber}}</td>
-                                <td>{{product.product.barcodeOfProduct}}</td>
+                                <!-- <td>{{product.product.barcodeOfProduct}}</td> -->
                                 <td>{{product.product.productName}}</td>
                                
                                 <td><input type="number" class="form-control form-control-sm bill-netSale-Price" [(ngModel)]="product.netSalePrice" (ngModelChange)="changeStatus(product)"  /></td>
                                 <td><input type="number" class="form-control form-control-sm bill-tax" [(ngModel)]="product.tax" (ngModelChange)="changeStatus(product)"  /></td>
                                 <td>{{product.numberOfPackage}} Kolli X {{ product.unitsInPackage }} Stk = {{product.numberOfPackage*product.unitsInPackage}} </td>
+                                <td> 
+                                        <select [(ngModel)]="product.wareHouseId" (ngModelChange)="changeStatus(product)">
+                                            <option *ngFor="let wareHouse of wareHouses" [value]="wareHouse.id">{{wareHouse.name}}</option>
+                                        </select>
+                                </td>
                             </tr>
                            
                             <tr>
@@ -169,10 +179,12 @@
                                 <td> <mark>{{currentBillTotals.totalPackages}} Kolli</mark> </td>
                                 <td></td>
                                 <td></td>
+                                <!-- <td></td> -->
                                 <td> <mark>{{currentBillTotals.totalItems}} Artikel</mark> </td>
                                 <td></td>
                                 <td></td>
                                 <td> <mark>{{currentBillTotals.totalPieces}} Stk</mark> </td>
+                                <td></td>
                             </tr>
                         </table>
     

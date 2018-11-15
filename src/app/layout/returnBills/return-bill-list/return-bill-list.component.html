@@ -110,7 +110,7 @@
   [responsive]="true" showEffect="fade" [modal]="true" width="95%">
   <div>
 
-      <app-save-return-bill [selectedBill]="selectedBill"></app-save-return-bill>
+      <app-save-return-bill [selectedBill]="selectedBill" (onReturnBillSaved)="onBillSaved($event)"></app-save-return-bill>
   </div>
 </p-dialog>
 
