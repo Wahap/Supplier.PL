@@ -75,6 +75,7 @@ import { TopCustomersReportComponent } from './customers/top-customers-report/to
 import { WareHouseListComponent } from './wareHouses/ware-house-list/ware-house-list.component';
 import { SaveWareHouseComponent } from './wareHouses/save-ware-house/save-ware-house.component';
 import { WareHouseDetailsComponent } from './wareHouses/ware-house-details/ware-house-details.component';
+import { TopProductsReportComponent } from './products/top-products-report/top-products-report.component';
 
 
 
@@ -130,7 +131,7 @@ import { WareHouseDetailsComponent } from './wareHouses/ware-house-details/ware-
     UnpaidBillsComponent,
     OverDueBillsComponent,
     ProductFormComponent,
-    BrandFormComponent, CategoryFormComponent, UnitFormComponent, SupplierFormComponent, UnpaidBillsChartComponent, ThisMonthBillsChartComponent, BillReportsComponent, YearlyBillReportComponent, MonthlyBillReportComponent, TopCustomersReportComponent, WareHouseListComponent, SaveWareHouseComponent, WareHouseDetailsComponent
+    BrandFormComponent, CategoryFormComponent, UnitFormComponent, SupplierFormComponent, UnpaidBillsChartComponent, ThisMonthBillsChartComponent, BillReportsComponent, YearlyBillReportComponent, MonthlyBillReportComponent, TopCustomersReportComponent, WareHouseListComponent, SaveWareHouseComponent, WareHouseDetailsComponent, TopProductsReportComponent
     ]
 })
 export class LayoutModule { }

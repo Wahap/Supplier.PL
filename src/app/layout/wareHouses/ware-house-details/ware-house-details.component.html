@@ -101,7 +101,7 @@
                 <span *ngSwitchCase="'systemStock'">{{pro.product.stockAmount}}K</span>
                 <span *ngSwitchCase="'countingStock'">
                     <button class="btnDecrease btn-warning" (click)="decreaseWareHouseProduct(pro)">-</button>
-                    <input  type="number" class="product-package" [(ngModel)]="pro.package" (onModelChange)="setPackage(pro)" />
+                    <input  type="number" class="product-package" [(ngModel)]="pro.package" (ngModelChange)="setPackage(pro)" />
                     <button class="btnIncrease btn-success" (click)="increaseWareHouseProduct(pro)">+</button>
                 </span>
                

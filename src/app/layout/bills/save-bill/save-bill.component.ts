@@ -50,6 +50,7 @@ export class SaveBillComponent implements OnInit {
   categories: Category[] = [];
   isBillSaving:boolean=false;
   isDirty:boolean=false;
+  rowNumber=0;
   @Output() onBillSaved=new EventEmitter();
   @ViewChild('billProductsContainer') private billProductsContainer: ElementRef;
   @Input()
@@ -104,6 +105,7 @@ export class SaveBillComponent implements OnInit {
   mapSelectedBillProductsToCurrentBillProducts() {
     this.billService.getBillProducts(this.config.getBillProductsUrl, this.selectedBill).subscribe(billProducts => {
       this.currentBill.billProducts = billProducts; 
+      this.rowNumber=billProducts[billProducts.length-1].rowNumber;
       this.calculateCurrentBillPrices();
     },error=>{
       this.toastr.error("Faturanın Ürünleri Getirilirken Bir Hata Meydana Geldi...");
@@ -164,7 +166,7 @@ export class SaveBillComponent implements OnInit {
     this.currentBill.addressId = this.selectedAddress.id;
     this.currentBill.priceTypeId=this.priceTypeId;
     this.currentBill.customerId = this.selectedCustomer.id;
-    this.currentBill.extraDiscount = this.selectedCustomer.extraDiscount;
+    this.currentBill.extraDiscount = this.currentBill.extraDiscount;
     this.currentBill.createdDate = new Date(this.createdDate.getFullYear(),this.createdDate.getMonth(),this.createdDate.getDate(),8,0,0);
     this.currentBill.deliveryDate =new Date(this.deliveryDate.getFullYear(),this.deliveryDate.getMonth(),this.deliveryDate.getDate(),8,0,0);
     this.currentBill.deliveryAddressId = this.deliveryAddress.id;
@@ -358,9 +360,11 @@ export class SaveBillComponent implements OnInit {
     }
     else if (editedBillProduct == undefined)//product will be added first time
     {
+      this.rowNumber++;
       let billProduct=new BillProduct();
       billProduct.id=0;
       billProduct.wareHouseId=this.primaryWareHouseId;
+      billProduct.rowNumber=this.rowNumber;
       billProduct.netSalePrice=product.netSalePrice;
       billProduct.numberOfPackage=product.package;
       billProduct.product=product;

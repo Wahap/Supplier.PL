@@ -50,6 +50,7 @@ currentWaybillTotals:Totals=new Totals();
 categories: Category[] = [];
 isWaybillSaving:boolean=false;
 isDirty:boolean=false;//check is there a unsaved changes
+rowNumber=0;
 @ViewChild('wayBillProductsContainer') private wayBillProductsContainer: ElementRef;
   @Input()
   selectedWayBill: Waybill;
@@ -114,6 +115,7 @@ isDirty:boolean=false;//check is there a unsaved changes
   {
     this.waybillService.getWaybillProducts(this.config.getWaybillProductsUrl,this.selectedWayBill).subscribe(waybillProducts=>{
       this.currentWaybill.waybillProducts=waybillProducts;
+      this.rowNumber=waybillProducts[waybillProducts.length-1].rowNumber;
       this.calculateCurrentWaybillPrices();
     });
   }
@@ -144,7 +146,7 @@ isDirty:boolean=false;//check is there a unsaved changes
    
     this.currentWaybill.addressId = this.selectedAddress.id;
     this.currentWaybill.customerId = this.selectedCustomer.id;
-    this.currentWaybill.extraDiscount=this.selectedCustomer.extraDiscount;
+    this.currentWaybill.extraDiscount=this.currentWaybill.extraDiscount;
     this.currentWaybill.priceTypeId=this.priceTypeId;//Which Price Type Used
     this.currentWaybill.createdDate =new Date(this.createdDate.getFullYear(),this.createdDate.getMonth(),this.createdDate.getDate(),8,0,0);
     this.currentWaybill.deliveryDate =new Date(this.deliveryDate.getFullYear(),this.deliveryDate.getMonth(),this.deliveryDate.getDate(),8,0,0);
@@ -282,9 +284,11 @@ setPackage(product: Product) {
     }
     else if (editedWaybillProduct == undefined)//product will be added first time
     {
+      this.rowNumber++;
       let waybillProduct=new WaybillProduct();
       waybillProduct.id=0;
       waybillProduct.wareHouseId=this.primaryWareHouseId;
+      waybillProduct.rowNumber=this.rowNumber;
       waybillProduct.netSalePrice=product.netSalePrice;
       waybillProduct.numberOfPackage=product.package;
       waybillProduct.product=product;

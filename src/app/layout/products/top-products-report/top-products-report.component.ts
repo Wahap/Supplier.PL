@@ -1,34 +1,36 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { IConfig, ConfigService } from '../../../app.config';
 import { ToastsManager } from 'ng2-toastr';
-import { CustomersService } from '../customers.service';
+import { ProductsService } from '../products.service';
 
 @Component({
-  selector: 'app-top-customers-report',
-  templateUrl: './top-customers-report.component.html',
-  styleUrls: ['./top-customers-report.component.scss']
+  selector: 'app-top-products-report',
+  templateUrl: './top-products-report.component.html',
+  styleUrls: ['./top-products-report.component.scss']
 })
-export class TopCustomersReportComponent implements OnInit {
+export class TopProductsReportComponent implements OnInit {
+
   config:IConfig;
   chartType='bar';
   data:any;
   labels=[];
-  reportData=[];
+  reportData1=[];
+  reportData2=[];
   dataSets:any[]=[];
   options: any;
   loading:boolean=false;
-  constructor(public toastr: ToastsManager, vcr: ViewContainerRef, private customerService: CustomersService,private configService: ConfigService) 
+  constructor(public toastr: ToastsManager, vcr: ViewContainerRef, private productService: ProductsService,private configService: ConfigService) 
   {
     this.toastr.setRootViewContainerRef(vcr);
    }
    ngOnInit() {
      
     this.config=this.configService.getAppConfig();
-    this.getTopCustomersByTotals();
+   
     this.options = {
       title: {
           display: true,
-          text: 'En iyi 20 Müşteri',
+          text: 'En Çok Satan 20 Ürün',
           fontSize: 16
       },
       legend: {
@@ -38,17 +40,19 @@ export class TopCustomersReportComponent implements OnInit {
   
 
   }
-getTopCustomersByTotals()
+getTopProductsByTotals(orderBy:string="price")
 {
   this.loading=true;
   this.labels=[];
-  this.reportData=[];
-  this.customerService.getTopCustomers(this.config.getTopCustomersUrl).subscribe(report=>{
-
+  this.reportData1=[];
+  this.reportData2=[];
+  this.productService.getTopProducts(this.config.getTopProductsUrl+"?orderBy="+orderBy).subscribe(report=>{
+console.log(report);
     this.loading=false;
     report.forEach(total => {
       this.labels.push(total.label);
-      this.reportData.push(total.grossPrice);
+      this.reportData1.push(total.grossPrice);
+      this.reportData2.push(total.totalPackages);
     });
 
     this.data = {
@@ -56,21 +60,27 @@ getTopCustomersByTotals()
       datasets: [
           {
               label: 'Toplam Satış(€)',
-              backgroundColor: '#343091',
+              backgroundColor: '#83186c',
               borderColor: '#1E88E5',
-              data:this.reportData
-          }
+              data:this.reportData1
+          },
+          {
+            label: 'Toplam Koli',
+            backgroundColor: '#343091',
+            borderColor: '#1E88E5',
+            data:this.reportData2
+        }
       ]
   }
   },error=>{
     this.toastr.error("Rapor Getirilirken Hata Meydana Geldi");
   });
 }
-  getTopCustomersByYear()
+  getTopProductsByYear(orderBy:string="price")
   {
     this.loading=true; 
     this.labels=[];
-    this.customerService.getTopCustomersByYear(this.config.getTopCustomersByYearUrl).subscribe(report=>{
+    this.productService.getTopProductsByYear(this.config.getTopProductsByYearUrl+"?orderBy="+orderBy,).subscribe(report=>{
       console.log(report);
       this.loading=false;
       let colors=['#6F1E51','#1B1464','#6F1E51','#2f3542'];

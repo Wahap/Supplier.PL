@@ -11,5 +11,6 @@ export class VendorBillProduct
     purchasePrice:number;
     tax:number;
     status:string;
+    rowNumber:number;
     product:Product;
 }

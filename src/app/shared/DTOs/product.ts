@@ -24,6 +24,7 @@ export class Product
     unitsInPackage:number;
     updateDate:Date;
     stockAmount:number;
+    criticalStockAmount:number;
     productPriceGroups:ProductPriceGroup[];
     
     //Navigation Properties

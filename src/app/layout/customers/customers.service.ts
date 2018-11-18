@@ -19,13 +19,13 @@ export class CustomersService {
   }
 
   
-  getTopCustomers(url: string, input: any): any {
-    return this.http.post(url, input, this.options)
+  getTopCustomers(url: string): any {
+    return this.http.get(url, this.options)
       .map((response: Response) => response.json());
   }
 
-  getTopCustomersByYear(url: string, input: any): any {
-    return this.http.post(url, input, this.options)
+  getTopCustomersByYear(url: string): any {
+    return this.http.get(url, this.options)
       .map((response: Response) => response.json());
   }
 

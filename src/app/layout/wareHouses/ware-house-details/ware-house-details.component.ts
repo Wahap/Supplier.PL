@@ -64,7 +64,7 @@ loading:boolean=false;
       this.productsInWareHouse=[];
       this.wareHouseStockValue=0;
       this.wareHouse.wareHouseProducts.forEach((item)=>{
-        this.wareHouseStockValue+=item.package*item.product.unitsInPackage*item.product.netSalePrice;
+        this.wareHouseStockValue+=item.package*item.product.unitsInPackage*item.product.purchasePrice;
         if(item.package>0)
         {
           this.productsInWareHouse.push(item);
@@ -111,9 +111,8 @@ loading:boolean=false;
   {
    
     product.status="edited";
-      product.package++;
-    
-   
+    product.package++;
+
   }
 
   

@@ -95,6 +95,19 @@ ngOnChanges(){
   //Add '${implements OnChanges}' to the class.
   this.existsInputData=true;
 }
+ngAfterContentInit(): void {
+  //Called after ngOnInit when the component's or directive's content has been initialized.
+  //Add 'implements AfterContentInit' to the class.
+  setInterval(()=>{
+   Array.from(document.querySelectorAll('.alert')).forEach(elem=>{
+      elem.classList.toggle('text-danger');
+    })
+  },1000);
+}
+
+ 
+  
+
   showDialogToAdd() {
     this.newProduct = true;
     this.selectedBrand = new Brand();

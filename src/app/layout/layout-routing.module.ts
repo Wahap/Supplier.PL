@@ -40,6 +40,7 @@ import { MonthlyBillReportComponent } from './bills/monthly-bill-report/monthly-
 import { TopCustomersReportComponent } from './customers/top-customers-report/top-customers-report.component';
 import { WareHouseListComponent } from './wareHouses/ware-house-list/ware-house-list.component';
 import { WareHouseDetailsComponent } from './wareHouses/ware-house-details/ware-house-details.component';
+import { TopProductsReportComponent } from './products/top-products-report/top-products-report.component';
 
 
 const routes: Routes = [
@@ -73,7 +74,8 @@ const routes: Routes = [
             children:[
                 { path:'yearly',component:YearlyBillReportComponent },
                 { path:'monthly',component:MonthlyBillReportComponent },
-                { path:'topCustomers',component:TopCustomersReportComponent }
+                { path:'topCustomers',component:TopCustomersReportComponent },
+                { path:'topProducts',component:TopProductsReportComponent }
             ]
         
         },

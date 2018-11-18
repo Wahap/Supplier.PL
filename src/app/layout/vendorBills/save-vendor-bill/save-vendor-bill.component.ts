@@ -36,6 +36,7 @@ export class SaveVendorBillComponent implements OnInit {
   deletedBillProducts: VendorBillProduct[] = [];
   isBillSaving:boolean=false;
   billNumber: number;
+  rowNumber=0;
   @Output() onBillSaved=new EventEmitter();
   @ViewChild('billProductsContainer') private billProductsContainer: ElementRef;
   @Input()
@@ -78,6 +79,7 @@ export class SaveVendorBillComponent implements OnInit {
   mapSelectedBillProductsToCurrentBillProducts() {
     this.vendorBillService.getVendorBillProducts(this.config.getVendorBillProductsUrl, this.selectedBill).subscribe(billProducts => {
       this.currentBill.vendorBillProducts=billProducts;
+      this.rowNumber=billProducts[billProducts.length-1].rowNumber;
       this.calculateCurrentBillPrices();
     });
   }
@@ -210,9 +212,11 @@ export class SaveVendorBillComponent implements OnInit {
     }
     else if (editedBillProduct == undefined)//product will be added first time
     {
+      this.rowNumber++;
       let billProduct=new VendorBillProduct();
       billProduct.id=0;
      billProduct.wareHouseId=this.primaryWareHouseId;
+     billProduct.rowNumber=this.rowNumber;
       billProduct.numberOfPackage=product.package;
       billProduct.product=product;
       billProduct.productId=product.id;
@@ -226,7 +230,7 @@ export class SaveVendorBillComponent implements OnInit {
       //scroll bottom 
       this.billProductsContainer.nativeElement.scrollTop = this.billProductsContainer.nativeElement.scrollHeight;
 
-    }
+    } 
     else//product exist in waybill, update the package
     {
       editedBillProduct.purchasePrice=product.purchasePrice;

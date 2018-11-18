@@ -9,12 +9,22 @@ export class ProductsService {
   options: any;
   constructor(private http: Http) {
     let token = localStorage.getItem('userToken');
-    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let headers = new Headers({ 'Content-Type': 'application/json'});
     headers.append('Authorization', token)
     this.options = new RequestOptions({ headers: headers });
    }
    getProducts(url: string, input: any): any {
     return this.http.post(url, input, this.options)
+      .map((response: Response) => response.json());
+  }
+  
+  getTopProducts(url: string): any {
+    return this.http.get(url)
+      .map((response: Response) => response.json());
+  }
+
+  getTopProductsByYear(url: string): any {
+    return this.http.get(url,  this.options)
       .map((response: Response) => response.json());
   }
 

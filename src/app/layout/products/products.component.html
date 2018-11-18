@@ -22,8 +22,8 @@
                     </button>
 
                     Ürün Listesi (Toplam Ürün Sayısı: {{products.length}})
-                    <div style="text-align: right">        
-                      
+                    <div style="text-align: right">
+
                         <mat-select placeholder="Kategori Seçiniz" [(value)]="filteredCategoryId">
                             <mat-option [value]="0">
                                 Tüm Kategoriler
@@ -63,11 +63,14 @@
                         <td *ngFor="let col of columns" [ngSwitch]="col.field" (click)="col.field!='resim'?onRowSelect(pro):''">
                             <img *ngSwitchCase="'resim'" class="product-image" (click)="showImgDialog(pro)" src="./assets/images/Products/{{pro.barcodeOfProduct}}.jpg"
                                 [alt]="pro.productName" onError="this.src='assets/images/no-image.png';">
-                                <span *ngSwitchCase="'resim'" class="stock-amount">{{pro.stockAmount}}K</span>
+                            <span *ngSwitchCase="'resim'" class="stock-amount" [class.alert]="pro.stockAmount<=pro.criticalStockAmount">{{pro.stockAmount}}K</span>
                             <span *ngSwitchCase="'purchasePrice'">{{pro.purchasePrice | money}} €</span>
                             <span *ngSwitchCase="'unit'">{{pro.unitsInPackage}} X {{pro.quantity }} {{pro.unit?.name}}</span>
-                            <span *ngSwitchCase="'netSalePrice'">{{pro.netSalePrice | money}} € <span class="badge">(Kar %: {{(pro.netSalePrice-pro.purchasePrice)*100/pro.purchasePrice | money}})</span> </span>
-                            <span *ngSwitchCase="'tax'">{{pro.tax}} <span class="badge">({{(pro.netSalePrice*pro.tax/100) | money}} €)</span></span>
+                            <span *ngSwitchCase="'netSalePrice'">{{pro.netSalePrice | money}} € <span class="badge">(Kar
+                                    %: {{(pro.netSalePrice-pro.purchasePrice)*100/pro.purchasePrice | money}})</span>
+                            </span>
+                            <span *ngSwitchCase="'tax'">{{pro.tax}} <span class="badge">({{(pro.netSalePrice*pro.tax/100)
+                                    | money}} €)</span></span>
                             <span *ngSwitchCase="'brutPrice'">{{(pro.netSalePrice+(pro.netSalePrice*pro.tax/100)) |
                                 money}} €</span>
                             <span *ngSwitchDefault>{{pro[col.field]}}</span>
@@ -121,9 +124,10 @@
                         border-radius: 5px;
                         box-shadow: 0px 0px 10px purple;
                         page-break-inside: avoid;
-                        " [style.margin-right]="i%2==0?'35px':'0px'" >
-                            
-                                <img src="assets/images/Products/{{pro.imageUrl}}" style="width: 240px;
+                        "
+                            [style.margin-right]="i%2==0?'35px':'0px'">
+
+                            <img src="assets/images/Products/{{pro.imageUrl}}" style="width: 240px;
                                 height: 240px;
                                 border: 2px solid purple;
                                 position: absolute;
@@ -147,12 +151,13 @@
                             right: 3px;
                             top: 5px;
                             padding: 6px;
-                            border-radius: 40px;">{{pro.netSalePrice | money}}  
-                            <span style="font-size:0.8em;">€</span> 
-                            
-                            
-                        </span>
-                        <span style="    background-color: purple;
+                            border-radius: 40px;">{{pro.netSalePrice
+                                | money}}
+                                <span style="font-size:0.8em;">€</span>
+
+
+                            </span>
+                            <span style="    background-color: purple;
                         color: white;
                         font-weight: bold;
                         padding: 5px;
@@ -160,8 +165,9 @@
                         top: 103px;
                         right: 15px;
                         font-size: 1.5em;
-                        border-radius: 30px;">{{pro.quantity}} {{pro.unit?.name}} X {{pro.unitsInPackage}} Stk</span>
-                        <span style="    position: absolute;
+                        border-radius: 30px;">{{pro.quantity}}
+                                {{pro.unit?.name}} X {{pro.unitsInPackage}} Stk</span>
+                            <span style="    position: absolute;
                         right: 48px;
                         top: 155px;
                         font-weight: bold;
@@ -169,7 +175,7 @@
                         color: white;
                         padding: 3px;
                         border-radius: 29px;">{{pro.barcodeOfProduct}}</span>
-                        <span style="position: absolute;
+                            <span style="position: absolute;
                         bottom: 0px;
                         right: 0px;
                         font-weight: bold;
@@ -186,7 +192,8 @@
             </div>
 
         </p-dialog>
-        <p-dialog [header]="newProduct==true?'Yeni Ürün':'Ürün Detayı'" [(visible)]="displayDialog" [responsive]="true"  showEffect="fade" [modal]="true">
+        <p-dialog [header]="newProduct==true?'Yeni Ürün':'Ürün Detayı'" [(visible)]="displayDialog" [responsive]="true"
+            showEffect="fade" [modal]="true">
             <div>
                 <form class="" #productForm="ngForm">
                     <div class="row">
@@ -197,23 +204,24 @@
                                     <input pInputText pKeyFilter="pint" id="barcodeOfProduct" name="barcodeOfProduct"
                                         [(ngModel)]="product.barcodeOfProduct" #barcodeOfProduct="ngModel" required
                                         class="form-control form-control-sm" minlength="7" [class.is-invalid]="barcodeOfProduct.errors && barcodeOfProduct.touched" />
-                                        <div class="invalid-feedback" [hidden]="!barcodeOfProduct.errors?.required">
-                                            Barcode Alanı Zorunludur...
-                                        </div>
-                                        <div class="invalid-feedback" [hidden]="!barcodeOfProduct.errors?.minlength">
-                                            Barcode Alanı En Az 7 basamaklı olmalıdır...
-                                        </div>
+                                    <div class="invalid-feedback" [hidden]="!barcodeOfProduct.errors?.required">
+                                        Barcode Alanı Zorunludur...
                                     </div>
-                              
+                                    <div class="invalid-feedback" [hidden]="!barcodeOfProduct.errors?.minlength">
+                                        Barcode Alanı En Az 7 basamaklı olmalıdır...
+                                    </div>
+                                </div>
+
                             </div>
                             <div class="form-group row">
                                 <label for="productName" class="col-sm-3">Ürün Adı</label>
                                 <div class="col-sm-9">
-                                    <input pInputText id="productName" #productName="ngModel" name="productName" [(ngModel)]="product.productName"
-                                        class="form-control form-control-sm " required  [class.is-invalid]="productName.errors && productName.touched" />
-                                        <div class="invalid-feedback" [hidden]="!productName.errors?.required">
-                                            Ürün Adı  Zorunludur...
-                                        </div>
+                                    <input pInputText id="productName" #productName="ngModel" name="productName"
+                                        [(ngModel)]="product.productName" class="form-control form-control-sm "
+                                        required [class.is-invalid]="productName.errors && productName.touched" />
+                                    <div class="invalid-feedback" [hidden]="!productName.errors?.required">
+                                        Ürün Adı Zorunludur...
+                                    </div>
                                 </div>
 
                             </div>
@@ -229,21 +237,23 @@
                                 <label for="purchasePrice" class="col-sm-3">Alış Fiyatı</label>
                                 <div class="col-sm-9">
                                     <input pKeyFilter="money" pInputText id="purchasePrice" name="purchasePrice"
-                                        [(ngModel)]="product.purchasePrice" #purchasePrice="ngModel" class="form-control form-control-sm" required  [class.is-invalid]="purchasePrice.errors && purchasePrice.touched" />
-                                        <div class="invalid-feedback" [hidden]="!purchasePrice.errors?.required">
-                                            Alış Fiyatı  Zorunludur...
-                                        </div>
+                                        [(ngModel)]="product.purchasePrice" #purchasePrice="ngModel" class="form-control form-control-sm"
+                                        required [class.is-invalid]="purchasePrice.errors && purchasePrice.touched" />
+                                    <div class="invalid-feedback" [hidden]="!purchasePrice.errors?.required">
+                                        Alış Fiyatı Zorunludur...
                                     </div>
+                                </div>
                             </div>
                             <div class="form-group row">
                                 <label for="netSalePrice" class="col-sm-3">Satış Fiyatı</label>
                                 <div class="col-sm-9">
                                     <input pKeyFilter="money" pInputText #netSalePrice="ngModel" id="netSalePrice" name="netSalePrice"
-                                        [(ngModel)]="product.netSalePrice" required class="form-control form-control-sm" [class.is-invalid]="netSalePrice.errors && netSalePrice.touched" />
-                                        <div class="invalid-feedback" [hidden]="!netSalePrice.errors?.required">
-                                            Satış Fiyatı  Zorunludur...
-                                        </div>
+                                        [(ngModel)]="product.netSalePrice" required class="form-control form-control-sm"
+                                        [class.is-invalid]="netSalePrice.errors && netSalePrice.touched" />
+                                    <div class="invalid-feedback" [hidden]="!netSalePrice.errors?.required">
+                                        Satış Fiyatı Zorunludur...
                                     </div>
+                                </div>
                             </div>
                             <div class="form-group row">
                                 <label for="barcodeOfPackage" class="col-sm-3">K.Barkodu</label>
@@ -265,17 +275,19 @@
                         <div class="col-sm-5">
 
                             <div class="form-group row">
-                                <label for="brands" class="col-sm-3"><i (click)="displayBrandDialog=true;" class="fa fa-plus-circle d-sm-inline text-success" aria-hidden="true"></i>Marka</label>
+                                <label for="brands" class="col-sm-3"><i (click)="displayBrandDialog=true;" class="fa fa-plus-circle d-sm-inline text-success"
+                                        aria-hidden="true"></i>Marka</label>
                                 <div class="col-sm-9">
-                                    <p-dropdown [options]="brands"  [(ngModel)]="selectedBrand" name="brands" [filter]="true"
+                                    <p-dropdown [options]="brands" [(ngModel)]="selectedBrand" name="brands" [filter]="true"
                                         appendTo="body" placeholder="Marka sec" optionLabel="name" [style]="{'width':'100%'}"
                                         styleClass="ui-column-filter"></p-dropdown>
-                                
-                                        
+
+
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="categories" class="col-sm-3"><i (click)="displayCategoryDialog=true;" class="fa fa-plus-circle d-sm-inline text-success" aria-hidden="true"></i>Kategori</label>
+                                <label for="categories" class="col-sm-3"><i (click)="displayCategoryDialog=true;" class="fa fa-plus-circle d-sm-inline text-success"
+                                        aria-hidden="true"></i>Kategori</label>
                                 <div class="col-sm-9">
                                     <p-dropdown [options]="categories" [filter]="true" appendTo="body" [(ngModel)]="selectedCategory"
                                         name="categories" placeholder="Kategori" optionLabel="name" [style]="{'width':'100%'}"
@@ -292,7 +304,8 @@
 
                             </div>
                             <div class="form-group row">
-                                <label for="suppliers" class="col-sm-3"><i (click)="displaySupplierDialog=true;" class="fa fa-plus-circle d-sm-inline text-success" aria-hidden="true"></i>Toptancı</label>
+                                <label for="suppliers" class="col-sm-3"><i (click)="displaySupplierDialog=true;" class="fa fa-plus-circle d-sm-inline text-success"
+                                        aria-hidden="true"></i>Toptancı</label>
                                 <div class="col-sm-9">
                                     <p-dropdown [options]="suppliers" [filter]="true" appendTo="body" name="suppliers"
                                         [(ngModel)]="selectedSupplier" placeholder="Tedarikci Sec" optionLabel="name"
@@ -300,7 +313,8 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="units" class="col-sm-3"><i (click)="displayUnitDialog=true;" class="fa fa-plus-circle d-sm-inline text-success" aria-hidden="true"></i>Birim</label>
+                                <label for="units" class="col-sm-3"><i (click)="displayUnitDialog=true;" class="fa fa-plus-circle d-sm-inline text-success"
+                                        aria-hidden="true"></i>Birim</label>
                                 <div class="col-sm-9">
                                     <div class="row">
                                         <div class="col-sm-6">
@@ -323,6 +337,7 @@
                                 <div class="col-sm-9">
                                     <input pInputText id="unitsInPackage" name="unitsInPackage" [(ngModel)]="product.unitsInPackage"
                                         class="form-control form-control-sm" />
+                                        <small class="form-text text-muted">Bir kolide bu üründen kaç adet olduğunu girin.</small>
                                 </div>
                             </div>
 
@@ -333,6 +348,14 @@
                                         class="form-control form-control-sm" />
                                 </div>
                             </div>
+                            <div class="form-group row">
+                                <label for="unitsInPackage" class="col-sm-3">Kritik Stok</label>
+                                <div class="col-sm-9">
+                                    <input pInputText id="criticalStockAmount" name="criticalStockAmount" [(ngModel)]="product.criticalStockAmount"
+                                        class="form-control form-control-sm" />
+                                    <small class="form-text text-muted">Bu üründen stoklarınızda girilen miktarın altında kalırsa uyarı alırsınız.</small>
+                                </div>
+                            </div>
                         </div>
 
                     </div>
@@ -341,40 +364,44 @@
             <p-footer>
                 <div class="ui-dialog-buttonpane ui-helper-clearfix">
                     <!-- <button type="button" class="ui-button-danger" [disabled]="newProduct" pButton icon="fa-close" (click)="delete()" label="Sil"></button>
-                    <button type="button" class="ui-button-success" [disabled]="!productForm.form.valid    ||selectedCategory.name==null" pButton
-                        icon="fa-check" (click)="save()" label="Kaydet"></button> -->
-                    <button class="btn btn-success" [disabled]="!productForm.form.valid"
-                        (click)="save(true)">Kaydet</button>
-                    <button class="btn btn-sm" [class.btn-danger]="product.isActive" [class.btn-primary]="!product.isActive" [disabled]="newProduct" (click)="toggleIsActiveProperty(product)">{{product.isActive?'Sil':'Aktif Et'}}</button>
+                                    <button type="button" class="ui-button-success" [disabled]="!productForm.form.valid    ||selectedCategory.name==null" pButton
+                                        icon="fa-check" (click)="save()" label="Kaydet"></button> -->
+                    <button class="btn btn-success" [disabled]="!productForm.form.valid" (click)="save(true)">Kaydet</button>
+                    <button class="btn btn-sm" [class.btn-danger]="product.isActive" [class.btn-primary]="!product.isActive"
+                        [disabled]="newProduct" (click)="toggleIsActiveProperty(product)">{{product.isActive?'Sil':'Aktif
+                        Et'}}</button>
                 </div>
             </p-footer>
         </p-dialog>
 
-        <p-dialog [header]="'Yeni Marka'" [(visible)]="displayBrandDialog" [responsive]="true"  showEffect="fade" [modal]="true">
+        <p-dialog [header]="'Yeni Marka'" [(visible)]="displayBrandDialog" [responsive]="true" showEffect="fade"
+            [modal]="true">
             <div>
-               <app-brand-form (onBrandSaved)="onBrandSaved($event)"></app-brand-form>
+                <app-brand-form (onBrandSaved)="onBrandSaved($event)"></app-brand-form>
             </div>
-        
+
         </p-dialog>
 
-        <p-dialog [header]="'Yeni Kategori'" [(visible)]="displayCategoryDialog" [responsive]="true"  showEffect="fade" [modal]="true">
+        <p-dialog [header]="'Yeni Kategori'" [(visible)]="displayCategoryDialog" [responsive]="true" showEffect="fade"
+            [modal]="true">
             <div>
-               <app-category-form (onCategorySaved)="onCategorySaved($event)"></app-category-form>
+                <app-category-form (onCategorySaved)="onCategorySaved($event)"></app-category-form>
             </div>
-        
+
         </p-dialog>
-        <p-dialog [header]="'Yeni Toptancı'" [(visible)]="displaySupplierDialog" [responsive]="true"  showEffect="fade" [modal]="true">
+        <p-dialog [header]="'Yeni Toptancı'" [(visible)]="displaySupplierDialog" [responsive]="true" showEffect="fade"
+            [modal]="true">
             <div>
-               <app-supplier-form (onSupplierSaved)="onSupplierSaved($event)"></app-supplier-form>
+                <app-supplier-form (onSupplierSaved)="onSupplierSaved($event)"></app-supplier-form>
             </div>
-        
+
         </p-dialog>
 
-        <p-dialog [header]="'Yeni Birim'" [(visible)]="displayUnitDialog" [responsive]="true"  showEffect="fade" [modal]="true">
+        <p-dialog [header]="'Yeni Birim'" [(visible)]="displayUnitDialog" [responsive]="true" showEffect="fade" [modal]="true">
             <div>
-               <app-unit-form (onUnitSaved)="onUnitSaved($event)"></app-unit-form>
+                <app-unit-form (onUnitSaved)="onUnitSaved($event)"></app-unit-form>
             </div>
-        
+
         </p-dialog>
         <p-dialog header="Resim Yukle" [(visible)]="displayChangeImg" [responsive]="true" [contentStyle]="{'width':'100%'}"
             showEffect="fade" [modal]="true">

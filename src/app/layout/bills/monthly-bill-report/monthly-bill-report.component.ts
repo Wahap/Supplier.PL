@@ -21,7 +21,7 @@ export class MonthlyBillReportComponent implements OnInit {
 
   ngOnInit() {
     this.config=this.configService.getAppConfig();
-    this.billService.getMonthlyBillReport(this.config.getMonthlyBillReportUrl,null).subscribe(report=>{
+    this.billService.getMonthlyBillReport(this.config.getMonthlyBillReportUrl).subscribe(report=>{
       console.log(report);
       let colors=['#006266','#1B1464','#6F1E51','#2f3542'];
       let counter=-1;

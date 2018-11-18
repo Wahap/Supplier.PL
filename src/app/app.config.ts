@@ -4,6 +4,8 @@ export interface IConfig {
 	calculate: string;
 
 	getProductsUrl: string;
+	getTopProductsUrl: string;
+	getTopProductsByYearUrl: string;
 	getPassiveProductsUrl: string;
 	getProductsByPriceTypeUrl: string;
 	saveProductsUrl:string;
@@ -136,6 +138,8 @@ export class ConfigService {
 		let getGroupPricesUrl=(debug ? serverLoginPathDebug + "Product/getGroupPrices" : serverLoginPath + "Product/getGroupPrices");
 		let getAllGroupsPricesUrl=(debug ? serverLoginPathDebug + "Product/getAllGroupsPrices" : serverLoginPath + "Product/getAllGroupsPrices");
 		let saveProductGroupPricesUrl=(debug ? serverLoginPathDebug + "Product/saveProductGroupPrices" : serverLoginPath + "Product/saveProductGroupPrices");
+		let getTopProductsUrl= (debug ? serverLoginPathDebug + "Product/getTopProducts" : serverLoginPath + "Product/getTopProducts");
+		let getTopProductsByYearUrl= (debug ? serverLoginPathDebug + "Product/getTopProductsByYear" : serverLoginPath + "Product/getTopProductsByYear");
 		
 		let getCategoriesUrl = (debug ? serverLoginPathDebug + "Common/getallcategories" : serverLoginPath + "Common/getallcategories");
 		let getAllUnitsUrl = (debug ? serverLoginPathDebug + "Common/getallunits" : serverLoginPath + "Common/getallunits");
@@ -243,6 +247,8 @@ export class ConfigService {
 			getUsers: getUsers,
 			calculate: calculate,
 			getProductsUrl: getProductsUrl,
+			getTopProductsUrl:getTopProductsUrl,
+			getTopProductsByYearUrl:getTopProductsByYearUrl,
 			getPassiveProductsUrl:getPassiveProductsUrl,
 			getProductsByPriceTypeUrl:getProductsByPriceTypeUrl,
 			getGroupPricesUrl:getGroupPricesUrl,

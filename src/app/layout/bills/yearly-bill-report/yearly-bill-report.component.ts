@@ -20,7 +20,7 @@ export class YearlyBillReportComponent implements OnInit {
 
   ngOnInit() {
     this.config=this.configService.getAppConfig();
-    this.billService.getYearlyBillReport(this.config.getYearlyBillReportUrl,null).subscribe(report=>{
+    this.billService.getYearlyBillReport(this.config.getYearlyBillReportUrl).subscribe(report=>{
       console.log(report);
     
       report.forEach(total => {

@@ -1,0 +1,31 @@
+<div class="row">
+  <div class="col-md-12">
+      <div class="card mt-1 mr-1">
+          <div class="card-header">
+           Genel Toplam
+          </div>
+          <div class="card-body">
+              <button class="btn btn-primary btn-sm" (click)="getTopProductsByTotals('piece')" [disabled]="loading">Adete Göre</button>
+              <button class="btn btn-primary btn-sm" (click)="getTopProductsByTotals('price')" [disabled]="loading"> Fiyata Göre</button>
+          </div>
+        </div>
+        <div class="card mt-1">
+            <div class="card-header">
+            Yıllara Göre
+            </div>
+            <div class="card-body">
+                <button class="btn btn-primary  btn-sm" (click)="getTopProductsByYear('piece')" [disabled]="loading">Adete Göre</button>
+                <button class="btn btn-primary  btn-sm" (click)="getTopProductsByYear('price')" [disabled]="loading"> Fiyata Göre</button>
+            </div>
+          </div>
+  </div>
+ 
+</div>
+<!-- <div>
+ 
+  <button class="btn btn-link" (click)="getTopProductsByYear()"  [disabled]="loading">Yıllara Göre</button>
+</div>  -->
+<div class="col-md-12" style="float:left;">
+      <p-progressSpinner *ngIf="loading"></p-progressSpinner>
+  <p-chart [type]="chartType" [data]="data" [options]="options"></p-chart>
+</div>
