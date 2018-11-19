@@ -57,14 +57,12 @@
                     Ürünler ({{products.length}})
                     <div style="text-align: right">        
                       
-                        <mat-select placeholder="Kategori Seçiniz" [(value)]="filteredCategoryId">
-                            <mat-option [value]="0">
-                                Tüm Kategoriler
-                            </mat-option>
-                            <mat-option *ngFor="let cat of categories" [value]="cat.id">
+                        <select [(ngModel)]="filteredCategoryId">
+                            <option value="0">Kategori Seçiniz</option>
+                            <option *ngFor="let cat of categories" [value]="cat.id">
                                 {{cat.name}}
-                            </mat-option>
-                        </mat-select>
+                            </option>
+                          </select>
                     </div>
                 </ng-template>
                 <ng-template pTemplate="header" let-columns>
@@ -166,7 +164,9 @@
                                
                                 <td><input type="number" class="form-control form-control-sm bill-netSale-Price" [(ngModel)]="product.netSalePrice" (ngModelChange)="changeStatus(product)"  /></td>
                                 <td><input type="number" class="form-control form-control-sm bill-tax" [(ngModel)]="product.tax" (ngModelChange)="changeStatus(product)"  /></td>
-                                <td>{{product.numberOfPackage}} Kolli X {{ product.unitsInPackage }} Stk = {{product.numberOfPackage*product.unitsInPackage}} </td>
+                                <td>{{product.numberOfPackage}} Kolli X {{ product.unitsInPackage }} Stk = {{product.numberOfPackage*product.unitsInPackage}} 
+                                    ={{(product.numberOfPackage*product.unitsInPackage*product.netSalePrice) | number:'.2'}}€
+                                </td>
                                 <td> 
                                         <select [(ngModel)]="product.wareHouseId" (ngModelChange)="changeStatus(product)">
                                             <option *ngFor="let wareHouse of wareHouses" [value]="wareHouse.id">{{wareHouse.name}}</option>

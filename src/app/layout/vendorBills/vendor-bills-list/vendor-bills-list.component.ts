@@ -42,6 +42,8 @@ export class VendorBillsListComponent implements OnInit {
 
     this.billListColumns = [
       { field: 'billNumber', header: 'Fatura.No' },
+      { field: 'billDate', header: 'Tarih' },
+      { field: 'totalPurchasePrice', header: 'Tutar(€)' },
       { field: 'supplier', header: 'Toptancı' },
       { field: 'isPaid', header: 'Ödenme Durumu' },
       { field: 'update', header: 'Güncelle' },
@@ -99,7 +101,8 @@ export class VendorBillsListComponent implements OnInit {
     let bill = this.allBills.find(x => x.id == editedBill.id);
   bill.billNumber=editedBill.billNumber;
   bill.supplierId=editedBill.supplierId;
-    
+  bill.billDate=editedBill.billDate;
+  bill.totalPurchasePrice=editedBill.totalPurchasePrice;
 
     this.showUpdateBillDialog = false;
   }

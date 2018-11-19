@@ -41,34 +41,55 @@
     </div>
 
     
-  </div>
+  </div> 
   <div id="page-body">
     <table style="    width: 800px;
     font-weight: bold;">
       <thead>
         <tr>
-          <th style="    text-align: left;border-bottom: 1px solid #ccc;">Pos</th>
-          <th style="    text-align: left;border-bottom: 1px solid #ccc;">Artikel Bezeichnung</th>
-          <th style="    text-align: left;border-bottom: 1px solid #ccc;">Barcode</th>
-          <th style="    text-align: right;border-bottom: 1px solid #ccc;">Art.Nr.</th>
-          <th style="    text-align: right;border-bottom: 1px solid #ccc;">Einheit</th>
-          <th style="    text-align: right;border-bottom: 1px solid #ccc;">Menge</th>
-          <th style="    text-align: right;border-bottom: 1px solid #ccc;" >Preis Stk</th>
-          <th style="    text-align: right;border-bottom: 1px solid #ccc;">Preis Gesamt</th>
+            <th style="    text-align: left;border-bottom: 1px solid #ccc;">Pos</th>
+            <th style="    text-align: left;border-bottom: 1px solid #ccc;">Barcode</th>
+            <th style="    text-align: left;border-bottom: 1px solid #ccc;">Art.Nr.</th>
+          
+            <th style="    text-align: left;border-bottom: 1px solid #ccc;">Menge</th>
+            <th style="    text-align: left;border-bottom: 1px solid #ccc;">Artikel Bezeichnung</th>
+          
+            <th style="    text-align: right;border-bottom: 1px solid #ccc;">Preis/Stk</th>
+            <th style="    text-align: right;border-bottom: 1px solid #ccc;">Preis Gesamt</th>
         </tr>
       </thead>
-      <tbody style="    font-size: 0.9em;">
+      <tbody style="    font-size: 0.9em; font-weight: normal;">
 
         <tr *ngFor="let pro of selectedBill?.vendorBillProducts;let i=index;">
-          <td>{{i+1}}</td>
-          <td>{{pro.product.productName}}</td>
-          <td>{{pro.product.barcodeOfProduct}}</td>
-          <td style="text-align: right;">{{pro.product.orderNumber}}</td>
-          <td style="text-align: right;">{{pro.numberOfPackage}}</td>
-          <td style="text-align: right;">{{pro.numberOfPackage * pro.product.unitsInPackage}}</td>
-          <td style="text-align: right;">{{pro.purchasePrice | money}} €</td>
-          <td style="text-align: right;">{{(pro.numberOfPackage * pro.product.unitsInPackage * pro.purchasePrice) | money}} €</td>
+            <td>{{i+1}}</td>
+            <td>{{pro.product.barcodeOfProduct}}</td>
+            <td style="text-align: left;">{{pro.product.orderNumber}}</td>
+            <td style="text-align: left;">{{pro.numberOfPackage}} K = {{pro.numberOfPackage * pro.product.unitsInPackage}} STK</td>
+
+            <td style="text-align: left;">{{pro.product.productName}}</td> 
+           
+            
+           
+            <td style="text-align: right;">{{pro.netSalePrice | money}} €</td>
+            <td style="text-align: right;">{{(pro.numberOfPackage * pro.product.unitsInPackage * pro.netSalePrice) |
+              money}} €</td>
         </tr>
+        <tr>
+            <td style="border-top: 1px solid black;"></td>
+            <td style="border-top: 1px solid black;"></td>
+            <td style="border-top: 1px solid black;"></td>
+            <td style="    text-align: center;
+            font-weight: bold;
+            font-size: 0.8em;
+            border-top: 1px solid black;
+            line-height: 24px;">G.KOLLI:{{billTotals.totalPackages}}</td>
+            <td style="border-top: 1px solid black;"></td>
+            
+         
+          
+            <td style="border-top: 1px solid black;"></td>
+            <td style="border-top: 1px solid black;"></td>
+          </tr>
       </tbody>
     </table>
     

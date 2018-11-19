@@ -58,14 +58,12 @@
                 Ürünler ({{products.length}})
                 <div style="text-align: right">        
                       
-                    <mat-select placeholder="Kategori Seçiniz" [(value)]="filteredCategoryId">
-                        <mat-option [value]="0">
-                            Tüm Kategoriler
-                        </mat-option>
-                        <mat-option *ngFor="let cat of categories" [value]="cat.id">
+                    <select [(ngModel)]="filteredCategoryId">
+                        <option value="0">Kategori Seçiniz</option>
+                        <option *ngFor="let cat of categories" [value]="cat.id">
                             {{cat.name}}
-                        </mat-option>
-                    </mat-select>
+                        </option>
+                      </select>
                 </div>
             </ng-template>
             <ng-template pTemplate="header" let-columns>

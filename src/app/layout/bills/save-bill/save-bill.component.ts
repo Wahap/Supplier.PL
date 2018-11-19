@@ -51,6 +51,7 @@ export class SaveBillComponent implements OnInit {
   isBillSaving:boolean=false;
   isDirty:boolean=false;
   rowNumber=0;
+  filteredCategoryId:number=0;
   @Output() onBillSaved=new EventEmitter();
   @ViewChild('billProductsContainer') private billProductsContainer: ElementRef;
   @Input()

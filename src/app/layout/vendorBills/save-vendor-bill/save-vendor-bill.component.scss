@@ -68,7 +68,7 @@ mat-dialog-container {
 }
 .bill-product-package
 {
-    width: 30px;
+    width: 35px;
     text-align: center;
     font-weight: bold;
     font-size: 1em;
@@ -104,16 +104,35 @@ mat-dialog-container {
     width: 157px;
     display: inline;
 }
-.bill-product-package
+.price-difference
 {
-    width: 45px;
-    text-align: center;
-    font-weight: bold;
-    font-size: 1em;
+    position: absolute;
+    right: 0px;
+    top: 26%;
+}
+.fa-arrow-up
+{
+    color:red;
+}
+.fa-arrow-down
+{
+    color:green;
+}
+.fa-arrow-left
+{
+    color:yellow;
 }
 #billOperations
 {
     margin-top: 10px;
+}
+.netPurchasePrice
+{
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.4em;
+    padding: 0px;
+    width: 60%;
 }
 #billNumber
 {
@@ -128,7 +147,26 @@ mat-dialog-container {
 {
     padding:2px;
 }
-
+.btnDecrease
+{
+    background-color: #eb4d4b;
+    padding: 2px 15px;
+    color: white;
+    font-weight: bold;
+    border: 2px solid white;
+    border-right: none;
+    border-top-left-radius: 9px;
+}
+.btnIncrease
+{
+    background-color: #2ecc71;
+    padding: 2px 15px;
+    color: white;
+    font-weight: bold;
+    border: 2px solid white;
+    border-left: none;
+    border-top-right-radius: 9px;
+}
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;

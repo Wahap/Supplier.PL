@@ -37,6 +37,7 @@ export class SaveVendorBillComponent implements OnInit {
   isBillSaving:boolean=false;
   billNumber: number;
   rowNumber=0;
+  filteredCategoryId:number=0;
   @Output() onBillSaved=new EventEmitter();
   @ViewChild('billProductsContainer') private billProductsContainer: ElementRef;
   @Input()
@@ -53,7 +54,7 @@ export class SaveVendorBillComponent implements OnInit {
     this.getProducts();
     this.getWareHouses();
     this.productListCols = [
-      { field: 'barcodeOfProduct', header: 'Barkod' },
+      // { field: 'barcodeOfProduct', header: 'Barkod' },
       { field: 'orderNumber', header: 'S.No' },
       { field: 'productName', header: 'Ürün' },
       { field: 'purchasePrice', header: 'Alış Fiyat' },
@@ -104,7 +105,7 @@ export class SaveVendorBillComponent implements OnInit {
     this.currentBill.billNumber = this.billNumber;
     this.currentBill.supplierId = this.selectedSupplier.id;
     this.currentBill.billDate = new Date(this.billDate.getFullYear(),this.billDate.getMonth(),this.billDate.getDate(),8,0,0);
-   
+   this.currentBill.totalPurchasePrice=this.currentBillTotals.totalNetPrice;
    
 
     // add also removed/deleted product with "deleted" flag/status
@@ -151,6 +152,7 @@ export class SaveVendorBillComponent implements OnInit {
   {
     billProduct.numberOfPackage++;
     billProduct.status="edited";
+    this.products.find(x=>x.id==billProduct.productId).package=billProduct.numberOfPackage;//sync packages
     this.calculateCurrentBillPrices();
   }
   decreaseBillProduct(billProduct:VendorBillProduct)
@@ -164,12 +166,13 @@ export class SaveVendorBillComponent implements OnInit {
         billProduct.status="deleted";
         this.deletedBillProducts.push(billProduct);
       }
-      
+      this.products.find(x=>x.id==billProduct.productId).package=0;//sync packages
     }
     else
     {
       billProduct.numberOfPackage--;
       billProduct.status="edited";
+      this.products.find(x=>x.id==billProduct.productId).package=billProduct.numberOfPackage;//sync packages
     }
     this.calculateCurrentBillPrices();
    
@@ -178,6 +181,7 @@ export class SaveVendorBillComponent implements OnInit {
   {
     let indis=this.currentBill.vendorBillProducts.findIndex(x=>x.productId==billProduct.productId);
     this.currentBill.vendorBillProducts.splice(indis,1);
+    this.products.find(x=>x.id==billProduct.productId).package=0;//sync packages
     if(billProduct.id>0)
       {
         billProduct.status="deleted";
@@ -262,6 +266,9 @@ export class SaveVendorBillComponent implements OnInit {
     this.productsService.getProducts(this.config.getProductsUrl,null).subscribe(items => {
      
      this.products=items.data;
+     this.products.forEach(pro=>{
+      pro.oldPurchasePrice=pro.purchasePrice;
+     });
       //this.fillBasketProducts();
       this.loading = false;
     },error=>{
@@ -289,17 +296,18 @@ export class SaveVendorBillComponent implements OnInit {
       this.toastr.error("Toptancılar Getirilirken hata meydana geldi");
     });
   }
-  filterProductsByCategory(filteredCategoryId, basketProduct:BasketProduct) {
-  
+ 
+  filterProductsByCategory(filteredCategoryId, product:Product) {
+    
     if (filteredCategoryId == undefined || filteredCategoryId == 0) {
       return true;
     }
-    else if (basketProduct.product.category == null) {
+    else if (product.category == null) {
       return false;
     }
    
     else {
-      return basketProduct.product.categoryId == filteredCategoryId;
+      return product.categoryId == filteredCategoryId;
     }
   }
   windowsHeight() {

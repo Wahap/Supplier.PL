@@ -36,5 +36,7 @@ export class Product
     goldPriceGroup:ProductPriceGroup;
     //using for which process is calling (adding,deleting or editing)
     status:string;
+    //using form comparing new PurchasePrice and old Purchase Price
+    oldPurchasePrice:number;
 
 }

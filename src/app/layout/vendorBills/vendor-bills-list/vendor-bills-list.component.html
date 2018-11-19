@@ -8,16 +8,15 @@
               </th>
           </tr>
           <tr>
-              <th>
-                  <input placeholder="Fatura.No..." class="form-control form-control-sm" type="text" (input)="dtBillList.filter($event.target.value, 'billNumber','contains')">
-              </th>
-              <th>
-                 
-              </th>
-
-              <th></th>
-              <th></th>
-              <th></th>
+            <th>
+                <input placeholder="Fatura.No..." class="form-control form-control-sm" type="text" (input)="dtBillList.filter($event.target.value, 'billNumber','contains')">
+            </th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
           </tr>
       </ng-template>
       <ng-template pTemplate="body" let-bill let-columns="columns">
@@ -25,6 +24,8 @@
               <td *ngFor="let col of columns" [ngSwitch]="col.field">
                  <!-- <button class="btn btn-info btn-sm" *ngSwitchCase="'billNumber'" (click)="analyzeBill(bill)"><i class="fa fa-line-chart" aria-hidden="true"></i></button> -->
                   <span *ngSwitchCase="'billNumber'" class="font-weight-bold">{{bill.billNumber}}</span>
+                  <span *ngSwitchCase="'billDate'">{{bill.billDate | date:'dd.MM.yyyy'}}</span>
+                  <span *ngSwitchCase="'totalPurchasePrice'">{{bill.totalPurchasePrice | number:'.3'}}</span>
                   <span *ngSwitchCase="'supplier'">{{bill.supplier.name}}</span>
 
                   <span *ngSwitchCase="'isPaid'">

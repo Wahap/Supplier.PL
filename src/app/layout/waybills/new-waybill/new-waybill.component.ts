@@ -51,6 +51,7 @@ categories: Category[] = [];
 isWaybillSaving:boolean=false;
 isDirty:boolean=false;//check is there a unsaved changes
 rowNumber=0;
+filteredCategoryId:number=0;
 @ViewChild('wayBillProductsContainer') private wayBillProductsContainer: ElementRef;
   @Input()
   selectedWayBill: Waybill;

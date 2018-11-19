@@ -45,7 +45,7 @@ export class VendorBillPrintComponent implements OnInit {
     });
   }
 
-  calculateBillPrices()
+  calculateBillPrices() 
   {
     this.billTotals=new Totals();
     this.selectedBill.vendorBillProducts.forEach((pro:VendorBillProduct)=>{
