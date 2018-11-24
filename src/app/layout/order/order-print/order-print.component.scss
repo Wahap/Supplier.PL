@@ -1,0 +1,23 @@
+#print-options
+{
+    position: absolute;
+    right: 0px;
+    top: 20px;
+    line-height: 19px;
+}
+#print-price-text
+{
+    position: relative;
+    top: -7px;
+}
+#all-page
+{
+    height: 700px;
+    overflow: scroll;
+}
+#page-body table tr:hover
+{
+    background-color: #83186c;
+    color:white;
+    font-weight: bold;
+}

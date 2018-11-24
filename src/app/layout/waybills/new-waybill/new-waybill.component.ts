@@ -358,7 +358,7 @@ setPackage(product: Product) {
     this.currentWaybill.waybillProducts.forEach(wbProduct=>{  
       let pieces = wbProduct.unitsInPackage * wbProduct.numberOfPackage;
       let subNetPrice = pieces * wbProduct.netSalePrice;
-      this.currentWaybillTotals.totalPackages += wbProduct.numberOfPackage;
+      this.currentWaybillTotals.totalPackages += wbProduct.numberOfPackage; 
       this.currentWaybillTotals.totalPieces += pieces;
       this.currentWaybillTotals.subNetTotalPrice += subNetPrice;//net ara toplam
                                            //Calculate total tax after discount

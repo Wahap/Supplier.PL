@@ -7,7 +7,7 @@ import { WaybillProduct } from '../../../shared/DTOs/waybillProduct';
 
 @Component({
   selector: 'app-waybill-print',
-  templateUrl: './waybill-print.component.html',
+  templateUrl: './waybill-print.component.html', 
   styleUrls: ['./waybill-print.component.scss']
 })
 export class WaybillPrintComponent implements OnInit {

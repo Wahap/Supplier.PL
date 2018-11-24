@@ -252,23 +252,38 @@
             <li class="nested" [class.expand]="showMenu === 'siparis'">
                 <ul class="submenu">
                     <li>
-                        <a [routerLink]="['/receivedOrders']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-                            <i class="fa fa-fw fa-shopping-basket"></i>&nbsp;{{ 'Bekleyen' | translate }}
-                        </a>
-                    </li>
-                    <li>
 
-                        <a [routerLink]="['/approvedOrders']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-                            <i class="fa fa-fw fa-list-alt "></i>&nbsp;{{ 'Onaylanmiş' | translate }}
-                        </a>
-                    </li>
-                    <li>
+                            <a [routerLink]="['/saveReceivedOrder']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                                <i class="fa fa-fw fa-list-alt "></i>&nbsp;{{ 'Sipariş Al' | translate }}
+                            </a>
+                        </li>
+                <li>
 
-                        <a [routerLink]="['/cancelledOrders']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-                            <i class="fa fa-fw fa-list-alt "></i>&nbsp;{{ 'Iptal Edilmis' | translate }}
+                    <a [routerLink]="['/thisWeekReceivedOrders']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                        <i class="fa fa-fw fa-list-alt "></i>&nbsp;{{ 'Haftanın Siparişleri' | translate }}
+                    </a>
+                </li>
+                <li>
+                <li>
+
+                    <a [routerLink]="['/thisMonthReceivedOrders']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                        <i class="fa fa-fw fa-list-alt "></i>&nbsp;{{ 'Ayın Siparişleri' | translate }}
+                    </a>
+                </li>
+                <li>
+
+                        <a [routerLink]="['/filteredReceivedOrders']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                            <i class="fa fa-fw fa-list-alt "></i>&nbsp;{{ 'Sipariş Ara' | translate }}
                         </a>
                     </li>
-                </ul>
+               
+                <li>
+                    <a [routerLink]="['/receivedOrders']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                        <i class="fa fa-fw fa-shopping-basket"></i>&nbsp;{{ 'Tüm Siparişler' | translate }}
+                    </a>
+                </li>
+
+            </ul>
             </li>
         </div>
         <!-- <a [routerLink]="['/charts']" [routerLinkActive]="['router-link-active']" class="list-group-item">

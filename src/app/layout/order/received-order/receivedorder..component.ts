@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { ToastsManager } from 'ng2-toastr';
 import { IConfig, ConfigService } from '../../../app.config';
-import { receivedOrder } from '../../../shared/DTOs/receivedOrder';
+import { ReceivedOrder } from '../../../shared/DTOs/receivedOrder';
 import { Customer } from '../../../shared/DTOs/customer';
-import { receivedOrderProduct } from '../../../shared/DTOs/receivedOrderProduct';
+import { ReceivedOrderProduct } from '../../../shared/DTOs/receivedOrderProduct';
 import { orderStatus } from '../orderStatus';
 import { OrderService } from '../order.service';
 
@@ -17,13 +17,13 @@ import { OrderService } from '../order.service';
 })
 export class ReceivedOrderComponent implements OnInit {
   config: IConfig;
-  receivedOrders: receivedOrder[];
-  receivedOrder: receivedOrder;
-  currentCustomerOrders: receivedOrder;
+  receivedOrders: ReceivedOrder[];
+  receivedOrder: ReceivedOrder;
+  currentCustomerOrders: ReceivedOrder;
   currentCustomer: Customer;
   loading: boolean = true;
   displayOrderDetails: boolean = false;
-  orderDetails: receivedOrderProduct[];
+  orderDetails: ReceivedOrderProduct[];
   color = 'primary';
   mode = 'indeterminate';
   isLoading: boolean = true;
@@ -31,8 +31,8 @@ export class ReceivedOrderComponent implements OnInit {
 
   constructor(private orderService: OrderService, private configService: ConfigService, public toastr: ToastsManager, vcr: ViewContainerRef) {
     this.toastr.setRootViewContainerRef(vcr);
-    this.receivedOrder = new receivedOrder();
-    this.orderDetails = new Array<receivedOrderProduct>();
+    this.receivedOrder = new ReceivedOrder();
+    this.orderDetails = new Array<ReceivedOrderProduct>();
     // this.orderstatus=orderStatus;
   }
   ngOnInit() {
@@ -66,7 +66,7 @@ export class ReceivedOrderComponent implements OnInit {
     this.orderService.getAllOrders(this.config.saveReceivedOrder, order)
       .subscribe(items => { 
         this.loading = false;
-        let order = new receivedOrder();
+        let order = new ReceivedOrder();
         this.toastr.success('Siparis Onaylanmistir.', 'Basarili!')
         order.orderStatus = orderStatus.Waiting;
         this.getAllOrderByStatus( this.receivedOrder);
@@ -78,7 +78,7 @@ export class ReceivedOrderComponent implements OnInit {
       }
       );
   }
-  showOrderDetails(orderDetail: receivedOrder) {
+  showOrderDetails(orderDetail: ReceivedOrder) {
     // Show order details using PrimeNG
     this.loading = true;
     this.displayOrderDetails = true;

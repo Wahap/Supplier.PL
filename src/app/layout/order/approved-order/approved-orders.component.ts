@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { ToastsManager } from 'ng2-toastr';
-import { receivedOrderProduct } from '../../../shared/DTOs/receivedOrderProduct';
-import { receivedOrder } from '../../../shared/DTOs/receivedOrder';
+import { ReceivedOrderProduct } from '../../../shared/DTOs/receivedOrderProduct';
+import { ReceivedOrder } from '../../../shared/DTOs/receivedOrder';
 import { Customer } from '../../../shared/DTOs/customer';
 import { orderStatus } from '../orderStatus';
 import { OrderService } from '../order.service';
@@ -15,12 +15,12 @@ import { IConfig, ConfigService } from '../../../app.config';
 export class ApprovedOrdersComponent implements OnInit {
   initialCount: number = 10;
   config: IConfig;
-  approvedOrders: receivedOrder[];
-  approvedOrder:receivedOrder;
-  currentCustomerOrders: receivedOrder;
+  approvedOrders: ReceivedOrder[];
+  approvedOrder:ReceivedOrder;
+  currentCustomerOrders: ReceivedOrder;
   currentCustomer: Customer;
   displayOrderDetails: boolean = false;
-  orderDetails: receivedOrderProduct[];
+  orderDetails: ReceivedOrderProduct[];
   loading: boolean = true;
   color = 'primary';
   mode = 'indeterminate';
@@ -28,7 +28,7 @@ export class ApprovedOrdersComponent implements OnInit {
   orderstatus: orderStatus;
   constructor(private orderService: OrderService, private configService: ConfigService, public toastr: ToastsManager, vcr: ViewContainerRef) {
     this.toastr.setRootViewContainerRef(vcr);
-    this.approvedOrder=new receivedOrder();
+    this.approvedOrder=new ReceivedOrder();
    // this.orderstatus=orderStatus;
   }
 
@@ -56,7 +56,7 @@ export class ApprovedOrdersComponent implements OnInit {
       }
       );
   }
-  showOrderDetails(orderDetail: receivedOrder) {
+  showOrderDetails(orderDetail: ReceivedOrder) {
     // Show order details using PrimeNG
     this.loading = true;
     this.displayOrderDetails = true;

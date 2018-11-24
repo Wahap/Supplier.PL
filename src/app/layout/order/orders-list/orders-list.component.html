@@ -1,0 +1,62 @@
+<div>
+  <p-table #dtOrderList [columns]="orderListColumns" [value]="allOrders" [loading]="loading" [scrollable]="true" [scrollHeight]="windowsHeight()">
+      <ng-template pTemplate="header" let-columns>
+          <tr>
+              <th *ngFor="let col of columns">
+                  {{col.header}}
+              </th>
+          </tr>   
+          <tr>
+              <th>
+                  <input placeholder="Irs.No..." class="form-control form-control-sm" type="text" (input)="dtOrderList.filter($event.target.value, 'id','contains')">
+              </th>
+              <th>
+                  <input placeholder="Firma..." class="form-control form-control-sm" type="text" (input)="dtOrderList.filter($event.target.value, 'customer.companyName','contains')">
+              </th>
+              <th>
+                  <input placeholder="Müşteri..." class="form-control form-control-sm" type="text" (input)="dtOrderList.filter($event.target.value, 'customer.customerName','contains')">
+              </th>
+              <th>
+                  <input placeholder="Adres..." class="form-control form-control-sm" type="text" (input)="dtOrderList.filter($event.target.value, 'customer.address.street','contains')">
+              </th>
+              <th></th>
+              <th></th>
+              <th></th>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-order let-columns="columns">
+          <tr>
+              <td *ngFor="let col of columns" [ngSwitch]="col.field">
+                  <span *ngSwitchCase="'id'">{{order.id}} <span class="badge">({{order.createdDate | date:'dd/MM/yyyy'}})</span></span>
+                  <span *ngSwitchCase="'companyName'">{{order.customer.companyName}}</span>
+                  <span *ngSwitchCase="'customerName'">{{order.customer.customerName}} {{order.customer.lastname}}</span>
+                  <span *ngSwitchCase="'address'">{{order.address.street}} {{order.address.postCode}} {{order.address.city.name}}</span>
+                 <button *ngSwitchCase="'update'" class="btn btn-success" (click)="updateOrder(order)"><i class="fa fa-pencil"></i> Güncelle</button>
+                 <button *ngSwitchCase="'convert'" class="btn btn-dark" (click)="convertOrderToWaybill(order)" [disabled]="disabledButtons">
+                     <i class="fa fa-refresh"></i> irsaliye ({{order.convertedWaybillId}})
+                     <p-progressSpinner *ngIf="isOrderConverting" [style]="{width: '20px', height: '20px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner>
+                  </button>
+                 <button *ngSwitchCase="'print'" class="btn btn-primary" (click)="onOrderPreview(order)" ><i class="fa fa-eye"></i> Önizleme</button>
+                 <button *ngSwitchCase="'delete'" class="btn btn-danger" (click)="deleteOrder(order)" [disabled]="disabledButtons"><i class="fa fa-times"></i> Sil</button>
+              </td>
+          </tr>
+      </ng-template>
+  </p-table>
+  
+</div>
+ 
+
+<p-dialog [positionTop]="50" header="Sipariş Detayları" maximizable="true" [(visible)]="dialogVisible" (onHide)="onCloseSaveOrderDialog()" [responsive]="true" showEffect="fade" [modal]="true" width="95%" height="95%" >
+  
+    
+    <app-save-order [selectedOrder]="selectedOrder" (onOrderSaved)="onOrderSaved($event)"></app-save-order>
+  
+</p-dialog>
+
+<p-dialog [positionTop]="50" header="Sipariş önizleme" [(visible)]="showPrintDialog"  [responsive]="true" showEffect="fade" [modal]="true" width="95%">
+      <div>
+              <app-order-print [selectedOrder]="printedOrder"></app-order-print>
+        
+      </div>
+  </p-dialog>
+

@@ -2,7 +2,7 @@ import { Component, OnInit, Input, ViewContainerRef } from '@angular/core';
 import { IConfig, ConfigService } from '../../app.config';
 import { Waybill } from '../../shared/DTOs/wayBill';
 import { ToastsManager } from 'ng2-toastr';
-import { receivedOrderProduct } from '../../shared/DTOs/receivedOrderProduct';
+import { ReceivedOrderProduct } from '../../shared/DTOs/receivedOrderProduct';
 import { OrderService } from '../../layout/order/order.service';
 import { WaybillService } from '../../layout/waybills/waybill.service';
 import { Product } from '../../shared/DTOs/product';

@@ -1,0 +1,168 @@
+.numberOfPackage
+{
+    width: 50px;
+    text-align: center;
+    font-weight: bold;
+}
+#waybillProducts mark
+{
+    font-size: 1.2em;
+    padding: 0px 10px;
+    border: 2px solid black;
+    border-radius: 14px;
+    margin-top: 1px;
+    display: inline-block;
+    font-weight: bold;
+}
+mat-dialog-container {
+  
+    width: 500px !important;
+   
+}
+
+.ui-button-text
+{
+    display: none;
+}
+
+*
+{
+    font-size: 0.95em;
+}
+
+#companyAddress
+{
+    text-decoration: underline;
+    font-size: 0.8em;
+}
+#logo
+{
+    width: 200px;
+}
+#waybill-preview
+{
+    background-image: url(/assets/images/paper.jpg);
+    border: 2px solid black;
+    padding: 3px;
+   
+   
+}
+
+.waybill-product-package
+{
+    width: 45px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1em;
+    border: 2px solid white;
+    border-left: none;
+    border-right: none;
+}
+#waybillProducts
+{
+    height: 400px;
+    overflow: scroll;
+}
+#waybillProducts td,#waybillProducts th
+{
+    padding: 0px;
+}
+
+#customerAddress
+{
+    font-weight: bold;
+  
+}
+
+.border-bottom
+{
+    border-bottom:1px solid #ccc;
+}
+
+#waybill-preview tr
+{
+    border-bottom:2pt solid #ccc;
+}
+
+#waybillOperations
+{
+    margin-top: 10px;
+}
+#drpPriceType
+{
+    width: 60%;
+    display: inline;
+    height: 25px;
+}
+#waybill-total-prices
+{
+    text-align: right;
+    padding-right: 62px;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+.waybill-tax,.waybill-netSale-Price
+{
+    width: 40px;
+    text-align: center;
+    font-weight: bold;
+    padding: 0px;
+}
+#waybillExtraDiscount
+{
+    width: 36px;
+    text-align: center;
+    border-radius: 0px;
+    font-weight: bold;
+}
+#waybill-customer-selection table td
+{
+    padding:2px;
+}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+#waybillContainer
+{
+    color: black;
+}
+.ui-table .ui-table-tbody > tr:nth-child(even) {
+    background-color: black !important;
+}
+.ui-table .ui-table-tbody > tr {
+    background-color: black !important;
+    color: white !important;
+}
+.btnDecrease
+{
+    background-color: #eb4d4b;
+    padding: 2px 15px;
+    color: white;
+    font-weight: bold;
+    border: 2px solid white;
+    border-right: none;
+    border-top-left-radius: 9px;
+}
+.btnIncrease
+{
+    background-color: #2ecc71;
+    padding: 2px 15px;
+    color: white;
+    font-weight: bold;
+    border: 2px solid white;
+    border-left: none;
+    border-top-right-radius: 9px;
+}
+.netSalePrice
+{
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.4em;
+    padding: 0px;
+}

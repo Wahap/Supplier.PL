@@ -32,8 +32,12 @@ export interface IConfig {
 
 	getAllOrderByStatusUrl:string;
 	getOrderDetails:string;
-	saveReceivedOrder:string;
-
+	//ReceivedOrders
+	saveReceivedOrderUrl:string;
+	getAllReceivedOrdersUrl:string;
+	getReceivedOrderProductsUrl:string;
+	deleteReceivedOrderUrl:string;
+	convertOrderToWaybillUrl:string;
 	//WaybillUrls
 	getLastWaybillUrl:string;
 	getWaybillUrl:string;
@@ -121,7 +125,7 @@ export class ConfigService {
 	
  
 		let serverUserNotificationPath = '';
-		let debug = false;
+		let debug = true;
 
 		let getUsers = (debug ? serverLoginPathDebug + "authentication/login" : serverLoginPath + "userCont/getusers");
 		//let logInUrl = (debug ? serverLoginPathDebug + "userCont/login" : serverLoginPath + "userCont/login");
@@ -158,10 +162,15 @@ export class ConfigService {
 		let saveCustomerProductPriceUrl = (debug ? serverLoginPathDebug + "Customer/savecustomerproductprice" : serverLoginPath + "Customer/savecustomerproductprice");
 		let saveAddressUrl = (debug ? serverLoginPathDebug + "Customer/saveAddress" : serverLoginPath + "Customer/saveAddress");
 		let deleteAddressUrl = (debug ? serverLoginPathDebug + "Customer/deleteAddress" : serverLoginPath + "Customer/deleteAddress");
+		//ReceivedOrderUrls		
 		let getAllOrderByStatusUrl = (debug ? serverLoginPathDebug + "order/getReceivedOrderProductsByStatus" : serverLoginPath + "order/getReceivedOrderProductsByStatus");
 		let getOrderDetails = (debug ? serverLoginPathDebug + "order/getReceivedOrderProducts" : serverLoginPath + "order/getReceivedOrderProducts");
-		let saveReceivedOrder = (debug ? serverLoginPathDebug + "order/updatereceivedorder" : serverLoginPath + "order/updatereceivedorder");
-
+		let saveReceivedOrderUrl = (debug ? serverLoginPathDebug + "order/save" : serverLoginPath + "order/save");
+		let getAllReceivedOrdersUrl = (debug ? serverLoginPathDebug + "order/getAllReceivedOrders" : serverLoginPath + "order/getAllReceivedOrders");
+		let getReceivedOrderProductsUrl = (debug ? serverLoginPathDebug + "order/getReceivedOrderProducts" : serverLoginPath + "order/getReceivedOrderProducts");
+		let deleteReceivedOrderUrl = (debug ? serverLoginPathDebug + "order/deleteReceivedOrder" : serverLoginPath + "order/deleteReceivedOrder");
+		let convertOrderToWaybillUrl = (debug ? serverLoginPathDebug + "order/convertOrderToWaybill" : serverLoginPath + "order/convertOrderToWaybill");
+		
 		//WaybillUrls
 		let getLastWaybillUrl = (debug ? serverLoginPathDebug + "waybill/getlastwaybill" : serverLoginPath + "waybill/getlastwaybill");
 		let saveWaybillUrl = (debug ? serverLoginPathDebug + "waybill/save" : serverLoginPath + "waybill/save");
@@ -269,11 +278,16 @@ export class ConfigService {
 			saveCustomerProductPriceUrl:saveCustomerProductPriceUrl,
 			saveAddressUrl:saveAddressUrl,
 			deleteAddressUrl:deleteAddressUrl,
-			getAllOrderByStatusUrl:getAllOrderByStatusUrl,
-			getOrderDetails:getOrderDetails,
-			saveReceivedOrder:saveReceivedOrder,
 			getTopCustomersUrl:getTopCustomersUrl,
 			getTopCustomersByYearUrl:getTopCustomersByYearUrl,
+			//ReceivedOrders
+			getAllOrderByStatusUrl:getAllOrderByStatusUrl,
+			getOrderDetails:getOrderDetails,
+			saveReceivedOrderUrl:saveReceivedOrderUrl,
+			getAllReceivedOrdersUrl:getAllReceivedOrdersUrl,
+			getReceivedOrderProductsUrl:getReceivedOrderProductsUrl,
+			deleteReceivedOrderUrl:deleteReceivedOrderUrl,
+			convertOrderToWaybillUrl:convertOrderToWaybillUrl,
 			//Waybills
 			getLastWaybillUrl:getLastWaybillUrl,
 			saveWaybillUrl:saveWaybillUrl,

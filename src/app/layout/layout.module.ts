@@ -76,6 +76,12 @@ import { WareHouseListComponent } from './wareHouses/ware-house-list/ware-house-
 import { SaveWareHouseComponent } from './wareHouses/save-ware-house/save-ware-house.component';
 import { WareHouseDetailsComponent } from './wareHouses/ware-house-details/ware-house-details.component';
 import { TopProductsReportComponent } from './products/top-products-report/top-products-report.component';
+import { FilterOrdersComponent } from './order/filter-orders/filter-orders.component';
+import { SaveOrderComponent } from './order/save-order/save-order.component';
+import { ThisMonthOrdersComponent } from './order/this-month-orders/this-month-orders.component';
+import { ThisWeekOrdersComponent } from './order/this-week-orders/this-week-orders.component';
+import { OrderPrintComponent } from './order/order-print/order-print.component';
+import { OrdersListComponent } from './order/orders-list/orders-list.component';
 
 
 
@@ -131,7 +137,7 @@ import { TopProductsReportComponent } from './products/top-products-report/top-p
     UnpaidBillsComponent,
     OverDueBillsComponent,
     ProductFormComponent,
-    BrandFormComponent, CategoryFormComponent, UnitFormComponent, SupplierFormComponent, UnpaidBillsChartComponent, ThisMonthBillsChartComponent, BillReportsComponent, YearlyBillReportComponent, MonthlyBillReportComponent, TopCustomersReportComponent, WareHouseListComponent, SaveWareHouseComponent, WareHouseDetailsComponent, TopProductsReportComponent
+    BrandFormComponent, CategoryFormComponent, UnitFormComponent, SupplierFormComponent, UnpaidBillsChartComponent, ThisMonthBillsChartComponent, BillReportsComponent, YearlyBillReportComponent, MonthlyBillReportComponent, TopCustomersReportComponent, WareHouseListComponent, SaveWareHouseComponent, WareHouseDetailsComponent, TopProductsReportComponent, FilterOrdersComponent, SaveOrderComponent, ThisMonthOrdersComponent, ThisWeekOrdersComponent, OrderPrintComponent, OrdersListComponent
     ]
 })
 export class LayoutModule { }

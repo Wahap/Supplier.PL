@@ -41,6 +41,11 @@ import { TopCustomersReportComponent } from './customers/top-customers-report/to
 import { WareHouseListComponent } from './wareHouses/ware-house-list/ware-house-list.component';
 import { WareHouseDetailsComponent } from './wareHouses/ware-house-details/ware-house-details.component';
 import { TopProductsReportComponent } from './products/top-products-report/top-products-report.component';
+import { SaveOrderComponent } from './order/save-order/save-order.component';
+import { ThisWeekOrdersComponent } from './order/this-week-orders/this-week-orders.component';
+import { ThisMonthOrdersComponent } from './order/this-month-orders/this-month-orders.component';
+import { OrdersListComponent } from './order/orders-list/orders-list.component';
+import { FilterOrdersComponent } from './order/filter-orders/filter-orders.component';
 
 
 const routes: Routes = [
@@ -54,16 +59,22 @@ const routes: Routes = [
             { path: 'passiveProducts',component:PassiveProductsComponent },
             { path: 'customers',component:CustomersComponent },
             { path: 'passiveCustomers',component:PassiveCustomersComponent },
-            { path: 'receivedOrders',component:ReceivedOrderComponent },
-            { path: 'approvedOrders',component:ApprovedOrdersComponent },
-            { path: 'cancelledOrders',component:CancelledOrderComponent },
+        
             { path: 'newWaybill',component:NewWaybillComponent,canDeactivate: [CanDeactivateGuard] },
             { path: 'thisWeekWaybills',component:ThisWeekWaybillsComponent },
             { path: 'thisMonthWaybills',component:ThisMonthWaybillsComponent },
-           
             { path: 'waybills',component:WaybillsListComponent },
             { path: 'filteredWaybills',component:FilterWaybillsComponent },
             { path: 'filteredBills',component:FilterBillsComponent },
+
+            { path: 'saveReceivedOrder',component:SaveOrderComponent },
+            { path: 'thisWeekReceivedOrders',component:ThisWeekOrdersComponent },
+            { path: 'thisMonthReceivedOrders',component:ThisMonthOrdersComponent },
+            { path: 'receivedOrders',component:OrdersListComponent },
+            { path: 'filteredReceivedOrders',component:FilterOrdersComponent },
+            { path: 'approvedOrders',component:ApprovedOrdersComponent },
+            { path: 'cancelledOrders',component:CancelledOrderComponent },
+
             { path: 'savebill',component:SaveBillComponent,canDeactivate: [CanDeactivateGuard] },
             { path: 'bills',component:BillListComponent },
             { path: 'thisWeekBills',component:ThisWeekBillsComponent },
