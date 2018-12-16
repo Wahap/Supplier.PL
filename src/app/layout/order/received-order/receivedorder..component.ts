@@ -63,7 +63,7 @@ export class ReceivedOrderComponent implements OnInit {
     order.orderStatus= orderStatus.Approved;
     this.loading = true; 
 
-    this.orderService.getAllOrders(this.config.saveReceivedOrder, order)
+    this.orderService.getAllOrders(this.config.saveReceivedOrderUrl, order)
       .subscribe(items => { 
         this.loading = false;
         let order = new ReceivedOrder();

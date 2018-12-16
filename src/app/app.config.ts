@@ -38,6 +38,9 @@ export interface IConfig {
 	getReceivedOrderProductsUrl:string;
 	deleteReceivedOrderUrl:string;
 	convertOrderToWaybillUrl:string;
+	getThisWeekOrdersUrl:string;
+	getThisMonthOrdersUrl:string;
+	filterOrdersUrl:string;
 	//WaybillUrls
 	getLastWaybillUrl:string;
 	getWaybillUrl:string;
@@ -170,7 +173,9 @@ export class ConfigService {
 		let getReceivedOrderProductsUrl = (debug ? serverLoginPathDebug + "order/getReceivedOrderProducts" : serverLoginPath + "order/getReceivedOrderProducts");
 		let deleteReceivedOrderUrl = (debug ? serverLoginPathDebug + "order/deleteReceivedOrder" : serverLoginPath + "order/deleteReceivedOrder");
 		let convertOrderToWaybillUrl = (debug ? serverLoginPathDebug + "order/convertOrderToWaybill" : serverLoginPath + "order/convertOrderToWaybill");
-		
+		let getThisWeekOrdersUrl = (debug ? serverLoginPathDebug + "order/getThisWeekOrders" : serverLoginPath + "order/getThisWeekOrders");
+		let getThisMonthOrdersUrl = (debug ? serverLoginPathDebug + "order/getThisMonthOrders" : serverLoginPath + "order/getThisMonthOrders");
+		let filterOrdersUrl = (debug ? serverLoginPathDebug + "order/filterOrders" : serverLoginPath + "order/filterOrders");
 		//WaybillUrls
 		let getLastWaybillUrl = (debug ? serverLoginPathDebug + "waybill/getlastwaybill" : serverLoginPath + "waybill/getlastwaybill");
 		let saveWaybillUrl = (debug ? serverLoginPathDebug + "waybill/save" : serverLoginPath + "waybill/save");
@@ -288,6 +293,9 @@ export class ConfigService {
 			getReceivedOrderProductsUrl:getReceivedOrderProductsUrl,
 			deleteReceivedOrderUrl:deleteReceivedOrderUrl,
 			convertOrderToWaybillUrl:convertOrderToWaybillUrl,
+			getThisWeekOrdersUrl:getThisWeekOrdersUrl,
+			getThisMonthOrdersUrl:getThisMonthOrdersUrl,
+			filterOrdersUrl:filterOrdersUrl,
 			//Waybills
 			getLastWaybillUrl:getLastWaybillUrl,
 			saveWaybillUrl:saveWaybillUrl,

@@ -86,6 +86,7 @@ import { OrdersListComponent } from './order/orders-list/orders-list.component';
 
 
 
+
 @NgModule({
     imports: [
         ImageCropperModule,

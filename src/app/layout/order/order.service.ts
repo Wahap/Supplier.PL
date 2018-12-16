@@ -18,7 +18,7 @@ export class OrderService {
     return this.http.post(url, input, this.options)
       .map((response: Response) => response.json());
   }
-
+ 
   saveOrder(url: string, input: any): any {
     return this.http.post(url, input, this.options)
       .map((response: Response) => response.json());
@@ -48,6 +48,22 @@ export class OrderService {
     return this.http.post(url, input, this.options)
       .map((response: Response) => response.json());
   }
+
+  getThisWeekOrders(url: string, input: any): any {
+    return this.http.post(url, input, this.options)
+        .map((response: Response) => response.json());
+}
+
+getThisMonthOrders(url: string, input: any): any {
+    return this.http.post(url, input, this.options)
+        .map((response: Response) => response.json());
+}
+
+
+filterOrders(url: string, input: any): any {
+    return this.http.post(url, input, this.options)
+        .map((response: Response) => response.json());
+}
 
 
 }

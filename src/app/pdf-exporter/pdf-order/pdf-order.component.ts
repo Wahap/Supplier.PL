@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ViewContainerRef } from '@angular/core';
 import { ConfigService, IConfig } from '../../app.config';
 import { ToastsManager } from 'ng2-toastr';
-import { receivedOrderProduct } from '../../shared/DTOs/receivedOrderProduct';
+import { ReceivedOrderProduct } from '../../shared/DTOs/receivedOrderProduct';
 import { OrderService } from '../../layout/order/order.service';
 
 declare var jsPDF: any; // Important 
@@ -12,7 +12,7 @@ declare var jsPDF: any; // Important
 })
 export class PdfOrderComponent implements OnInit {
   config: IConfig;
-  orderDetails: receivedOrderProduct[];
+  orderDetails: ReceivedOrderProduct[];
   @Input()
   orderData: any;
 

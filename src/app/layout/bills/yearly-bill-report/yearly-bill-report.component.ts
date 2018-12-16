@@ -32,7 +32,7 @@ export class YearlyBillReportComponent implements OnInit {
         labels: this.labels,
         datasets: [
             {
-                label: 'Yıllık Fatura Grafiği',
+                label: 'Yıllık Satış (€)',
                 backgroundColor: '#42A5F5',
                 borderColor: '#1E88E5',
                 data:this.reportData

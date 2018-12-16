@@ -172,7 +172,7 @@ export class SaveOrderComponent implements OnInit {
        
     
         },error=>{
-          this.toastr.error("irsaliye Kaydedilirken bir hata oluştu...");
+          this.toastr.error("sipariş Kaydedilirken bir hata oluştu...");
         });
       }
     increase(product: Product) {

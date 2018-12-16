@@ -1,3 +1,22 @@
-<p>
-  filter-orders works!
-</p>
+<div class="filters-container">
+  <div class="form-inline mb-2">
+      <div class="form-group ml-2">
+          
+        <p-calendar [(ngModel)]="filter.startDate" placeholder="Başlangıç Tarihi" dateFormat="dd.mm.yy"></p-calendar>
+  
+          
+        </div>
+        <div class="form-group ml-2">
+          <p-calendar [(ngModel)]="filter.endDate" placeholder="Bitiş Tarihi" dateFormat="dd.mm.yy"></p-calendar>
+        </div>
+        <div class="form-group ml-2">
+          <p-dropdown [options]="customers" optionLabel="companyName" placeholder="Müşteri" [(ngModel)]="selectedCustomer"  [filter]="true" [style]="{'width':'250px'}"></p-dropdown>
+        </div>
+        
+        <button class="btn btn-success ml-2" [class.disabled]="loading" (click)="filterOrders()">
+          <i class="fa fa-spinner fa-spin" style="font-size:24px"></i>
+          Ara
+        </button>
+  </div>
+  <app-orders-list [allOrders]="filteredOrders" [loading]="loading"></app-orders-list>
+  </div>

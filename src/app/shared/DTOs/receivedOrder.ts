@@ -25,6 +25,6 @@ export class ReceivedOrder
     convertedWaybillId:number;
     priceTypeId:number;
     discountRateId:number;
-    receivedOrderProducts:receivedOrderProduct[]=[];
+    receivedOrderProducts:ReceivedOrderProduct[]=[];
     discountRate:DiscountRate=new DiscountRate();
 }

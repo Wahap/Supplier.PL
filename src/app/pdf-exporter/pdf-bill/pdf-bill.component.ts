@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ViewContainerRef } from '@angular/core';
 import { IConfig, ConfigService } from '../../app.config';
 import { ToastsManager } from 'ng2-toastr';
-import { receivedOrderProduct } from '../../shared/DTOs/receivedOrderProduct';
+import { ReceivedOrderProduct } from '../../shared/DTOs/receivedOrderProduct';
 import { Product } from '../../shared/DTOs/product';
 import { ProductsService } from '../../layout/products/products.service';
 import { BillService } from '../../layout/bills/bill.service';

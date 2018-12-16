@@ -25,7 +25,7 @@ export class ThisMonthWaybillsComponent implements OnInit {
   }
   getThisMonthWaybills()
   {
-    this.waybillService.getThisWeekWaybills(this.config.getThisMonthWaybillsUrl,null).subscribe(waybills=>{
+    this.waybillService.getThisMonthWaybills(this.config.getThisMonthWaybillsUrl,null).subscribe(waybills=>{
       this.waybills=waybills;
 
     },error=>{
